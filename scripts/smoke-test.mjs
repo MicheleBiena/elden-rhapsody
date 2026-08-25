@@ -38,9 +38,20 @@ assert.match((await iframe.getAttribute('src')) || '', /^https:\/\/mapgenie\.io\
 
 await page.locator('a[href="#/translations"]').click()
 await page.waitForURL(/#\/translations$/)
-await page.getByRole('button', { name: /^Radagon/ }).first().click()
-await page.waitForURL(/#\/board\/radagon$/)
-await page.locator('.concept-dialog[open]').waitFor()
+const postRunGate = page.getByRole('heading', { name: 'Si apre soltanto a run conclusa' })
+if ((await postRunGate.count()) > 0) {
+  await postRunGate.waitFor()
+  assert.equal(await page.getByText('Il segreto di Radagon (ITA)', { exact: true }).count(), 0)
+  assert.equal(await page.getByRole('link', { name: /analisi originale/i }).count(), 0)
+  assert.match(
+    (await page.locator('a[href="#/translations"]').getAttribute('aria-label')) || '',
+    /solo dopo la conclusione della run/i,
+  )
+} else {
+  await page.getByRole('button', { name: /^Radagon/ }).first().click()
+  await page.waitForURL(/#\/board\/radagon$/)
+  await page.locator('.concept-dialog[open]').waitFor()
+}
 
 const mobile = await browser.newPage({ viewport: { width: 375, height: 812 } })
 await mobile.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })

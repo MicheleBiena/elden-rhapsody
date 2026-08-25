@@ -1,8 +1,9 @@
-import { EyeOff, GitBranch, Languages, Map as MapIcon } from 'lucide-react'
+import { EyeOff, GitBranch, Languages, LockKeyhole, Map as MapIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { ConceptBoard } from './components/ConceptBoard'
 import { MapWorkspace } from './components/MapWorkspace'
 import { TranslationArchive } from './components/TranslationArchive'
+import { isTranslationArchiveReleased } from './data/project'
 
 type TabId = 'board' | 'map' | 'translations'
 
@@ -14,7 +15,15 @@ interface RouteState {
 const tabs = [
   { id: 'board', label: 'Lavagna', caption: 'Indizi e legami', icon: GitBranch },
   { id: 'map', label: 'Mappa', caption: 'Luoghi e coordinate', icon: MapIcon },
-  { id: 'translations', label: 'Analisi', caption: 'Traduzioni e fonti', icon: Languages },
+  {
+    id: 'translations',
+    label: 'Analisi',
+    caption: isTranslationArchiveReleased ? 'Traduzioni e fonti' : 'Solo post-run',
+    icon: isTranslationArchiveReleased ? Languages : LockKeyhole,
+    ariaLabel: isTranslationArchiveReleased
+      ? 'Analisi, traduzioni e fonti'
+      : 'Analisi, disponibili solo dopo la conclusione della run',
+  },
 ] as const
 
 function readRoute(): RouteState {
@@ -86,6 +95,7 @@ export default function App() {
                 href={`#/${tab.id}`}
                 className={active ? 'nav-tab is-active' : 'nav-tab'}
                 aria-current={active ? 'page' : undefined}
+                aria-label={'ariaLabel' in tab ? tab.ariaLabel : undefined}
               >
                 <Icon aria-hidden="true" />
                 <span>
@@ -97,11 +107,25 @@ export default function App() {
           })}
         </nav>
 
-        <div className="blind-badge" title="Controllare sempre i contenuti prima della pubblicazione">
+        <div
+          className="blind-badge"
+          title={
+            isTranslationArchiveReleased
+              ? 'La sezione Analisi è stata aperta dopo la conclusione della run'
+              : 'La sezione Analisi resta sigillata fino alla conclusione della run'
+          }
+          aria-label={
+            isTranslationArchiveReleased
+              ? 'Controllo spoiler: archivio post-run aperto'
+              : 'Controllo spoiler: analisi sigillate'
+          }
+        >
           <EyeOff aria-hidden="true" />
           <span>
-            <strong>Spoiler safe</strong>
-            <small>Demo editoriale</small>
+            <strong>Controllo spoiler</strong>
+            <small>
+              {isTranslationArchiveReleased ? 'Archivio post-run aperto' : 'Analisi sigillate'}
+            </small>
           </span>
         </div>
       </header>

@@ -64,7 +64,21 @@ Per contenuti condivisi e versionati, trasferire i punti approvati nel file dati
 
 ### Analisi di traduzione
 
-Le schede in `translationPosts` prevedono `sourceUrl`, attribuzione, estratto breve e collegamenti ai concetti della lavagna. Il testo integrale del blog va riadattato o ripubblicato solo con l’autorizzazione dell’autore.
+La scheda **Analisi è esclusivamente post-run**. Finché la blind run non è conclusa,
+`isTranslationArchiveReleased` deve restare impostato su `false`: il sito mostra solo
+un avviso e non renderizza titoli, sintesi o link. Dopo il finale, portare il valore a
+`true` e pubblicare una nuova build.
+
+L’indice in `translationPosts` raccoglie i 19 articoli italiani completi dedicati a
+Elden Ring pubblicati da Mirko (ミルコ) su Medium, verificati al 25 agosto 2026. Sono
+esclusi i duplicati in inglese, le risposte brevi e gli articoli su altri giochi. Ogni
+scheda contiene una sintesi editoriale originale, attribuzione, link alla fonte e gli
+eventuali collegamenti ai concetti della lavagna; il testo integrale non viene
+duplicato.
+
+> Nota: il blocco protegge l’esperienza sul sito, non rende segreti i dati presenti in
+> un repository pubblico. Se anche il codice sorgente deve restare privo di spoiler,
+> i contenuti vanno conservati fuori dal branch pubblico fino alla fine della run.
 
 ## Pubblicazione su GitHub Pages
 
