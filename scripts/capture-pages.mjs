@@ -19,6 +19,7 @@ const cases = [
     waitAfterAction: 9000,
   },
   { name: 'translations-desktop', route: '#/translations', width: 1440, height: 1000 },
+  { name: 'translations-mobile', route: '#/translations', width: 375, height: 812 },
 ]
 
 await mkdir('artifacts', { recursive: true })

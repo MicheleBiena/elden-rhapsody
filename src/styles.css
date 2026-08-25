@@ -1653,6 +1653,213 @@ main:focus-visible {
   box-shadow: inset 0 0 0 9px rgba(199, 170, 112, 0.035);
 }
 
+.translation-monogram--locked {
+  color: #d9c790;
+  background: rgba(199, 170, 112, 0.035);
+}
+
+.translation-monogram--locked svg {
+  width: 36px;
+  height: 36px;
+  stroke-width: 1.35;
+}
+
+.post-run-gate {
+  position: relative;
+  display: grid;
+  min-height: 500px;
+  grid-template-columns: minmax(210px, 0.42fr) minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid rgba(199, 170, 112, 0.25);
+  background:
+    linear-gradient(118deg, rgba(146, 47, 44, 0.08), transparent 48%),
+    var(--color-ink-soft);
+  box-shadow: var(--shadow-lg);
+}
+
+.post-run-gate::before {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  content: '';
+  background: linear-gradient(90deg, var(--color-red), var(--color-gold), var(--color-red));
+}
+
+.post-run-gate__seal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+  border-right: 1px solid rgba(234, 219, 184, 0.18);
+  color: #eadbb8;
+  background:
+    radial-gradient(circle at center, rgba(238, 221, 178, 0.12), transparent 34%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent 0,
+      transparent 22px,
+      rgba(255, 255, 255, 0.025) 23px
+    ),
+    #672724;
+}
+
+.post-run-gate__seal::before,
+.post-run-gate__seal::after {
+  position: absolute;
+  width: min(72%, 240px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(236, 217, 174, 0.28);
+  border-radius: 50%;
+  content: '';
+}
+
+.post-run-gate__seal::after {
+  width: min(52%, 172px);
+}
+
+.post-run-gate__seal svg,
+.post-run-gate__seal span {
+  z-index: 1;
+}
+
+.post-run-gate__seal svg {
+  width: 52px;
+  height: 52px;
+  stroke-width: 1.15;
+}
+
+.post-run-gate__seal span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: 0.24em;
+  text-align: center;
+}
+
+.post-run-gate__content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: clamp(38px, 7vw, 88px);
+}
+
+.post-run-gate__content h2 {
+  max-width: 780px;
+  margin: 0;
+  color: #f1eadb;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(2.5rem, 5.6vw, 5.4rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.post-run-gate__content > p:not(.overline) {
+  max-width: 720px;
+  margin: 24px 0 0;
+  color: #bbb9af;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  line-height: 1.7;
+}
+
+.post-run-gate__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 30px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(199, 170, 112, 0.16);
+  border-bottom: 1px solid rgba(199, 170, 112, 0.16);
+  color: #aaa99f;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.post-run-gate__facts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-run-gate__facts svg {
+  width: 17px;
+  height: 17px;
+  color: var(--color-gold);
+}
+
+.post-run-gate__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  margin-top: 28px;
+  padding: 0 18px;
+  border: 1px solid rgba(199, 170, 112, 0.45);
+  border-radius: var(--radius-sm);
+  color: var(--color-gold-light);
+  background: rgba(199, 170, 112, 0.06);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  text-decoration: none;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.post-run-gate__action:hover {
+  border-color: var(--color-gold-light);
+  color: #fff3d5;
+  background: rgba(199, 170, 112, 0.12);
+}
+
+.post-run-gate__action svg {
+  width: 17px;
+  height: 17px;
+}
+
+.post-run-status {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(199, 170, 112, 0.2);
+  border-left: 3px solid var(--color-gold);
+  color: #aaa99f;
+  background: rgba(199, 170, 112, 0.045);
+}
+
+.post-run-status > svg {
+  width: 23px;
+  height: 23px;
+  flex: 0 0 23px;
+  color: var(--color-gold-light);
+}
+
+.post-run-status > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.post-run-status strong {
+  color: #e8e1d2;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.post-run-status span {
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
 .archive-toolbar {
   display: flex;
   align-items: center;
@@ -1952,6 +2159,7 @@ main:focus-visible {
   font-size: clamp(1.85rem, 3vw, 3.2rem);
   line-height: 1;
   letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
 }
 
 .analysis-card > p {
@@ -2059,6 +2267,33 @@ main:focus-visible {
   margin: 0;
   font-size: 0.82rem;
   line-height: 1.65;
+}
+
+.source-policy__copy {
+  max-width: 760px;
+}
+
+.source-policy__copy p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.source-policy__copy a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  margin-top: 8px;
+  color: var(--color-gold-light);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-underline-offset: 4px;
+}
+
+.source-policy__copy a svg {
+  width: 15px;
+  height: 15px;
 }
 
 .site-footer {
@@ -2407,6 +2642,51 @@ main:focus-visible {
     height: 80px;
     flex-basis: 80px;
     font-size: 2.4rem;
+  }
+
+  .post-run-gate {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .post-run-gate__seal {
+    min-height: 200px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(234, 219, 184, 0.18);
+  }
+
+  .post-run-gate__seal::before {
+    width: 170px;
+  }
+
+  .post-run-gate__seal::after {
+    width: 124px;
+  }
+
+  .post-run-gate__seal svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  .post-run-gate__content {
+    padding: 34px 22px 38px;
+  }
+
+  .post-run-gate__content h2 {
+    font-size: clamp(2.4rem, 13vw, 3.8rem);
+  }
+
+  .post-run-gate__facts {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .post-run-gate__action {
+    width: 100%;
+  }
+
+  .post-run-status {
+    align-items: flex-start;
   }
 
   .archive-toolbar {
