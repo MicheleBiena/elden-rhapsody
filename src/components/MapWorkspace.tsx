@@ -1,14 +1,17 @@
 import {
+  AlertTriangle,
+  ChevronDown,
   Download,
   ExternalLink,
+  LockKeyhole,
   Map as MapIcon,
   MapPin,
   Plus,
   ShieldCheck,
   Trash2,
 } from 'lucide-react'
-import { type FormEvent, useState } from 'react'
-import { mapgenieEmbedUrl, mapgeniePublicUrl } from '../data/project'
+import { type FormEvent, useEffect, useRef, useState } from 'react'
+import { currentMapStage, mapgenieEmbedUrl } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
 import type { MapMarker } from '../types'
@@ -30,12 +33,38 @@ function createMarkerId() {
 export function MapWorkspace() {
   const [mapLoaded, setMapLoaded] = useState(false)
   const [mapReady, setMapReady] = useState(false)
+  const [mapInteractionEnabled, setMapInteractionEnabled] = useState(false)
+  const mapFrameRef = useRef<HTMLIFrameElement>(null)
+  const discoveredMapUrl = isSafeContentUrl(currentMapStage.imageUrl)
+    ? currentMapStage.imageUrl
+    : undefined
   const [markers, setMarkers] = usePersistentState<MapMarker[]>(
     'elden-rhapsody:map-markers',
     [],
   )
   const [form, setForm] = useState(emptyForm)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!mapLoaded) return
+
+    const handleMapMessage = (event: MessageEvent) => {
+      if (
+        event.origin !== 'https://mapgenie.io' ||
+        event.source !== mapFrameRef.current?.contentWindow ||
+        typeof event.data !== 'object' ||
+        event.data === null ||
+        event.data.type !== 'mapready'
+      ) {
+        return
+      }
+
+      setMapReady(true)
+    }
+
+    window.addEventListener('message', handleMapMessage)
+    return () => window.removeEventListener('message', handleMapMessage)
+  }, [mapLoaded])
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -96,19 +125,20 @@ export function MapWorkspace() {
           <p className="overline">Atlante delle Terre Intermedie</p>
           <h1 id="map-title">Segna la strada</h1>
           <p>
-            Consulta MapGenie e conserva qui luoghi, coordinate e link condivisibili
-            emersi durante la run.
+            Esplora soltanto ciò che la run ha già scoperto e conserva qui luoghi,
+            coordinate e collegamenti utili.
           </p>
         </div>
-        <a
-          className="secondary-action"
-          href={mapgeniePublicUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+        <div
+          className="map-spoiler-status"
+          aria-label={`Modalità blind run attiva: ${currentMapStage.label}, MapGenie sigillata`}
         >
-          Apri MapGenie
-          <ExternalLink aria-hidden="true" />
-        </a>
+          <ShieldCheck aria-hidden="true" />
+          <span>
+            <strong>Modalità blind run</strong>
+            <small>{currentMapStage.label} · MapGenie sigillata</small>
+          </span>
+        </div>
       </header>
 
       <div className="map-layout">
@@ -117,62 +147,179 @@ export function MapWorkspace() {
             <div>
               <span className="panel-index">01</span>
               <div>
-                <h2 id="interactive-map-title">Mappa interattiva</h2>
-                <p>Servizio esterno · MapGenie</p>
+                <h2 id="interactive-map-title">Carta scoperta</h2>
+                <p>Frammenti pubblicati dalla run</p>
               </div>
             </div>
-            {mapLoaded && (
-              <span className={mapReady ? 'load-state is-ready' : 'load-state'}>
-                {mapReady ? 'Mappa caricata' : 'Caricamento…'}
-              </span>
-            )}
+            <span className={discoveredMapUrl ? 'load-state is-ready' : 'load-state'}>
+              {discoveredMapUrl ? currentMapStage.label : 'In attesa'}
+            </span>
           </div>
 
-          <div className="map-frame">
-            {!mapLoaded ? (
-              <div className="map-consent">
+          <div className="discovered-map-frame">
+            {discoveredMapUrl ? (
+              <figure className="discovered-map">
+                <img
+                  src={discoveredMapUrl}
+                  alt={currentMapStage.imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>
+                  <ShieldCheck aria-hidden="true" />
+                  {currentMapStage.label} · frammento scoperto durante la run
+                </figcaption>
+              </figure>
+            ) : (
+              <div className="map-empty-state">
                 <div className="map-seal" aria-hidden="true">
                   <MapIcon />
                 </div>
-                <p className="overline">Connessione esterna</p>
-                <h3>Caricare la mappa di MapGenie?</h3>
+                <p className="overline">Progressione cartografica</p>
+                <h3>Nessun frammento cartografico pubblicato</h3>
                 <p>
-                  L’embed può usare cookie e risorse di terze parti. Non inviamo né
-                  conserviamo le credenziali del tuo account Pro.
+                  Qui comparirà soltanto l’immagine della mappa già sbloccata in gioco.
+                  Nel frattempo il taccuino resta disponibile senza mostrare altre zone.
                 </p>
-                <button
-                  className="primary-action"
-                  type="button"
-                  onClick={() => setMapLoaded(true)}
-                >
-                  <MapIcon aria-hidden="true" />
-                  Carica la mappa
-                </button>
               </div>
-            ) : (
-              <>
-                {!mapReady && <div className="map-loading" aria-live="polite">Caricamento mappa…</div>}
-                <iframe
-                  className={mapReady ? 'map-iframe is-ready' : 'map-iframe'}
-                  src={mapgenieEmbedUrl}
-                  title="Mappa interattiva di Elden Ring su MapGenie"
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                  onLoad={() => setMapReady(true)}
-                />
-              </>
             )}
           </div>
 
-          <div className="provider-note">
-            <ShieldCheck aria-hidden="true" />
-            <p>
-              I punti salvati in questa pagina non si sincronizzano automaticamente
-              con l’iframe. Usa il link del punto MapGenie per mantenere un riferimento
-              preciso anche dopo pan e zoom.
-            </p>
-          </div>
+          <details className="mapgenie-disclosure">
+            <summary>
+              <div>
+                <AlertTriangle aria-hidden="true" />
+                <span>
+                  <strong>Apri lo strumento MapGenie</strong>
+                  <small>Servizio esterno · può mostrare l’intera mappa</small>
+                </span>
+              </div>
+              <span className="mapgenie-risk-label">Rischio spoiler</span>
+              <ChevronDown className="mapgenie-chevron" aria-hidden="true" />
+            </summary>
+
+            <div className="mapgenie-disclosure__body">
+              <div className="mapgenie-warning">
+                <AlertTriangle aria-hidden="true" />
+                <div>
+                  <strong>MapGenie non può essere isolata davvero su Sepolcride.</strong>
+                  <p>
+                    Il preset spegne ogni categoria e prova a inquadrare la regione,
+                    ma il primo frame può già contenere nomi o porzioni di altre aree.
+                  </p>
+                </div>
+              </div>
+
+              <div className="map-frame map-frame--external">
+                {!mapLoaded ? (
+                  <div className="map-consent">
+                    <div className="map-seal" aria-hidden="true">
+                      <MapIcon />
+                    </div>
+                    <p className="overline">Strumento esterno</p>
+                    <h3>Caricare MapGenie?</h3>
+                    <p>
+                      Tutti gli indicatori partiranno disattivati. Proseguendo accetti
+                      che la base cartografica possa anticipare zone non ancora scoperte
+                      e che l’embed usi cookie o risorse di terze parti.
+                    </p>
+                    <button
+                      className="primary-action"
+                      type="button"
+                      onClick={() => setMapLoaded(true)}
+                    >
+                      <AlertTriangle aria-hidden="true" />
+                      Carica MapGenie · rischio spoiler
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {!mapReady && (
+                      <div className="map-loading" aria-live="polite">
+                        Caricamento mappa…
+                      </div>
+                    )}
+                    <iframe
+                      ref={mapFrameRef}
+                      className={`map-iframe${mapReady ? ' is-ready' : ''}${
+                        mapInteractionEnabled ? ' is-interactive' : ''
+                      }`}
+                      src={mapgenieEmbedUrl}
+                      title="MapGenie con tutti gli indicatori disattivati; può mostrare altre regioni"
+                      loading="lazy"
+                      tabIndex={mapInteractionEnabled ? 0 : -1}
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                    {mapReady && !mapInteractionEnabled && (
+                      <div className="map-interaction-scrim" aria-hidden="true">
+                        <span>
+                          <LockKeyhole />
+                          Anteprima bloccata
+                        </span>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {mapLoaded && (
+                <div className="map-safety-controls">
+                  <div>
+                    {mapInteractionEnabled ? (
+                      <MapIcon aria-hidden="true" />
+                    ) : (
+                      <LockKeyhole aria-hidden="true" />
+                    )}
+                    <span>
+                      <strong>
+                        {mapInteractionEnabled
+                          ? 'Navigazione abilitata'
+                          : 'Navigazione protetta'}
+                      </strong>
+                      <small>
+                        {mapInteractionEnabled
+                          ? 'Pan e zoom possono mostrare altre regioni.'
+                          : 'Pan e zoom sono bloccati per limitare gli spoiler accidentali.'}
+                      </small>
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className={
+                      mapInteractionEnabled
+                        ? 'map-lock-button is-active'
+                        : 'map-lock-button'
+                    }
+                    aria-pressed={mapInteractionEnabled}
+                    onClick={() => setMapInteractionEnabled((current) => !current)}
+                  >
+                    {mapInteractionEnabled
+                      ? 'Blocca navigazione'
+                      : 'Abilita navigazione · rischio spoiler'}
+                  </button>
+                </div>
+              )}
+
+              <div className="provider-note">
+                <ShieldCheck aria-hidden="true" />
+                <div>
+                  <strong>Preset verificato, contenimento non garantito.</strong>
+                  <p>
+                    Il preset è configurato con una camera su Sepolcride e zero
+                    categorie. La verifica del 26 agosto 2026 ha rilevato 0 marker su
+                    desktop e mobile, ma MapGenie può cambiare comportamento. L’iframe
+                    cross-origin non ci permette di imporre i confini o controllare le
+                    modifiche fatte al suo interno.
+                  </p>
+                  <p>
+                    I punti del taccuino restano soltanto su questo dispositivo e non si
+                    sincronizzano con l’iframe o con l’account MapGenie Pro.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
         </section>
 
         <aside className="marker-ledger" aria-labelledby="marker-ledger-title">

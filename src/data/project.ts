@@ -430,7 +430,11 @@ export const translationPosts: TranslationPost[] = [
 ]
 
 export const mapgenieEmbedUrl =
-  'https://mapgenie.io/elden-ring/maps/the-lands-between?embed=light'
+  'https://mapgenie.io/elden-ring/maps/the-lands-between?embed=light&locationIds=-1&route=p0%3B0&popup=false&x=-0.718767643&y=0.62524538&zoom=13.3'
 
-export const mapgeniePublicUrl =
-  'https://mapgenie.io/elden-ring/maps/the-lands-between'
+export const currentMapStage = {
+  id: 'sepolcride-01',
+  label: 'Sepolcride',
+  imageUrl: undefined as string | undefined,
+  imageAlt: 'Frammento di Sepolcride scoperto durante la blind run',
+}
