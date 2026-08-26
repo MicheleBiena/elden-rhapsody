@@ -435,6 +435,6 @@ export const mapgenieEmbedUrl =
 export const currentMapStage = {
   id: 'sepolcride-01',
   label: 'Sepolcride',
-  imageUrl: undefined as string | undefined,
+  imageUrl: './maps/sepolcride-01.webp' as string | undefined,
   imageAlt: 'Frammento di Sepolcride scoperto durante la blind run',
 }
