@@ -9,7 +9,7 @@ const executablePath =
 const cases = [
   { name: 'board-desktop', route: '#/board', width: 1440, height: 1000 },
   { name: 'board-mobile', route: '#/board', width: 375, height: 812 },
-  { name: 'dialog-mobile', route: '#/board/radagon', width: 375, height: 812 },
+  { name: 'dialog-mobile', route: '#/board/elden-ring', width: 375, height: 812 },
   { name: 'map-desktop', route: '#/map', width: 1440, height: 1000 },
   {
     name: 'map-loaded',

@@ -14,6 +14,26 @@ await page.reload({ waitUntil: 'domcontentloaded' })
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
+assert.equal(await page.locator('.concept-card').count(), 1)
+assert.equal(await page.locator('.concept-card h2').textContent(), 'Elden Ring')
+assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
+assert.equal(await page.locator('.thread-layer line').count(), 0)
+
+const zoomOutput = page.locator('.zoom-controls output')
+const canvas = page.locator('.board-canvas')
+const initialZoom = await canvas.evaluate((element) =>
+  element.style.getPropertyValue('--board-zoom'),
+)
+assert.equal(await zoomOutput.textContent(), '100%')
+await page.getByRole('button', { name: 'Aumenta zoom' }).click()
+assert.equal(await zoomOutput.textContent(), '110%')
+const zoomedValue = await canvas.evaluate((element) =>
+  element.style.getPropertyValue('--board-zoom'),
+)
+assert.equal(initialZoom, '1')
+assert.equal(zoomedValue, '1.1')
+await page.getByRole('button', { name: 'Riduci zoom' }).click()
+assert.equal(await zoomOutput.textContent(), '100%')
 
 await page.locator('.concept-card').first().locator('.card-action').click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -23,13 +43,44 @@ await page.waitForURL(/#\/board$/)
 
 await page.locator('a[href="#/map"]').click()
 await page.waitForURL(/#\/map$/)
+
+const discoveredMap = page.locator('.discovered-map__canvas')
+await discoveredMap.scrollIntoViewIfNeeded()
+await discoveredMap.evaluate((element) => {
+  const rect = element.getBoundingClientRect()
+  element.dispatchEvent(
+    new MouseEvent('click', {
+      bubbles: true,
+      detail: 1,
+      clientX: rect.left + rect.width * 0.25,
+      clientY: rect.top + rect.height * 0.4,
+    }),
+  )
+})
+const selectedCoordinates = await page
+  .getByLabel('Coordinate / riferimento')
+  .inputValue()
+const coordinateMatch = selectedCoordinates.match(
+  /^X ([\d.]+)% · Y ([\d.]+)%$/,
+)
+assert.ok(coordinateMatch, 'Le coordinate prodotte dal click non sono nel formato X/Y atteso')
+assert.ok(
+  Math.abs(Number(coordinateMatch[1]) - 25) < 0.5,
+  `Coordinata X inattesa: ${selectedCoordinates}`,
+)
+assert.ok(
+  Math.abs(Number(coordinateMatch[2]) - 40) < 0.5,
+  `Coordinata Y inattesa: ${selectedCoordinates}`,
+)
+assert.equal(await page.getByLabel('Regione').inputValue(), 'Sepolcride')
+assert.equal(await page.locator('.map-annotation-pin.is-draft').count(), 1)
 await page.getByLabel('Nome del punto').fill('Punto di prova')
-await page.getByLabel('Regione').fill('Sepolcride')
-await page.getByLabel('Coordinate / riferimento').fill('X 42 · Y 61')
 await page.getByRole('button', { name: 'Salva il punto' }).click()
 await page.getByRole('heading', { name: 'Punto di prova' }).waitFor()
+assert.equal(await page.locator('.map-annotation-pin:not(.is-draft)').count(), 1)
 await page.reload({ waitUntil: 'domcontentloaded' })
 await page.getByRole('heading', { name: 'Punto di prova' }).waitFor()
+assert.equal(await page.locator('.map-annotation-pin:not(.is-draft)').count(), 1)
 
 assert.equal(await page.locator('.map-iframe').count(), 0)
 await page.locator('.mapgenie-disclosure > summary').click()
@@ -81,4 +132,6 @@ await mobile.close()
 await page.evaluate(() => localStorage.clear())
 await browser.close()
 
-console.log('Smoke test completato: routing, dialog, marker persistenti, embed e 375 px.')
+console.log(
+  'Smoke test completato: board iniziale, zoom, coordinate da click, marker persistenti, embed e 375 px.',
+)
