@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   Trash2,
 } from 'lucide-react'
-import { type FormEvent, useEffect, useRef, useState } from 'react'
+import { type FormEvent, type MouseEvent, useEffect, useRef, useState } from 'react'
 import { currentMapStage, mapgenieEmbedUrl } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
@@ -24,6 +24,11 @@ const emptyForm = {
   mapUrl: '',
 }
 
+interface MapPoint {
+  x: number
+  y: number
+}
+
 function createMarkerId() {
   return typeof crypto !== 'undefined' && 'randomUUID' in crypto
     ? crypto.randomUUID()
@@ -35,6 +40,8 @@ export function MapWorkspace() {
   const [mapReady, setMapReady] = useState(false)
   const [mapInteractionEnabled, setMapInteractionEnabled] = useState(false)
   const mapFrameRef = useRef<HTMLIFrameElement>(null)
+  const markerFormRef = useRef<HTMLDetailsElement>(null)
+  const titleInputRef = useRef<HTMLInputElement>(null)
   const discoveredMapUrl = isSafeContentUrl(currentMapStage.imageUrl)
     ? currentMapStage.imageUrl
     : undefined
@@ -43,6 +50,7 @@ export function MapWorkspace() {
     [],
   )
   const [form, setForm] = useState(emptyForm)
+  const [draftPoint, setDraftPoint] = useState<MapPoint>()
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -66,6 +74,37 @@ export function MapWorkspace() {
     return () => window.removeEventListener('message', handleMapMessage)
   }, [mapLoaded])
 
+  const selectMapPoint = (x: number, y: number) => {
+    const point = {
+      x: Number(Math.min(100, Math.max(0, x)).toFixed(2)),
+      y: Number(Math.min(100, Math.max(0, y)).toFixed(2)),
+    }
+
+    setDraftPoint(point)
+    setForm((current) => ({
+      ...current,
+      region: current.region || currentMapStage.label,
+      coordinates: `X ${point.x.toFixed(2)}% · Y ${point.y.toFixed(2)}%`,
+    }))
+    setError('')
+
+    if (markerFormRef.current) markerFormRef.current.open = true
+    window.requestAnimationFrame(() => titleInputRef.current?.focus())
+  }
+
+  const handleMapPointClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (event.detail === 0) {
+      selectMapPoint(50, 50)
+      return
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect()
+    selectMapPoint(
+      ((event.clientX - rect.left) / rect.width) * 100,
+      ((event.clientY - rect.top) / rect.height) * 100,
+    )
+  }
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
@@ -87,11 +126,14 @@ export function MapWorkspace() {
       coordinates: form.coordinates.trim(),
       note: form.note.trim(),
       mapUrl: form.mapUrl.trim() || undefined,
+      x: draftPoint?.x,
+      y: draftPoint?.y,
       createdAt: new Date().toISOString(),
     }
 
     setMarkers((current) => [marker, ...current])
     setForm(emptyForm)
+    setDraftPoint(undefined)
   }
 
   const exportMarkers = () => {
@@ -159,15 +201,53 @@ export function MapWorkspace() {
           <div className="discovered-map-frame">
             {discoveredMapUrl ? (
               <figure className="discovered-map">
-                <img
-                  src={discoveredMapUrl}
-                  alt={currentMapStage.imageAlt}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <figcaption>
+                <button
+                  type="button"
+                  className="discovered-map__canvas"
+                  aria-label="Seleziona un punto sulla carta scoperta"
+                  aria-describedby="map-annotation-help"
+                  onClick={handleMapPointClick}
+                >
+                  <img
+                    src={discoveredMapUrl}
+                    alt={currentMapStage.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {markers.map(
+                    (marker, index) =>
+                      typeof marker.x === 'number' &&
+                      typeof marker.y === 'number' && (
+                        <span
+                          className="map-annotation-pin"
+                          style={{ left: `${marker.x}%`, top: `${marker.y}%` }}
+                          aria-hidden="true"
+                          key={marker.id}
+                        >
+                          {index + 1}
+                        </span>
+                      ),
+                  )}
+                  {draftPoint && (
+                    <span
+                      className="map-annotation-pin is-draft"
+                      style={{ left: `${draftPoint.x}%`, top: `${draftPoint.y}%` }}
+                      aria-hidden="true"
+                    />
+                  )}
+                  <span className="map-click-hint" aria-hidden="true">
+                    <MapPin /> Clicca per annotare
+                  </span>
+                </button>
+                <figcaption id="map-annotation-help">
                   <ShieldCheck aria-hidden="true" />
-                  {currentMapStage.label} · frammento scoperto durante la run
+                  <span>
+                    <strong>{currentMapStage.label} · frammento scoperto durante la run</strong>
+                    <small>
+                      Clicca o tocca la mappa per acquisire le coordinate X/Y; da tastiera
+                      premi Invio per selezionare il centro.
+                    </small>
+                  </span>
                 </figcaption>
               </figure>
             ) : (
@@ -334,7 +414,11 @@ export function MapWorkspace() {
             <span className="marker-count">{markers.length}</span>
           </div>
 
-          <details className="marker-form-shell" open={markers.length === 0}>
+          <details
+            ref={markerFormRef}
+            className="marker-form-shell"
+            open={markers.length === 0}
+          >
             <summary>
               <Plus aria-hidden="true" />
               Aggiungi un punto
@@ -343,6 +427,7 @@ export function MapWorkspace() {
               <label>
                 Nome del punto
                 <input
+                  ref={titleInputRef}
                   value={form.title}
                   onChange={(event) => setForm({ ...form, title: event.target.value })}
                   placeholder="Es. ingresso della catacomba"
@@ -363,12 +448,17 @@ export function MapWorkspace() {
                   Coordinate / riferimento
                   <input
                     value={form.coordinates}
-                    onChange={(event) =>
+                    onChange={(event) => {
                       setForm({ ...form, coordinates: event.target.value })
-                    }
+                      setDraftPoint(undefined)
+                    }}
                     placeholder="X 42 · Y 61"
                     required
                   />
+                  <small className="field-help">
+                    Il click sulla carta inserisce percentuali indipendenti dalle dimensioni
+                    dello schermo.
+                  </small>
                 </label>
               </div>
               <label>

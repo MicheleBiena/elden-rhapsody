@@ -398,6 +398,91 @@ main:focus-visible {
   box-shadow: var(--shadow-sm);
 }
 
+.board-toolbar--focused {
+  grid-template-columns: minmax(280px, 1fr) auto auto;
+}
+
+.board-origin-note {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  color: #d8d2c3;
+}
+
+.board-origin-note__mark {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  border: 2px solid #c75a51;
+  border-radius: 50%;
+  background: #7d2925;
+  box-shadow: 0 0 0 6px rgba(199, 90, 81, 0.1);
+}
+
+.board-origin-note > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+
+.board-origin-note strong {
+  color: #eee7d8;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1rem;
+}
+
+.board-origin-note small {
+  color: #92938b;
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.zoom-controls {
+  display: grid;
+  grid-template-columns: 44px 62px 44px;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.zoom-controls button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 0;
+  color: #d8d3c7;
+  background: transparent;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.zoom-controls button:hover:not(:disabled) {
+  color: var(--color-gold-light);
+  background: rgba(199, 170, 112, 0.1);
+}
+
+.zoom-controls button:disabled {
+  color: #62635e;
+  cursor: not-allowed;
+}
+
+.zoom-controls button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.zoom-controls output {
+  display: grid;
+  height: 44px;
+  place-items: center;
+  border-inline: 1px solid rgba(255, 255, 255, 0.09);
+  color: #aaa99f;
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .search-field {
   display: flex;
   align-items: center;
@@ -523,6 +608,14 @@ main:focus-visible {
     inset 0 0 70px rgba(48, 22, 8, 0.46),
     0 28px 70px rgba(0, 0, 0, 0.34);
   isolation: isolate;
+}
+
+.board-canvas {
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--board-zoom, 1));
+  transform-origin: center;
+  transition: transform 220ms ease;
 }
 
 .concept-board::before {
@@ -875,6 +968,24 @@ main:focus-visible {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
+}
+
+.relation-empty {
+  grid-column: 1 / -1;
+  max-width: 620px;
+  margin: 0;
+  color: #9b9a91;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.dialog-relations__empty {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px dashed rgba(72, 55, 32, 0.25);
+  color: #6d6251;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 0.8rem;
 }
 
 .relation-list button {
@@ -1334,10 +1445,79 @@ main:focus-visible {
   background: #151612;
 }
 
-.discovered-map img {
+.discovered-map__canvas {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  color: inherit;
+  background: #151612;
+  cursor: crosshair;
+}
+
+.discovered-map__canvas:focus-visible {
+  outline: 3px solid var(--color-gold-light);
+  outline-offset: -3px;
+}
+
+.discovered-map__canvas img {
   display: block;
   width: 100%;
   height: auto;
+}
+
+.map-click-hint {
+  position: absolute;
+  z-index: 3;
+  right: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(231, 208, 158, 0.45);
+  border-radius: 999px;
+  color: #f1e8d3;
+  background: rgba(20, 20, 16, 0.86);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.32);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.map-click-hint svg {
+  width: 17px;
+  height: 17px;
+  color: var(--color-gold-light);
+}
+
+.map-annotation-pin {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 2px solid #f1dfb5;
+  border-radius: 50%;
+  color: #fff8e9;
+  background: #8d2f2b;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+  font-size: 0.66rem;
+  font-weight: 900;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.map-annotation-pin.is-draft {
+  border-style: dashed;
+  background: #d0ad64;
+  box-shadow: 0 0 0 7px rgba(223, 194, 128, 0.2), 0 5px 12px rgba(0, 0, 0, 0.5);
 }
 
 .discovered-map figcaption {
@@ -1349,6 +1529,22 @@ main:focus-visible {
   border-top: 1px solid rgba(199, 170, 112, 0.14);
   color: #b8b3a6;
   font-size: 0.72rem;
+}
+
+.discovered-map figcaption > span {
+  display: grid;
+  gap: 2px;
+}
+
+.discovered-map figcaption strong {
+  color: #d2cec2;
+  font-size: 0.72rem;
+}
+
+.discovered-map figcaption small {
+  color: #8f9088;
+  font-size: 0.66rem;
+  line-height: 1.45;
 }
 
 .discovered-map figcaption svg {
@@ -1769,6 +1965,13 @@ main:focus-visible {
 .marker-form label span {
   color: #857b6a;
   font-weight: 400;
+}
+
+.marker-form .field-help {
+  color: #7a705f;
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 1.4;
 }
 
 .marker-form input,
@@ -2674,6 +2877,10 @@ main:focus-visible {
     grid-template-columns: 1fr auto;
   }
 
+  .board-toolbar--focused {
+    grid-template-columns: 1fr auto auto;
+  }
+
   .filter-strip {
     grid-column: 1 / -1;
     grid-row: 2;
@@ -2760,12 +2967,10 @@ main:focus-visible {
   }
 
   .concept-board {
-    display: grid;
-    min-height: auto;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    padding: 28px;
-    overflow: visible;
+    display: block;
+    min-height: 700px;
+    padding: 0;
+    overflow: hidden;
   }
 
   .thread-layer,
@@ -2774,12 +2979,9 @@ main:focus-visible {
   }
 
   .concept-card {
-    position: relative;
-    top: auto !important;
-    left: auto !important;
-    width: 100%;
-    transform: rotate(var(--card-rotation));
-    will-change: auto;
+    position: absolute;
+    width: clamp(190px, 31vw, 228px);
+    transform: translate(-50%, -50%) rotate(var(--card-rotation));
   }
 
   .concept-card.is-dimmed {
@@ -2892,6 +3094,14 @@ main:focus-visible {
     flex-direction: column;
   }
 
+  .board-origin-note {
+    min-height: 48px;
+  }
+
+  .zoom-controls {
+    align-self: flex-start;
+  }
+
   .filter-strip {
     order: 2;
     width: 100%;
@@ -2902,15 +3112,13 @@ main:focus-visible {
   }
 
   .concept-board {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 22px;
+    min-height: 620px;
+    padding: 0;
     border-width: 8px;
   }
 
   .concept-card {
-    max-width: 360px;
-    justify-self: center;
+    width: min(56vw, 210px);
   }
 
   .relation-index {

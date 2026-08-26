@@ -2,41 +2,36 @@ import {
   ArrowRight,
   Expand,
   Grip,
-  ListFilter,
+  Minus,
+  Plus,
   RotateCcw,
-  Search,
   X,
 } from 'lucide-react'
 import {
   type KeyboardEvent,
   type PointerEvent,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react'
 import { concepts, connections } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
-import type { BoardPosition, ConceptCategory, LoreConcept } from '../types'
+import type { BoardPosition, LoreConcept } from '../types'
 import { ConceptImage } from './ConceptImage'
 
 const defaultPositions = Object.fromEntries(
   concepts.map((concept) => [concept.id, concept.position]),
 ) as Record<string, BoardPosition>
 
-const categories: Array<ConceptCategory | 'Tutti'> = [
-  'Tutti',
-  'Personaggio',
-  'Luogo',
-  'Indizio',
-  'Tema',
-]
-
 const stateLabels = {
   osservato: 'Osservato in live',
   ipotesi: 'Ipotesi',
   'da-verificare': 'Da verificare',
 } as const
+
+const zoomMin = 0.7
+const zoomMax = 1.4
+const zoomStep = 0.1
 
 interface ConceptBoardProps {
   activeConceptId?: string
@@ -53,8 +48,7 @@ export function ConceptBoard({
   onOpenConcept,
   onCloseConcept,
 }: ConceptBoardProps) {
-  const [query, setQuery] = useState('')
-  const [category, setCategory] = useState<ConceptCategory | 'Tutti'>('Tutti')
+  const [zoom, setZoom] = useState(1)
   const [positions, setPositions] = usePersistentState(
     'elden-rhapsody:board-positions',
     defaultPositions,
@@ -79,26 +73,8 @@ export function ConceptBoard({
     return () => document.body.classList.remove('modal-open')
   }, [activeConcept])
 
-  const visibleConcepts = useMemo(() => {
-    const normalizedQuery = query.trim().toLocaleLowerCase('it')
-
-    return concepts.filter((concept) => {
-      const matchesCategory = category === 'Tutti' || concept.category === category
-      const haystack = [concept.name, concept.summary, ...concept.tags]
-        .join(' ')
-        .toLocaleLowerCase('it')
-      return matchesCategory && (!normalizedQuery || haystack.includes(normalizedQuery))
-    })
-  }, [category, query])
-
-  const visibleIds = useMemo(
-    () => new Set(visibleConcepts.map((concept) => concept.id)),
-    [visibleConcepts],
-  )
-
-  const visibleConnections = connections.filter(
-    (connection) => visibleIds.has(connection.from) && visibleIds.has(connection.to),
-  )
+  const visibleConcepts = concepts
+  const visibleConnections = connections
 
   const moveConcept = (conceptId: string, clientX: number, clientY: number) => {
     const board = boardRef.current
@@ -163,7 +139,16 @@ export function ConceptBoard({
     })
   }
 
-  const resetLayout = () => setPositions(defaultPositions)
+  const resetLayout = () => {
+    setPositions(defaultPositions)
+    setZoom(1)
+  }
+
+  const changeZoom = (delta: number) => {
+    setZoom((current) =>
+      Number(clamp(current + delta, zoomMin, zoomMax).toFixed(1)),
+    )
+  }
 
   return (
     <section className="page page--board" aria-labelledby="board-title">
@@ -172,60 +157,68 @@ export function ConceptBoard({
           <p className="overline">Archivio degli indizi</p>
           <h1 id="board-title">La trama nascosta</h1>
           <p>
-            Sposta le schede, segui i fili e apri ogni appunto. Le linee continue
-            indicano una traccia osservata; quelle tratteggiate un’ipotesi.
+            La lavagna cresce soltanto con ciò che emerge durante la blind run.
+            Ogni scoperta futura partirà dal primo mistero.
           </p>
         </div>
         <aside className="spoiler-note" aria-label="Stato contenuti">
           <span className="status-dot" aria-hidden="true" />
           <div>
             <strong>Modalità blind attiva</strong>
-            <span>Contenuti demo da allineare alla run</span>
+            <span>Un solo punto di partenza, nessuno spoiler</span>
           </div>
         </aside>
       </header>
 
-      <div className="board-toolbar" aria-label="Strumenti della lavagna">
-        <label className="search-field">
-          <Search aria-hidden="true" />
-          <span className="sr-only">Cerca un concetto</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Cerca persone, luoghi, indizi…"
-          />
-        </label>
+      <div className="board-toolbar board-toolbar--focused" aria-label="Strumenti della lavagna">
+        <div className="board-origin-note">
+          <span className="board-origin-note__mark" aria-hidden="true" />
+          <span>
+            <strong>Da qui inizia il gioco</strong>
+            <small>I prossimi appunti nasceranno dalle scoperte in live.</small>
+          </span>
+        </div>
 
-        <div className="filter-strip" aria-label="Filtra per tipo">
-          <ListFilter aria-hidden="true" />
-          {categories.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className={category === item ? 'filter-chip is-active' : 'filter-chip'}
-              aria-pressed={category === item}
-              onClick={() => setCategory(item)}
-            >
-              {item}
-            </button>
-          ))}
+        <div className="zoom-controls" role="group" aria-label="Zoom della lavagna">
+          <button
+            type="button"
+            aria-label="Riduci zoom"
+            disabled={zoom <= zoomMin}
+            onClick={() => changeZoom(-zoomStep)}
+          >
+            <Minus aria-hidden="true" />
+          </button>
+          <output aria-live="polite" aria-label={`Zoom ${Math.round(zoom * 100)}%`}>
+            {Math.round(zoom * 100)}%
+          </output>
+          <button
+            type="button"
+            aria-label="Aumenta zoom"
+            disabled={zoom >= zoomMax}
+            onClick={() => changeZoom(zoomStep)}
+          >
+            <Plus aria-hidden="true" />
+          </button>
         </div>
 
         <button className="icon-text-button" type="button" onClick={resetLayout}>
           <RotateCcw aria-hidden="true" />
-          Ripristina
+          Reimposta vista
         </button>
       </div>
 
       <div
-        ref={boardRef}
         className={draggingId ? 'concept-board is-dragging' : 'concept-board'}
         aria-label="Mappa concettuale degli indizi"
       >
-        <div className="board-stamp" aria-hidden="true">
-          SOLO FATTI EMERSI
-        </div>
+        <div
+          ref={boardRef}
+          className="board-canvas"
+          style={{ '--board-zoom': zoom } as React.CSSProperties}
+        >
+          <div className="board-stamp" aria-hidden="true">
+            DA QUI INIZIA IL GIOCO
+          </div>
 
         <svg className="thread-layer" aria-hidden="true">
           {visibleConnections.map((connection) => {
@@ -260,7 +253,7 @@ export function ConceptBoard({
           })}
         </svg>
 
-        {visibleConcepts.map((concept, index) => {
+          {visibleConcepts.map((concept, index) => {
           const position = positions[concept.id] || defaultPositions[concept.id]
           const relatedToActive = activeConceptId
             ? connections.some(
@@ -299,7 +292,9 @@ export function ConceptBoard({
                 <div className="concept-card__meta">
                   <span>{concept.category}</span>
                   <span className={`state-badge state-badge--${concept.state}`}>
-                    {stateLabels[concept.state]}
+                    {concept.id === 'elden-ring'
+                      ? 'Punto di partenza'
+                      : stateLabels[concept.state]}
                   </span>
                 </div>
                 <h2>{concept.name}</h2>
@@ -315,23 +310,8 @@ export function ConceptBoard({
               </div>
             </article>
           )
-        })}
-
-        {visibleConcepts.length === 0 && (
-          <div className="board-empty" role="status">
-            <Search aria-hidden="true" />
-            <strong>Nessun indizio corrisponde alla ricerca.</strong>
-            <button
-              type="button"
-              onClick={() => {
-                setQuery('')
-                setCategory('Tutti')
-              }}
-            >
-              Azzera i filtri
-            </button>
-          </div>
-        )}
+          })}
+        </div>
       </div>
 
       <section className="relation-index" aria-labelledby="relations-title">
@@ -340,6 +320,12 @@ export function ConceptBoard({
           <h2 id="relations-title">Relazioni annotate</h2>
         </div>
         <div className="relation-list">
+          {visibleConnections.length === 0 && (
+            <p className="relation-empty">
+              Nessun filo ancora. La prima connessione apparirà quando la run offrirà
+              un nuovo indizio.
+            </p>
+          )}
           {visibleConnections.map((connection) => {
             const from = concepts.find((concept) => concept.id === connection.from)
             const to = concepts.find((concept) => concept.id === connection.to)
@@ -425,27 +411,34 @@ function ConceptDialog({
           <p className="dialog-lede">{concept.summary}</p>
           <p>{concept.body}</p>
 
-          <div className="dialog-columns">
-            <section>
-              <h3>Elementi raccolti</h3>
-              <ul>
-                {concept.evidence.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
-            <section>
-              <h3>Domande aperte</h3>
-              <ul>
-                {concept.questions.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
-          </div>
+          {(concept.evidence.length > 0 || concept.questions.length > 0) && (
+            <div className="dialog-columns">
+              <section>
+                <h3>Elementi raccolti</h3>
+                <ul>
+                  {concept.evidence.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+              <section>
+                <h3>Domande aperte</h3>
+                <ul>
+                  {concept.questions.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            </div>
+          )}
 
           <section className="dialog-relations" aria-labelledby="dialog-relations-title">
             <h3 id="dialog-relations-title">Fili collegati</h3>
+            {conceptConnections.length === 0 && (
+              <p className="dialog-relations__empty">
+                Nessun collegamento: da qui inizia il gioco.
+              </p>
+            )}
             {conceptConnections.map((connection) => {
               const otherId =
                 connection.from === concept.id ? connection.to : connection.from

@@ -52,5 +52,7 @@ export interface MapMarker {
   coordinates: string
   note: string
   mapUrl?: string
+  x?: number
+  y?: number
   createdAt: string
 }
