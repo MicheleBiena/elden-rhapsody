@@ -51,7 +51,27 @@ I collegamenti sono nell’array `connections`. `kind: 'traccia'` produce un fil
 
 ### MapGenie e coordinate
 
-L’iframe ufficiale viene caricato solo dopo un’azione esplicita dell’utente. Le credenziali Pro non devono mai essere inserite nel repository o nel JavaScript.
+Durante la blind run il pannello principale **non carica MapGenie**: mostra soltanto
+un’immagine locale del frammento già sbloccato in gioco. Salvare, per esempio,
+`public/maps/sepolcride-01.webp` e assegnare `./maps/sepolcride-01.webp` a
+`currentMapStage.imageUrl` in `src/data/project.ts`. Se il valore resta vuoto, appare
+un empty state privo di spoiler e il Taccuino continua a funzionare.
+
+MapGenie resta in una sezione secondaria chiusa e richiede due azioni esplicite prima
+di caricare l’iframe. Il suo preset usa il sentinel inesistente `locationIds=-1` per
+forzare una selezione vuota e disattivare tutte le categorie, insieme a una camera
+verificata su Sepolcride
+(`x=-0.718767643`, `y=0.62524538`,
+`zoom=13.3`). Il parametro tecnico `route=p0;0` fa applicare la camera al client
+MapGenie attuale, senza produrre marker o tracciati visibili; `popup=false` evita
+l’apertura di schede. Pan e zoom restano inoltre bloccati finché l’utente non accetta
+di nuovo il rischio di vedere altre regioni.
+
+MapGenie non offre un ritaglio rigido della regione: dopo aver abilitato la
+navigazione è ancora possibile spostarsi oltre Sepolcride o ridurre lo zoom. I
+parametri del preset funzionano nell’embed attuale ma non sono documentati
+pubblicamente, quindi vanno ricontrollati quando si aggiorna la mappa. Le credenziali
+Pro non devono mai essere inserite nel repository o nel JavaScript.
 
 I punti aggiunti nel Taccuino cartografico:
 
