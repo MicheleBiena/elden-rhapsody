@@ -8,6 +8,31 @@ const executablePath =
 const browser = await chromium.launch({ executablePath, headless: true })
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } })
 
+async function assertBoardZonesSpanCanvas(targetPage) {
+  const geometry = await targetPage.locator('.board-canvas').evaluate((canvas) => {
+    const canvasRect = canvas.getBoundingClientRect()
+    const zones = [...canvas.querySelectorAll('.board-zone')].map((zone) => {
+      const rect = zone.getBoundingClientRect()
+      const style = getComputedStyle(zone)
+      return {
+        leftInset: rect.left - canvasRect.left,
+        rightInset: canvasRect.right - rect.right,
+        widthRatio: rect.width / canvasRect.width,
+        borderTopWidth: Number.parseFloat(style.borderTopWidth),
+        borderTopStyle: style.borderTopStyle,
+      }
+    })
+
+    return { zones }
+  })
+
+  for (const zone of geometry.zones) {
+    assert.ok(zone.leftInset <= 14 && zone.rightInset <= 14, 'Il bordo della sezione non copre la lavagna')
+    assert.ok(zone.widthRatio >= 0.97, 'La sezione occupa meno del 97% della larghezza utile')
+    assert.ok(zone.borderTopWidth >= 5 && zone.borderTopStyle === 'solid', 'Il divisore di sezione non Ã¨ visibile')
+  }
+}
+
 await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
 await page.evaluate(() => localStorage.clear())
 await page.reload({ waitUntil: 'domcontentloaded' })
@@ -53,6 +78,8 @@ assert.equal(await page.locator('.board-zone').count(), 3)
 assert.match(await page.locator('.board-zones').textContent(), /Ordine spezzato/)
 assert.match(await page.locator('.board-zones').textContent(), /Chiamata dei Senzaluce/)
 assert.match(await page.locator('.board-zones').textContent(), /Primi incontri in Sepolcride/)
+assert.deepEqual(await page.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03'])
+await assertBoardZonesSpanCanvas(page)
 assert.equal(await page.locator('.thread-layer g').count(), 37)
 assert.equal(await page.locator('.thread-layer line').count(), 74)
 assert.equal(await page.locator('.relation-list button').count(), 37)
@@ -311,6 +338,13 @@ if ((await postRunGate.count()) > 0) {
   await page.waitForURL(/#\/board\/radagon$/)
   await page.locator('.concept-dialog[open]').waitFor()
 }
+
+// A 1920 px window at 150% browser zoom exposes roughly a 1280 px CSS viewport.
+const zoomedDesktop = await browser.newPage({ viewport: { width: 1280, height: 720 } })
+await zoomedDesktop.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
+await assertBoardZonesSpanCanvas(zoomedDesktop)
+assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03'])
+await zoomedDesktop.close()
 
 const mobile = await browser.newPage({ viewport: { width: 375, height: 812 } })
 await mobile.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
