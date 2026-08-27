@@ -83,16 +83,14 @@ await assertBoardZonesSpanCanvas(page)
 assert.equal(await page.locator('.thread-layer g').count(), 37)
 assert.equal(await page.locator('.thread-layer line').count(), 74)
 assert.equal(await page.locator('.relation-list button').count(), 37)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 22)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 6)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 24)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 4)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
     'Runa della Morte',
     'Semidei',
     'Godrick l’Innestato',
-    'Grazia',
-    'Vergini delle Dita',
     'Due Dita',
   ],
 )
