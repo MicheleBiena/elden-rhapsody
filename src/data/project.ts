@@ -295,6 +295,8 @@ export const concepts: LoreConcept[] = [
     summary:
       'Luce dorata visibile ai Senzaluce: restituisce loro vita e indica il cammino verso l’Elden Ring.',
     body: 'La Grazia appare come una luce dorata che guida i Senzaluce. Nell’introduzione si accende accanto a cinque Senzaluce nominati, suggerendo che il loro ritorno e il loro viaggio condividano la stessa chiamata.',
+    imageUrl: './concepts/grazia.jpg',
+    imageAlt: 'Una scia luminosa della Grazia sopra un luogo di riposo nell’Interregno',
     evidence: [
       'È visibile ai Senzaluce.',
       'Indica il percorso che li attende.',
@@ -314,6 +316,8 @@ export const concepts: LoreConcept[] = [
     summary:
       'Accompagnano i Senzaluce e trasformano le rune raccolte in forza per il loro viaggio.',
     body: 'Ogni Senzaluce dovrebbe essere accompagnato da una Vergine delle Dita. La nostra viene trovata morta nella stanza iniziale; Melina si offre di assumerne la funzione, pur senza presentarsi come la vergine originariamente destinata a noi.',
+    imageUrl: './concepts/vergine-delle-dita.jpg',
+    imageAlt: 'La Vergine delle Dita trovata senza vita nella cappella iniziale',
     evidence: [
       'Tramutano le rune in forza per i Senzaluce.',
       'La vergine destinata a noi viene trovata morta.',
