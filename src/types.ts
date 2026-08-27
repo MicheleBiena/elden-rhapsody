@@ -1,5 +1,6 @@
 export type ConceptCategory = 'Personaggio' | 'Luogo' | 'Evento' | 'Indizio' | 'Tema'
 export type ConceptState = 'osservato' | 'ipotesi' | 'da-verificare'
+export type LiveReadStatus = 'gia-letto' | 'da-leggere'
 
 export interface BoardPosition {
   x: number
@@ -12,6 +13,7 @@ export interface LoreConcept {
   eyebrow: string
   category: ConceptCategory
   state: ConceptState
+  liveReadStatus: LiveReadStatus
   summary: string
   body: string
   imageUrl?: string

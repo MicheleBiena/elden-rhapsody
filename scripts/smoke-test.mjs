@@ -14,7 +14,7 @@ await page.reload({ waitUntil: 'domcontentloaded' })
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
-assert.equal(await page.locator('.concept-card').count(), 7)
+assert.equal(await page.locator('.concept-card').count(), 8)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -25,16 +25,30 @@ assert.deepEqual(
     'Malenia la Recisa',
     'Radahn',
     'Strega sconosciuta',
+    'Miquella',
   ],
 )
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
-assert.equal(await page.locator('.thread-layer g').count(), 7)
-assert.equal(await page.locator('.thread-layer line').count(), 14)
-assert.equal(await page.locator('.relation-list button').count(), 7)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 6)
+assert.equal(await page.locator('.thread-layer g').count(), 8)
+assert.equal(await page.locator('.thread-layer line').count(), 16)
+assert.equal(await page.locator('.relation-list button').count(), 8)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 7)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 1)
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*3/)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*4/)
+assert.equal(await page.locator('.concept-card.is-read').count(), 7)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 1)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 1)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 1)
+assert.match(await page.locator('.board-live-note').textContent(), /1 novità da leggere/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*1/)
+
+await page.getByRole('button', { name: 'Apri la prima novità' }).click()
+await page.locator('.concept-dialog[open]').waitFor()
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Miquella')
+assert.match(await page.locator('.dialog-content').textContent(), /Da leggere in live/)
+await page.locator('.dialog-close').click()
+await page.waitForURL(/#\/board$/)
 
 const desktopCards = await page.locator('.concept-card').evaluateAll((cards) =>
   cards.map((card) => {
@@ -48,6 +62,19 @@ const desktopCards = await page.locator('.concept-card').evaluateAll((cards) =>
     }
   }),
 )
+const desktopBoard = await page.locator('.concept-board').evaluate((board) => {
+  const rect = board.getBoundingClientRect()
+  return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom }
+})
+for (const card of desktopCards) {
+  assert.ok(
+    card.left >= desktopBoard.left &&
+      card.right <= desktopBoard.right &&
+      card.top >= desktopBoard.top &&
+      card.bottom <= desktopBoard.bottom,
+    `La scheda “${card.name}” esce dai bordi della lavagna`,
+  )
+}
 for (let first = 0; first < desktopCards.length; first += 1) {
   for (let second = first + 1; second < desktopCards.length; second += 1) {
     const a = desktopCards[first]
