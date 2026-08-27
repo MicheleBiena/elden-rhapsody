@@ -42,8 +42,8 @@ const zoomStep = 0.1
 const boardPositionBounds = {
   minX: 10,
   maxX: 90,
-  minY: 12,
-  maxY: 88,
+  minY: 7,
+  maxY: 94,
 } as const
 
 const categoryOrder: ConceptCategory[] = [
@@ -62,6 +62,65 @@ const categoryClassNames: Record<ConceptCategory, string> = {
   Luogo: 'luogo',
 }
 
+const boardConceptOrder = [
+  'elden-ring',
+  'regina-marika',
+  'notte-neri-coltelli',
+  'runa-della-morte',
+  'albero-madre',
+  'semi-doro',
+  'guerra-shattering',
+  'semidei',
+  'miquella',
+  'malenia-la-recisa',
+  'radahn',
+  'godrick-innestato',
+  'senzaluce',
+  'grazia',
+  'vergini-delle-dita',
+  'melina',
+  'hoarah-loux',
+  'goldmask',
+  'fia',
+  'mangiasterco',
+  'gideon-ofnir',
+  'varre',
+  'strega-sconosciuta',
+  'due-dita',
+  'mercante-kale',
+  'boc',
+  'roderika',
+  'spiriti',
+] as const
+
+const orderedConcepts = boardConceptOrder
+  .map((conceptId) => concepts.find((concept) => concept.id === conceptId))
+  .filter((concept): concept is LoreConcept => Boolean(concept))
+
+const boardZones = [
+  {
+    id: 'ordine-spezzato',
+    label: 'Ordine spezzato',
+    note: 'Marika, l’Elden Ring e la guerra dei semidei',
+    top: 1,
+    height: 38,
+  },
+  {
+    id: 'chiamata-senzaluce',
+    label: 'Chiamata dei Senzaluce',
+    note: 'Grazia, vergini e figure dell’introduzione',
+    top: 42,
+    height: 40,
+  },
+  {
+    id: 'primi-incontri',
+    label: 'Primi incontri in Sepolcride',
+    note: 'Mercanti, compagni e nuove domande sulla morte',
+    top: 84,
+    height: 14,
+  },
+] as const
+
 interface ConceptBoardProps {
   activeConceptId?: string
   onOpenConcept: (conceptId: string) => void
@@ -79,7 +138,7 @@ export function ConceptBoard({
 }: ConceptBoardProps) {
   const [zoom, setZoom] = useState(1)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions',
+    'elden-rhapsody:board-positions-v2',
     defaultPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
@@ -103,7 +162,7 @@ export function ConceptBoard({
     return () => document.body.classList.remove('modal-open')
   }, [activeConcept])
 
-  const visibleConcepts = concepts
+  const visibleConcepts = orderedConcepts
   const visibleConnections = connections
   const unreadConcepts = visibleConcepts.filter(
     (concept) => concept.liveReadStatus === 'da-leggere',
@@ -356,6 +415,19 @@ export function ConceptBoard({
         >
           <div className="board-stamp" aria-hidden="true">
             DA QUI INIZIA IL GIOCO
+          </div>
+
+          <div className="board-zones" aria-hidden="true">
+            {boardZones.map((zone) => (
+              <div
+                key={zone.id}
+                className={`board-zone board-zone--${zone.id}`}
+                style={{ top: `${zone.top}%`, height: `${zone.height}%` }}
+              >
+                <strong>{zone.label}</strong>
+                <span>{zone.note}</span>
+              </div>
+            ))}
           </div>
 
           <svg className="thread-layer" aria-hidden="true">
