@@ -1,4 +1,4 @@
-export type ConceptCategory = 'Personaggio' | 'Luogo' | 'Indizio' | 'Tema'
+export type ConceptCategory = 'Personaggio' | 'Luogo' | 'Evento' | 'Indizio' | 'Tema'
 export type ConceptState = 'osservato' | 'ipotesi' | 'da-verificare'
 
 export interface BoardPosition {

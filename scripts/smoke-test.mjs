@@ -14,10 +14,49 @@ await page.reload({ waitUntil: 'domcontentloaded' })
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
-assert.equal(await page.locator('.concept-card').count(), 1)
-assert.equal(await page.locator('.concept-card h2').textContent(), 'Elden Ring')
+assert.equal(await page.locator('.concept-card').count(), 7)
+assert.deepEqual(
+  await page.locator('.concept-card h2').allTextContents(),
+  [
+    'Elden Ring',
+    'Notte dei Neri Coltelli',
+    'Runa della Morte',
+    'Guerra dello Shattering',
+    'Malenia la Recisa',
+    'Radahn',
+    'Strega sconosciuta',
+  ],
+)
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
-assert.equal(await page.locator('.thread-layer line').count(), 0)
+assert.equal(await page.locator('.thread-layer g').count(), 7)
+assert.equal(await page.locator('.thread-layer line').count(), 14)
+assert.equal(await page.locator('.relation-list button').count(), 7)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 6)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 1)
+assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*3/)
+
+const desktopCards = await page.locator('.concept-card').evaluateAll((cards) =>
+  cards.map((card) => {
+    const rect = card.getBoundingClientRect()
+    return {
+      name: card.querySelector('h2')?.textContent || 'Scheda senza nome',
+      left: rect.left,
+      right: rect.right,
+      top: rect.top,
+      bottom: rect.bottom,
+    }
+  }),
+)
+for (let first = 0; first < desktopCards.length; first += 1) {
+  for (let second = first + 1; second < desktopCards.length; second += 1) {
+    const a = desktopCards[first]
+    const b = desktopCards[second]
+    const overlaps =
+      a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+    assert.equal(overlaps, false, `Le schede “${a.name}” e “${b.name}” si sovrappongono`)
+  }
+}
 
 const zoomOutput = page.locator('.zoom-controls output')
 const canvas = page.locator('.board-canvas')
@@ -122,16 +161,33 @@ if ((await postRunGate.count()) > 0) {
 
 const mobile = await browser.newPage({ viewport: { width: 375, height: 812 } })
 await mobile.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
+for (let step = 0; step < 4; step += 1) {
+  await mobile.getByRole('button', { name: 'Aumenta zoom' }).click()
+}
+assert.equal(await mobile.locator('.zoom-controls output').textContent(), '140%')
 const widths = await mobile.evaluate(() => ({
   viewport: window.innerWidth,
   document: document.documentElement.scrollWidth,
 }))
 assert.equal(widths.document, widths.viewport)
 
+const mobileCards = await mobile.locator('.concept-card').evaluateAll((cards) =>
+  cards.map((card) => {
+    const rect = card.getBoundingClientRect()
+    return { top: rect.top, bottom: rect.bottom }
+  }),
+)
+for (let index = 1; index < mobileCards.length; index += 1) {
+  assert.ok(
+    mobileCards[index].top >= mobileCards[index - 1].bottom,
+    `Le schede mobile ${index} e ${index + 1} si sovrappongono al 140%`,
+  )
+}
+
 await mobile.close()
 await page.evaluate(() => localStorage.clear())
 await browser.close()
 
 console.log(
-  'Smoke test completato: board iniziale, zoom, coordinate da click, marker persistenti, embed e 375 px.',
+  'Smoke test completato: board, legenda, zoom, coordinate da click, marker persistenti, embed e 375 px.',
 )

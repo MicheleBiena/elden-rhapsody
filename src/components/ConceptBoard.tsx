@@ -16,7 +16,7 @@ import {
 } from 'react'
 import { concepts, connections } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
-import type { BoardPosition, LoreConcept } from '../types'
+import type { BoardPosition, ConceptCategory, LoreConcept } from '../types'
 import { ConceptImage } from './ConceptImage'
 
 const defaultPositions = Object.fromEntries(
@@ -32,6 +32,22 @@ const stateLabels = {
 const zoomMin = 0.7
 const zoomMax = 1.4
 const zoomStep = 0.1
+
+const categoryOrder: ConceptCategory[] = [
+  'Tema',
+  'Evento',
+  'Indizio',
+  'Personaggio',
+  'Luogo',
+]
+
+const categoryClassNames: Record<ConceptCategory, string> = {
+  Tema: 'tema',
+  Evento: 'evento',
+  Indizio: 'indizio',
+  Personaggio: 'personaggio',
+  Luogo: 'luogo',
+}
 
 interface ConceptBoardProps {
   activeConceptId?: string
@@ -75,6 +91,12 @@ export function ConceptBoard({
 
   const visibleConcepts = concepts
   const visibleConnections = connections
+  const visibleCategories = categoryOrder
+    .map((name) => ({
+      name,
+      count: visibleConcepts.filter((concept) => concept.category === name).length,
+    }))
+    .filter((item) => item.count > 0)
 
   const moveConcept = (conceptId: string, clientX: number, clientY: number) => {
     const board = boardRef.current
@@ -165,7 +187,9 @@ export function ConceptBoard({
           <span className="status-dot" aria-hidden="true" />
           <div>
             <strong>Modalità blind attiva</strong>
-            <span>Un solo punto di partenza, nessuno spoiler</span>
+            <span>
+              {visibleConcepts.length} appunti · {visibleConnections.length} fili
+            </span>
           </div>
         </aside>
       </header>
@@ -175,7 +199,7 @@ export function ConceptBoard({
           <span className="board-origin-note__mark" aria-hidden="true" />
           <span>
             <strong>Da qui inizia il gioco</strong>
-            <small>I prossimi appunti nasceranno dalle scoperte in live.</small>
+            <small>L’Elden Ring resta il punto di partenza di ogni scoperta.</small>
           </span>
         </div>
 
@@ -207,6 +231,37 @@ export function ConceptBoard({
         </button>
       </div>
 
+      <section className="board-legend" aria-labelledby="board-legend-title">
+        <div>
+          <p className="overline">Chiave di lettura</p>
+          <h2 id="board-legend-title">Legenda della lavagna</h2>
+        </div>
+        <div className="board-legend__groups">
+          <div className="legend-items" aria-label="Categorie presenti">
+            {visibleCategories.map((item) => (
+              <span key={item.name}>
+                <i
+                  className={`category-mark category-mark--${categoryClassNames[item.name]}`}
+                  aria-hidden="true"
+                />
+                {item.name}
+                <small>{item.count}</small>
+              </span>
+            ))}
+          </div>
+          <div className="legend-items legend-items--threads" aria-label="Tipi di collegamento">
+            <span>
+              <i className="thread-sample" aria-hidden="true" />
+              Traccia osservata
+            </span>
+            <span>
+              <i className="thread-sample is-hypothesis" aria-hidden="true" />
+              Ipotesi
+            </span>
+          </div>
+        </div>
+      </section>
+
       <div
         className={draggingId ? 'concept-board is-dragging' : 'concept-board'}
         aria-label="Mappa concettuale degli indizi"
@@ -214,102 +269,114 @@ export function ConceptBoard({
         <div
           ref={boardRef}
           className="board-canvas"
-          style={{ '--board-zoom': zoom } as React.CSSProperties}
+          style={
+            {
+              '--board-zoom': zoom,
+              '--board-mobile-gap': `${Math.max(
+                48,
+                Math.round(80 + (zoom - 1) * 400),
+              )}px`,
+            } as React.CSSProperties
+          }
         >
           <div className="board-stamp" aria-hidden="true">
             DA QUI INIZIA IL GIOCO
           </div>
 
-        <svg className="thread-layer" aria-hidden="true">
-          {visibleConnections.map((connection) => {
-            const from = positions[connection.from] || defaultPositions[connection.from]
-            const to = positions[connection.to] || defaultPositions[connection.to]
-            const isRelated =
-              activeConceptId === connection.from || activeConceptId === connection.to
+          <svg className="thread-layer" aria-hidden="true">
+            {visibleConnections.map((connection) => {
+              const from = positions[connection.from] || defaultPositions[connection.from]
+              const to = positions[connection.to] || defaultPositions[connection.to]
+              const isRelated =
+                activeConceptId === connection.from || activeConceptId === connection.to
 
-            return (
-              <g
-                key={connection.id}
-                className={`${connection.kind === 'ipotesi' ? 'is-hypothesis' : ''}${
-                  isRelated ? ' is-related' : ''
-                }`}
-              >
-                <line
-                  className="thread-shadow"
-                  x1={`${from.x}%`}
-                  y1={`${from.y}%`}
-                  x2={`${to.x}%`}
-                  y2={`${to.y}%`}
-                />
-                <line
-                  className="thread"
-                  x1={`${from.x}%`}
-                  y1={`${from.y}%`}
-                  x2={`${to.x}%`}
-                  y2={`${to.y}%`}
-                />
-              </g>
-            )
-          })}
-        </svg>
+              return (
+                <g
+                  key={connection.id}
+                  className={`${connection.kind === 'ipotesi' ? 'is-hypothesis' : ''}${
+                    isRelated ? ' is-related' : ''
+                  }`}
+                >
+                  <line
+                    className="thread-shadow"
+                    x1={`${from.x}%`}
+                    y1={`${from.y}%`}
+                    x2={`${to.x}%`}
+                    y2={`${to.y}%`}
+                  />
+                  <line
+                    className="thread"
+                    x1={`${from.x}%`}
+                    y1={`${from.y}%`}
+                    x2={`${to.x}%`}
+                    y2={`${to.y}%`}
+                  />
+                </g>
+              )
+            })}
+          </svg>
 
           {visibleConcepts.map((concept, index) => {
-          const position = positions[concept.id] || defaultPositions[concept.id]
-          const relatedToActive = activeConceptId
-            ? connections.some(
-                (connection) =>
-                  (connection.from === activeConceptId && connection.to === concept.id) ||
-                  (connection.to === activeConceptId && connection.from === concept.id),
-              )
-            : false
-          const isDimmed = Boolean(
-            activeConceptId && concept.id !== activeConceptId && !relatedToActive,
-          )
+            const position = positions[concept.id] || defaultPositions[concept.id]
+            const relatedToActive = activeConceptId
+              ? connections.some(
+                  (connection) =>
+                    (connection.from === activeConceptId && connection.to === concept.id) ||
+                    (connection.to === activeConceptId && connection.from === concept.id),
+                )
+              : false
+            const isDimmed = Boolean(
+              activeConceptId && concept.id !== activeConceptId && !relatedToActive,
+            )
 
-          return (
-            <article
-              key={concept.id}
-              className={`concept-card concept-card--${(index % 3) + 1}${
-                isDimmed ? ' is-dimmed' : ''
-              }${draggingId === concept.id ? ' is-being-dragged' : ''}`}
-              style={{ left: `${position.x}%`, top: `${position.y}%` }}
-            >
-              <span className="push-pin" aria-hidden="true" />
-              <button
-                className="drag-handle"
-                type="button"
-                aria-label={`Sposta ${concept.name}. Usa il trascinamento oppure i tasti freccia.`}
-                onPointerDown={(event) => handlePointerDown(event, concept.id)}
-                onPointerMove={(event) => handlePointerMove(event, concept.id)}
-                onPointerUp={stopDragging}
-                onPointerCancel={stopDragging}
-                onKeyDown={(event) => handleMoveKey(event, concept.id)}
+            return (
+              <article
+                key={concept.id}
+                className={`concept-card concept-card--${(index % 3) + 1}${
+                  isDimmed ? ' is-dimmed' : ''
+                }${draggingId === concept.id ? ' is-being-dragged' : ''}`}
+                style={{ left: `${position.x}%`, top: `${position.y}%` }}
               >
-                <Grip aria-hidden="true" />
-              </button>
-              <ConceptImage concept={concept} />
-              <div className="concept-card__content">
-                <div className="concept-card__meta">
-                  <span>{concept.category}</span>
-                  <span className={`state-badge state-badge--${concept.state}`}>
-                    {concept.id === 'elden-ring'
-                      ? 'Punto di partenza'
-                      : stateLabels[concept.state]}
-                  </span>
-                </div>
-                <h2>{concept.name}</h2>
-                <p>{concept.summary}</p>
+                <span className="push-pin" aria-hidden="true" />
                 <button
-                  className="card-action"
+                  className="drag-handle"
                   type="button"
-                  onClick={() => onOpenConcept(concept.id)}
+                  aria-label={`Sposta ${concept.name}. Usa il trascinamento oppure i tasti freccia.`}
+                  onPointerDown={(event) => handlePointerDown(event, concept.id)}
+                  onPointerMove={(event) => handlePointerMove(event, concept.id)}
+                  onPointerUp={stopDragging}
+                  onPointerCancel={stopDragging}
+                  onKeyDown={(event) => handleMoveKey(event, concept.id)}
                 >
-                  Apri il fascicolo
-                  <Expand aria-hidden="true" />
+                  <Grip aria-hidden="true" />
                 </button>
-              </div>
-            </article>
-          )
+                <ConceptImage concept={concept} />
+                <div className="concept-card__content">
+                  <div className="concept-card__meta">
+                    <span
+                      className={`concept-category concept-category--${categoryClassNames[concept.category]}`}
+                    >
+                      {concept.category}
+                    </span>
+                    <span className={`state-badge state-badge--${concept.state}`}>
+                      {concept.id === 'elden-ring'
+                        ? 'Punto di partenza'
+                        : stateLabels[concept.state]}
+                    </span>
+                  </div>
+                  <h2>{concept.name}</h2>
+                  <p>{concept.summary}</p>
+                  <button
+                    className="card-action"
+                    type="button"
+                    onClick={() => onOpenConcept(concept.id)}
+                  >
+                    Apri il fascicolo
+                    <Expand aria-hidden="true" />
+                  </button>
+                </div>
+              </article>
+            )
           })}
         </div>
       </div>

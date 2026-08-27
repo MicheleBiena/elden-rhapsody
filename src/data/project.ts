@@ -1,8 +1,7 @@
 import type { LoreConcept, LoreConnection, TranslationPost } from '../types'
 
 /**
- * La lavagna parte da un solo appunto. Nuovi concetti e collegamenti verranno
- * aggiunti esclusivamente quando emergeranno durante la blind run.
+ * La lavagna cresce esclusivamente con ciò che emerge durante la blind run.
  */
 export const concepts: LoreConcept[] = [
   {
@@ -19,11 +18,173 @@ export const concepts: LoreConcept[] = [
     evidence: [],
     questions: [],
     tags: ['inizio', 'artefatto', 'mistero'],
-    position: { x: 50, y: 48 },
+    position: { x: 50, y: 15 },
+  },
+  {
+    id: 'notte-neri-coltelli',
+    name: 'Notte dei Neri Coltelli',
+    eyebrow: 'Evento dallo story trailer',
+    category: 'Evento',
+    state: 'osservato',
+    summary:
+      'Notte in cui la Runa della Morte venne rubata e Godwyn l’Aureo fu ucciso, primo fra i semidei.',
+    body: 'Lo story trailer mostra il furto della Runa della Morte e l’assassinio di Godwyn l’Aureo, indicato come il primo semidio a essere ucciso.',
+    imageUrl: './concepts/notte-neri-coltelli.webp',
+    imageAlt: 'Godwyn l’Aureo circondato dagli assassini durante la Notte dei Neri Coltelli',
+    evidence: [
+      'La Runa della Morte venne rubata.',
+      'Godwyn l’Aureo fu il primo fra i semidei a essere ucciso.',
+    ],
+    questions: ['Chi rubò la Runa della Morte?', 'Chi organizzò l’assassinio?'],
+    tags: ['story trailer', 'Godwyn', 'assassinio'],
+    position: { x: 16, y: 39 },
+  },
+  {
+    id: 'runa-della-morte',
+    name: 'Runa della Morte',
+    eyebrow: 'Indizio ancora oscuro',
+    category: 'Indizio',
+    state: 'da-verificare',
+    summary: 'Venne rubata durante la Notte dei Neri Coltelli. Per ora non sappiamo altro.',
+    body: 'L’unica informazione raccolta finora è il suo furto durante la Notte dei Neri Coltelli. Ogni altra interpretazione resta sospesa.',
+    evidence: ['Il suo furto è mostrato nello story trailer.'],
+    questions: ['Che cos’è esattamente?', 'Chi la rubò e per quale motivo?'],
+    tags: ['runa', 'morte', 'mistero'],
+    position: { x: 16, y: 72 },
+  },
+  {
+    id: 'guerra-shattering',
+    name: 'Guerra dello Shattering',
+    eyebrow: 'Guerra dei semidei',
+    category: 'Evento',
+    state: 'osservato',
+    summary:
+      'Dopo che l’Elden Ring viene spezzato, i semidei lottano per le sue rune.',
+    body: 'La distruzione dell’Elden Ring lascia le sue rune al centro di una guerra fra semidei: lo Shattering.',
+    imageUrl: './concepts/guerra-shattering.png',
+    imageAlt: 'Malenia e Radahn si affrontano durante la Guerra dello Shattering',
+    evidence: [
+      'L’Elden Ring è stato spezzato.',
+      'I semidei combattono per impossessarsi delle rune.',
+    ],
+    questions: ['Chi ha spezzato l’Elden Ring?', 'Quali rune sono finite ai semidei?'],
+    tags: ['guerra', 'semidei', 'rune'],
+    position: { x: 50, y: 49 },
+  },
+  {
+    id: 'malenia-la-recisa',
+    name: 'Malenia la Recisa',
+    eyebrow: 'Spada di Miquella',
+    category: 'Personaggio',
+    state: 'osservato',
+    summary:
+      'Semidio della Guerra dello Shattering e rivale di Radahn. Viene definita la Spada di Miquella.',
+    body: 'Durante lo scontro con Radahn si infilza per sconfiggerlo, poi si avvicina e gli dice qualcosa all’orecchio.',
+    imageUrl: './concepts/malenia.webp',
+    imageAlt: 'Malenia la Recisa con elmo alato e armatura',
+    evidence: [
+      'Viene definita la Spada di Miquella.',
+      'Affronta Radahn durante lo Shattering.',
+      'Si infilza e poi gli sussurra qualcosa all’orecchio.',
+    ],
+    questions: ['Che cosa dice a Radahn?', 'Perché si infilza durante lo scontro?'],
+    tags: ['Malenia', 'Miquella', 'semidio'],
+    position: { x: 36, y: 83 },
+  },
+  {
+    id: 'radahn',
+    name: 'Radahn',
+    eyebrow: 'Conquistatore delle stelle',
+    category: 'Personaggio',
+    state: 'osservato',
+    summary:
+      'Generale conquistatore delle stelle, semidio capace di rivaleggiare in potenza con Malenia.',
+    body: 'Prende parte alla Guerra dello Shattering e affronta Malenia in uno scontro fra rivali di forza comparabile.',
+    imageUrl: './concepts/radahn.webp',
+    imageAlt: 'Il generale Radahn in armatura sotto un cielo rosso',
+    evidence: [
+      'È chiamato il conquistatore delle stelle.',
+      'Rivaleggia in potenza con Malenia.',
+    ],
+    questions: ['Qual è l’esito reale dello scontro con Malenia?'],
+    tags: ['Radahn', 'generale', 'semidio'],
+    position: { x: 65, y: 83 },
+  },
+  {
+    id: 'strega-sconosciuta',
+    name: 'Strega sconosciuta',
+    eyebrow: 'Narratrice misteriosa',
+    category: 'Personaggio',
+    state: 'osservato',
+    summary: 'Bambola di porcellana parlante che ci racconta la storia dello Shattering.',
+    body: 'La sua identità non è ancora nota. Per ora sappiamo soltanto che questa bambola parlante introduce e racconta gli eventi dello Shattering.',
+    imageUrl: './concepts/strega-sconosciuta.webp',
+    imageAlt: 'Una strega sconosciuta dall’aspetto di bambola di porcellana',
+    evidence: ['Racconta la storia dello Shattering.', 'Ha l’aspetto di una bambola di porcellana.'],
+    questions: ['Chi è?', 'Perché conosce la storia dello Shattering?'],
+    tags: ['strega', 'bambola', 'narratrice'],
+    position: { x: 84, y: 47 },
   },
 ]
 
-export const connections: LoreConnection[] = []
+export const connections: LoreConnection[] = [
+  {
+    id: 'elden-ring-shattering',
+    from: 'elden-ring',
+    to: 'guerra-shattering',
+    label: 'frammenti contesi',
+    note: 'Dopo la distruzione dell’Elden Ring, i semidei combattono per le sue rune.',
+    kind: 'traccia',
+  },
+  {
+    id: 'notte-runa-morte',
+    from: 'notte-neri-coltelli',
+    to: 'runa-della-morte',
+    label: 'runa rubata',
+    note: 'Il furto della Runa della Morte avviene durante la Notte dei Neri Coltelli.',
+    kind: 'traccia',
+  },
+  {
+    id: 'notte-shattering',
+    from: 'notte-neri-coltelli',
+    to: 'guerra-shattering',
+    label: 'antefatto narrato',
+    note: 'Lo story trailer presenta la Notte prima della guerra; questo filo indica la sequenza narrativa, non un nesso causale confermato.',
+    kind: 'traccia',
+  },
+  {
+    id: 'shattering-malenia',
+    from: 'guerra-shattering',
+    to: 'malenia-la-recisa',
+    label: 'semidio in guerra',
+    note: 'Malenia prende parte alla Guerra dello Shattering.',
+    kind: 'traccia',
+  },
+  {
+    id: 'shattering-radahn',
+    from: 'guerra-shattering',
+    to: 'radahn',
+    label: 'semidio in guerra',
+    note: 'Radahn prende parte alla Guerra dello Shattering.',
+    kind: 'traccia',
+  },
+  {
+    id: 'malenia-radahn',
+    from: 'malenia-la-recisa',
+    to: 'radahn',
+    label: 'scontro e rivalità',
+    note: 'I due semidei si affrontano e vengono presentati come rivali in potenza.',
+    kind: 'traccia',
+  },
+  {
+    id: 'strega-shattering',
+    from: 'strega-sconosciuta',
+    to: 'guerra-shattering',
+    label: 'racconto',
+    note: 'La strega sconosciuta racconta la storia dello Shattering.',
+    kind: 'traccia',
+  },
+]
 
 /**
  * Portare a `true` soltanto dopo la conclusione pubblica della blind run.

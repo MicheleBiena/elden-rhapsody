@@ -46,6 +46,17 @@ for (const testCase of cases) {
 
   await page.goto(`${baseUrl}${testCase.route}`, { waitUntil: 'domcontentloaded' })
   await page.evaluate(() => document.fonts.ready)
+  await page.locator('img').evaluateAll((images) => {
+    images.forEach((image) => {
+      image.loading = 'eager'
+    })
+  })
+  await page.waitForFunction(() =>
+    [...document.images].every((image) => image.complete),
+  )
+  await page.locator('img').evaluateAll((images) =>
+    Promise.all(images.map((image) => image.decode().catch(() => undefined))),
+  )
   let embeddedMapMetrics
   if (testCase.openAction) {
     await page.locator(testCase.openAction).click()
