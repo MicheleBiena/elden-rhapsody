@@ -1,5 +1,7 @@
 import {
   ArrowRight,
+  BookOpen,
+  Check,
   Expand,
   Grip,
   Minus,
@@ -27,6 +29,11 @@ const stateLabels = {
   osservato: 'Osservato in live',
   ipotesi: 'Ipotesi',
   'da-verificare': 'Da verificare',
+} as const
+
+const liveReadLabels = {
+  'gia-letto': 'Già letto in live',
+  'da-leggere': 'Da leggere in live',
 } as const
 
 const zoomMin = 0.7
@@ -91,6 +98,9 @@ export function ConceptBoard({
 
   const visibleConcepts = concepts
   const visibleConnections = connections
+  const unreadConcepts = visibleConcepts.filter(
+    (concept) => concept.liveReadStatus === 'da-leggere',
+  )
   const visibleCategories = categoryOrder
     .map((name) => ({
       name,
@@ -183,13 +193,31 @@ export function ConceptBoard({
             Ogni scoperta futura partirà dal primo mistero.
           </p>
         </div>
-        <aside className="spoiler-note" aria-label="Stato contenuti">
+        <aside
+          className={`spoiler-note board-live-note${
+            unreadConcepts.length > 0 ? ' has-unread' : ''
+          }`}
+          aria-label="Stato contenuti per la prossima live"
+        >
           <span className="status-dot" aria-hidden="true" />
           <div>
-            <strong>Modalità blind attiva</strong>
+            <strong>
+              {unreadConcepts.length > 0
+                ? `${unreadConcepts.length} novità da leggere`
+                : 'Tutto già letto'}
+            </strong>
             <span>
               {visibleConcepts.length} appunti · {visibleConnections.length} fili
             </span>
+            {unreadConcepts[0] && (
+              <button
+                type="button"
+                onClick={() => onOpenConcept(unreadConcepts[0].id)}
+              >
+                <BookOpen aria-hidden="true" />
+                Apri la prima novità
+              </button>
+            )}
           </div>
         </aside>
       </header>
@@ -259,6 +287,17 @@ export function ConceptBoard({
               Ipotesi
             </span>
           </div>
+          <div className="legend-items legend-items--live" aria-label="Stato di lettura in live">
+            <span>
+              <i className="live-status-mark live-status-mark--read" aria-hidden="true" />
+              Già letto
+            </span>
+            <span>
+              <i className="live-status-mark live-status-mark--unread" aria-hidden="true" />
+              Da leggere
+              <small>{unreadConcepts.length}</small>
+            </span>
+          </div>
         </div>
       </section>
 
@@ -287,6 +326,11 @@ export function ConceptBoard({
             {visibleConnections.map((connection) => {
               const from = positions[connection.from] || defaultPositions[connection.from]
               const to = positions[connection.to] || defaultPositions[connection.to]
+              const fromConcept = concepts.find((concept) => concept.id === connection.from)
+              const toConcept = concepts.find((concept) => concept.id === connection.to)
+              const isNewConnection = [fromConcept, toConcept].some(
+                (concept) => concept?.liveReadStatus === 'da-leggere',
+              )
               const isRelated =
                 activeConceptId === connection.from || activeConceptId === connection.to
 
@@ -295,7 +339,7 @@ export function ConceptBoard({
                   key={connection.id}
                   className={`${connection.kind === 'ipotesi' ? 'is-hypothesis' : ''}${
                     isRelated ? ' is-related' : ''
-                  }`}
+                  }${isNewConnection ? ' is-new' : ''}`}
                 >
                   <line
                     className="thread-shadow"
@@ -334,7 +378,9 @@ export function ConceptBoard({
                 key={concept.id}
                 className={`concept-card concept-card--${(index % 3) + 1}${
                   isDimmed ? ' is-dimmed' : ''
-                }${draggingId === concept.id ? ' is-being-dragged' : ''}`}
+                }${draggingId === concept.id ? ' is-being-dragged' : ''}${
+                  concept.liveReadStatus === 'da-leggere' ? ' is-unread' : ' is-read'
+                }`}
                 style={{ left: `${position.x}%`, top: `${position.y}%` }}
               >
                 <span className="push-pin" aria-hidden="true" />
@@ -350,6 +396,17 @@ export function ConceptBoard({
                 >
                   <Grip aria-hidden="true" />
                 </button>
+                <div
+                  className={`live-read-badge live-read-badge--${concept.liveReadStatus}`}
+                  aria-label={`Stato per la live: ${liveReadLabels[concept.liveReadStatus]}`}
+                >
+                  {concept.liveReadStatus === 'da-leggere' ? (
+                    <BookOpen aria-hidden="true" />
+                  ) : (
+                    <Check aria-hidden="true" />
+                  )}
+                  {liveReadLabels[concept.liveReadStatus]}
+                </div>
                 <ConceptImage concept={concept} />
                 <div className="concept-card__content">
                   <div className="concept-card__meta">
@@ -397,10 +454,14 @@ export function ConceptBoard({
             const from = concepts.find((concept) => concept.id === connection.from)
             const to = concepts.find((concept) => concept.id === connection.to)
             if (!from || !to) return null
+            const isNewConnection =
+              from.liveReadStatus === 'da-leggere' ||
+              to.liveReadStatus === 'da-leggere'
             return (
               <button
                 type="button"
                 key={connection.id}
+                className={isNewConnection ? 'is-new' : undefined}
                 onClick={() => onOpenConcept(from.id)}
               >
                 <span className={`relation-mark relation-mark--${connection.kind}`} />
@@ -408,7 +469,10 @@ export function ConceptBoard({
                   <strong>
                     {from.name} <ArrowRight aria-hidden="true" /> {to.name}
                   </strong>
-                  <small>{connection.label}</small>
+                  <small>
+                    {isNewConnection ? 'Nuovo · ' : ''}
+                    {connection.label}
+                  </small>
                 </span>
               </button>
             )
@@ -470,6 +534,14 @@ function ConceptDialog({
         <div className="dialog-content">
           <div className="dialog-kicker">
             <span>{concept.eyebrow}</span>
+            <span className={`live-read-badge live-read-badge--${concept.liveReadStatus}`}>
+              {concept.liveReadStatus === 'da-leggere' ? (
+                <BookOpen aria-hidden="true" />
+              ) : (
+                <Check aria-hidden="true" />
+              )}
+              {liveReadLabels[concept.liveReadStatus]}
+            </span>
             <span className={`state-badge state-badge--${concept.state}`}>
               {stateLabels[concept.state]}
             </span>

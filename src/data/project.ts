@@ -10,6 +10,7 @@ export const concepts: LoreConcept[] = [
     eyebrow: 'Punto zero',
     category: 'Tema',
     state: 'osservato',
+    liveReadStatus: 'gia-letto',
     summary:
       'Artefatto ancestrale che plasma il mondo stesso. Distrutto da qualcuno, o qualcosa',
     body: 'È il primo mistero della blind run e il punto da cui nasceranno tutti i collegamenti futuri.',
@@ -26,6 +27,7 @@ export const concepts: LoreConcept[] = [
     eyebrow: 'Evento dallo story trailer',
     category: 'Evento',
     state: 'osservato',
+    liveReadStatus: 'gia-letto',
     summary:
       'Notte in cui la Runa della Morte venne rubata e Godwyn l’Aureo fu ucciso, primo fra i semidei.',
     body: 'Lo story trailer mostra il furto della Runa della Morte e l’assassinio di Godwyn l’Aureo, indicato come il primo semidio a essere ucciso.',
@@ -45,6 +47,7 @@ export const concepts: LoreConcept[] = [
     eyebrow: 'Indizio ancora oscuro',
     category: 'Indizio',
     state: 'da-verificare',
+    liveReadStatus: 'gia-letto',
     summary: 'Venne rubata durante la Notte dei Neri Coltelli. Per ora non sappiamo altro.',
     body: 'L’unica informazione raccolta finora è il suo furto durante la Notte dei Neri Coltelli. Ogni altra interpretazione resta sospesa.',
     evidence: ['Il suo furto è mostrato nello story trailer.'],
@@ -58,6 +61,7 @@ export const concepts: LoreConcept[] = [
     eyebrow: 'Guerra dei semidei',
     category: 'Evento',
     state: 'osservato',
+    liveReadStatus: 'gia-letto',
     summary:
       'Dopo che l’Elden Ring viene spezzato, i semidei lottano per le sue rune.',
     body: 'La distruzione dell’Elden Ring lascia le sue rune al centro di una guerra fra semidei: lo Shattering.',
@@ -77,6 +81,7 @@ export const concepts: LoreConcept[] = [
     eyebrow: 'Spada di Miquella',
     category: 'Personaggio',
     state: 'osservato',
+    liveReadStatus: 'gia-letto',
     summary:
       'Semidio della Guerra dello Shattering e rivale di Radahn. Viene definita la Spada di Miquella.',
     body: 'Durante lo scontro con Radahn si infilza per sconfiggerlo, poi si avvicina e gli dice qualcosa all’orecchio.',
@@ -97,6 +102,7 @@ export const concepts: LoreConcept[] = [
     eyebrow: 'Conquistatore delle stelle',
     category: 'Personaggio',
     state: 'osservato',
+    liveReadStatus: 'gia-letto',
     summary:
       'Generale conquistatore delle stelle, semidio capace di rivaleggiare in potenza con Malenia.',
     body: 'Prende parte alla Guerra dello Shattering e affronta Malenia in uno scontro fra rivali di forza comparabile.',
@@ -116,6 +122,7 @@ export const concepts: LoreConcept[] = [
     eyebrow: 'Narratrice misteriosa',
     category: 'Personaggio',
     state: 'osservato',
+    liveReadStatus: 'gia-letto',
     summary: 'Bambola di porcellana parlante che ci racconta la storia dello Shattering.',
     body: 'La sua identità non è ancora nota. Per ora sappiamo soltanto che questa bambola parlante introduce e racconta gli eventi dello Shattering.',
     imageUrl: './concepts/strega-sconosciuta.webp',
@@ -123,7 +130,32 @@ export const concepts: LoreConcept[] = [
     evidence: ['Racconta la storia dello Shattering.', 'Ha l’aspetto di una bambola di porcellana.'],
     questions: ['Chi è?', 'Perché conosce la storia dello Shattering?'],
     tags: ['strega', 'bambola', 'narratrice'],
-    position: { x: 84, y: 47 },
+    position: { x: 84, y: 51 },
+  },
+  {
+    id: 'miquella',
+    name: 'Miquella',
+    eyebrow: 'Empireo amato',
+    category: 'Personaggio',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary:
+      'Empireo amato da molti, capace di suscitare — o forse imporre — un affetto profondo.',
+    body: 'La descrizione del Ramo Ammaliante presenta Miquella al maschile e suggerisce una sfumatura inquietante: non si limita a essere amato, ma avrebbe imparato molto bene a indurre negli altri un simile affetto. Per ora non sappiamo se si tratti di carisma, potere o qualcos’altro.',
+    imageUrl: './concepts/miquella.png',
+    imageAlt: 'Il Ramo Ammaliante, oggetto associato al potere di Miquella',
+    evidence: [
+      'La descrizione lo definisce un Empireo e usa il maschile.',
+      'Miquella è amato da molte persone.',
+      'Ha imparato a indurre negli altri un affetto tanto forte.',
+      'Malenia viene chiamata la Spada di Miquella.',
+    ],
+    questions: [
+      'L’affetto che suscita è spontaneo o viene imposto?',
+      'Che rapporto lega Miquella e Malenia?',
+    ],
+    tags: ['Miquella', 'Empireo', 'affetto', 'Ramo Ammaliante'],
+    position: { x: 83, y: 16 },
   },
 ]
 
@@ -174,6 +206,14 @@ export const connections: LoreConnection[] = [
     to: 'radahn',
     label: 'scontro e rivalità',
     note: 'I due semidei si affrontano e vengono presentati come rivali in potenza.',
+    kind: 'traccia',
+  },
+  {
+    id: 'malenia-miquella',
+    from: 'malenia-la-recisa',
+    to: 'miquella',
+    label: 'Spada di Miquella',
+    note: 'Il titolo di Malenia la lega direttamente a Miquella, anche se la natura del loro rapporto resta ancora da ricostruire.',
     kind: 'traccia',
   },
   {
