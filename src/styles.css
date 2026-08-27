@@ -768,7 +768,7 @@ main:focus-visible {
 
 .concept-board {
   position: relative;
-  min-height: 1400px;
+  min-height: 3600px;
   overflow: auto;
   border: 12px solid #4c3827;
   border-radius: 7px;
@@ -821,6 +821,56 @@ main:focus-visible {
   font-weight: 900;
   letter-spacing: 0.16em;
   transform: rotate(-4deg);
+}
+
+.board-zones {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+}
+
+.board-zone {
+  position: absolute;
+  right: 1.2%;
+  left: 1.2%;
+  border: 2px dashed rgba(83, 43, 25, 0.28);
+  background: rgba(255, 236, 190, 0.035);
+  box-shadow: inset 0 0 50px rgba(67, 30, 15, 0.06);
+}
+
+.board-zone > strong,
+.board-zone > span {
+  position: absolute;
+  left: 18px;
+  padding-inline: 8px;
+  color: rgba(76, 38, 23, 0.6);
+  background: var(--color-cork);
+  text-transform: uppercase;
+}
+
+.board-zone > strong {
+  top: -11px;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.11em;
+}
+
+.board-zone > span {
+  top: 16px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.board-zone--chiamata-senzaluce {
+  border-color: rgba(98, 72, 37, 0.3);
+  background: rgba(221, 186, 109, 0.035);
+}
+
+.board-zone--primi-incontri {
+  border-color: rgba(58, 78, 51, 0.28);
+  background: rgba(133, 160, 98, 0.035);
 }
 
 .thread-layer {
@@ -3280,6 +3330,7 @@ main:focus-visible {
   }
 
   .thread-layer,
+  .board-zones,
   .board-stamp {
     display: none;
   }

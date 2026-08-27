@@ -14,38 +14,93 @@ await page.reload({ waitUntil: 'domcontentloaded' })
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
-assert.equal(await page.locator('.concept-card').count(), 8)
+assert.equal(await page.locator('.concept-card').count(), 28)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
     'Elden Ring',
+    'Regina Marika l’Eterna',
     'Notte dei Neri Coltelli',
     'Runa della Morte',
+    'Albero Madre',
+    'Semi d’oro',
     'Guerra dello Shattering',
+    'Semidei',
+    'Miquella',
     'Malenia la Recisa',
     'Radahn',
-    'Strega sconosciuta',
-    'Miquella',
+    'Godrick l’Innestato',
+    'I Senzaluce',
+    'Grazia',
+    'Vergini delle Dita',
+    'Melina',
+    'Hoarah Loux',
+    'Goldmask',
+    'Fia',
+    'Mangiasterco',
+    'Sir Gideon Ofnir l’Onnisciente',
+    'Varré',
+    'Strega Renna',
+    'Due Dita',
+    'Kalé',
+    'Boc',
+    'Roderika',
+    'Spiriti',
   ],
 )
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
-assert.equal(await page.locator('.thread-layer g').count(), 8)
-assert.equal(await page.locator('.thread-layer line').count(), 16)
-assert.equal(await page.locator('.relation-list button').count(), 8)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 7)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 1)
+assert.equal(await page.locator('.board-zone').count(), 3)
+assert.match(await page.locator('.board-zones').textContent(), /Ordine spezzato/)
+assert.match(await page.locator('.board-zones').textContent(), /Chiamata dei Senzaluce/)
+assert.match(await page.locator('.board-zones').textContent(), /Primi incontri in Sepolcride/)
+assert.equal(await page.locator('.thread-layer g').count(), 37)
+assert.equal(await page.locator('.thread-layer line').count(), 74)
+assert.equal(await page.locator('.relation-list button').count(), 37)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 22)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 6)
+assert.deepEqual(
+  await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
+  [
+    'Runa della Morte',
+    'Semidei',
+    'Godrick l’Innestato',
+    'Grazia',
+    'Vergini delle Dita',
+    'Due Dita',
+  ],
+)
+await page.locator('.concept-card img').evaluateAll((images) => {
+  images.forEach((image) => {
+    image.loading = 'eager'
+  })
+})
+await page.waitForFunction(() =>
+  [...document.querySelectorAll('.concept-card img')].every((image) => image.complete),
+)
+await page.locator('.concept-card img').evaluateAll((images) =>
+  Promise.all(images.map((image) => image.decode().catch(() => undefined))),
+)
+assert.deepEqual(
+  await page.locator('.concept-card img').evaluateAll((images) =>
+    images
+      .filter((image) => image.naturalWidth === 0)
+      .map((image) => image.getAttribute('alt')),
+  ),
+  [],
+)
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*4/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 7)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 1)
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 1)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 1)
-assert.match(await page.locator('.board-live-note').textContent(), /1 novità da leggere/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*1/)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*16/)
+assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*1/)
+assert.equal(await page.locator('.concept-card.is-read').count(), 6)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 22)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 31)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 31)
+assert.match(await page.locator('.board-live-note').textContent(), /22 novità da leggere/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*22/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Miquella')
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Regina Marika l’Eterna')
 assert.match(await page.locator('.dialog-content').textContent(), /Da leggere in live/)
 await page.locator('.dialog-close').click()
 await page.waitForURL(/#\/board$/)
