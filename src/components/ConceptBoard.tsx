@@ -418,14 +418,19 @@ export function ConceptBoard({
           </div>
 
           <div className="board-zones" aria-hidden="true">
-            {boardZones.map((zone) => (
+            {boardZones.map((zone, index) => (
               <div
                 key={zone.id}
                 className={`board-zone board-zone--${zone.id}`}
                 style={{ top: `${zone.top}%`, height: `${zone.height}%` }}
               >
-                <strong>{zone.label}</strong>
-                <span>{zone.note}</span>
+                <div className="board-zone__heading">
+                  <small>{String(index + 1).padStart(2, '0')}</small>
+                  <span>
+                    <strong>{zone.label}</strong>
+                    <em>{zone.note}</em>
+                  </span>
+                </div>
               </div>
             ))}
           </div>
