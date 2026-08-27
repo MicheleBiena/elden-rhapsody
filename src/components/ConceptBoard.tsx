@@ -39,6 +39,12 @@ const liveReadLabels = {
 const zoomMin = 0.7
 const zoomMax = 1.4
 const zoomStep = 0.1
+const boardPositionBounds = {
+  minX: 10,
+  maxX: 90,
+  minY: 12,
+  maxY: 88,
+} as const
 
 const categoryOrder: ConceptCategory[] = [
   'Tema',
@@ -77,6 +83,7 @@ export function ConceptBoard({
     defaultPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
+  const dragOffsetRef = useRef<BoardPosition | null>(null)
   const boardRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
@@ -114,8 +121,16 @@ export function ConceptBoard({
 
     const rect = board.getBoundingClientRect()
     const nextPosition = {
-      x: clamp(((clientX - rect.left) / rect.width) * 100, 10, 90),
-      y: clamp(((clientY - rect.top) / rect.height) * 100, 18, 80),
+      x: clamp(
+        ((clientX - rect.left) / rect.width) * 100,
+        boardPositionBounds.minX,
+        boardPositionBounds.maxX,
+      ),
+      y: clamp(
+        ((clientY - rect.top) / rect.height) * 100,
+        boardPositionBounds.minY,
+        boardPositionBounds.maxY,
+      ),
     }
 
     setPositions((current) => ({ ...current, [conceptId]: nextPosition }))
@@ -125,23 +140,36 @@ export function ConceptBoard({
     event: PointerEvent<HTMLButtonElement>,
     conceptId: string,
   ) => {
+    const card = event.currentTarget.closest<HTMLElement>('.concept-card')
+    if (!card) return
+
+    const cardRect = card.getBoundingClientRect()
+    dragOffsetRef.current = {
+      x: event.clientX - (cardRect.left + cardRect.width / 2),
+      y: event.clientY - (cardRect.top + cardRect.height / 2),
+    }
     event.currentTarget.setPointerCapture(event.pointerId)
     setDraggingId(conceptId)
-    moveConcept(conceptId, event.clientX, event.clientY)
   }
 
   const handlePointerMove = (
     event: PointerEvent<HTMLButtonElement>,
     conceptId: string,
   ) => {
-    if (draggingId !== conceptId) return
-    moveConcept(conceptId, event.clientX, event.clientY)
+    const dragOffset = dragOffsetRef.current
+    if (draggingId !== conceptId || !dragOffset) return
+    moveConcept(
+      conceptId,
+      event.clientX - dragOffset.x,
+      event.clientY - dragOffset.y,
+    )
   }
 
   const stopDragging = (event: PointerEvent<HTMLButtonElement>) => {
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId)
     }
+    dragOffsetRef.current = null
     setDraggingId(undefined)
   }
 
@@ -164,8 +192,16 @@ export function ConceptBoard({
       return {
         ...current,
         [conceptId]: {
-          x: clamp(previous.x + delta.x, 10, 90),
-          y: clamp(previous.y + delta.y, 18, 80),
+          x: clamp(
+            previous.x + delta.x,
+            boardPositionBounds.minX,
+            boardPositionBounds.maxX,
+          ),
+          y: clamp(
+            previous.y + delta.y,
+            boardPositionBounds.minY,
+            boardPositionBounds.maxY,
+          ),
         },
       }
     })

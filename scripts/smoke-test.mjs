@@ -85,6 +85,44 @@ for (let first = 0; first < desktopCards.length; first += 1) {
   }
 }
 
+const draggedCard = page.locator('.concept-card').first()
+const dragHandle = draggedCard.locator('.drag-handle')
+const cardBeforeDrag = await draggedCard.boundingBox()
+const handleBeforeDrag = await dragHandle.boundingBox()
+assert.ok(cardBeforeDrag && handleBeforeDrag, 'Scheda o maniglia di spostamento non misurabile')
+
+const grabPoint = {
+  x: handleBeforeDrag.x + handleBeforeDrag.width / 2,
+  y: handleBeforeDrag.y + handleBeforeDrag.height / 2,
+}
+await page.mouse.move(grabPoint.x, grabPoint.y)
+await page.mouse.down()
+const cardAfterGrab = await draggedCard.boundingBox()
+assert.ok(cardAfterGrab, 'Scheda non misurabile dopo la presa')
+assert.ok(
+  Math.abs(cardAfterGrab.x - cardBeforeDrag.x) < 1 &&
+    Math.abs(cardAfterGrab.y - cardBeforeDrag.y) < 1,
+  'La scheda salta verso il cursore appena si afferra la maniglia',
+)
+
+const dragDelta = { x: 64, y: 48 }
+await page.mouse.move(grabPoint.x + dragDelta.x, grabPoint.y + dragDelta.y)
+const cardAfterMove = await draggedCard.boundingBox()
+const handleAfterMove = await dragHandle.boundingBox()
+await page.mouse.up()
+assert.ok(cardAfterMove && handleAfterMove, 'Scheda o maniglia non misurabile dopo lo spostamento')
+assert.ok(
+  Math.abs(cardAfterMove.x - cardBeforeDrag.x - dragDelta.x) < 2 &&
+    Math.abs(cardAfterMove.y - cardBeforeDrag.y - dragDelta.y) < 2,
+  'La scheda non segue il movimento mantenendo il punto di presa',
+)
+assert.ok(
+  Math.abs(handleAfterMove.x + handleAfterMove.width / 2 - (grabPoint.x + dragDelta.x)) < 2 &&
+    Math.abs(handleAfterMove.y + handleAfterMove.height / 2 - (grabPoint.y + dragDelta.y)) < 2,
+  'La maniglia non resta sotto il cursore durante lo spostamento',
+)
+await page.getByRole('button', { name: 'Reimposta vista' }).click()
+
 const zoomOutput = page.locator('.zoom-controls output')
 const canvas = page.locator('.board-canvas')
 const initialZoom = await canvas.evaluate((element) =>
@@ -98,7 +136,40 @@ const zoomedValue = await canvas.evaluate((element) =>
 )
 assert.equal(initialZoom, '1')
 assert.equal(zoomedValue, '1.1')
-await page.getByRole('button', { name: 'Riduci zoom' }).click()
+await page.waitForTimeout(250)
+
+const zoomedHandleBeforeDrag = await dragHandle.boundingBox()
+assert.ok(zoomedHandleBeforeDrag, 'Maniglia non misurabile con zoom al 110%')
+const zoomedGrabPoint = {
+  x: zoomedHandleBeforeDrag.x + zoomedHandleBeforeDrag.width / 2,
+  y: zoomedHandleBeforeDrag.y + zoomedHandleBeforeDrag.height / 2,
+}
+const zoomedDragDelta = { x: 36, y: 28 }
+await page.mouse.move(zoomedGrabPoint.x, zoomedGrabPoint.y)
+await page.mouse.down()
+await page.mouse.move(
+  zoomedGrabPoint.x + zoomedDragDelta.x,
+  zoomedGrabPoint.y + zoomedDragDelta.y,
+)
+const zoomedHandleAfterMove = await dragHandle.boundingBox()
+await page.mouse.up()
+assert.ok(zoomedHandleAfterMove, 'Maniglia non misurabile dopo il trascinamento al 110%')
+const zoomedHandleCenter = {
+  x: zoomedHandleAfterMove.x + zoomedHandleAfterMove.width / 2,
+  y: zoomedHandleAfterMove.y + zoomedHandleAfterMove.height / 2,
+}
+const zoomedPointerTarget = {
+  x: zoomedGrabPoint.x + zoomedDragDelta.x,
+  y: zoomedGrabPoint.y + zoomedDragDelta.y,
+}
+assert.ok(
+  Math.abs(zoomedHandleCenter.x - zoomedPointerTarget.x) < 2 &&
+    Math.abs(zoomedHandleCenter.y - zoomedPointerTarget.y) < 2,
+  `La maniglia non resta sotto il cursore con la lavagna ingrandita: maniglia ${JSON.stringify(
+    zoomedHandleCenter,
+  )}, cursore ${JSON.stringify(zoomedPointerTarget)}`,
+)
+await page.getByRole('button', { name: 'Reimposta vista' }).click()
 assert.equal(await zoomOutput.textContent(), '100%')
 
 await page.locator('.concept-card').first().locator('.card-action').click()
@@ -216,5 +287,5 @@ await page.evaluate(() => localStorage.clear())
 await browser.close()
 
 console.log(
-  'Smoke test completato: board, legenda, zoom, coordinate da click, marker persistenti, embed e 375 px.',
+  'Smoke test completato: board, trascinamento, legenda, zoom, coordinate da click, marker persistenti, embed e 375 px.',
 )
