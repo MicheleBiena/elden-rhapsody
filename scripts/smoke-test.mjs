@@ -39,7 +39,7 @@ await page.reload({ waitUntil: 'domcontentloaded' })
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
-assert.equal(await page.locator('.concept-card').count(), 28)
+assert.equal(await page.locator('.concept-card').count(), 30)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -71,20 +71,23 @@ assert.deepEqual(
     'Boc',
     'Roderika',
     'Spiriti',
+    'Accademia di Raya Lucaria',
+    'Scintipietra',
   ],
 )
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
-assert.equal(await page.locator('.board-zone').count(), 3)
+assert.equal(await page.locator('.board-zone').count(), 4)
 assert.match(await page.locator('.board-zones').textContent(), /Ordine spezzato/)
 assert.match(await page.locator('.board-zones').textContent(), /Chiamata dei Senzaluce/)
 assert.match(await page.locator('.board-zones').textContent(), /Primi incontri in Sepolcride/)
-assert.deepEqual(await page.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03'])
+assert.match(await page.locator('.board-zones').textContent(), /Sapere delle stelle/)
+assert.deepEqual(await page.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03', '04'])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 37)
-assert.equal(await page.locator('.thread-layer line').count(), 74)
-assert.equal(await page.locator('.relation-list button').count(), 37)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 24)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 4)
+assert.equal(await page.locator('.thread-layer g').count(), 38)
+assert.equal(await page.locator('.thread-layer line').count(), 76)
+assert.equal(await page.locator('.relation-list button').count(), 38)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 25)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -92,6 +95,7 @@ assert.deepEqual(
     'Semidei',
     'Godrick l’Innestato',
     'Due Dita',
+    'Accademia di Raya Lucaria',
   ],
 )
 await page.locator('.concept-card img').evaluateAll((images) => {
@@ -115,13 +119,13 @@ assert.deepEqual(
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*16/)
-assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*1/)
+assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*2/)
 assert.equal(await page.locator('.concept-card.is-read').count(), 6)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 22)
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 31)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 31)
-assert.match(await page.locator('.board-live-note').textContent(), /22 novità da leggere/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*22/)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 24)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 32)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 32)
+assert.match(await page.locator('.board-live-note').textContent(), /24 novità da leggere/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*24/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -194,7 +198,7 @@ assert.ok(cardAfterMove && handleAfterMove, 'Scheda o maniglia non misurabile do
 assert.ok(
   Math.abs(cardAfterMove.x - cardBeforeDrag.x - dragDelta.x) < 2 &&
     Math.abs(cardAfterMove.y - cardBeforeDrag.y - dragDelta.y) < 2,
-  'La scheda non segue il movimento mantenendo il punto di presa',
+  `La scheda non segue il movimento mantenendo il punto di presa: ${JSON.stringify({ cardBeforeDrag, cardAfterMove, dragDelta })}`,
 )
 assert.ok(
   Math.abs(handleAfterMove.x + handleAfterMove.width / 2 - (grabPoint.x + dragDelta.x)) < 2 &&
@@ -341,8 +345,32 @@ if ((await postRunGate.count()) > 0) {
 const zoomedDesktop = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await zoomedDesktop.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
 await assertBoardZonesSpanCanvas(zoomedDesktop)
-assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03'])
+assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03', '04'])
 await zoomedDesktop.close()
+
+const migratedBoard = await browser.newPage({ viewport: { width: 1280, height: 720 } })
+await migratedBoard.addInitScript(() => {
+  localStorage.removeItem('elden-rhapsody:board-positions-v3')
+  localStorage.setItem(
+    'elden-rhapsody:board-positions-v2',
+    JSON.stringify({ 'elden-ring': { x: 51, y: 52 } }),
+  )
+})
+await migratedBoard.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
+const migratedPosition = await migratedBoard.locator('.concept-card').first().evaluate((card) => ({
+  left: Number.parseFloat(card.style.left),
+  top: Number.parseFloat(card.style.top),
+}))
+assert.equal(migratedPosition.left, 51)
+assert.ok(Math.abs(migratedPosition.top - (52 * 3600) / 4400) < 0.01)
+await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v3'))
+assert.equal(
+  await migratedBoard.evaluate(() =>
+    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v3') || '{}')).length,
+  ),
+  30,
+)
+await migratedBoard.close()
 
 const mobile = await browser.newPage({ viewport: { width: 375, height: 812 } })
 await mobile.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })

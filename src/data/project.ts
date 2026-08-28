@@ -543,6 +543,51 @@ export const concepts: LoreConcept[] = [
     tags: ['spiriti', 'ceneri', 'Albero Madre', 'morte'],
     position: { x: 87, y: 90 },
   },
+  {
+    id: 'accademia-raya-lucaria',
+    name: 'Accademia di Raya Lucaria',
+    eyebrow: 'Studiosi allontanati',
+    category: 'Luogo',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary:
+      'Le vesti e il bastone iniziali dell’Astrologo appartengono a studiosi allontanati dall’Accademia di Raya Lucaria.',
+    body: 'La descrizione dell’equipaggiamento iniziale dell’Astrologo rivela l’esistenza dell’Accademia di Raya Lucaria. Vesti e bastone sono quelli degli studiosi che ne sono stati allontanati; per ora non sappiamo perché siano stati esclusi né quale sia il ruolo dell’Accademia nell’Interregno.',
+    evidence: [
+      'La classe Astrologo indossa le vesti degli studiosi allontanati dall’Accademia.',
+      'Il suo bastone appartiene alla stessa tradizione di studio.',
+    ],
+    questions: [
+      'Perché alcuni studiosi vengono allontanati dall’Accademia?',
+      'Quale sapere custodisce Raya Lucaria?',
+    ],
+    tags: ['Raya Lucaria', 'Accademia', 'Astrologo', 'studiosi'],
+    position: { x: 38, y: 87 },
+  },
+  {
+    id: 'scintipietra',
+    name: 'Scintipietra',
+    eyebrow: 'Minerale delle stelle',
+    category: 'Indizio',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary:
+      'Minerale associato alla stregoneria, la cui energia è collegata direttamente alle stelle.',
+    body: 'La scintipietra alimenta una forma di stregoneria legata direttamente all’energia delle stelle. Questo chiarisce il nome della classe Astrologo: osservazione celeste e magia sembrano appartenere allo stesso campo di conoscenza.',
+    imageUrl: './concepts/scintipietra.png',
+    imageAlt: 'Una pergamena attraversata dal dardo azzurro di una stregoneria di scintipietra',
+    evidence: [
+      'È un minerale associato alla stregoneria.',
+      'La sua energia è collegata direttamente alle stelle.',
+      'Il legame con le stelle richiama la classe Astrologo.',
+    ],
+    questions: [
+      'Da dove proviene la scintipietra?',
+      'In che modo conserva o trasmette l’energia delle stelle?',
+    ],
+    tags: ['scintipietra', 'stregoneria', 'stelle', 'Astrologo'],
+    position: { x: 63, y: 87 },
+  },
 ]
 
 export const connections: LoreConnection[] = [
@@ -841,6 +886,14 @@ export const connections: LoreConnection[] = [
     label: 'incontro in Sepolcride',
     note: 'Il nostro Senzaluce libera Boc dalla forma di albero e ascolta la sua storia.',
     kind: 'traccia',
+  },
+  {
+    id: 'raya-lucaria-scintipietra',
+    from: 'accademia-raya-lucaria',
+    to: 'scintipietra',
+    label: 'traccia dell’Astrologo',
+    note: 'La classe Astrologo accosta due indizi: il suo equipaggiamento richiama gli studiosi espulsi da Raya Lucaria, mentre la scintipietra lega la stregoneria alle stelle. Un rapporto diretto fra Accademia e minerale resta da confermare.',
+    kind: 'ipotesi',
   },
 ]
 

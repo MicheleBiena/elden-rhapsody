@@ -21,9 +21,44 @@ import { usePersistentState } from '../hooks/usePersistentState'
 import type { BoardPosition, ConceptCategory, LoreConcept } from '../types'
 import { ConceptImage } from './ConceptImage'
 
+const legacyBoardHeight = 3600
+const boardHeight = 4400
+const legacyPositionScale = legacyBoardHeight / boardHeight
+const extendedLayoutConceptIds = new Set([
+  'accademia-raya-lucaria',
+  'scintipietra',
+])
+
 const defaultPositions = Object.fromEntries(
-  concepts.map((concept) => [concept.id, concept.position]),
+  concepts.map((concept) => [
+    concept.id,
+    extendedLayoutConceptIds.has(concept.id)
+      ? concept.position
+      : { ...concept.position, y: concept.position.y * legacyPositionScale },
+  ]),
 ) as Record<string, BoardPosition>
+
+function getInitialBoardPositions() {
+  try {
+    const saved = window.localStorage.getItem('elden-rhapsody:board-positions-v2')
+    if (!saved) return defaultPositions
+
+    const legacyPositions = JSON.parse(saved) as Record<string, BoardPosition>
+    return Object.fromEntries(
+      concepts.map((concept) => {
+        const legacyPosition = legacyPositions[concept.id]
+        return [
+          concept.id,
+          legacyPosition
+            ? { ...legacyPosition, y: legacyPosition.y * legacyPositionScale }
+            : defaultPositions[concept.id],
+        ]
+      }),
+    ) as Record<string, BoardPosition>
+  } catch {
+    return defaultPositions
+  }
+}
 
 const stateLabels = {
   osservato: 'Osservato in live',
@@ -42,7 +77,7 @@ const zoomStep = 0.1
 const boardPositionBounds = {
   minX: 10,
   maxX: 90,
-  minY: 7,
+  minY: 5.5,
   maxY: 94,
 } as const
 
@@ -91,6 +126,8 @@ const boardConceptOrder = [
   'boc',
   'roderika',
   'spiriti',
+  'accademia-raya-lucaria',
+  'scintipietra',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -102,22 +139,29 @@ const boardZones = [
     id: 'ordine-spezzato',
     label: 'Ordine spezzato',
     note: 'Marika, l’Elden Ring e la guerra dei semidei',
-    top: 1,
-    height: 38,
+    top: 0.8,
+    height: 31.1,
   },
   {
     id: 'chiamata-senzaluce',
     label: 'Chiamata dei Senzaluce',
     note: 'Grazia, vergini e figure dell’introduzione',
-    top: 42,
-    height: 40,
+    top: 34.4,
+    height: 32.7,
   },
   {
     id: 'primi-incontri',
     label: 'Primi incontri in Sepolcride',
     note: 'Mercanti, compagni e nuove domande sulla morte',
-    top: 84,
-    height: 14,
+    top: 68.7,
+    height: 11.5,
+  },
+  {
+    id: 'sapere-delle-stelle',
+    label: 'Sapere delle stelle',
+    note: 'Astrologi, stregoneria e l’Accademia di Raya Lucaria',
+    top: 82,
+    height: 16,
   },
 ] as const
 
@@ -137,9 +181,10 @@ export function ConceptBoard({
   onCloseConcept,
 }: ConceptBoardProps) {
   const [zoom, setZoom] = useState(1)
+  const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v2',
-    defaultPositions,
+    'elden-rhapsody:board-positions-v3',
+    initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
   const dragOffsetRef = useRef<BoardPosition | null>(null)

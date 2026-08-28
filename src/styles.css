@@ -768,7 +768,7 @@ main:focus-visible {
 
 .concept-board {
   position: relative;
-  min-height: 3600px;
+  min-height: var(--board-height, 4400px);
   overflow: auto;
   border: 12px solid #4c3827;
   border-radius: 7px;
@@ -925,6 +925,12 @@ main:focus-visible {
   --zone-accent: #46603c;
   --zone-border: rgba(54, 76, 47, 0.54);
   --zone-wash: rgba(99, 133, 80, 0.08);
+}
+
+.board-zone--sapere-delle-stelle {
+  --zone-accent: #315b68;
+  --zone-border: rgba(43, 79, 89, 0.58);
+  --zone-wash: rgba(65, 131, 145, 0.09);
 }
 
 .thread-layer {
