@@ -462,16 +462,20 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'due-dita',
     name: 'Due Dita',
-    eyebrow: 'Autorità ancora invisibile',
+    eyebrow: 'Autorità della fede',
     category: 'Indizio',
-    state: 'da-verificare',
+    state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Entità o autorità a cui i Senzaluce sembrano obbedire; Renna mette apertamente in dubbio questa fedeltà.',
-    body: 'Non le abbiamo ancora comprese direttamente. Sappiamo soltanto, dalle parole di Renna, che i Senzaluce obbediscono alle Due Dita e che la strega considera questa obbedienza qualcosa destinato forse a finire.',
-    evidence: ['Renna parla dell’obbedienza dei Senzaluce alle Due Dita.'],
-    questions: ['Che cosa sono le Due Dita?', 'Perché i Senzaluce obbediscono loro?'],
-    tags: ['Due Dita', 'obbedienza', 'Renna'],
+      'Autorità che concede incantamenti e impone un dovere ai Senzaluce; Renna mostra una chiara avversione per la loro obbedienza.',
+    body: 'Non abbiamo ancora incontrato direttamente le Due Dita, ma Corhyn le serve e insegna la forza che concedono. I loro incantamenti esigono perseveranza, fede e rinuncia. Renna assume invece un tono apertamente avverso: critica i Senzaluce che continuano a obbedire e si domanda quanto durerà ancora questa sottomissione.',
+    evidence: [
+      'Corhyn è un fedele delle Due Dita.',
+      'Gli incantamenti vengono descritti come una forza da loro concessa.',
+      'Renna critica apertamente l’obbedienza dei Senzaluce alle Due Dita.',
+    ],
+    questions: ['Che cosa sono le Due Dita?', 'Perché Renna avversa la loro autorità?'],
+    tags: ['Due Dita', 'obbedienza', 'Renna', 'incantamenti'],
     position: { x: 87, y: 76 },
   },
   {
@@ -744,13 +748,17 @@ const conceptArchive: LoreConcept[] = [
     name: 'Ordine Aureo',
     eyebrow: 'Dottrina ancora oscura',
     category: 'Tema',
-    state: 'da-verificare',
+    state: 'ipotesi',
     liveReadStatus: 'da-leggere',
-    summary: 'Macroconcetto religioso studiato da Corhyn, del quale non conosciamo ancora struttura e segreti.',
-    body: 'Corhyn dichiara di esplorare i segreti dell’Ordine Aureo. Per ora il nome indica una dottrina o un sistema di fede, ma non abbiamo elementi sufficienti per definirne autorità, regole o rapporto con il mondo.',
-    evidence: ['Corhyn ne studia i segreti.', 'È associato agli insegnamenti religiosi della Tavola Rotonda.'],
-    questions: ['Che cos’è esattamente l’Ordine Aureo?', 'Quale rapporto ha con le Due Dita?'],
-    tags: ['Ordine Aureo', 'fede', 'Corhyn', 'mistero'],
+    summary: 'Macroconcetto religioso studiato da Corhyn che sembra strettamente legato all’autorità delle Due Dita.',
+    body: 'Corhyn è contemporaneamente fedele delle Due Dita, insegnante della forza da loro concessa e studioso dei segreti dell’Ordine Aureo. Questa sovrapposizione suggerisce un legame stretto fra l’Ordine e le Due Dita, anche se non sappiamo ancora se queste ultime lo guidino, lo rappresentino o ne siano soltanto interpreti.',
+    evidence: [
+      'Corhyn è fedele alle Due Dita.',
+      'Insegna incantamenti concessi dalle Due Dita.',
+      'Lo stesso Corhyn studia i segreti dell’Ordine Aureo.',
+    ],
+    questions: ['Che cos’è esattamente l’Ordine Aureo?', 'Le Due Dita lo guidano o lo interpretano?'],
+    tags: ['Ordine Aureo', 'fede', 'Corhyn', 'Due Dita'],
     position: { x: 10, y: 93 },
   },
   {
@@ -818,6 +826,7 @@ const conceptArchive: LoreConcept[] = [
 ]
 
 const currentEpisodeConceptIds = new Set([
+  'due-dita',
   'fia',
   'gideon-ofnir',
   'caelid',
@@ -1273,6 +1282,14 @@ export const connections: LoreConnection[] = [
     label: 'studia i segreti',
     note: 'Corhyn esplora i segreti dell’Ordine Aureo.',
     kind: 'traccia',
+  },
+  {
+    id: 'ordine-aureo-due-dita',
+    from: 'ordine-aureo',
+    to: 'due-dita',
+    label: 'autorità religiosa?',
+    note: 'Corhyn serve le Due Dita, insegna il potere che concedono e studia l’Ordine Aureo: il legame sembra stretto, ma la gerarchia fra i due concetti resta da chiarire.',
+    kind: 'ipotesi',
   },
   {
     id: 'corhyn-incantamenti',

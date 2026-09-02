@@ -108,9 +108,9 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '07',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 61)
-assert.equal(await page.locator('.thread-layer line').count(), 122)
-assert.equal(await page.locator('.relation-list button').count(), 61)
+assert.equal(await page.locator('.thread-layer g').count(), 62)
+assert.equal(await page.locator('.thread-layer line').count(), 124)
+assert.equal(await page.locator('.relation-list button').count(), 62)
 assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 36)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 8)
 assert.deepEqual(
@@ -148,8 +148,8 @@ assert.deepEqual(
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*21/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*6/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 28)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 16)
+assert.equal(await page.locator('.concept-card.is-read').count(), 27)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 17)
 assert.equal(await page.locator('.concept-card.is-read').filter({ hasText: 'Scintipietra' }).count(), 1)
 assert.equal(
   await page.locator('.concept-card.is-read').filter({ hasText: 'Accademia di Raya Lucaria' }).count(),
@@ -166,14 +166,28 @@ assert.match(
   (await page.locator('.concept-card.is-unread').filter({ hasText: 'Sir Gideon Ofnir' }).textContent()) || '',
   /soltanto ospiti/i,
 )
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 25)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 25)
-assert.match(await page.locator('.board-live-note').textContent(), /16 novità da leggere/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*16/)
+assert.match(
+  (await page
+    .locator('.concept-card.is-unread')
+    .filter({ has: page.getByRole('heading', { name: 'Due Dita', exact: true }) })
+    .textContent()) || '',
+  /avversione/i,
+)
+assert.match(
+  (await page
+    .locator('.concept-card.is-unread')
+    .filter({ has: page.getByRole('heading', { name: 'Ordine Aureo', exact: true }) })
+    .textContent()) || '',
+  /legato all’autorità delle Due Dita/i,
+)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 27)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 27)
+assert.match(await page.locator('.board-live-note').textContent(), /17 novità da leggere/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*17/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Caelid')
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Due Dita')
 assert.match(await page.locator('.dialog-content').textContent(), /Da leggere in live/)
 await page.locator('.dialog-close').click()
 await page.waitForURL(/#\/board$/)
