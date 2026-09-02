@@ -39,7 +39,7 @@ await page.reload({ waitUntil: 'domcontentloaded' })
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
-assert.equal(await page.locator('.concept-card').count(), 30)
+assert.equal(await page.locator('.concept-card').count(), 44)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -61,9 +61,7 @@ assert.deepEqual(
     'Melina',
     'Hoarah Loux',
     'Goldmask',
-    'Fia',
     'Mangiasterco',
-    'Sir Gideon Ofnir l’Onnisciente',
     'Varré',
     'Strega Renna',
     'Due Dita',
@@ -73,21 +71,48 @@ assert.deepEqual(
     'Spiriti',
     'Accademia di Raya Lucaria',
     'Scintipietra',
+    'Caelid',
+    'Palude di Aeonia',
+    'Marcescenza',
+    'Sellia, città della stregoneria',
+    'Tavola Rotonda',
+    'Diallos Hoslow',
+    'Fratello Corhyn',
+    'D, Cacciatore di Morti',
+    'Fia',
+    'Sir Gideon Ofnir l’Onnisciente',
+    'Maestro Fabbro Hewg',
+    'Ordine Aureo',
+    'Incantamenti delle Due Dita',
+    'Fiamma della Rovina',
+    'Coloro che vivono nella morte',
+    'Santa Trina',
   ],
 )
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
-assert.equal(await page.locator('.board-zone').count(), 4)
+assert.equal(await page.locator('.board-zone').count(), 7)
 assert.match(await page.locator('.board-zones').textContent(), /Ordine spezzato/)
 assert.match(await page.locator('.board-zones').textContent(), /Chiamata dei Senzaluce/)
 assert.match(await page.locator('.board-zones').textContent(), /Primi incontri in Sepolcride/)
 assert.match(await page.locator('.board-zones').textContent(), /Sapere delle stelle/)
-assert.deepEqual(await page.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03', '04'])
+assert.match(await page.locator('.board-zones').textContent(), /Caelid e terre marcescenti/)
+assert.match(await page.locator('.board-zones').textContent(), /Visitatori della Tavola Rotonda/)
+assert.match(await page.locator('.board-zones').textContent(), /Fede, morte e sonno/)
+assert.deepEqual(await page.locator('.board-zone__heading small').allTextContents(), [
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 38)
-assert.equal(await page.locator('.thread-layer line').count(), 76)
-assert.equal(await page.locator('.relation-list button').count(), 38)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 25)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
+assert.equal(await page.locator('.thread-layer g').count(), 61)
+assert.equal(await page.locator('.thread-layer line').count(), 122)
+assert.equal(await page.locator('.relation-list button').count(), 61)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 36)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 8)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -96,6 +121,9 @@ assert.deepEqual(
     'Godrick l’Innestato',
     'Due Dita',
     'Accademia di Raya Lucaria',
+    'Tavola Rotonda',
+    'Ordine Aureo',
+    'Coloro che vivono nella morte',
   ],
 )
 await page.locator('.concept-card img').evaluateAll((images) => {
@@ -118,18 +146,34 @@ assert.deepEqual(
   [],
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*16/)
-assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*2/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 6)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 24)
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 32)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 32)
-assert.match(await page.locator('.board-live-note').textContent(), /24 novità da leggere/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*24/)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*21/)
+assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*6/)
+assert.equal(await page.locator('.concept-card.is-read').count(), 28)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 16)
+assert.equal(await page.locator('.concept-card.is-read').filter({ hasText: 'Scintipietra' }).count(), 1)
+assert.equal(
+  await page.locator('.concept-card.is-read').filter({ hasText: 'Accademia di Raya Lucaria' }).count(),
+  1,
+)
+assert.match(
+  (await page
+    .locator('.concept-card.is-unread')
+    .filter({ has: page.getByRole('heading', { name: 'Fia', exact: true }) })
+    .textContent()) || '',
+  /forza dei campioni/i,
+)
+assert.match(
+  (await page.locator('.concept-card.is-unread').filter({ hasText: 'Sir Gideon Ofnir' }).textContent()) || '',
+  /soltanto ospiti/i,
+)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 25)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 25)
+assert.match(await page.locator('.board-live-note').textContent(), /16 novità da leggere/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*16/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Regina Marika l’Eterna')
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Caelid')
 assert.match(await page.locator('.dialog-content').textContent(), /Da leggere in live/)
 await page.locator('.dialog-close').click()
 await page.waitForURL(/#\/board$/)
@@ -345,14 +389,22 @@ if ((await postRunGate.count()) > 0) {
 const zoomedDesktop = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await zoomedDesktop.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
 await assertBoardZonesSpanCanvas(zoomedDesktop)
-assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTextContents(), ['01', '02', '03', '04'])
+assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTextContents(), [
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+])
 await zoomedDesktop.close()
 
 const migratedBoard = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await migratedBoard.addInitScript(() => {
-  localStorage.removeItem('elden-rhapsody:board-positions-v3')
+  localStorage.removeItem('elden-rhapsody:board-positions-v4')
   localStorage.setItem(
-    'elden-rhapsody:board-positions-v2',
+    'elden-rhapsody:board-positions-v3',
     JSON.stringify({ 'elden-ring': { x: 51, y: 52 } }),
   )
 })
@@ -362,13 +414,13 @@ const migratedPosition = await migratedBoard.locator('.concept-card').first().ev
   top: Number.parseFloat(card.style.top),
 }))
 assert.equal(migratedPosition.left, 51)
-assert.ok(Math.abs(migratedPosition.top - (52 * 3600) / 4400) < 0.01)
-await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v3'))
+assert.ok(Math.abs(migratedPosition.top - (52 * 4400) / 8000) < 0.01)
+await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v4'))
 assert.equal(
   await migratedBoard.evaluate(() =>
-    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v3') || '{}')).length,
+    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v4') || '{}')).length,
   ),
-  30,
+  44,
 )
 await migratedBoard.close()
 

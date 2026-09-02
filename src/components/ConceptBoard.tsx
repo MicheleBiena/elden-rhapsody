@@ -22,42 +22,90 @@ import type { BoardPosition, ConceptCategory, LoreConcept } from '../types'
 import { ConceptImage } from './ConceptImage'
 
 const legacyBoardHeight = 3600
-const boardHeight = 4400
-const legacyPositionScale = legacyBoardHeight / boardHeight
-const extendedLayoutConceptIds = new Set([
+const previousBoardHeight = 4400
+const boardHeight = 8000
+const previousLayoutConceptIds = new Set([
   'accademia-raya-lucaria',
   'scintipietra',
 ])
+const currentLayoutConceptIds = new Set([
+  'caelid',
+  'palude-aeonia',
+  'marcescenza',
+  'sellia',
+  'tavola-rotonda',
+  'diallos',
+  'corhyn',
+  'd-cacciatore',
+  'hewg',
+  'ordine-aureo',
+  'incantamenti-due-dita',
+  'fiamma-della-rovina',
+  'coloro-che-vivono-nella-morte',
+  'santa-trina',
+])
+const layoutOverrides: Record<string, BoardPosition> = {
+  fia: { x: 90, y: 76 },
+  'gideon-ofnir': { x: 30, y: 83 },
+}
 
 const defaultPositions = Object.fromEntries(
-  concepts.map((concept) => [
-    concept.id,
-    extendedLayoutConceptIds.has(concept.id)
-      ? concept.position
-      : { ...concept.position, y: concept.position.y * legacyPositionScale },
-  ]),
+  concepts.map((concept) => {
+    const override = layoutOverrides[concept.id]
+    if (override) return [concept.id, override]
+    if (currentLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+
+    const sourceHeight = previousLayoutConceptIds.has(concept.id)
+      ? previousBoardHeight
+      : legacyBoardHeight
+    return [
+      concept.id,
+      { ...concept.position, y: concept.position.y * (sourceHeight / boardHeight) },
+    ]
+  }),
 ) as Record<string, BoardPosition>
+
+function migrateBoardPositions(
+  savedPositions: Record<string, BoardPosition>,
+  sourceHeight: number,
+) {
+  return Object.fromEntries(
+    concepts.map((concept) => {
+      const override = layoutOverrides[concept.id]
+      const savedPosition = savedPositions[concept.id]
+      return [
+        concept.id,
+        override ||
+          (savedPosition
+            ? { ...savedPosition, y: savedPosition.y * (sourceHeight / boardHeight) }
+            : defaultPositions[concept.id]),
+      ]
+    }),
+  ) as Record<string, BoardPosition>
+}
 
 function getInitialBoardPositions() {
   try {
-    const saved = window.localStorage.getItem('elden-rhapsody:board-positions-v2')
-    if (!saved) return defaultPositions
+    const previousSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v3')
+    if (previousSaved) {
+      return migrateBoardPositions(
+        JSON.parse(previousSaved) as Record<string, BoardPosition>,
+        previousBoardHeight,
+      )
+    }
 
-    const legacyPositions = JSON.parse(saved) as Record<string, BoardPosition>
-    return Object.fromEntries(
-      concepts.map((concept) => {
-        const legacyPosition = legacyPositions[concept.id]
-        return [
-          concept.id,
-          legacyPosition
-            ? { ...legacyPosition, y: legacyPosition.y * legacyPositionScale }
-            : defaultPositions[concept.id],
-        ]
-      }),
-    ) as Record<string, BoardPosition>
+    const legacySaved = window.localStorage.getItem('elden-rhapsody:board-positions-v2')
+    if (legacySaved) {
+      return migrateBoardPositions(
+        JSON.parse(legacySaved) as Record<string, BoardPosition>,
+        legacyBoardHeight,
+      )
+    }
   } catch {
-    return defaultPositions
+    // Invalid or blocked storage falls back to the curated layout.
   }
+
+  return defaultPositions
 }
 
 const stateLabels = {
@@ -77,8 +125,8 @@ const zoomStep = 0.1
 const boardPositionBounds = {
   minX: 10,
   maxX: 90,
-  minY: 5.5,
-  maxY: 94,
+  minY: 3,
+  maxY: 96,
 } as const
 
 const categoryOrder: ConceptCategory[] = [
@@ -116,9 +164,7 @@ const boardConceptOrder = [
   'melina',
   'hoarah-loux',
   'goldmask',
-  'fia',
   'mangiasterco',
-  'gideon-ofnir',
   'varre',
   'strega-sconosciuta',
   'due-dita',
@@ -128,6 +174,22 @@ const boardConceptOrder = [
   'spiriti',
   'accademia-raya-lucaria',
   'scintipietra',
+  'caelid',
+  'palude-aeonia',
+  'marcescenza',
+  'sellia',
+  'tavola-rotonda',
+  'diallos',
+  'corhyn',
+  'd-cacciatore',
+  'fia',
+  'gideon-ofnir',
+  'hewg',
+  'ordine-aureo',
+  'incantamenti-due-dita',
+  'fiamma-della-rovina',
+  'coloro-che-vivono-nella-morte',
+  'santa-trina',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -139,29 +201,50 @@ const boardZones = [
     id: 'ordine-spezzato',
     label: 'Ordine spezzato',
     note: 'Marika, l’Elden Ring e la guerra dei semidei',
-    top: 0.8,
-    height: 31.1,
+    top: 0.4,
+    height: 17.2,
   },
   {
     id: 'chiamata-senzaluce',
     label: 'Chiamata dei Senzaluce',
     note: 'Grazia, vergini e figure dell’introduzione',
-    top: 34.4,
-    height: 32.7,
+    top: 18.9,
+    height: 18,
   },
   {
     id: 'primi-incontri',
     label: 'Primi incontri in Sepolcride',
     note: 'Mercanti, compagni e nuove domande sulla morte',
-    top: 68.7,
-    height: 11.5,
+    top: 37.8,
+    height: 6.3,
   },
   {
     id: 'sapere-delle-stelle',
     label: 'Sapere delle stelle',
     note: 'Astrologi, stregoneria e l’Accademia di Raya Lucaria',
-    top: 82,
+    top: 45.1,
+    height: 8.8,
+  },
+  {
+    id: 'terre-marcescenti',
+    label: 'Caelid e terre marcescenti',
+    note: 'Aeonia, Sellia e la contaminazione scarlatta',
+    top: 56,
+    height: 12,
+  },
+  {
+    id: 'tavola-rotonda',
+    label: 'Visitatori della Tavola Rotonda',
+    note: 'Ospiti, membri e prigionieri raccolti attorno alla Tavola',
+    top: 70,
     height: 16,
+  },
+  {
+    id: 'fede-morte-sonno',
+    label: 'Fede, morte e sonno',
+    note: 'Due Dita, Ordine Aureo e dottrine ai margini',
+    top: 88,
+    height: 10,
   },
 ] as const
 
@@ -183,7 +266,7 @@ export function ConceptBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v3',
+    'elden-rhapsody:board-positions-v4',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
