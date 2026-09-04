@@ -18,6 +18,7 @@ import {
 } from 'react'
 import { concepts, connections } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
+import { isSafeContentUrl } from '../lib/urls'
 import type { BoardPosition, ConceptCategory, LoreConcept } from '../types'
 import { ConceptImage } from './ConceptImage'
 
@@ -29,6 +30,12 @@ const previousLayoutConceptIds = new Set([
   'scintipietra',
 ])
 const currentLayoutConceptIds = new Set([
+  'godfrey',
+  'irina',
+  'galere-eterne',
+  'sellen',
+  'cavalieri-cuculo',
+  'cristalliani',
   'caelid',
   'palude-aeonia',
   'marcescenza',
@@ -39,12 +46,23 @@ const currentLayoutConceptIds = new Set([
   'd-cacciatore',
   'hewg',
   'ordine-aureo',
-  'incantamenti-due-dita',
   'fiamma-della-rovina',
   'coloro-che-vivono-nella-morte',
   'santa-trina',
 ])
 const layoutOverrides: Record<string, BoardPosition> = {
+  godfrey: { x: 38, y: 9 },
+  'mercante-kale': { x: 10, y: 40.5 },
+  boc: { x: 30, y: 40.5 },
+  roderika: { x: 50, y: 40.5 },
+  irina: { x: 70, y: 40.5 },
+  'galere-eterne': { x: 90, y: 40.5 },
+  'accademia-raya-lucaria': { x: 10, y: 47.85 },
+  scintipietra: { x: 30, y: 47.85 },
+  sellen: { x: 50, y: 47.85 },
+  'cavalieri-cuculo': { x: 70, y: 47.85 },
+  cristalliani: { x: 90, y: 47.85 },
+  spiriti: { x: 30, y: 93 },
   fia: { x: 90, y: 76 },
   'gideon-ofnir': { x: 30, y: 83 },
 }
@@ -86,6 +104,14 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const currentSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v4')
+    if (currentSaved) {
+      return migrateBoardPositions(
+        JSON.parse(currentSaved) as Record<string, BoardPosition>,
+        boardHeight,
+      )
+    }
+
     const previousSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v3')
     if (previousSaved) {
       return migrateBoardPositions(
@@ -151,7 +177,7 @@ const boardConceptOrder = [
   'notte-neri-coltelli',
   'runa-della-morte',
   'albero-madre',
-  'semi-doro',
+  'godfrey',
   'guerra-shattering',
   'semidei',
   'miquella',
@@ -171,9 +197,13 @@ const boardConceptOrder = [
   'mercante-kale',
   'boc',
   'roderika',
-  'spiriti',
+  'irina',
+  'galere-eterne',
   'accademia-raya-lucaria',
   'scintipietra',
+  'sellen',
+  'cavalieri-cuculo',
+  'cristalliani',
   'caelid',
   'palude-aeonia',
   'marcescenza',
@@ -186,7 +216,7 @@ const boardConceptOrder = [
   'gideon-ofnir',
   'hewg',
   'ordine-aureo',
-  'incantamenti-due-dita',
+  'spiriti',
   'fiamma-della-rovina',
   'coloro-che-vivono-nella-morte',
   'santa-trina',
@@ -213,15 +243,15 @@ const boardZones = [
   },
   {
     id: 'primi-incontri',
-    label: 'Primi incontri in Sepolcride',
-    note: 'Mercanti, compagni e nuove domande sulla morte',
+    label: 'Primi incontri nel viaggio',
+    note: 'Mercanti, richieste e prigioni incontrate nel viaggio',
     top: 37.8,
     height: 6.3,
   },
   {
     id: 'sapere-delle-stelle',
     label: 'Sapere delle stelle',
-    note: 'Astrologi, stregoneria e l’Accademia di Raya Lucaria',
+    note: 'Accademia, scintipietra e correnti di studio',
     top: 45.1,
     height: 8.8,
   },
@@ -242,7 +272,7 @@ const boardZones = [
   {
     id: 'fede-morte-sonno',
     label: 'Fede, morte e sonno',
-    note: 'Due Dita, Ordine Aureo e dottrine ai margini',
+    note: 'Due Dita, spiriti e dottrine ai margini',
     top: 88,
     height: 10,
   },
@@ -266,7 +296,7 @@ export function ConceptBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v4',
+    'elden-rhapsody:board-positions-v5',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
@@ -790,6 +820,27 @@ function ConceptDialog({
           <h2 id="concept-dialog-title">{concept.name}</h2>
           <p className="dialog-lede">{concept.summary}</p>
           <p>{concept.body}</p>
+
+          {concept.gallery && concept.gallery.length > 0 && (
+            <section className="concept-gallery" aria-label={`Immagini aggiuntive di ${concept.name}`}>
+              {concept.gallery
+                .filter((item) => isSafeContentUrl(item.imageUrl))
+                .map((item) => (
+                  <figure key={`${item.imageUrl}-${item.caption}`}>
+                    <img
+                      src={item.imageUrl}
+                      alt={item.imageAlt}
+                      width="720"
+                      height="480"
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                    />
+                    <figcaption>{item.caption}</figcaption>
+                  </figure>
+                ))}
+            </section>
+          )}
 
           {(concept.evidence.length > 0 || concept.questions.length > 0) && (
             <div className="dialog-columns">

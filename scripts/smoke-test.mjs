@@ -39,7 +39,7 @@ await page.reload({ waitUntil: 'domcontentloaded' })
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
-assert.equal(await page.locator('.concept-card').count(), 44)
+assert.equal(await page.locator('.concept-card').count(), 48)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -48,7 +48,7 @@ assert.deepEqual(
     'Notte dei Neri Coltelli',
     'Runa della Morte',
     'Albero Madre',
-    'Semi d’oro',
+    'Godfrey',
     'Guerra dello Shattering',
     'Semidei',
     'Miquella',
@@ -68,9 +68,13 @@ assert.deepEqual(
     'Kalé',
     'Boc',
     'Roderika',
-    'Spiriti',
+    'Irina',
+    'Galere Eterne',
     'Accademia di Raya Lucaria',
     'Scintipietra',
+    'Strega Sellen',
+    'Cavalieri del Cuculo',
+    'Cristalliani',
     'Caelid',
     'Palude di Aeonia',
     'Marcescenza',
@@ -83,7 +87,7 @@ assert.deepEqual(
     'Sir Gideon Ofnir l’Onnisciente',
     'Maestro Fabbro Hewg',
     'Ordine Aureo',
-    'Incantamenti delle Due Dita',
+    'Spiriti',
     'Fiamma della Rovina',
     'Coloro che vivono nella morte',
     'Santa Trina',
@@ -93,7 +97,7 @@ assert.match(await page.locator('.board-origin-note').textContent(), /Da qui ini
 assert.equal(await page.locator('.board-zone').count(), 7)
 assert.match(await page.locator('.board-zones').textContent(), /Ordine spezzato/)
 assert.match(await page.locator('.board-zones').textContent(), /Chiamata dei Senzaluce/)
-assert.match(await page.locator('.board-zones').textContent(), /Primi incontri in Sepolcride/)
+assert.match(await page.locator('.board-zones').textContent(), /Primi incontri nel viaggio/)
 assert.match(await page.locator('.board-zones').textContent(), /Sapere delle stelle/)
 assert.match(await page.locator('.board-zones').textContent(), /Caelid e terre marcescenti/)
 assert.match(await page.locator('.board-zones').textContent(), /Visitatori della Tavola Rotonda/)
@@ -108,11 +112,11 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '07',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 62)
-assert.equal(await page.locator('.thread-layer line').count(), 124)
-assert.equal(await page.locator('.relation-list button').count(), 62)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 36)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 8)
+assert.equal(await page.locator('.thread-layer g').count(), 68)
+assert.equal(await page.locator('.thread-layer line').count(), 136)
+assert.equal(await page.locator('.relation-list button').count(), 68)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 39)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 9)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -121,6 +125,7 @@ assert.deepEqual(
     'Godrick l’Innestato',
     'Due Dita',
     'Accademia di Raya Lucaria',
+    'Cavalieri del Cuculo',
     'Tavola Rotonda',
     'Ordine Aureo',
     'Coloro che vivono nella morte',
@@ -146,10 +151,18 @@ assert.deepEqual(
   [],
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*21/)
-assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*6/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 27)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 17)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*25/)
+assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*7/)
+assert.equal(await page.locator('.concept-card.is-read').count(), 42)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 6)
+assert.deepEqual(await page.locator('.concept-card.is-unread h2').allTextContents(), [
+  'Godfrey',
+  'Irina',
+  'Galere Eterne',
+  'Strega Sellen',
+  'Cavalieri del Cuculo',
+  'Cristalliani',
+])
 assert.equal(await page.locator('.concept-card.is-read').filter({ hasText: 'Scintipietra' }).count(), 1)
 assert.equal(
   await page.locator('.concept-card.is-read').filter({ hasText: 'Accademia di Raya Lucaria' }).count(),
@@ -157,38 +170,53 @@ assert.equal(
 )
 assert.match(
   (await page
-    .locator('.concept-card.is-unread')
+    .locator('.concept-card.is-read')
     .filter({ has: page.getByRole('heading', { name: 'Fia', exact: true }) })
     .textContent()) || '',
   /forza dei campioni/i,
 )
 assert.match(
-  (await page.locator('.concept-card.is-unread').filter({ hasText: 'Sir Gideon Ofnir' }).textContent()) || '',
+  (await page.locator('.concept-card.is-read').filter({ hasText: 'Sir Gideon Ofnir' }).textContent()) || '',
   /soltanto ospiti/i,
 )
 assert.match(
   (await page
-    .locator('.concept-card.is-unread')
+    .locator('.concept-card.is-read')
     .filter({ has: page.getByRole('heading', { name: 'Due Dita', exact: true }) })
     .textContent()) || '',
   /avversione/i,
 )
 assert.match(
   (await page
-    .locator('.concept-card.is-unread')
+    .locator('.concept-card.is-read')
     .filter({ has: page.getByRole('heading', { name: 'Ordine Aureo', exact: true }) })
     .textContent()) || '',
   /legato all’autorità delle Due Dita/i,
 )
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 27)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 27)
-assert.match(await page.locator('.board-live-note').textContent(), /17 novità da leggere/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*17/)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 10)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 10)
+assert.match(await page.locator('.board-live-note').textContent(), /6 novità da leggere/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*6/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Due Dita')
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Godfrey')
 assert.match(await page.locator('.dialog-content').textContent(), /Da leggere in live/)
+await page.locator('.dialog-close').click()
+await page.waitForURL(/#\/board$/)
+
+await page
+  .locator('.concept-card')
+  .filter({ has: page.getByRole('heading', { name: 'Strega Sellen', exact: true }) })
+  .locator('.card-action')
+  .click()
+await page.locator('.concept-dialog[open]').waitFor()
+assert.equal(await page.locator('.concept-gallery figure').count(), 1)
+assert.equal(await page.locator('.concept-gallery figcaption').textContent(), 'Piedi')
+const sellenGalleryImage = page.locator('.concept-gallery img')
+await sellenGalleryImage.waitFor()
+await sellenGalleryImage.evaluate((image) => image.decode())
+assert.ok(await sellenGalleryImage.evaluate((image) => image.naturalWidth > 0))
 await page.locator('.dialog-close').click()
 await page.waitForURL(/#\/board$/)
 
@@ -229,6 +257,7 @@ for (let first = 0; first < desktopCards.length; first += 1) {
 
 const draggedCard = page.locator('.concept-card').first()
 const dragHandle = draggedCard.locator('.drag-handle')
+await draggedCard.scrollIntoViewIfNeeded()
 const cardBeforeDrag = await draggedCard.boundingBox()
 const handleBeforeDrag = await dragHandle.boundingBox()
 assert.ok(cardBeforeDrag && handleBeforeDrag, 'Scheda o maniglia di spostamento non misurabile')
@@ -416,9 +445,9 @@ await zoomedDesktop.close()
 
 const migratedBoard = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await migratedBoard.addInitScript(() => {
-  localStorage.removeItem('elden-rhapsody:board-positions-v4')
+  localStorage.removeItem('elden-rhapsody:board-positions-v5')
   localStorage.setItem(
-    'elden-rhapsody:board-positions-v3',
+    'elden-rhapsody:board-positions-v4',
     JSON.stringify({ 'elden-ring': { x: 51, y: 52 } }),
   )
 })
@@ -428,13 +457,13 @@ const migratedPosition = await migratedBoard.locator('.concept-card').first().ev
   top: Number.parseFloat(card.style.top),
 }))
 assert.equal(migratedPosition.left, 51)
-assert.ok(Math.abs(migratedPosition.top - (52 * 4400) / 8000) < 0.01)
-await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v4'))
+assert.equal(migratedPosition.top, 52)
+await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v5'))
 assert.equal(
   await migratedBoard.evaluate(() =>
-    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v4') || '{}')).length,
+    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v5') || '{}')).length,
   ),
-  44,
+  48,
 )
 await migratedBoard.close()
 
