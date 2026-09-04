@@ -1585,6 +1585,39 @@ main:focus-visible {
   line-height: 1.75;
 }
 
+.concept-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.concept-gallery figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(76, 57, 33, 0.25);
+  border-radius: var(--radius-sm);
+  background: #e3d5b8;
+  box-shadow: 0 10px 24px rgba(45, 32, 17, 0.14);
+}
+
+.concept-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 430px;
+  object-fit: cover;
+}
+
+.concept-gallery figcaption {
+  padding: 10px 12px;
+  color: #493b28;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .dialog-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;

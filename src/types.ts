@@ -18,6 +18,11 @@ export interface LoreConcept {
   body: string
   imageUrl?: string
   imageAlt?: string
+  gallery?: Array<{
+    imageUrl: string
+    imageAlt: string
+    caption: string
+  }>
   evidence: string[]
   questions: string[]
   tags: string[]

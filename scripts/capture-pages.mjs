@@ -9,7 +9,7 @@ const executablePath =
 const cases = [
   { name: 'board-desktop', route: '#/board', width: 1440, height: 1000 },
   { name: 'board-mobile', route: '#/board', width: 375, height: 812 },
-  { name: 'dialog-mobile', route: '#/board/elden-ring', width: 375, height: 812 },
+  { name: 'dialog-sellen-mobile', route: '#/board/sellen', width: 375, height: 812 },
   { name: 'map-desktop', route: '#/map', width: 1440, height: 1000 },
   {
     name: 'map-loaded',
@@ -134,7 +134,10 @@ for (const testCase of cases) {
       `${testCase.name}: MapGenie non ha applicato la camera di Sepolcride`,
     )
   }
-  await page.screenshot({ path: `artifacts/${testCase.name}.png`, fullPage: true })
+  await page.screenshot({
+    path: `artifacts/${testCase.name}.png`,
+    fullPage: !testCase.name.startsWith('dialog-'),
+  })
 
   const metrics = await page.evaluate(() => {
     const undersizedControls = [...document.querySelectorAll('button, .nav-tab, summary')]
