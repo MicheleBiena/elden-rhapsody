@@ -353,6 +353,10 @@ await page.locator('a[href="#/map"]').click()
 await page.waitForURL(/#\/map$/)
 
 const discoveredMap = page.locator('.discovered-map__canvas')
+const discoveredMapImage = discoveredMap.locator('img')
+await discoveredMapImage.waitFor()
+await discoveredMapImage.evaluate((image) => image.decode())
+await page.evaluate(() => window.scrollTo(0, 0))
 await discoveredMap.scrollIntoViewIfNeeded()
 await discoveredMap.evaluate((element) => {
   const rect = element.getBoundingClientRect()
