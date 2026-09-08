@@ -27,12 +27,10 @@
     .brand small { display:block; color:var(--muted); font-size:9px; letter-spacing:.2em; text-transform:uppercase; margin-top:3px; }
     .masthead nav { display:flex; align-items:center; gap:28px; font-size:13px; }
     .current { border-bottom:1px solid var(--gold); padding:10px 2px; color:var(--gold); }
-    .edition { color:var(--muted); font:italic 15px var(--serif); }
     .intro { display:flex; justify-content:space-between; align-items:end; padding:30px 28px 26px; gap:22px; }
     .eyebrow { margin:0 0 10px; color:var(--gold); text-transform:uppercase; letter-spacing:.18em; font-size:10px; font-weight:700; }
     h1 { font:400 clamp(34px,4vw,52px)/1 var(--serif); letter-spacing:-.04em; margin:0; }
     h1 em { font-weight:400; color:#d4c09a; }
-    .intro p:last-child { color:var(--muted); font-size:13px; margin:10px 0 0; }
     .live-start { min-height:46px; border:1px solid #d5bf92; background:#d5bf92; color:#272719; padding:0 18px; border-radius:3px; font-weight:700; white-space:nowrap; }
     .live-start:hover { background:#e4d1a9; }
     .workspace { margin:0 28px 22px; border:1px solid #65654d77; border-radius:5px; overflow:hidden; display:grid; grid-template-columns:182px minmax(400px,1fr) 310px; min-height:640px; }
@@ -43,7 +41,6 @@
     .rail li small { font-size:10px; opacity:.8; font-variant-numeric:tabular-nums; }
     .rail li.active { color:#efe4cf; background:#3b4138; border-left:2px solid var(--gold); }
     .rail .rail-note { border-top:1px solid var(--line); padding:20px 10px 0; margin-top:32px; font-size:12px; color:var(--muted); line-height:1.65; }
-    .rail-note strong { display:block; color:var(--ink); font-weight:500; }
     .middle { min-width:0; background:var(--board); display:flex; flex-direction:column; }
     .toolbar { padding:12px 16px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; border-bottom:1px solid var(--line); background:#202620; }
     .search { display:flex; gap:9px; flex:1 1 130px; min-width:100px; align-items:center; color:var(--muted); }
@@ -120,15 +117,14 @@
   <div class="study"><span>STUDIO D’INTERFACCIA / 01 · Anteprima interattiva, cinque schede</span><a href="https://michelebiena.github.io/elden-rhapsody/#/board">Apri il sito attuale ↗</a></div>
   <header class="masthead">
     <div class="brand"><span class="sigil" aria-hidden="true"><svg width="26" height="32" viewBox="0 0 26 32"><path d="M13 1v30M3 7l20 18M23 7L3 25" stroke="currentColor" fill="none"/></svg></span><div><strong>Elden Rhapsody</strong><small>Archivio di una blind run</small></div></div>
-    <nav aria-label="Contesto dell’anteprima"><span class="current">La lavagna</span><span class="edition">Ogni legame, una scoperta.</span></nav>
-    <div class="edition">Interregno · Diario aperto</div>
+    <nav aria-label="Contesto dell’anteprima"><span class="current">La lavagna</span></nav>
   </header>
-  <section class="intro"><div><p class="eyebrow">Dall’ultima live / Penisola del Pianto</p><h1>Le tracce di <em>Castel Morne.</em></h1><p>Un castello in rivolta. Una lettera consegnata. Cinque appunti da riprendere.</p></div><button class="live-start" id="start">Inizia la lettura · 5 appunti →</button></section>
+  <section class="intro"><div><p class="eyebrow">Ultima live · Penisola del Pianto</p><h1>Castel Morne</h1></div><button class="live-start" id="start">Leggi i 5 appunti →</button></section>
   <main class="workspace">
     <aside class="rail" aria-label="Indice illustrativo dell’archivio">
       <p class="eyebrow">I fascicoli</p>
       <ol><li><small>01</small>Ordine spezzato</li><li><small>02</small>La chiamata</li><li><small>03</small>Primi incontri</li><li><small>04</small>Le stelle</li><li class="active"><small>05</small>Castel Morne</li><li><small>06</small>Caelid</li><li><small>07</small>Tavola Rotonda</li><li><small>08</small>Fede e morte</li></ol>
-      <div class="rail-note"><strong>Un filo alla volta.</strong>Seleziona un appunto per seguirne i legami e leggerlo qui accanto.</div>
+      <div class="rail-note">Seleziona un appunto per leggere dettagli e collegamenti.</div>
     </aside>
     <section class="middle" aria-label="Lavagna di Castel Morne">
       <div class="toolbar">
@@ -136,7 +132,7 @@
         <button class="control" id="focus" aria-pressed="true">Fili della selezione</button>
         <button class="control" id="theme" aria-pressed="false">Sughero caldo</button>
       </div>
-      <div class="canvas" id="canvas"><div class="canvas-heading"><strong>05 / Una fortezza, due doveri</strong><span id="count" aria-live="polite">5 appunti · 7 legami interni</span></div><svg class="wires" id="wires" aria-hidden="true"></svg></div>
+      <div class="canvas" id="canvas"><div class="canvas-heading"><span id="count" aria-live="polite">5 appunti · 7 legami interni</span></div><svg class="wires" id="wires" aria-hidden="true"></svg></div>
       <div class="footer-strip"><span>Traccia osservata</span><span>Collegamenti esterni nel fascicolo →</span></div>
     </section>
     <aside class="inspector" aria-labelledby="title">
@@ -147,13 +143,12 @@
       <div class="stepper"><span id="progress" aria-live="polite">Appunto 1 di 5</span><button id="next">Successivo →</button></div>
     </aside>
   </main>
-  <footer class="study-bottom"><span>Direzione proposta: sughero scuro, carta avorio, ottone opaco e fili rossi.</span><span>Prova: selezione · ricerca · fili · lettura guidata · due atmosfere</span></footer>
   <script>
     const assets = '../../public/concepts/';
     const notes = [
-      { id:'irina', name:'Irina', image:'irina.png', category:'Personaggio', status:'Aggiornata · da leggere', hint:'La lettera. Il ritorno. La tragedia.', x:22, y:29, angle:'-2deg', body:'Dopo aver portato la sua lettera a Edgar, ritroviamo Irina senza vita al Ponte dei Sacrifici. Accanto al corpo c’è un’arma usata dalle Progenie. Non abbiamo ancora riferito la morte a suo padre.', question:'Domanda aperta / Come reagirà Edgar quando lo saprà?' },
-      { id:'castel-morne', name:'Castel Morne', image:'castel-morne.png', category:'Luogo', status:'Nuovo · da leggere', hint:'La fortezza travolta dalla rivolta.', x:51, y:51, angle:'.5deg', body:'Nella Penisola del Pianto, le Progenie hanno travolto gran parte della guarnigione di Castel Morne. Edgar, nominato castellano da Godrick, resta al proprio posto per senso del dovere.', question:'Collegamento esterno / L’autorità di Godrick arriva fino a questa fortezza.' },
-      { id:'edgar-castellano', name:'Edgar', image:'edgar.png', category:'Personaggio', status:'Nuovo · da leggere', hint:'Il padre che resta al proprio posto.', x:80, y:29, angle:'1.5deg', body:'Padre di Irina e castellano nominato da Godrick. Ha ricevuto la lettera e ci ha donato un ramoscello. La quest resta aperta: non siamo tornati da lui dopo aver trovato Irina morta.', question:'Domanda aperta / Che cosa lo tiene ancora legato al proprio dovere?' },
+      { id:'irina', name:'Irina', image:'irina.png', category:'Personaggio', status:'Aggiornata · da leggere', hint:'Trovata morta dopo la consegna della lettera.', x:22, y:29, angle:'-2deg', body:'Dopo aver portato la sua lettera a Edgar, ritroviamo Irina senza vita al Ponte dei Sacrifici. Accanto al corpo c’è un’arma usata dalle Progenie. Non abbiamo ancora riferito la morte a suo padre.', question:'Domanda aperta / Come reagirà Edgar quando lo saprà?' },
+      { id:'castel-morne', name:'Castel Morne', image:'castel-morne.png', category:'Luogo', status:'Nuovo · da leggere', hint:'Rivolta delle Progenie.', x:51, y:51, angle:'.5deg', body:'Nella Penisola del Pianto, le Progenie hanno travolto gran parte della guarnigione di Castel Morne. Edgar, nominato castellano da Godrick, resta al proprio posto per senso del dovere.', question:'Collegamento esterno / Edgar è stato nominato da Godrick.' },
+      { id:'edgar-castellano', name:'Edgar', image:'edgar.png', category:'Personaggio', status:'Nuovo · da leggere', hint:'Padre di Irina e castellano di Morne.', x:80, y:29, angle:'1.5deg', body:'Padre di Irina e castellano nominato da Godrick. Ha ricevuto la lettera e ci ha donato un ramoscello. La quest resta aperta: non siamo tornati da lui dopo aver trovato Irina morta.', question:'Stato della run / Quest non conclusa.' },
       { id:'progenie', name:'Progenie', image:'progenie.jpeg', category:'Tema', status:'Nuovo · da leggere', hint:'I servitori insorti contro Edgar.', x:22, y:76, angle:'-1deg', position:'100% 35%', body:'Creature umanoidi dai tratti animali, insorte contro Edgar e la guarnigione. Il loro aspetto ricorda quello del fabbro Hewg: è una somiglianza visiva, ancora da verificare.', question:'Ipotesi esterna / Hewg potrebbe appartenere allo stesso popolo?' },
       { id:'progenie-leonina', name:'Progenie Leonina', image:'progenie-leonina.jpg', category:'Personaggio', status:'Nuovo · da leggere', hint:'Bossfight ancora aperta.', x:80, y:76, angle:'2deg', body:'Una grande Progenie dalla criniera rossa, armata di spada. La incontriamo oltre l’estremità meridionale di Castel Morne. Il combattimento è iniziato, ma il boss non è stato sconfitto.', question:'Stato della run / Scontro non concluso.' }
     ];

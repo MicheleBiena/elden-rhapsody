@@ -1035,6 +1035,9 @@ const currentEpisodeConceptIds = new Set([
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
   liveReadStatus: currentEpisodeConceptIds.has(concept.id) ? 'da-leggere' : 'gia-letto',
+  liveUpdateKind: currentEpisodeConceptIds.has(concept.id)
+    ? concept.id === 'irina' ? 'aggiornata' : 'nuova'
+    : undefined,
 }))
 
 export const connections: LoreConnection[] = [
@@ -1941,8 +1944,10 @@ export const mapgenieEmbedUrl =
   'https://mapgenie.io/elden-ring/maps/the-lands-between?embed=light&locationIds=-1&route=p0%3B0&popup=false&x=-0.718767643&y=0.62524538&zoom=13.3'
 
 export const currentMapStage = {
-  id: 'sepolcride-01',
-  label: 'Sepolcride',
-  imageUrl: './maps/sepolcride-01.webp' as string | undefined,
-  imageAlt: 'Frammento di Sepolcride scoperto durante la blind run',
+  id: 'sepolcride-penisola-del-pianto',
+  label: 'Sepolcride e Penisola del Pianto',
+  imageUrl: './maps/sepolcride-penisola-del-pianto.jpg' as string | undefined,
+  imageAlt: 'Mappa di Sepolcride e della Penisola del Pianto scoperte durante la blind run',
+  width: 1080,
+  height: 1509,
 }

@@ -36,9 +36,10 @@ async function assertBoardZonesSpanCanvas(targetPage) {
 await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
 await page.evaluate(() => localStorage.clear())
 await page.reload({ waitUntil: 'domcontentloaded' })
+await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
 
 assert.equal(new URL(page.url()).hash, '#/board')
-assert.equal(await page.locator('h1').textContent(), 'La trama nascosta')
+assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
 assert.equal(await page.locator('.concept-card').count(), 50)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
@@ -407,7 +408,7 @@ assert.ok(
   Math.abs(Number(coordinateMatch[2]) - 40) < 0.5,
   `Coordinata Y inattesa: ${selectedCoordinates}`,
 )
-assert.equal(await page.getByLabel('Regione').inputValue(), 'Sepolcride')
+assert.equal(await page.getByLabel('Regione').inputValue(), 'Sepolcride e Penisola del Pianto')
 assert.equal(await page.locator('.map-annotation-pin.is-draft').count(), 1)
 await page.getByLabel('Nome del punto').fill('Punto di prova')
 await page.getByRole('button', { name: 'Salva il punto' }).click()
@@ -458,6 +459,7 @@ if ((await postRunGate.count()) > 0) {
 // A 1920 px window at 150% browser zoom exposes roughly a 1280 px CSS viewport.
 const zoomedDesktop = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await zoomedDesktop.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
+await zoomedDesktop.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
 await assertBoardZonesSpanCanvas(zoomedDesktop)
 assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTextContents(), [
   '01',
@@ -474,6 +476,7 @@ await zoomedDesktop.close()
 const migratedBoard = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await migratedBoard.addInitScript(() => {
   localStorage.removeItem('elden-rhapsody:board-positions-v6')
+  localStorage.setItem('elden-rhapsody:board-view', JSON.stringify('classic'))
   localStorage.setItem(
     'elden-rhapsody:board-positions-v5',
     JSON.stringify({ 'elden-ring': { x: 51, y: 52 } }),
@@ -497,6 +500,7 @@ await migratedBoard.close()
 
 const mobile = await browser.newPage({ viewport: { width: 375, height: 812 } })
 await mobile.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
+await mobile.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
 for (let step = 0; step < 4; step += 1) {
   await mobile.getByRole('button', { name: 'Aumenta zoom' }).click()
 }
