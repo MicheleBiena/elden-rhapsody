@@ -646,6 +646,7 @@ const conceptArchive: LoreConcept[] = [
     body: 'Le Progenie hanno corpi umanoidi irregolari, pelle e pelliccia segnate, artigli e tratti che ricordano animali diversi; alcuni individui mostrano anche ali o una folta criniera. A Castel Morne erano sottoposte alla guarnigione, ma si sono ribellate e hanno occupato la fortezza. La loro fisionomia ricorda quella del fabbro Hewg: per ora è soltanto una somiglianza visiva, non una parentela confermata.',
     imageUrl: './concepts/progenie.jpeg',
     imageAlt: 'Una Progenie curva e armata fra le mura di Castel Morne',
+    imagePosition: '100% center',
     evidence: [
       'Hanno caratteristiche umanoidi e animali insieme.',
       'Le Progenie di Castel Morne si sono ribellate contro Edgar e i soldati.',

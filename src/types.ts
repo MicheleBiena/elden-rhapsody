@@ -18,6 +18,7 @@ export interface LoreConcept {
   body: string
   imageUrl?: string
   imageAlt?: string
+  imagePosition?: string
   gallery?: Array<{
     imageUrl: string
     imageAlt: string
