@@ -19,6 +19,7 @@ export function ConceptImage({ concept, large = false }: ConceptImageProps) {
       <img
         className={`concept-image${large ? ' concept-image--large' : ''}`}
         src={concept.imageUrl}
+        style={concept.imagePosition ? { objectPosition: concept.imagePosition } : undefined}
         alt={concept.imageAlt || `Immagine collegata a ${concept.name}`}
         width={large ? 960 : 360}
         height={large ? 540 : 220}
