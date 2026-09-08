@@ -620,6 +620,7 @@ const conceptArchive: LoreConcept[] = [
       'Padre di Irina e comandante di Castel Morne, nominato da Godrick: resta nella fortezza nonostante la rivolta.',
     body: 'Edgar guida Castel Morne per nomina diretta di Godrick. Dopo aver ricevuto la lettera di Irina ringrazia il Senzaluce, gli dona un ramoscello e promette di raggiungere la figlia, ma sostiene di non poter lasciare la fortezza finché il suo dovere non sarà compiuto. Non siamo ancora tornati da lui dopo la morte di Irina, quindi la sua quest resta aperta.',
     imageUrl: './concepts/edgar.png',
+    imagePosition: '50% 10%',
     imageAlt: 'Edgar siede in armatura sulle mura di Castel Morne',
     evidence: [
       'È il padre di Irina e il comandante di Castel Morne.',
@@ -646,7 +647,7 @@ const conceptArchive: LoreConcept[] = [
     body: 'Le Progenie hanno corpi umanoidi irregolari, pelle e pelliccia segnate, artigli e tratti che ricordano animali diversi; alcuni individui mostrano anche ali o una folta criniera. A Castel Morne erano sottoposte alla guarnigione, ma si sono ribellate e hanno occupato la fortezza. La loro fisionomia ricorda quella del fabbro Hewg: per ora è soltanto una somiglianza visiva, non una parentela confermata.',
     imageUrl: './concepts/progenie.jpeg',
     imageAlt: 'Una Progenie curva e armata fra le mura di Castel Morne',
-    imagePosition: '100% center',
+    imagePosition: '100% 20%',
     evidence: [
       'Hanno caratteristiche umanoidi e animali insieme.',
       'Le Progenie di Castel Morne si sono ribellate contro Edgar e i soldati.',
