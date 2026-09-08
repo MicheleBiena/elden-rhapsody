@@ -19,6 +19,9 @@ try {
   await page.locator('.dossier-note img').evaluateAll(images => images.forEach(image => { image.loading = 'eager' }))
   await page.locator('.dossier-note img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.screenshot({ path: 'artifacts/dossiers-desktop.png', fullPage: true })
+  for (const [id, position] of [['edgar-castellano', '50% 10%'], ['progenie', '100% 20%']]) {
+    assert.equal(await page.locator(`[data-concept-id="${id}"] img`).evaluate(image => getComputedStyle(image).objectPosition), position)
+  }
 
   const groupButtons = page.locator('.dossier-rail button')
   assert.equal(await groupButtons.count(), 8)
