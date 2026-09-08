@@ -90,6 +90,7 @@ try {
   await page.getByRole('searchbox', { name: 'Cerca nell’archivio', exact: true }).fill('Sellen')
   await page.getByRole('button', { name: 'Apri Strega Sellen', exact: true }).click()
   await page.waitForURL(/#\/board\/sellen$/)
+  await page.waitForFunction(() => document.querySelector('#dossier-page-title').textContent === 'Stregoneria')
   assert.equal(await page.locator('#dossier-page-title').textContent(), 'Stregoneria')
   assert.equal(await page.locator('.dossier-gallery figcaption').textContent(), 'Piedi')
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
@@ -100,12 +101,12 @@ try {
   assert.equal(await page.locator('.dossier-note').count(), 0)
   await page.getByRole('button', { name: 'Mostra il fascicolo', exact: true }).click()
 
-  await page.getByRole('button', { name: 'Sughero caldo', exact: true }).click()
+  // A saved preference from the previous release must not restore the warm theme.
+  await page.evaluate(() => localStorage.setItem('elden-rhapsody:dossier-theme', JSON.stringify('warm')))
   await page.reload({ waitUntil: 'domcontentloaded' })
-  assert.equal(await page.locator('.dossier-page').getAttribute('data-theme'), 'warm')
+  assert.equal(await page.getByRole('button', { name: /Sughero/i }).count(), 0)
+  assert.equal(await page.locator('.dossier-page').evaluate(element => getComputedStyle(element).getPropertyValue('--dossier-board').trim()), '#292d27')
   await groupButtons.nth(4).click()
-  await page.screenshot({ path: 'artifacts/dossiers-warm.png', fullPage: true })
-  await page.getByRole('button', { name: 'Sughero caldo', exact: true }).click()
 
   for (const [width, height] of [[375, 812], [812, 375], [1024, 768], [1280, 720]]) {
     await page.setViewportSize({ width, height })
@@ -133,7 +134,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: all 50 cards, groups, dragging, persistence, keyboard, zoom, threads, cross-group links, history, live queue, search, themes, mobile, legacy layout and invalid links.')
+  console.log('Dossiers passed: all 50 cards, groups, dragging, persistence, keyboard, zoom, threads, cross-group links, history, live queue, search, fixed cool theme, mobile, legacy layout and invalid links.')
 } finally {
   await browser.close()
 }

@@ -28,7 +28,7 @@ pannello di lettura laterale. Su telefono le carte diventano un elenco e il
 dettaglio si raggiunge toccando la scheda; «Torna agli appunti» ripristina il focus.
 La sequenza «da leggere» non cambia lo stato editoriale delle schede.
 
-Il sughero può essere scuro o caldo. Su desktop, le maniglie consentono di
+Il tema usa soltanto il sughero freddo. Su desktop, le maniglie consentono di
 spostare le carte anche con i tasti freccia; lo sfondo si trascina per esplorare.
 Zoom e «Inquadra» sono indipendenti dalle posizioni. Il ripristino riguarda solo
 il fascicolo corrente e richiede conferma. Le posizioni dei fascicoli sono salvate
