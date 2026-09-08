@@ -38,7 +38,6 @@ function sceneLayout(ids: string[]) {
 
 export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }: ConceptBoardProps) {
   const [groupId, setGroupId] = usePersistentState('elden-rhapsody:dossier-group', defaultBoardGroup.id)
-  const [theme, setTheme] = usePersistentState<'night' | 'warm'>('elden-rhapsody:dossier-theme', 'night')
   const [positions, setPositions] = usePersistentState<Record<string, BoardPosition>>('elden-rhapsody:dossier-positions-v1', {})
   const [query, setQuery] = useState('')
   const [onlyUnread, setOnlyUnread] = useState(false)
@@ -176,7 +175,7 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
   }
 
   return (
-    <section className="dossier-page" data-theme={theme} aria-labelledby="dossier-page-title">
+    <section className="dossier-page" aria-labelledby="dossier-page-title">
       <header className="dossier-heading">
         <div><p className="dossier-eyebrow">Fascicoli</p><h1 id="dossier-page-title">{normalizedQuery ? 'Risultati della ricerca' : group.label}</h1></div>
         <button className="dossier-primary" type="button" disabled={!unreadConcepts.length} onClick={() => openConcept(unreadConcepts[0].id, true)}><BookOpen aria-hidden="true" />{unreadConcepts.length} da leggere <ArrowRight aria-hidden="true" /></button>
@@ -196,7 +195,6 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
             <label className="dossier-search"><Search aria-hidden="true" /><span className="sr-only">Cerca nell’archivio</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Cerca nell’archivio" /></label>
             <button type="button" className="dossier-control" aria-pressed={onlyUnread} onClick={() => setOnlyUnread(value => !value)}>Solo da leggere</button>
             <button type="button" className="dossier-control dossier-wire-toggle" aria-pressed={focusedWires} disabled={Boolean(normalizedQuery)} onClick={() => setFocusedWires(value => !value)}>{focusedWires ? 'Fili della selezione' : 'Tutti i fili'}</button>
-            <button type="button" className="dossier-control" aria-pressed={theme === 'warm'} onClick={() => setTheme(value => value === 'warm' ? 'night' : 'warm')}>Sughero caldo</button>
           </div>
 
           <div className="dossier-board-status" aria-live="polite"><span>{visibleConcepts.length} appunti{normalizedQuery ? ' trovati' : ` · ${groupConnections.length} legami interni`}</span>{liveMode && <span>Lettura live</span>}</div>
