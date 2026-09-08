@@ -32,10 +32,12 @@ const previousLayoutConceptIds = new Set([
 const currentLayoutConceptIds = new Set([
   'godfrey',
   'irina',
+  'castel-morne',
+  'edgar-castellano',
+  'progenie',
+  'progenie-leonina',
   'galere-eterne',
   'sellen',
-  'cavalieri-cuculo',
-  'cristalliani',
   'caelid',
   'palude-aeonia',
   'marcescenza',
@@ -52,16 +54,18 @@ const currentLayoutConceptIds = new Set([
 ])
 const layoutOverrides: Record<string, BoardPosition> = {
   godfrey: { x: 38, y: 9 },
-  'mercante-kale': { x: 10, y: 40.5 },
-  boc: { x: 30, y: 40.5 },
-  roderika: { x: 50, y: 40.5 },
-  irina: { x: 70, y: 40.5 },
-  'galere-eterne': { x: 90, y: 40.5 },
-  'accademia-raya-lucaria': { x: 10, y: 47.85 },
-  scintipietra: { x: 30, y: 47.85 },
-  sellen: { x: 50, y: 47.85 },
-  'cavalieri-cuculo': { x: 70, y: 47.85 },
-  cristalliani: { x: 90, y: 47.85 },
+  'mercante-kale': { x: 13, y: 40.5 },
+  boc: { x: 38, y: 40.5 },
+  roderika: { x: 63, y: 40.5 },
+  'galere-eterne': { x: 87, y: 40.5 },
+  'accademia-raya-lucaria': { x: 25, y: 47.85 },
+  scintipietra: { x: 50, y: 47.85 },
+  sellen: { x: 75, y: 47.85 },
+  irina: { x: 10, y: 55 },
+  'castel-morne': { x: 30, y: 55 },
+  'edgar-castellano': { x: 50, y: 55 },
+  progenie: { x: 70, y: 55 },
+  'progenie-leonina': { x: 90, y: 55 },
   spiriti: { x: 30, y: 93 },
   fia: { x: 90, y: 76 },
   'gideon-ofnir': { x: 30, y: 83 },
@@ -104,6 +108,14 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const latestSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v5')
+    if (latestSaved) {
+      return migrateBoardPositions(
+        JSON.parse(latestSaved) as Record<string, BoardPosition>,
+        boardHeight,
+      )
+    }
+
     const currentSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v4')
     if (currentSaved) {
       return migrateBoardPositions(
@@ -197,13 +209,15 @@ const boardConceptOrder = [
   'mercante-kale',
   'boc',
   'roderika',
-  'irina',
   'galere-eterne',
   'accademia-raya-lucaria',
   'scintipietra',
   'sellen',
-  'cavalieri-cuculo',
-  'cristalliani',
+  'irina',
+  'castel-morne',
+  'edgar-castellano',
+  'progenie',
+  'progenie-leonina',
   'caelid',
   'palude-aeonia',
   'marcescenza',
@@ -246,21 +260,28 @@ const boardZones = [
     label: 'Primi incontri nel viaggio',
     note: 'Mercanti, richieste e prigioni incontrate nel viaggio',
     top: 37.8,
-    height: 6.3,
+    height: 6,
   },
   {
     id: 'sapere-delle-stelle',
     label: 'Sapere delle stelle',
     note: 'Accademia, scintipietra e correnti di studio',
     top: 45.1,
-    height: 8.8,
+    height: 6.1,
+  },
+  {
+    id: 'castel-morne',
+    label: 'Castel Morne in rivolta',
+    note: 'Irina, Edgar e l’insurrezione delle Progenie',
+    top: 52,
+    height: 6.4,
   },
   {
     id: 'terre-marcescenti',
     label: 'Caelid e terre marcescenti',
     note: 'Aeonia, Sellia e la contaminazione scarlatta',
-    top: 56,
-    height: 12,
+    top: 59.1,
+    height: 8.9,
   },
   {
     id: 'tavola-rotonda',
@@ -296,7 +317,7 @@ export function ConceptBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v5',
+    'elden-rhapsody:board-positions-v6',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
