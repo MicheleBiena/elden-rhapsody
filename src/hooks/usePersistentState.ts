@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
-export function usePersistentState<T>(key: string, initialValue: T) {
+export function usePersistentState<T>(key: string, initialValue: T | (() => T)) {
   const [value, setValue] = useState<T>(() => {
     try {
       const saved = window.localStorage.getItem(key)
-      return saved ? (JSON.parse(saved) as T) : initialValue
+      if (saved !== null) return JSON.parse(saved) as T
     } catch {
-      return initialValue
+      // Fall back to the initial value if storage is unavailable or malformed.
     }
+    return typeof initialValue === 'function' ? (initialValue as () => T)() : initialValue
   })
 
   useEffect(() => {

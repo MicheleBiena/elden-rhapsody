@@ -61,11 +61,15 @@ export default function App() {
   }, [])
 
   const openConcept = (conceptId: string) => {
+    setRoute({ tab: 'board', detail: conceptId })
     window.location.hash = `/board/${conceptId}`
   }
 
   const closeConcept = () => {
-    if (readRoute().detail) window.location.hash = '/board'
+    if (readRoute().detail) {
+      setRoute({ tab: 'board' })
+      window.location.hash = '/board'
+    }
   }
 
   return (
@@ -149,7 +153,6 @@ export default function App() {
           Fan project non ufficiale · Elden Ring e i relativi marchi appartengono ai
           rispettivi titolari.
         </p>
-        <p>Costruito per seguire la scoperta, non per anticiparla.</p>
       </footer>
     </div>
   )

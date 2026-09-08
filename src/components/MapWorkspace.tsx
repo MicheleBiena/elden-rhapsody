@@ -13,6 +13,11 @@ import {
 import { type FormEvent, type MouseEvent, useEffect, useRef, useState } from 'react'
 import { currentMapStage, mapgenieEmbedUrl } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
+import {
+  formatMapCoordinates,
+  loadLegacyMapMarkers,
+  MAP_MARKERS_STORAGE_KEY,
+} from '../lib/mapMarkers'
 import { isSafeContentUrl } from '../lib/urls'
 import type { MapMarker } from '../types'
 
@@ -46,8 +51,8 @@ export function MapWorkspace() {
     ? currentMapStage.imageUrl
     : undefined
   const [markers, setMarkers] = usePersistentState<MapMarker[]>(
-    'elden-rhapsody:map-markers',
-    [],
+    MAP_MARKERS_STORAGE_KEY,
+    loadLegacyMapMarkers,
   )
   const [form, setForm] = useState(emptyForm)
   const [draftPoint, setDraftPoint] = useState<MapPoint>()
@@ -84,7 +89,7 @@ export function MapWorkspace() {
     setForm((current) => ({
       ...current,
       region: current.region || currentMapStage.label,
-      coordinates: `X ${point.x.toFixed(2)}% · Y ${point.y.toFixed(2)}%`,
+      coordinates: formatMapCoordinates(point.x, point.y),
     }))
     setError('')
 
@@ -121,6 +126,7 @@ export function MapWorkspace() {
 
     const marker: MapMarker = {
       id: createMarkerId(),
+      mapStageId: currentMapStage.id,
       title: form.title.trim(),
       region: form.region.trim(),
       coordinates: form.coordinates.trim(),
@@ -139,7 +145,12 @@ export function MapWorkspace() {
   const exportMarkers = () => {
     const payload = JSON.stringify(
       {
-        schemaVersion: 1,
+        schemaVersion: 2,
+        mapStage: {
+          id: currentMapStage.id,
+          width: currentMapStage.width,
+          height: currentMapStage.height,
+        },
         exportedAt: new Date().toISOString(),
         markers,
       },
@@ -211,6 +222,8 @@ export function MapWorkspace() {
                   <img
                     src={discoveredMapUrl}
                     alt={currentMapStage.imageAlt}
+                    width={currentMapStage.width}
+                    height={currentMapStage.height}
                     loading="lazy"
                     decoding="async"
                   />
@@ -242,7 +255,7 @@ export function MapWorkspace() {
                 <figcaption id="map-annotation-help">
                   <ShieldCheck aria-hidden="true" />
                   <span>
-                    <strong>{currentMapStage.label} · frammento scoperto durante la run</strong>
+                    <strong>{currentMapStage.label} · frammenti scoperti durante la run</strong>
                     <small>
                       Clicca o tocca la mappa per acquisire le coordinate X/Y; da tastiera
                       premi Invio per selezionare il centro.

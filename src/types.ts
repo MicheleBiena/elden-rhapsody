@@ -14,6 +14,7 @@ export interface LoreConcept {
   category: ConceptCategory
   state: ConceptState
   liveReadStatus: LiveReadStatus
+  liveUpdateKind?: 'nuova' | 'aggiornata'
   summary: string
   body: string
   imageUrl?: string
@@ -55,6 +56,7 @@ export interface TranslationPost {
 
 export interface MapMarker {
   id: string
+  mapStageId?: string
   title: string
   region: string
   coordinates: string
