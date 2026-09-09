@@ -9,19 +9,16 @@ try {
   page.on('pageerror', error => errors.push(error.message))
   await page.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
   await page.evaluate(() => document.fonts.ready)
-  assert.equal(await page.locator('#dossier-page-title').textContent(), 'Castel Morne')
-  assert.equal(await page.locator('.dossier-note').count(), 5)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 5)
-  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Irina')
+  assert.equal(await page.locator('#dossier-page-title').textContent(), 'Senzaluce')
+  assert.equal(await page.locator('.dossier-note').count(), 10)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
+  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'I Senzaluce')
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
   assert.equal(await page.locator('.concept-dialog[open]').count(), 0)
   assert.doesNotMatch(await page.locator('body').innerText(), /una fortezza, due doveri|un castello in rivolta\. una lettera|Ogni legame, una scoperta|La trama nascosta/i)
   await page.locator('.dossier-note img').evaluateAll(images => images.forEach(image => { image.loading = 'eager' }))
   await page.locator('.dossier-note img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.screenshot({ path: 'artifacts/dossiers-desktop.png', fullPage: true })
-  for (const [id, position] of [['edgar-castellano', '50% 10%'], ['progenie', '100% 20%']]) {
-    assert.equal(await page.locator(`[data-concept-id="${id}"] img`).evaluate(image => getComputedStyle(image).objectPosition), position)
-  }
 
   const groupButtons = page.locator('.dossier-rail button')
   assert.equal(await groupButtons.count(), 8)
@@ -38,10 +35,13 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 50)
+  assert.equal(allIds.size, 51)
 
   await groupButtons.nth(4).click()
   await page.waitForURL(/#\/board\/irina$/)
+  for (const [id, position] of [['edgar-castellano', '50% 10%'], ['progenie', '100% 20%']]) {
+    assert.equal(await page.locator(`[data-concept-id="${id}"] img`).evaluate(image => getComputedStyle(image).objectPosition), position)
+  }
   const card = page.locator('[data-concept-id="irina"]')
   const handle = card.locator('.dossier-drag')
   await handle.scrollIntoViewIfNeeded()
@@ -79,16 +79,14 @@ try {
   await page.waitForFunction(() => document.querySelector('#dossier-page-title').textContent === 'Castel Morne')
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Progenie')
 
-  await page.getByRole('button', { name: '5 da leggere', exact: true }).click()
-  await page.waitForURL(/#\/board\/irina$/)
-  assert.match(await page.locator('.dossier-stepper').textContent(), /Live 1 di 5/)
-  for (let index = 0; index < 4; index++) {
-    await page.getByRole('button', { name: 'Appunto successivo', exact: true }).click()
-    await page.waitForFunction(step => document.querySelector('.dossier-stepper').textContent.includes(`Live ${step} di 5`), index + 2)
-  }
-  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Progenie Leonina')
+  await page.getByRole('button', { name: '2 da leggere', exact: true }).click()
+  await page.waitForURL(/#\/board\/senzaluce$/)
+  assert.match(await page.locator('.dossier-stepper').textContent(), /Live 1 di 2/)
+  await page.getByRole('button', { name: 'Appunto successivo', exact: true }).click()
+  await page.waitForFunction(() => document.querySelector('.dossier-stepper').textContent.includes('Live 2 di 2'))
+  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Frenesia')
   assert.equal(await page.getByRole('button', { name: 'Appunto successivo', exact: true }).isDisabled(), true)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 5)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
 
   await page.getByRole('searchbox', { name: 'Cerca nell’archivio', exact: true }).fill('Sellen')
   await page.getByRole('button', { name: 'Apri Strega Sellen', exact: true }).click()
@@ -128,7 +126,7 @@ try {
   const oldPositions = '{"elden-ring":{"x":22,"y":4.8}}'
   await page.evaluate(value => localStorage.setItem('elden-rhapsody:board-positions-v6', value), oldPositions)
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 50)
+  assert.equal(await page.locator('.concept-card').count(), 51)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
   await page.getByRole('button', { name: 'Chiudi il fascicolo', exact: true }).click()
   await page.getByRole('button', { name: 'Fascicoli', exact: true }).click()
@@ -137,7 +135,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: all 50 cards, groups, dragging, persistence, keyboard, zoom, threads, cross-group links, history, live queue, search, fixed cool theme, mobile, legacy layout and invalid links.')
+  console.log('Dossiers passed: all 51 cards, groups, dragging, persistence, keyboard, zoom, threads, cross-group links, history, live queue, search, fixed cool theme, mobile, legacy layout and invalid links.')
 } finally {
   await browser.close()
 }

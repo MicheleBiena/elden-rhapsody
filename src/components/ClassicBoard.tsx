@@ -51,6 +51,7 @@ const currentLayoutConceptIds = new Set([
   'fiamma-della-rovina',
   'coloro-che-vivono-nella-morte',
   'santa-trina',
+  'frenesia',
 ])
 const layoutOverrides: Record<string, BoardPosition> = {
   godfrey: { x: 38, y: 9 },
@@ -197,6 +198,7 @@ const boardConceptOrder = [
   'radahn',
   'godrick-innestato',
   'senzaluce',
+  'frenesia',
   'grazia',
   'vergini-delle-dita',
   'melina',
