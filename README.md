@@ -12,17 +12,17 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Sito: [Elden Rhapsody](https://michelebiena.github.io/elden-rhapsody/#/board).
 - Repository: `MicheleBiena/elden-rhapsody`, branch di lavoro e pubblicazione `main`.
 - Stack: React 18, TypeScript, Vite 6, CSS, icone Lucide; sito statico senza backend.
-- Redesign **Fascicoli** già pubblico, con 8 gruppi, 50 schede e 77 collegamenti.
+- Redesign **Fascicoli** già pubblico, con 8 gruppi, 51 schede e 78 collegamenti.
   La vecchia **Lavagna completa** resta disponibile: è una seconda vista, non un tema.
 - Unico tema dei Fascicoli: **sughero freddo**. Toggle e variante calda rimossi;
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
-- Ultima modifica applicativa: commit `819f9e4`, inquadrature dei volti di Edgar
-  (`imagePosition: '50% 10%'`) e Progenie (`'100% 20%'`). Il componente condiviso
-  applica il punto focale alle miniature e alle immagini di dettaglio.
-- Build locale e `npm test` superati; ritagli controllati visivamente a 1440 e
-  375 px. [Deploy di `819f9e4`](https://github.com/MicheleBiena/elden-rhapsody/actions/runs/34246450060)
-  completato con successo. Il precedente deploy `a79231e` era fallito con un
-  `403` nel recupero degli artefatti; quello successivo include anche tale modifica.
+- Ultima modifica applicativa: commit `f0384ea`. Aggiunge la scheda **Frenesia**,
+  aggiorna **I Senzaluce** con l’esilio rivelato dall’Ancora arrugginita e collega
+  i due concetti. L’immagine della Frenesia è locale in `public/concepts/frenesia.png`.
+- `npm run build`, `npm test` e `npm run smoke` superati; fascicolo Senzaluce
+  controllato visivamente a 1440 px e comportamento responsive verificato dai test.
+  [Deploy di `f0384ea`](https://github.com/MicheleBiena/elden-rhapsody/actions/runs/34355997179)
+  completato con successo.
 - Nessuna modifica funzionale rimasta da completare: attendere il prossimo
   aggiornamento dell'utente. Questa sezione fotografa lo stato, non è una lista di
   nuove funzionalità da implementare.
@@ -50,16 +50,22 @@ ricevuto la lettera; Irina è stata trovata morta, ma non siamo tornati da Edgar
 La Progenie Leonina **non è stata sconfitta**. La somiglianza Progenie–Hewg resta
 un'ipotesi visiva, non un'appartenenza confermata.
 
-Le sole 5 schede «da leggere» sono `irina` (aggiornata), `castel-morne`,
-`edgar-castellano`, `progenie`, `progenie-leonina` (nuove). Tutte le altre sono
-già lette. Non segnare queste cinque come lette solo perché è stato corretto il layout.
+L’ultimo aggiornamento editoriale raccoglie due indizi da oggetto: la Frenesia,
+ricostruita da Occhio di Yelough, Scudo di legno con stemma fiammante e Fiamma
+della Frenesia; l’esilio dei Senzaluce, ampliato dalla descrizione dell’Ancora
+arrugginita. Non sono stati comunicati ulteriori avanzamenti narrativi rispetto
+a Castel Morne.
+
+Le sole 2 schede «da leggere» sono `senzaluce` (aggiornata) e `frenesia` (nuova).
+Tutte le altre sono già lette. Non segnare queste due come lette solo perché viene
+corretto il layout.
 
 Per il prossimo episodio, in `src/data/project.ts`:
 
 1. Aggiornare `conceptArchive` e `connections`, mantenendo stabili gli ID esistenti.
 2. Sostituire `currentEpisodeConceptIds` con gli ID nuovi o aggiornati di quella live.
 3. Aggiornare anche il calcolo di `liveUpdateKind` nell'export `concepts`: al momento
-   distingue esplicitamente `irina` dalle quattro schede nuove. Non basta modificare
+   distingue esplicitamente `senzaluce` dalla nuova scheda `frenesia`. Non basta modificare
    il campo `liveReadStatus` dentro `conceptArchive`, perché viene sovrascritto.
 4. Assegnare gli ID nuovi in `src/data/boardGroups.ts`. Se si condensano schede,
    controllare tutti i riferimenti e i collegamenti; non lasciare ID orfani.
