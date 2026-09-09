@@ -286,18 +286,49 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Richiamati nell’Interregno dalla luce dorata, seguono la Grazia alla ricerca dell’Elden Ring.',
-    body: 'I Senzaluce vengono descritti come morti che ancora vivono. Nell’Interregno vedono una luce dorata che dona loro vita e seguono la guida della Grazia verso l’Elden Ring. Normalmente sono accompagnati da una Vergine delle Dita, capace di tramutare le rune in forza.',
+      'Esiliati dall’Interregno e poi richiamati dalla luce dorata, seguono la Grazia alla ricerca dell’Elden Ring.',
+    body: 'I Senzaluce vengono descritti come morti che ancora vivono. Nell’Interregno vedono una luce dorata che dona loro vita e seguono la guida della Grazia verso l’Elden Ring. Normalmente sono accompagnati da una Vergine delle Dita, capace di tramutare le rune in forza. La descrizione dell’Ancora arrugginita collega il loro esilio a una partenza per mare: lasciarono l’Interregno insieme al loro Lord, mentre una sola nave sarebbe rimasta indietro.',
     imageUrl: './concepts/senzaluce.jpg',
     imageAlt: 'Un Senzaluce davanti a una figura illuminata in un ambiente sotterraneo',
     evidence: [
       'Vedono la luce dorata della Grazia.',
       'Seguono la sua guida alla ricerca dell’Elden Ring.',
       'Una Vergine delle Dita trasforma le rune in forza per loro.',
+      'Lasciarono l’Interregno insieme al loro Lord.',
+      'Una sola nave sarebbe rimasta indietro al momento della partenza.',
     ],
-    questions: ['In che senso sono morti che ancora vivono?', 'Chi li ha richiamati nell’Interregno?'],
-    tags: ['Senzaluce', 'Interregno', 'Grazia', 'Elden Ring'],
+    questions: [
+      'In che senso sono morti che ancora vivono?',
+      'Chi li esiliò e chi li ha richiamati nell’Interregno?',
+      'Perché una nave rimase indietro?',
+    ],
+    tags: ['Senzaluce', 'Interregno', 'Grazia', 'Elden Ring', 'esilio'],
     position: { x: 13, y: 48 },
+  },
+  {
+    id: 'frenesia',
+    name: 'Frenesia',
+    eyebrow: 'Afflizione dagli occhi',
+    category: 'Tema',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary:
+      'Afflizione legata a fiamme gialle che erompono dagli occhi e provocano follia nei Senzaluce.',
+    body: 'Uno scudo trovato nel villaggio afflitto mostra che la fiamma gialla è il simbolo della Frenesia e serve da avvertimento a chi si avvicina. L’incantamento Fiamma della Frenesia la fa erompere dagli occhi dell’incantatore: accumula follia anche in chi la usa e questo effetto è efficace soltanto contro i Senzaluce. L’Occhio di Yelough cresce nelle terre colpite; allevia il dolore, ma è anche un pericoloso intossicante.',
+    imageUrl: './concepts/frenesia.png',
+    imageAlt: 'Un abitante afflitto dalla Frenesia con fiamme gialle che erompono dagli occhi',
+    evidence: [
+      'La fiamma gialla è il simbolo dell’afflizione.',
+      'La Fiamma della Frenesia erompe dagli occhi e accumula follia anche in chi la lancia.',
+      'L’effetto di follia è efficace soltanto contro i Senzaluce.',
+      'L’Occhio di Yelough cresce nelle terre afflitte, allevia il dolore ed è un pericoloso intossicante.',
+    ],
+    questions: [
+      'Perché il suo effetto di follia agisce soltanto sui Senzaluce?',
+      'Che cosa sono le Tre Dita da cui avrebbe origine l’incantamento?',
+    ],
+    tags: ['Frenesia', 'fiamma gialla', 'follia', 'Senzaluce', 'Tre Dita', 'Yelough'],
+    position: { x: 63, y: 27.9 },
   },
   {
     id: 'grazia',
@@ -1026,18 +1057,15 @@ const conceptArchive: LoreConcept[] = [
 ]
 
 const currentEpisodeConceptIds = new Set([
-  'irina',
-  'castel-morne',
-  'edgar-castellano',
-  'progenie',
-  'progenie-leonina',
+  'senzaluce',
+  'frenesia',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
   liveReadStatus: currentEpisodeConceptIds.has(concept.id) ? 'da-leggere' : 'gia-letto',
   liveUpdateKind: currentEpisodeConceptIds.has(concept.id)
-    ? concept.id === 'irina' ? 'aggiornata' : 'nuova'
+    ? concept.id === 'senzaluce' ? 'aggiornata' : 'nuova'
     : undefined,
 }))
 
@@ -1192,6 +1220,14 @@ export const connections: LoreConnection[] = [
     to: 'grazia',
     label: 'guidati',
     note: 'I Senzaluce vedono la luce dorata e seguono la guida della Grazia.',
+    kind: 'traccia',
+  },
+  {
+    id: 'frenesia-senzaluce',
+    from: 'frenesia',
+    to: 'senzaluce',
+    label: 'follia selettiva',
+    note: 'L’effetto di follia della Fiamma della Frenesia è efficace soltanto contro i Senzaluce.',
     kind: 'traccia',
   },
   {
