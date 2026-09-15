@@ -1589,8 +1589,45 @@ main:focus-visible {
   margin: 28px 0;
 }
 
+.concept-text-section.is-highlighted {
+  padding: 16px 18px;
+  border-left: 3px solid #936b2b;
+  background: rgba(215, 201, 145, 0.35);
+}
+
 .concept-text-section p {
   white-space: pre-line;
+}
+
+.live-update-highlight {
+  padding: 0.12em 0.24em;
+  border-bottom: 2px solid #936b2b;
+  color: inherit;
+  background: rgba(215, 201, 145, 0.5);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.live-update-highlight__label,
+.live-update-section-label {
+  display: inline-block;
+  margin-right: 7px;
+  padding: 3px 5px;
+  border-radius: 2px;
+  color: #fff8e9;
+  background: #74501d;
+  font: 700 0.56rem/1.2 'Roboto', system-ui, sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  vertical-align: 0.12em;
+}
+
+.live-update-section-label {
+  margin: 0 0 3px;
+}
+
+.concept-text-section.is-highlighted h3 {
+  margin-top: 6px;
 }
 
 .concept-external-links {

@@ -176,6 +176,9 @@ const conceptArchive: LoreConcept[] = [
     summary:
       'Regina dell’Interregno e madre dei semidei. Le sue parole ordinano ai guerrieri di Godfrey di tornare e combattere per l’Elden Ring.',
     body: 'Marika viene chiamata l’Eterna ed è indicata come madre dei semidei. Nella Chiesa del Pellegrinaggio, Melina ci riferisce parole attribuite alla regina: dopo la morte avrebbe restituito qualcosa che aveva reclamato, ordinando ai guerrieri di Lord Godfrey di tornare nell’Interregno, muovere guerra e brandire l’Elden Ring. Non sappiamo ancora che cosa Marika avesse sottratto né quale sia stata la sua sorte dopo la morte di Godwyn e lo Shattering.',
+    bodyHighlights: [
+      'Nella Chiesa del Pellegrinaggio, Melina ci riferisce parole attribuite alla regina: dopo la morte avrebbe restituito qualcosa che aveva reclamato, ordinando ai guerrieri di Lord Godfrey di tornare nell’Interregno, muovere guerra e brandire l’Elden Ring.',
+    ],
     imageUrl: './concepts/regina-marika.webp',
     imageAlt: 'La Regina Marika l’Eterna sospesa davanti a un arco scuro',
     textSections: [
@@ -183,6 +186,7 @@ const conceptArchive: LoreConcept[] = [
         title: 'Parole riferite da Melina',
         language: 'it',
         text: 'Poi, dopo la vostra morte,\nvi restituirò ciò che un tempo reclamai.\n\nTornate nell’Interregno, muovete guerra\ne brandite l’Elden Ring.\n\nDiventate forti di fronte alla morte.\n\nGuerrieri del mio lord.\nLord Godfrey.',
+        highlighted: true,
       },
     ],
     evidence: [
@@ -236,6 +240,9 @@ const conceptArchive: LoreConcept[] = [
     summary:
       'Primo Lord ancestrale, a capo dei guerrieri ai quali Marika ordina di tornare nell’Interregno e combattere.',
     body: 'Il Medaglione d’ambra rossa cita l’epoca di Godfrey, il primo Lord ancestrale. Allora la vecchia linfa dell’Albero Madre si trasformava in ambra ed era custodita come un gioiello preziosissimo, carico di energia vitale primordiale. Nelle parole riportate da Melina, Marika chiama Godfrey «mio lord» e si rivolge ai suoi guerrieri: dovranno tornare nell’Interregno, muovere guerra e brandire l’Elden Ring.',
+    bodyHighlights: [
+      'Nelle parole riportate da Melina, Marika chiama Godfrey «mio lord» e si rivolge ai suoi guerrieri: dovranno tornare nell’Interregno, muovere guerra e brandire l’Elden Ring.',
+    ],
     imageUrl: './concepts/godfrey.png',
     imageAlt: 'Il Medaglione d’ambra rossa che conserva energia vitale primordiale',
     evidence: [
@@ -299,6 +306,9 @@ const conceptArchive: LoreConcept[] = [
     summary:
       'Esiliati dall’Interregno e poi richiamati dalla luce dorata, seguono la Grazia alla ricerca dell’Elden Ring.',
     body: 'I Senzaluce vengono descritti come morti che ancora vivono. Nell’Interregno vedono una luce dorata che dona loro vita e seguono la Grazia verso l’Elden Ring; una Vergine delle Dita dovrebbe trasformare per loro le rune in forza. L’Ancora arrugginita ricorda che lasciarono l’Interregno insieme al loro Lord, mentre una nave rimase indietro. Le parole di Marika riferite da Melina aggiungono un ordine di ritorno dopo la morte, rivolto ai guerrieri di Godfrey: l’identificazione con i Senzaluce sembra plausibile, ma non è ancora esplicita.',
+    bodyHighlights: [
+      'Le parole di Marika riferite da Melina aggiungono un ordine di ritorno dopo la morte, rivolto ai guerrieri di Godfrey: l’identificazione con i Senzaluce sembra plausibile, ma non è ancora esplicita.',
+    ],
     imageUrl: './concepts/senzaluce.jpg',
     imageAlt: 'Un Senzaluce davanti a una figura illuminata in un ambiente sotterraneo',
     evidence: [
@@ -838,6 +848,9 @@ const conceptArchive: LoreConcept[] = [
     summary:
       'Incantatrice esiliata dall’Accademia che ci insegna stregonerie di scintipietra e ne collega il potere alla vita delle stelle.',
     body: 'Sellen è stata espulsa dall’Accademia di Raya Lucaria come strega apostata e ci insegna che la scintipietra è l’ambra del cosmo: conserva vita residua e vitalità delle stelle, perciò la stregoneria studia le stelle e la vita al loro interno. Nella Penisola del Pianto troviamo una seconda Sellen imprigionata fra le rovine, sofferente e bloccata da cristalli. La Sellen che ci insegna magie non reagisce alla scoperta: non sappiamo se sia un clone, un altro corpo o qualcosa di diverso.',
+    bodyHighlights: [
+      'Nella Penisola del Pianto troviamo una seconda Sellen imprigionata fra le rovine, sofferente e bloccata da cristalli. La Sellen che ci insegna magie non reagisce alla scoperta: non sappiamo se sia un clone, un altro corpo o qualcosa di diverso.',
+    ],
     imageUrl: './concepts/sellen.png',
     imageAlt: 'La Strega Sellen mascherata nelle Rovine del Crocevia',
     gallery: [

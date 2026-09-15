@@ -22,6 +22,7 @@ import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
 import type { BoardPosition, ConceptCategory, LoreConcept } from '../types'
 import { ConceptImage } from './ConceptImage'
+import { HighlightedText } from './HighlightedText'
 
 const legacyBoardHeight = 3600
 const previousBoardHeight = 4400
@@ -870,14 +871,18 @@ function ConceptDialog({
           </div>
           <h2 id="concept-dialog-title">{concept.name}</h2>
           <p className="dialog-lede">{concept.summary}</p>
-          <p>{concept.body}</p>
+          <p><HighlightedText text={concept.body} highlights={concept.liveUpdateKind === 'aggiornata' ? concept.bodyHighlights : undefined} /></p>
 
-          {concept.textSections?.map((section) => (
-            <section className="concept-text-section" key={section.title}>
+          {concept.textSections?.map((section) => {
+            const isCurrentUpdate = concept.liveUpdateKind === 'aggiornata' && section.highlighted
+            return (
+            <section className={`concept-text-section${isCurrentUpdate ? ' is-highlighted' : ''}`} key={section.title}>
+              {isCurrentUpdate && <span className="live-update-section-label">Aggiunto ora</span>}
               <h3>{section.title}</h3>
               <p lang={section.language}>{section.text}</p>
             </section>
-          ))}
+            )
+          })}
 
           {concept.externalLinks?.some((link) => isSafeContentUrl(link.url)) && (
             <section className="concept-external-links" aria-label="Risorse esterne">

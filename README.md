@@ -65,9 +65,12 @@ Per il prossimo episodio, in `src/data/project.ts`:
 3. Aggiornare anche `currentEpisodeUpdatedConceptIds`, che distingue le schede
    aggiornate da quelle nuove. Non basta modificare `liveReadStatus` dentro
    `conceptArchive`, perché viene sovrascritto nell’export `concepts`.
-4. Assegnare gli ID nuovi in `src/data/boardGroups.ts`. Se si condensano schede,
+4. Nelle schede aggiornate, elencare in `bodyHighlights` le frasi aggiunte e usare
+   `highlighted: true` sulle nuove `textSections`. L’evidenziazione appare solo
+   finché la scheda appartiene alle novità dell’episodio corrente.
+5. Assegnare gli ID nuovi in `src/data/boardGroups.ts`. Se si condensano schede,
    controllare tutti i riferimenti e i collegamenti; non lasciare ID orfani.
-5. Adeguare le aspettative editoriali dei test (conteggi, gruppi, sequenza delle
+6. Adeguare le aspettative editoriali dei test (conteggi, gruppi, sequenza delle
    novità) quando cambia davvero il contenuto, senza rimuovere i controlli funzionali.
 
 ### Dove intervenire
@@ -183,6 +186,7 @@ Ogni concetto contiene:
 - `imageUrl`: URL HTTPS opzionale o percorso relativo a un file in `public/`;
 - `imageAlt`: descrizione accessibile dell’immagine;
 - `imagePosition`: punto focale CSS opzionale dell’immagine;
+- `bodyHighlights`: frammenti del `body` aggiunti nell’episodio corrente;
 - `textSections`: sezioni testuali opzionali che conservano le interruzioni di riga;
 - `externalLinks`: risorse HTTPS opzionali aperte in una nuova scheda;
 - `position`: posizione iniziale in percentuale sulla lavagna completa.

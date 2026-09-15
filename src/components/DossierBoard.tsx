@@ -7,6 +7,7 @@ import { isSafeContentUrl } from '../lib/urls'
 import type { BoardPosition, LoreConcept } from '../types'
 import type { ConceptBoardProps } from './ConceptBoard'
 import { ConceptImage } from './ConceptImage'
+import { HighlightedText } from './HighlightedText'
 
 const sceneWidth = 880
 const cardHeight = 262
@@ -257,9 +258,13 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
                 <div className="dossier-detail-meta"><span>{selectedConcept.category}</span><span className={selectedConcept.liveReadStatus === 'da-leggere' ? 'is-unread' : ''}>{selectedConcept.liveReadStatus === 'da-leggere' ? <BookOpen aria-hidden="true" /> : <Check aria-hidden="true" />}{readLabel(selectedConcept)}</span></div>
                 <h2 id="dossier-detail-title" ref={headingRef} tabIndex={-1}>{selectedConcept.name}</h2>
                 <p className="dossier-state">{selectedConcept.id === 'elden-ring' ? 'Punto di partenza del gioco' : stateLabels[selectedConcept.state]}</p>
-                <p className="dossier-summary">{selectedConcept.summary}</p><p>{selectedConcept.body}</p>
+                <p className="dossier-summary">{selectedConcept.summary}</p>
+                <p><HighlightedText text={selectedConcept.body} highlights={selectedConcept.liveUpdateKind === 'aggiornata' ? selectedConcept.bodyHighlights : undefined} /></p>
                 {selectedConcept.gallery?.filter(item => isSafeContentUrl(item.imageUrl)).map(item => <figure className="dossier-gallery" key={item.imageUrl}><img src={item.imageUrl} alt={item.imageAlt} loading="lazy" decoding="async" referrerPolicy="no-referrer" /><figcaption>{item.caption}</figcaption></figure>)}
-                {selectedConcept.textSections?.map(section => <section className="dossier-text-section" key={section.title}><h3>{section.title}</h3><p lang={section.language}>{section.text}</p></section>)}
+                {selectedConcept.textSections?.map(section => {
+                  const isCurrentUpdate = selectedConcept.liveUpdateKind === 'aggiornata' && section.highlighted
+                  return <section className={`dossier-text-section${isCurrentUpdate ? ' is-highlighted' : ''}`} key={section.title}>{isCurrentUpdate && <span className="live-update-section-label">Aggiunto ora</span>}<h3>{section.title}</h3><p lang={section.language}>{section.text}</p></section>
+                })}
                 {selectedConcept.externalLinks?.some(link => isSafeContentUrl(link.url)) && <section className="dossier-external-links" aria-label="Risorse esterne"><h3>Risorse</h3>{selectedConcept.externalLinks.filter(link => isSafeContentUrl(link.url)).map(link => <a href={link.url} key={link.url} target="_blank" rel="noreferrer">{link.label}<ExternalLink aria-hidden="true" /></a>)}</section>}
                 {selectedConcept.evidence.length > 0 && <details key={`evidence-${selectedConcept.id}`} className="dossier-evidence"><summary>Elementi raccolti · {selectedConcept.evidence.length}</summary><ul>{selectedConcept.evidence.map(item => <li key={item}>{item}</li>)}</ul></details>}
                 {selectedConcept.questions.length > 0 && <section><h3>Domande aperte</h3><ul>{selectedConcept.questions.map(item => <li key={item}>{item}</li>)}</ul></section>}
