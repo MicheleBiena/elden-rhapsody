@@ -174,17 +174,26 @@ const conceptArchive: LoreConcept[] = [
     state: 'da-verificare',
     liveReadStatus: 'da-leggere',
     summary:
-      'Regina dell’Interregno e madre dei semidei. Dopo la morte di Godwyn e lo Shattering, la sua sorte è ignota.',
-    body: 'Marika viene chiamata l’Eterna ed è indicata come madre dei semidei. La narrazione accosta la morte di Godwyn e la frantumazione dell’Elden Ring alla sua scomparsa, ma non sappiamo ancora dove sia o che cosa le sia accaduto.',
+      'Regina dell’Interregno e madre dei semidei. Le sue parole ordinano ai guerrieri di Godfrey di tornare e combattere per l’Elden Ring.',
+    body: 'Marika viene chiamata l’Eterna ed è indicata come madre dei semidei. Nella Chiesa del Pellegrinaggio, Melina ci riferisce parole attribuite alla regina: dopo la morte avrebbe restituito qualcosa che aveva reclamato, ordinando ai guerrieri di Lord Godfrey di tornare nell’Interregno, muovere guerra e brandire l’Elden Ring. Non sappiamo ancora che cosa Marika avesse sottratto né quale sia stata la sua sorte dopo la morte di Godwyn e lo Shattering.',
     imageUrl: './concepts/regina-marika.webp',
     imageAlt: 'La Regina Marika l’Eterna sospesa davanti a un arco scuro',
+    textSections: [
+      {
+        title: 'Parole riferite da Melina',
+        language: 'it',
+        text: 'Poi, dopo la vostra morte,\nvi restituirò ciò che un tempo reclamai.\n\nTornate nell’Interregno, muovete guerra\ne brandite l’Elden Ring.\n\nDiventate forti di fronte alla morte.\n\nGuerrieri del mio lord.\nLord Godfrey.',
+      },
+    ],
     evidence: [
       'È chiamata Regina Marika l’Eterna.',
       'I semidei sono presentati come suoi figli.',
+      'Melina riferisce un suo ordine rivolto ai guerrieri di Lord Godfrey.',
+      'Promette di restituire loro, dopo la morte, qualcosa che aveva reclamato.',
       'La sua sorte è ignota dopo la morte di Godwyn e lo Shattering.',
     ],
-    questions: ['Dove si trova Marika?', 'Che ruolo ha avuto nella frantumazione dell’Elden Ring?'],
-    tags: ['Marika', 'regina', 'semidei', 'scomparsa'],
+    questions: ['Che cosa aveva reclamato ai guerrieri?', 'Dove si trova Marika?', 'Che ruolo ha avuto nella frantumazione dell’Elden Ring?'],
+    tags: ['Marika', 'regina', 'semidei', 'Godfrey', 'ritorno', 'scomparsa'],
     position: { x: 38, y: 7 },
   },
   {
@@ -225,20 +234,22 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Primo Lord ancestrale: nella sua epoca la linfa antica dell’Albero Madre diventava ambra, il più prezioso dei gioielli.',
-    body: 'Il Medaglione d’ambra rossa cita l’epoca di Godfrey, il primo Lord ancestrale. Allora la vecchia linfa dell’Albero Madre si trasformava in ambra ed era custodita come un gioiello preziosissimo. Al suo interno permane un’energia vitale primordiale.',
+      'Primo Lord ancestrale, a capo dei guerrieri ai quali Marika ordina di tornare nell’Interregno e combattere.',
+    body: 'Il Medaglione d’ambra rossa cita l’epoca di Godfrey, il primo Lord ancestrale. Allora la vecchia linfa dell’Albero Madre si trasformava in ambra ed era custodita come un gioiello preziosissimo, carico di energia vitale primordiale. Nelle parole riportate da Melina, Marika chiama Godfrey «mio lord» e si rivolge ai suoi guerrieri: dovranno tornare nell’Interregno, muovere guerra e brandire l’Elden Ring.',
     imageUrl: './concepts/godfrey.png',
     imageAlt: 'Il Medaglione d’ambra rossa che conserva energia vitale primordiale',
     evidence: [
       'Godfrey viene chiamato il primo Lord ancestrale.',
+      'Marika lo chiama “mio lord” e si rivolge ai suoi guerrieri.',
+      'I guerrieri di Godfrey ricevono l’ordine di tornare nell’Interregno e combattere.',
       'Nella sua epoca la vecchia linfa dell’Albero Madre diventava ambra.',
       'Nell’ambra risiede un’energia vitale primordiale.',
     ],
     questions: [
-      'Che cosa definisce un Lord ancestrale?',
+      'I guerrieri di Godfrey sono i Senzaluce esiliati?',
       'Perché l’antica linfa dell’Albero Madre non è più comune?',
     ],
-    tags: ['Godfrey', 'Lord ancestrale', 'Albero Madre', 'ambra', 'vita primordiale'],
+    tags: ['Godfrey', 'Lord ancestrale', 'Albero Madre', 'Marika', 'guerrieri', 'ambra'],
     position: { x: 38, y: 9 },
   },
   {
@@ -287,7 +298,7 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'da-leggere',
     summary:
       'Esiliati dall’Interregno e poi richiamati dalla luce dorata, seguono la Grazia alla ricerca dell’Elden Ring.',
-    body: 'I Senzaluce vengono descritti come morti che ancora vivono. Nell’Interregno vedono una luce dorata che dona loro vita e seguono la guida della Grazia verso l’Elden Ring. Normalmente sono accompagnati da una Vergine delle Dita, capace di tramutare le rune in forza. La descrizione dell’Ancora arrugginita collega il loro esilio a una partenza per mare: lasciarono l’Interregno insieme al loro Lord, mentre una sola nave sarebbe rimasta indietro.',
+    body: 'I Senzaluce vengono descritti come morti che ancora vivono. Nell’Interregno vedono una luce dorata che dona loro vita e seguono la Grazia verso l’Elden Ring; una Vergine delle Dita dovrebbe trasformare per loro le rune in forza. L’Ancora arrugginita ricorda che lasciarono l’Interregno insieme al loro Lord, mentre una nave rimase indietro. Le parole di Marika riferite da Melina aggiungono un ordine di ritorno dopo la morte, rivolto ai guerrieri di Godfrey: l’identificazione con i Senzaluce sembra plausibile, ma non è ancora esplicita.',
     imageUrl: './concepts/senzaluce.jpg',
     imageAlt: 'Un Senzaluce davanti a una figura illuminata in un ambiente sotterraneo',
     evidence: [
@@ -296,13 +307,14 @@ const conceptArchive: LoreConcept[] = [
       'Una Vergine delle Dita trasforma le rune in forza per loro.',
       'Lasciarono l’Interregno insieme al loro Lord.',
       'Una sola nave sarebbe rimasta indietro al momento della partenza.',
+      'Marika ordina ai guerrieri di Godfrey di tornare dopo la morte e combattere per l’Elden Ring.',
     ],
     questions: [
       'In che senso sono morti che ancora vivono?',
-      'Chi li esiliò e chi li ha richiamati nell’Interregno?',
+      'I Senzaluce sono i guerrieri di Godfrey ai quali parla Marika?',
       'Perché una nave rimase indietro?',
     ],
-    tags: ['Senzaluce', 'Interregno', 'Grazia', 'Elden Ring', 'esilio'],
+    tags: ['Senzaluce', 'Interregno', 'Grazia', 'Elden Ring', 'esilio', 'Marika', 'Godfrey'],
     position: { x: 13, y: 48 },
   },
   {
@@ -825,7 +837,7 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'da-leggere',
     summary:
       'Incantatrice esiliata dall’Accademia che ci insegna stregonerie di scintipietra e ne collega il potere alla vita delle stelle.',
-    body: 'Sellen è stata espulsa dall’Accademia di Raya Lucaria come strega apostata: qualcuno che ha rinnegato pubblicamente la propria fede o dottrina. Accetta di istruirci anche se trova poco promettente chi non ha preparazione o Intelligenza sufficiente. Secondo lei la scintipietra è l’ambra del cosmo: come l’ambra dorata conserva resti e vitalità della vita antica, la scintipietra custodisce vita residua e vitalità delle stelle. La stregoneria è dunque studio delle stelle e della vita che contengono, una verità ormai dimenticata da molti maghi.',
+    body: 'Sellen è stata espulsa dall’Accademia di Raya Lucaria come strega apostata e ci insegna che la scintipietra è l’ambra del cosmo: conserva vita residua e vitalità delle stelle, perciò la stregoneria studia le stelle e la vita al loro interno. Nella Penisola del Pianto troviamo una seconda Sellen imprigionata fra le rovine, sofferente e bloccata da cristalli. La Sellen che ci insegna magie non reagisce alla scoperta: non sappiamo se sia un clone, un altro corpo o qualcosa di diverso.',
     imageUrl: './concepts/sellen.png',
     imageAlt: 'La Strega Sellen mascherata nelle Rovine del Crocevia',
     gallery: [
@@ -840,12 +852,15 @@ const conceptArchive: LoreConcept[] = [
       'Insegna stregonerie di scintipietra anche agli allievi poco preparati.',
       'Definisce la scintipietra “ambra del cosmo”.',
       'La magia di scintipietra studia le stelle e la vita racchiusa in esse.',
+      'Una seconda Sellen è imprigionata e sofferente in una rovina della Penisola del Pianto.',
+      'La Sellen incontrata come maestra non reagisce alla scoperta dell’altra.',
     ],
     questions: [
       'Quale dottrina dell’Accademia ha rinnegato Sellen?',
-      'Perché tanti stregoni hanno dimenticato la vita contenuta nelle stelle?',
+      'Qual è il rapporto fra le due versioni di Sellen?',
+      'Perché la prigioniera è bloccata da cristalli?',
     ],
-    tags: ['Sellen', 'Raya Lucaria', 'scintipietra', 'stelle', 'apostata'],
+    tags: ['Sellen', 'Raya Lucaria', 'scintipietra', 'stelle', 'apostata', 'clone', 'Penisola del Pianto'],
     position: { x: 50, y: 47.85 },
   },
   {
@@ -1054,18 +1069,115 @@ const conceptArchive: LoreConcept[] = [
     tags: ['Santa Trina', 'sonno', 'giglio', 'fede'],
     position: { x: 90, y: 93 },
   },
+  {
+    id: 'chanting-winged-dames',
+    name: 'Chanting Winged Dames',
+    eyebrow: 'Pipistrelli dal canto in latino',
+    category: 'Personaggio',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Creature umanoidi simili ad arpie o sirene, incontrate nella Penisola del Pianto mentre cantano una lamentazione in latino.',
+    body: 'Questi grandi pipistrelli dal volto umano cantano seduti fra le rovine. Il testo ricorda una terra un tempo benedetta e ora avvizzita, una maternità negata dalla deformazione e l’assenza di conforto. L’ultima domanda è rivolta a una figura dorata, ma non sappiamo chi sia né da dove nasca la sua ira.',
+    imageUrl: './concepts/chanting-winged-dame.webp',
+    imageAlt: 'Una Chanting Winged Dame dal volto umano canta seduta fra le rovine',
+    textSections: [
+      {
+        title: 'Canto in latino',
+        language: 'la',
+        text: 'O, locus ille, beatus quondam, nunc deminuit.\nNos, destinatae matribus, nunc fiunt turpes.\nPloravimus lacrimavimusque,\nsed nemo nos consolatur.\nAureum cui irascebaris?',
+      },
+      {
+        title: 'Traduzione italiana',
+        language: 'it',
+        text: 'O, quella terra, un tempo benedetta, ora avvizzita.\nEravamo destinate alla maternità, ma ora siamo divenute deformi.\nAbbiamo gridato e pianto,\nma nessuno ci consola.\nO essere dorato, con chi eri adirato?',
+      },
+    ],
+    externalLinks: [
+      { label: 'Ascolta il canto su YouTube', url: 'https://www.youtube.com/watch?v=GnnvyQn9EPo' },
+    ],
+    evidence: [
+      'Sono pipistrelli con marcati tratti umani.',
+      'Il loro canto è una lamentazione in latino.',
+      'Il testo parla di una terra avvizzita, maternità perduta e una figura dorata adirata.',
+    ],
+    questions: ['Chi è la figura dorata invocata nel canto?', 'Che cosa ha deformato queste creature?'],
+    tags: ['Chanting Winged Dames', 'pipistrelli', 'arpie', 'sirene', 'canto', 'Penisola del Pianto'],
+    position: { x: 25, y: 92 },
+  },
+  {
+    id: 'leyndell',
+    name: 'Leyndell, capitale reale',
+    eyebrow: 'Veduta dalla Torre del Ritorno',
+    category: 'Luogo',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Capitale raggiunta per un tratto limitato tramite un teletrasporto: sorge alla base dell’Albero Madre.',
+    body: 'Un teletrasporto nella Torre del Ritorno ci conduce a una porzione isolata di Leyndell. Da lì vediamo la capitale svilupparsi alla base dell’Albero Madre, un gigantesco drago morto con quattro ali e quattro zampe e un’enorme apertura che sembra entrare nel tronco cavo. Non abbiamo ancora esplorato il resto della città.',
+    imageUrl: './concepts/leyndell.webp',
+    imageAlt: 'Leyndell alla base dell’Albero Madre, con il corpo di un enorme drago sopra la città',
+    imagePosition: '50% 48%',
+    evidence: [
+      'La Torre del Ritorno contiene un teletrasporto verso Leyndell.',
+      'La capitale sorge alla base dell’Albero Madre.',
+      'Nella città giace un drago morto con quattro ali e quattro zampe.',
+      'Nel tronco cavo si apre un ingresso di dimensioni enormi.',
+    ],
+    questions: ['Che cosa si trova oltre l’apertura nel tronco?', 'Che cosa ha ucciso il drago?'],
+    tags: ['Leyndell', 'capitale reale', 'Torre del Ritorno', 'Albero Madre', 'drago'],
+    position: { x: 50, y: 92 },
+  },
+  {
+    id: 'statue-chiese-marika',
+    name: 'Statue nelle chiese',
+    eyebrow: 'Due figure sacre differenti',
+    category: 'Indizio',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary: 'Le chiese non mostrano sempre la stessa effigie: accanto a una figura plausibilmente identificabile con Marika compare anche un uomo sconosciuto.',
+    body: 'In alcune chiese troviamo una figura femminile che, per il contesto, sembra plausibilmente rappresentare la Regina Marika. In altre compare invece una figura maschile. Le due statue hanno pose e simboli differenti: per ora non sappiamo chi sia l’uomo né perché edifici simili conservino effigi diverse.',
+    imageUrl: './concepts/statua-chiesa-marika.webp',
+    imageAlt: 'Una statua femminile con le braccia aperte all’interno di una chiesa',
+    imagePosition: '50% 18%',
+    gallery: [
+      {
+        imageUrl: './concepts/statua-chiesa-maschile.webp',
+        imageAlt: 'Una statua maschile con le braccia aperte, circondata da radici',
+        caption: 'Figura maschile non identificata',
+      },
+    ],
+    evidence: [
+      'Chiese differenti custodiscono almeno due figure statuarie diverse.',
+      'Una figura sembra femminile e plausibilmente associabile a Marika.',
+      'L’altra figura è maschile e non è stata ancora identificata.',
+    ],
+    questions: ['Chi rappresenta la figura maschile?', 'Perché le statue cambiano da una chiesa all’altra?'],
+    tags: ['statue', 'chiese', 'Marika', 'figura maschile', 'culto'],
+    position: { x: 75, y: 92 },
+  },
 ]
 
 const currentEpisodeConceptIds = new Set([
   'senzaluce',
-  'frenesia',
+  'regina-marika',
+  'godfrey',
+  'sellen',
+  'chanting-winged-dames',
+  'leyndell',
+  'statue-chiese-marika',
+])
+
+const currentEpisodeUpdatedConceptIds = new Set([
+  'senzaluce',
+  'regina-marika',
+  'godfrey',
+  'sellen',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
   liveReadStatus: currentEpisodeConceptIds.has(concept.id) ? 'da-leggere' : 'gia-letto',
   liveUpdateKind: currentEpisodeConceptIds.has(concept.id)
-    ? concept.id === 'senzaluce' ? 'aggiornata' : 'nuova'
+    ? currentEpisodeUpdatedConceptIds.has(concept.id) ? 'aggiornata' : 'nuova'
     : undefined,
 }))
 
@@ -1692,6 +1804,46 @@ export const connections: LoreConnection[] = [
     to: 'due-dita',
     label: 'confine della fede',
     note: 'La fede esige di rifiutare tutto il resto, ma alcuni profeti scorgono comunque la Fiamma proibita e vengono esiliati: il rapporto fra i due insegnamenti resta da chiarire.',
+    kind: 'ipotesi',
+  },
+  {
+    id: 'marika-godfrey-guerrieri',
+    from: 'regina-marika',
+    to: 'godfrey',
+    label: 'mio lord e i suoi guerrieri',
+    note: 'Nelle parole riferite da Melina, Marika chiama Godfrey “mio lord” e ordina ai suoi guerrieri di tornare nell’Interregno e combattere.',
+    kind: 'traccia',
+  },
+  {
+    id: 'godfrey-senzaluce-ritorno',
+    from: 'godfrey',
+    to: 'senzaluce',
+    label: 'guerrieri esiliati?',
+    note: 'I Senzaluce partirono con il loro Lord; Marika ordina ai guerrieri di Godfrey di tornare dopo la morte. Potrebbero essere lo stesso gruppo, ma non è ancora confermato.',
+    kind: 'ipotesi',
+  },
+  {
+    id: 'chanting-dames-penisola',
+    from: 'chanting-winged-dames',
+    to: 'castel-morne',
+    label: 'incontro nella penisola',
+    note: 'Le creature cantanti vengono incontrate nella Penisola del Pianto durante l’esplorazione legata a Castel Morne.',
+    kind: 'traccia',
+  },
+  {
+    id: 'leyndell-albero-madre',
+    from: 'leyndell',
+    to: 'albero-madre',
+    label: 'capitale alla base',
+    note: 'Leyndell sorge alla base dell’Albero Madre; dalla zona raggiunta si vede un’enorme apertura nel tronco cavo.',
+    kind: 'traccia',
+  },
+  {
+    id: 'statue-marika',
+    from: 'statue-chiese-marika',
+    to: 'regina-marika',
+    label: 'possibile effigie',
+    note: 'Una delle figure presenti nelle chiese sembra plausibilmente rappresentare Marika; l’identità resta da verificare.',
     kind: 'ipotesi',
   },
 ]

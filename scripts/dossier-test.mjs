@@ -9,11 +9,14 @@ try {
   page.on('pageerror', error => errors.push(error.message))
   await page.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
   await page.evaluate(() => document.fonts.ready)
-  assert.equal(await page.locator('#dossier-page-title').textContent(), 'Senzaluce')
-  assert.equal(await page.locator('.dossier-note').count(), 10)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
-  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'I Senzaluce')
-  assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
+  assert.equal(await page.locator('#dossier-page-title').textContent(), 'Penisola, capitale e chiese')
+  assert.equal(await page.locator('.dossier-note').count(), 3)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 3)
+  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Chanting Winged Dames')
+  assert.match(await page.locator('.dossier-detail-meta').textContent(), /Nuova/)
+  assert.equal(await page.locator('.dossier-text-section').count(), 2)
+  assert.match(await page.locator('.dossier-text-section').nth(1).textContent(), /quella terra, un tempo benedetta/i)
+  assert.equal(await page.locator('.dossier-external-links a').getAttribute('href'), 'https://www.youtube.com/watch?v=GnnvyQn9EPo')
   assert.equal(await page.locator('.concept-dialog[open]').count(), 0)
   assert.doesNotMatch(await page.locator('body').innerText(), /una fortezza, due doveri|un castello in rivolta\. una lettera|Ogni legame, una scoperta|La trama nascosta/i)
   await page.locator('.dossier-note img').evaluateAll(images => images.forEach(image => { image.loading = 'eager' }))
@@ -21,9 +24,9 @@ try {
   await page.screenshot({ path: 'artifacts/dossiers-desktop.png', fullPage: true })
 
   const groupButtons = page.locator('.dossier-rail button')
-  assert.equal(await groupButtons.count(), 8)
+  assert.equal(await groupButtons.count(), 9)
   const allIds = new Set()
-  for (let index = 0; index < 8; index++) {
+  for (let index = 0; index < 9; index++) {
     await groupButtons.nth(index).click()
     await page.waitForFunction(index => document.querySelectorAll('.dossier-rail button')[index]?.getAttribute('aria-current') === 'true', index)
     const cards = await page.locator('.dossier-note').evaluateAll(elements => elements.map(element => {
@@ -35,7 +38,7 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 51)
+  assert.equal(allIds.size, 54)
 
   await groupButtons.nth(4).click()
   await page.waitForURL(/#\/board\/irina$/)
@@ -79,14 +82,16 @@ try {
   await page.waitForFunction(() => document.querySelector('#dossier-page-title').textContent === 'Castel Morne')
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Progenie')
 
-  await page.getByRole('button', { name: '2 da leggere', exact: true }).click()
-  await page.waitForURL(/#\/board\/senzaluce$/)
-  assert.match(await page.locator('.dossier-stepper').textContent(), /Live 1 di 2/)
-  await page.getByRole('button', { name: 'Appunto successivo', exact: true }).click()
-  await page.waitForFunction(() => document.querySelector('.dossier-stepper').textContent.includes('Live 2 di 2'))
-  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Frenesia')
+  await page.getByRole('button', { name: '7 da leggere', exact: true }).click()
+  await page.waitForURL(/#\/board\/regina-marika$/)
+  assert.match(await page.locator('.dossier-stepper').textContent(), /Live 1 di 7/)
+  for (let index = 0; index < 6; index++) {
+    await page.getByRole('button', { name: 'Appunto successivo', exact: true }).click()
+    await page.waitForFunction(step => document.querySelector('.dossier-stepper').textContent.includes(`Live ${step} di 7`), index + 2)
+  }
+  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Statue nelle chiese')
   assert.equal(await page.getByRole('button', { name: 'Appunto successivo', exact: true }).isDisabled(), true)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 3)
 
   await page.getByRole('searchbox', { name: 'Cerca nell’archivio', exact: true }).fill('Sellen')
   await page.getByRole('button', { name: 'Apri Strega Sellen', exact: true }).click()
@@ -94,9 +99,10 @@ try {
   await page.waitForFunction(() => document.querySelector('#dossier-page-title').textContent === 'Stregoneria')
   assert.equal(await page.locator('#dossier-page-title').textContent(), 'Stregoneria')
   assert.equal(await page.locator('.dossier-gallery figcaption').textContent(), 'Piedi')
+  assert.match(await page.locator('.dossier-detail').textContent(), /seconda Sellen/i)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
-  assert.equal(await page.locator('.dossier-note').count(), 0)
-  await page.getByRole('button', { name: 'Mostra il fascicolo', exact: true }).click()
+  assert.equal(await page.locator('.dossier-note').count(), 1)
+  await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
   assert.equal(await page.locator('.dossier-note').count(), 3)
   await page.getByRole('searchbox').fill('nessun-risultato-inesistente')
   assert.equal(await page.locator('.dossier-note').count(), 0)
@@ -125,9 +131,11 @@ try {
 
   const oldPositions = '{"elden-ring":{"x":22,"y":4.8}}'
   await page.evaluate(value => localStorage.setItem('elden-rhapsody:board-positions-v6', value), oldPositions)
+  await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v7'))
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 51)
+  assert.equal(await page.locator('.concept-card').count(), 54)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
+  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v7') || '{}')).length === 54)
   await page.getByRole('button', { name: 'Chiudi il fascicolo', exact: true }).click()
   await page.getByRole('button', { name: 'Fascicoli', exact: true }).click()
   await page.goto(`${baseUrl}#/board/non-esiste`, { waitUntil: 'domcontentloaded' })
@@ -135,7 +143,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: all 51 cards, groups, dragging, persistence, keyboard, zoom, threads, cross-group links, history, live queue, search, fixed cool theme, mobile, legacy layout and invalid links.')
+  console.log('Dossiers passed: all 54 cards, groups, song text and link, dragging, persistence, keyboard, zoom, threads, cross-group links, history, seven-item live queue, search, fixed cool theme, mobile, legacy layout and invalid links.')
 } finally {
   await browser.close()
 }

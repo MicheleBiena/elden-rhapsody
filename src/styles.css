@@ -768,7 +768,7 @@ main:focus-visible {
 
 .concept-board {
   position: relative;
-  min-height: var(--board-height, 8000px);
+  min-height: var(--board-height, 9000px);
   overflow: auto;
   border: 12px solid #4c3827;
   border-radius: 7px;
@@ -1583,6 +1583,42 @@ main:focus-visible {
   color: #514b3f;
   font-size: 0.93rem;
   line-height: 1.75;
+}
+
+.concept-text-section {
+  margin: 28px 0;
+}
+
+.concept-text-section p {
+  white-space: pre-line;
+}
+
+.concept-external-links {
+  margin: 28px 0;
+}
+
+.concept-external-links a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(91, 74, 47, 0.34);
+  border-radius: 3px;
+  color: #493d27;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.concept-external-links a:hover {
+  background: rgba(117, 91, 50, 0.08);
+}
+
+.concept-external-links svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
 }
 
 .concept-gallery {

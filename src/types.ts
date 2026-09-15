@@ -25,6 +25,15 @@ export interface LoreConcept {
     imageAlt: string
     caption: string
   }>
+  textSections?: Array<{
+    title: string
+    text: string
+    language?: string
+  }>
+  externalLinks?: Array<{
+    label: string
+    url: string
+  }>
   evidence: string[]
   questions: string[]
   tags: string[]

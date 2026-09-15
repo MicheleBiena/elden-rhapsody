@@ -2,7 +2,7 @@
 
 Companion site statico per seguire una blind run di Elden Ring senza perdere il filo: una lavagna investigativa, un taccuino cartografico collegato a MapGenie e un archivio delle analisi di traduzione.
 
-## Leftoff per il prossimo agente — 9 settembre 2026
+## Leftoff per il prossimo agente — 15 settembre 2026
 
 Leggere questa sezione prima di intervenire. Il progetto è già funzionante e
 pubblicato: non va ricreato né riportato alla sola anteprima.
@@ -12,17 +12,17 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Sito: [Elden Rhapsody](https://michelebiena.github.io/elden-rhapsody/#/board).
 - Repository: `MicheleBiena/elden-rhapsody`, branch di lavoro e pubblicazione `main`.
 - Stack: React 18, TypeScript, Vite 6, CSS, icone Lucide; sito statico senza backend.
-- Redesign **Fascicoli** già pubblico, con 8 gruppi, 51 schede e 78 collegamenti.
+- Redesign **Fascicoli** già pubblico, con 9 gruppi, 54 schede e 83 collegamenti.
   La vecchia **Lavagna completa** resta disponibile: è una seconda vista, non un tema.
 - Unico tema dei Fascicoli: **sughero freddo**. Toggle e variante calda rimossi;
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
-- Ultima modifica applicativa: commit `f0384ea`. Aggiunge la scheda **Frenesia**,
-  aggiorna **I Senzaluce** con l’esilio rivelato dall’Ancora arrugginita e collega
-  i due concetti. L’immagine della Frenesia è locale in `public/concepts/frenesia.png`.
-- `npm run build`, `npm test` e `npm run smoke` superati; fascicolo Senzaluce
-  controllato visivamente a 1440 px e comportamento responsive verificato dai test.
-  [Deploy di `f0384ea`](https://github.com/MicheleBiena/elden-rhapsody/actions/runs/34355997179)
-  completato con successo.
+- Ultimo aggiornamento editoriale: **Chanting Winged Dames**, **Leyndell** e
+  **Statue nelle chiese**; aggiornate **Marika**, **Godfrey**, **I Senzaluce** e
+  **Strega Sellen**. La canzone conserva latino, traduzione italiana e link YouTube.
+- La Lavagna completa usa ora `elden-rhapsody:board-positions-v7`: importa le
+  posizioni v6 senza cancellarle e aggiunge in fondo la nona sezione.
+- `npm run build`, `npm test` e `npm run smoke` superati in locale; il fascicolo
+  iniziale atteso è «Penisola, capitale e chiese».
 - Nessuna modifica funzionale rimasta da completare: attendere il prossimo
   aggiornamento dell'utente. Questa sezione fotografa lo stato, non è una lista di
   nuove funzionalità da implementare.
@@ -45,28 +45,26 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 
 ### Punto della blind run e novità
 
-Ultimo episodio: esplorazione di Castel Morne. Edgar è stato incontrato e ha
-ricevuto la lettera; Irina è stata trovata morta, ma non siamo tornati da Edgar.
-La Progenie Leonina **non è stata sconfitta**. La somiglianza Progenie–Hewg resta
-un'ipotesi visiva, non un'appartenenza confermata.
+Ultimo episodio: nella Penisola del Pianto sono state incontrate le Chanting
+Winged Dames e una seconda Sellen, prigioniera e bloccata da cristalli. Un
+teletrasporto della Torre del Ritorno ha mostrato una porzione di Leyndell, il
+grande drago morto e l’ingresso nel tronco dell’Albero Madre. Le parole di Marika
+riferite da Melina chiamano in causa Lord Godfrey e il ritorno dei suoi guerrieri.
+Nelle chiese sono state riconosciute due effigi differenti: una plausibilmente di
+Marika e una figura maschile ancora senza nome.
 
-L’ultimo aggiornamento editoriale raccoglie due indizi da oggetto: la Frenesia,
-ricostruita da Occhio di Yelough, Scudo di legno con stemma fiammante e Fiamma
-della Frenesia; l’esilio dei Senzaluce, ampliato dalla descrizione dell’Ancora
-arrugginita. Non sono stati comunicati ulteriori avanzamenti narrativi rispetto
-a Castel Morne.
-
-Le sole 2 schede «da leggere» sono `senzaluce` (aggiornata) e `frenesia` (nuova).
-Tutte le altre sono già lette. Non segnare queste due come lette solo perché viene
-corretto il layout.
+Le 7 schede «da leggere» sono `chanting-winged-dames`, `leyndell` e
+`statue-chiese-marika` (nuove); `sellen`, `regina-marika`, `godfrey` e `senzaluce`
+(aggiornate). Tutte le altre, comprese `frenesia` e le cinque schede di Castel
+Morne, sono già lette.
 
 Per il prossimo episodio, in `src/data/project.ts`:
 
 1. Aggiornare `conceptArchive` e `connections`, mantenendo stabili gli ID esistenti.
 2. Sostituire `currentEpisodeConceptIds` con gli ID nuovi o aggiornati di quella live.
-3. Aggiornare anche il calcolo di `liveUpdateKind` nell'export `concepts`: al momento
-   distingue esplicitamente `senzaluce` dalla nuova scheda `frenesia`. Non basta modificare
-   il campo `liveReadStatus` dentro `conceptArchive`, perché viene sovrascritto.
+3. Aggiornare anche `currentEpisodeUpdatedConceptIds`, che distingue le schede
+   aggiornate da quelle nuove. Non basta modificare `liveReadStatus` dentro
+   `conceptArchive`, perché viene sovrascritto nell’export `concepts`.
 4. Assegnare gli ID nuovi in `src/data/boardGroups.ts`. Se si condensano schede,
    controllare tutti i riferimenti e i collegamenti; non lasciare ID orfani.
 5. Adeguare le aspettative editoriali dei test (conteggi, gruppi, sequenza delle
@@ -148,7 +146,7 @@ I contenuti editoriali sono raccolti in `src/data/project.ts`.
 
 ### Fascicoli e lavagna completa
 
-La vista iniziale è **Fascicoli**: otto gruppi tematici definiti in
+La vista iniziale è **Fascicoli**: nove gruppi tematici definiti in
 `src/data/boardGroups.ts`, ricerca sull’intero archivio, filtro delle novità e
 pannello di lettura laterale. Su telefono le carte diventano un elenco e il
 dettaglio si raggiunge toccando la scheda; «Torna agli appunti» ripristina il focus.
@@ -161,7 +159,8 @@ il fascicolo corrente e richiede conferma. Le posizioni dei fascicoli sono salva
 separatamente in `elden-rhapsody:dossier-positions-v1`.
 
 **Lavagna completa** conserva la vista precedente con tutte le schede, tutti i
-fili e le disposizioni personali già salvate in `elden-rhapsody:board-positions-v6`.
+fili e le disposizioni personali già salvate in `elden-rhapsody:board-positions-v7`.
+Le posizioni v6 vengono migrate e lasciate intatte come copia di sicurezza.
 La modalità e l’ultimo fascicolo vengono ricordati nel browser; i link
 `#/board/<id>` continuano ad aprire la scheda in entrambe le modalità.
 
@@ -184,6 +183,8 @@ Ogni concetto contiene:
 - `imageUrl`: URL HTTPS opzionale o percorso relativo a un file in `public/`;
 - `imageAlt`: descrizione accessibile dell’immagine;
 - `imagePosition`: punto focale CSS opzionale dell’immagine;
+- `textSections`: sezioni testuali opzionali che conservano le interruzioni di riga;
+- `externalLinks`: risorse HTTPS opzionali aperte in una nuova scheda;
 - `position`: posizione iniziale in percentuale sulla lavagna completa.
 
 Esempio:

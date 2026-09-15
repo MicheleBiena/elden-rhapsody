@@ -6,6 +6,7 @@ export const boardGroups = [
   { id: 'primi-incontri', label: 'Primi incontri', conceptIds: ['mercante-kale', 'boc', 'roderika', 'galere-eterne'] },
   { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'scintipietra', 'sellen'] },
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
+  { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'statue-chiese-marika'] },
   { id: 'caelid', label: 'Caelid', conceptIds: ['caelid', 'palude-aeonia', 'marcescenza', 'sellia'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
   { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'coloro-che-vivono-nella-morte', 'santa-trina'] },

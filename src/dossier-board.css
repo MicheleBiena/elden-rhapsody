@@ -87,6 +87,13 @@
 .dossier-gallery { margin:20px 0; }
 .dossier-gallery img { width:100%; height:auto; border-radius:3px; }
 .dossier-gallery figcaption { margin-top:8px; color:#535944; font-size:12px; }
+.dossier-text-section { margin:22px 0; }
+.dossier-text-section h3 { margin-bottom:8px; }
+.dossier-text-section p { white-space:pre-line; }
+.dossier-external-links { margin:22px 0; }
+.dossier-external-links a { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; padding:10px 12px; border:1px solid #8d816a66; border-radius:3px; color:#33422f; font-size:13px; font-weight:700; text-decoration:none; }
+.dossier-external-links a:hover { background:#d9d3bf; }
+.dossier-external-links svg { width:17px; height:17px; flex-shrink:0; }
 .dossier-relations button { display:block; width:100%; min-height:44px; padding:14px 0; text-align:left; border:0; border-top:1px solid #8d816a44; color:#33422f; background:transparent; }
 .dossier-relations button:hover { background:#d9d3bf; }
 .dossier-relations strong { display:flex; justify-content:space-between; gap:12px; font-size:14px; }
