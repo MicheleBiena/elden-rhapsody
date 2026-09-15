@@ -234,6 +234,8 @@ await page.locator('.concept-dialog[open]').waitFor()
 assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Regina Marika l’Eterna')
 assert.match(await page.locator('.dialog-content').textContent(), /Da leggere in live/)
 assert.match(await page.locator('.dialog-content').textContent(), /Tornate nell’Interregno/i)
+assert.equal(await page.locator('.live-update-highlight').count(), 1)
+assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 1)
 await page.locator('.dialog-close').click()
 await page.waitForURL(/#\/board$/)
 
@@ -258,6 +260,7 @@ await page
   .locator('.card-action')
   .click()
 await page.locator('.concept-dialog[open]').waitFor()
+assert.equal(await page.locator('.live-update-highlight').count(), 0)
 assert.deepEqual(await page.locator('.concept-text-section h3').allTextContents(), [
   'Canto in latino',
   'Traduzione italiana',

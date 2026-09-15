@@ -17,6 +17,7 @@ export interface LoreConcept {
   liveUpdateKind?: 'nuova' | 'aggiornata'
   summary: string
   body: string
+  bodyHighlights?: string[]
   imageUrl?: string
   imageAlt?: string
   imagePosition?: string
@@ -29,6 +30,7 @@ export interface LoreConcept {
     title: string
     text: string
     language?: string
+    highlighted?: boolean
   }>
   externalLinks?: Array<{
     label: string
