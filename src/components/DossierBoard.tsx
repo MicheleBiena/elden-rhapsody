@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BookOpen, Check, Grip, Minus, Plus, RotateCcw, Search, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, Check, ExternalLink, Grip, Minus, Plus, RotateCcw, Search, X } from 'lucide-react'
 import { type CSSProperties, type KeyboardEvent, type PointerEvent, useEffect, useRef, useState } from 'react'
 import { boardGroups, defaultBoardGroup, groupForConcept } from '../data/boardGroups'
 import { concepts, connections } from '../data/project'
@@ -259,6 +259,8 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
                 <p className="dossier-state">{selectedConcept.id === 'elden-ring' ? 'Punto di partenza del gioco' : stateLabels[selectedConcept.state]}</p>
                 <p className="dossier-summary">{selectedConcept.summary}</p><p>{selectedConcept.body}</p>
                 {selectedConcept.gallery?.filter(item => isSafeContentUrl(item.imageUrl)).map(item => <figure className="dossier-gallery" key={item.imageUrl}><img src={item.imageUrl} alt={item.imageAlt} loading="lazy" decoding="async" referrerPolicy="no-referrer" /><figcaption>{item.caption}</figcaption></figure>)}
+                {selectedConcept.textSections?.map(section => <section className="dossier-text-section" key={section.title}><h3>{section.title}</h3><p lang={section.language}>{section.text}</p></section>)}
+                {selectedConcept.externalLinks?.some(link => isSafeContentUrl(link.url)) && <section className="dossier-external-links" aria-label="Risorse esterne"><h3>Risorse</h3>{selectedConcept.externalLinks.filter(link => isSafeContentUrl(link.url)).map(link => <a href={link.url} key={link.url} target="_blank" rel="noreferrer">{link.label}<ExternalLink aria-hidden="true" /></a>)}</section>}
                 {selectedConcept.evidence.length > 0 && <details key={`evidence-${selectedConcept.id}`} className="dossier-evidence"><summary>Elementi raccolti · {selectedConcept.evidence.length}</summary><ul>{selectedConcept.evidence.map(item => <li key={item}>{item}</li>)}</ul></details>}
                 {selectedConcept.questions.length > 0 && <section><h3>Domande aperte</h3><ul>{selectedConcept.questions.map(item => <li key={item}>{item}</li>)}</ul></section>}
                 <section className="dossier-relations" aria-label="Collegamenti della scheda"><h3>Collegamenti</h3>{connections.filter(item => item.from === selectedConcept.id || item.to === selectedConcept.id).map(connection => {

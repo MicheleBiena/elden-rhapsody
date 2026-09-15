@@ -3,6 +3,7 @@ import {
   BookOpen,
   Check,
   Expand,
+  ExternalLink,
   Grip,
   Minus,
   Plus,
@@ -24,7 +25,8 @@ import { ConceptImage } from './ConceptImage'
 
 const legacyBoardHeight = 3600
 const previousBoardHeight = 4400
-const boardHeight = 8000
+const latestBoardHeight = 8000
+const boardHeight = 9000
 const previousLayoutConceptIds = new Set([
   'accademia-raya-lucaria',
   'scintipietra',
@@ -53,6 +55,11 @@ const currentLayoutConceptIds = new Set([
   'santa-trina',
   'frenesia',
 ])
+const newLayoutConceptIds = new Set([
+  'chanting-winged-dames',
+  'leyndell',
+  'statue-chiese-marika',
+])
 const layoutOverrides: Record<string, BoardPosition> = {
   godfrey: { x: 38, y: 9 },
   'mercante-kale': { x: 13, y: 40.5 },
@@ -75,8 +82,11 @@ const layoutOverrides: Record<string, BoardPosition> = {
 const defaultPositions = Object.fromEntries(
   concepts.map((concept) => {
     const override = layoutOverrides[concept.id]
-    if (override) return [concept.id, override]
-    if (currentLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
+    if (newLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (currentLayoutConceptIds.has(concept.id)) {
+      return [concept.id, { ...concept.position, y: concept.position.y * (latestBoardHeight / boardHeight) }]
+    }
 
     const sourceHeight = previousLayoutConceptIds.has(concept.id)
       ? previousBoardHeight
@@ -91,17 +101,22 @@ const defaultPositions = Object.fromEntries(
 function migrateBoardPositions(
   savedPositions: Record<string, BoardPosition>,
   sourceHeight: number,
+  preserveSavedPositions = false,
 ) {
   return Object.fromEntries(
     concepts.map((concept) => {
       const override = layoutOverrides[concept.id]
       const savedPosition = savedPositions[concept.id]
+      const migratedOverride = override
+        ? { ...override, y: override.y * (latestBoardHeight / boardHeight) }
+        : undefined
+      const migratedSaved = savedPosition
+        ? { ...savedPosition, y: savedPosition.y * (sourceHeight / boardHeight) }
+        : undefined
       return [
         concept.id,
-        override ||
-          (savedPosition
-            ? { ...savedPosition, y: savedPosition.y * (sourceHeight / boardHeight) }
-            : defaultPositions[concept.id]),
+        (preserveSavedPositions ? migratedSaved || migratedOverride : migratedOverride || migratedSaved) ||
+          defaultPositions[concept.id],
       ]
     }),
   ) as Record<string, BoardPosition>
@@ -109,26 +124,35 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
-    const latestSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v5')
+    const latestSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v6')
     if (latestSaved) {
       return migrateBoardPositions(
         JSON.parse(latestSaved) as Record<string, BoardPosition>,
-        boardHeight,
+        latestBoardHeight,
+        true,
       )
     }
 
-    const currentSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v4')
+    const currentSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v5')
     if (currentSaved) {
       return migrateBoardPositions(
         JSON.parse(currentSaved) as Record<string, BoardPosition>,
-        boardHeight,
+        latestBoardHeight,
       )
     }
 
-    const previousSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v3')
+    const previousSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v4')
     if (previousSaved) {
       return migrateBoardPositions(
         JSON.parse(previousSaved) as Record<string, BoardPosition>,
+        latestBoardHeight,
+      )
+    }
+
+    const olderSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v3')
+    if (olderSaved) {
+      return migrateBoardPositions(
+        JSON.parse(olderSaved) as Record<string, BoardPosition>,
         previousBoardHeight,
       )
     }
@@ -236,6 +260,9 @@ const boardConceptOrder = [
   'fiamma-della-rovina',
   'coloro-che-vivono-nella-morte',
   'santa-trina',
+  'chanting-winged-dames',
+  'leyndell',
+  'statue-chiese-marika',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -247,57 +274,64 @@ const boardZones = [
     id: 'ordine-spezzato',
     label: 'Ordine spezzato',
     note: 'Marika, l’Elden Ring e la guerra dei semidei',
-    top: 0.4,
-    height: 17.2,
+    top: 0.35,
+    height: 15.3,
   },
   {
     id: 'chiamata-senzaluce',
     label: 'Chiamata dei Senzaluce',
     note: 'Grazia, vergini e figure dell’introduzione',
-    top: 18.9,
-    height: 18,
+    top: 16.8,
+    height: 16,
   },
   {
     id: 'primi-incontri',
     label: 'Primi incontri nel viaggio',
     note: 'Mercanti, richieste e prigioni incontrate nel viaggio',
-    top: 37.8,
-    height: 6,
+    top: 33.6,
+    height: 5.3,
   },
   {
     id: 'sapere-delle-stelle',
     label: 'Sapere delle stelle',
     note: 'Accademia, scintipietra e correnti di studio',
-    top: 45.1,
-    height: 6.1,
+    top: 40.1,
+    height: 5.4,
   },
   {
     id: 'castel-morne',
     label: 'Castel Morne in rivolta',
     note: 'Irina, Edgar e l’insurrezione delle Progenie',
-    top: 52,
-    height: 6.4,
+    top: 46.2,
+    height: 5.7,
   },
   {
     id: 'terre-marcescenti',
     label: 'Caelid e terre marcescenti',
     note: 'Aeonia, Sellia e la contaminazione scarlatta',
-    top: 59.1,
-    height: 8.9,
+    top: 52.5,
+    height: 7.9,
   },
   {
     id: 'tavola-rotonda',
     label: 'Visitatori della Tavola Rotonda',
     note: 'Ospiti, membri e prigionieri raccolti attorno alla Tavola',
-    top: 70,
-    height: 16,
+    top: 62.2,
+    height: 14.2,
   },
   {
     id: 'fede-morte-sonno',
     label: 'Fede, morte e sonno',
     note: 'Due Dita, spiriti e dottrine ai margini',
+    top: 78.2,
+    height: 8.9,
+  },
+  {
+    id: 'penisola-capitale-chiese',
+    label: 'Penisola, capitale e chiese',
+    note: 'Penisola del Pianto, Leyndell e statue nelle chiese',
     top: 88,
-    height: 10,
+    height: 10.8,
   },
 ] as const
 
@@ -319,7 +353,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v6',
+    'elden-rhapsody:board-positions-v7',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
@@ -837,6 +871,27 @@ function ConceptDialog({
           <h2 id="concept-dialog-title">{concept.name}</h2>
           <p className="dialog-lede">{concept.summary}</p>
           <p>{concept.body}</p>
+
+          {concept.textSections?.map((section) => (
+            <section className="concept-text-section" key={section.title}>
+              <h3>{section.title}</h3>
+              <p lang={section.language}>{section.text}</p>
+            </section>
+          ))}
+
+          {concept.externalLinks?.some((link) => isSafeContentUrl(link.url)) && (
+            <section className="concept-external-links" aria-label="Risorse esterne">
+              <h3>Risorse</h3>
+              {concept.externalLinks
+                .filter((link) => isSafeContentUrl(link.url))
+                .map((link) => (
+                  <a href={link.url} key={link.url} target="_blank" rel="noreferrer">
+                    {link.label}
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                ))}
+            </section>
+          )}
 
           {concept.gallery && concept.gallery.length > 0 && (
             <section className="concept-gallery" aria-label={`Immagini aggiuntive di ${concept.name}`}>
