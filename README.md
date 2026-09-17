@@ -2,7 +2,7 @@
 
 Companion site statico per seguire una blind run di Elden Ring senza perdere il filo: una lavagna investigativa, un taccuino cartografico collegato a MapGenie e un archivio delle analisi di traduzione.
 
-## Leftoff per il prossimo agente — 15 settembre 2026
+## Leftoff per il prossimo agente — 17 settembre 2026
 
 Leggere questa sezione prima di intervenire. Il progetto è già funzionante e
 pubblicato: non va ricreato né riportato alla sola anteprima.
@@ -12,17 +12,17 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Sito: [Elden Rhapsody](https://michelebiena.github.io/elden-rhapsody/#/board).
 - Repository: `MicheleBiena/elden-rhapsody`, branch di lavoro e pubblicazione `main`.
 - Stack: React 18, TypeScript, Vite 6, CSS, icone Lucide; sito statico senza backend.
-- Redesign **Fascicoli** già pubblico, con 9 gruppi, 54 schede e 83 collegamenti.
+- Redesign **Fascicoli** già pubblico, con 9 gruppi, 58 schede e 94 collegamenti.
   La vecchia **Lavagna completa** resta disponibile: è una seconda vista, non un tema.
 - Unico tema dei Fascicoli: **sughero freddo**. Toggle e variante calda rimossi;
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
-- Ultimo aggiornamento editoriale: **Chanting Winged Dames**, **Leyndell** e
-  **Statue nelle chiese**; aggiornate **Marika**, **Godfrey**, **I Senzaluce** e
-  **Strega Sellen**. La canzone conserva latino, traduzione italiana e link YouTube.
-- La Lavagna completa usa ora `elden-rhapsody:board-positions-v7`: importa le
-  posizioni v6 senza cancellarle e aggiunge in fondo la nona sezione.
+- Ultimo aggiornamento editoriale: nuove schede **Kenneth Haight**, **Medaglione
+  di Dectus**, **Il Mezzolupo** e **Lord del Sangue**. Aggiornate e condensate
+  Marika, Godfrey, Godrick, Malenia, Radahn, Senzaluce, Grazia, Kalé e Albero Madre.
+- La Lavagna completa usa ora `elden-rhapsody:board-positions-v8`: importa le
+  posizioni v7 senza cancellarle e aggiunge in fondo la sezione «Sepolcride orientale».
 - `npm run build`, `npm test` e `npm run smoke` superati in locale; il fascicolo
-  iniziale atteso è «Penisola, capitale e chiese».
+  iniziale atteso è «Ordine spezzato».
 - Nessuna modifica funzionale rimasta da completare: attendere il prossimo
   aggiornamento dell'utente. Questa sezione fotografa lo stato, non è una lista di
   nuove funzionalità da implementare.
@@ -45,18 +45,17 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 
 ### Punto della blind run e novità
 
-Ultimo episodio: nella Penisola del Pianto sono state incontrate le Chanting
-Winged Dames e una seconda Sellen, prigioniera e bloccata da cristalli. Un
-teletrasporto della Torre del Ritorno ha mostrato una porzione di Leyndell, il
-grande drago morto e l’ingresso nel tronco dell’Albero Madre. Le parole di Marika
-riferite da Melina chiamano in causa Lord Godfrey e il ritorno dei suoi guerrieri.
-Nelle chiese sono state riconosciute due effigi differenti: una plausibilmente di
-Marika e una figura maschile ancora senza nome.
+Ultimo episodio: liberato il forte di Kenneth Haight, recuperata la metà sinistra
+del Medaglione di Dectus e individuato un Mezzolupo nel Tetrobosco. Le parole di
+Kenneth ridimensionano Godrick e lo collegano a Godfrey, Malenia e Radahn. Gli echi
+di Marika alla Terza Chiesa chiariscono la sottrazione della Grazia e l’esilio dei
+guerrieri di Godfrey. Nuovi indizi riguardano inoltre il Lord del Sangue, l’ascia
+di Godfrey e la distinzione fra Albero Madre, Alberi Madre Minori e arboscelli.
 
-Le 7 schede «da leggere» sono `chanting-winged-dames`, `leyndell` e
-`statue-chiese-marika` (nuove); `sellen`, `regina-marika`, `godfrey` e `senzaluce`
-(aggiornate). Tutte le altre, comprese `frenesia` e le cinque schede di Castel
-Morne, sono già lette.
+Le 13 schede «da leggere» sono `kenneth-haight`, `medaglione-dectus`, `mezzolupo`
+e `lord-del-sangue` (nuove); `malenia-la-recisa`, `radahn`, `regina-marika`,
+`albero-madre`, `godfrey`, `godrick-innestato`, `senzaluce`, `grazia` e
+`mercante-kale` (aggiornate). Tutte le altre sono già lette.
 
 Per il prossimo episodio, in `src/data/project.ts`:
 
@@ -162,8 +161,8 @@ il fascicolo corrente e richiede conferma. Le posizioni dei fascicoli sono salva
 separatamente in `elden-rhapsody:dossier-positions-v1`.
 
 **Lavagna completa** conserva la vista precedente con tutte le schede, tutti i
-fili e le disposizioni personali già salvate in `elden-rhapsody:board-positions-v7`.
-Le posizioni v6 vengono migrate e lasciate intatte come copia di sicurezza.
+fili e le disposizioni personali salvate in `elden-rhapsody:board-positions-v8`.
+Le posizioni v7 vengono migrate e lasciate intatte come copia di sicurezza.
 La modalità e l’ultimo fascicolo vengono ricordati nel browser; i link
 `#/board/<id>` continuano ad aprire la scheda in entrambe le modalità.
 

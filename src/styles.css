@@ -770,6 +770,7 @@ main:focus-visible {
   position: relative;
   min-height: var(--board-height, 9000px);
   overflow: auto;
+  overflow-anchor: none;
   border: 12px solid #4c3827;
   border-radius: 7px;
   background-color: var(--color-cork);
@@ -949,6 +950,12 @@ main:focus-visible {
   --zone-accent: #59406d;
   --zone-border: rgba(79, 52, 99, 0.6);
   --zone-wash: rgba(98, 66, 123, 0.09);
+}
+
+.board-zone--sepolcride-orientale {
+  --zone-accent: #53683f;
+  --zone-border: rgba(67, 88, 51, 0.58);
+  --zone-wash: rgba(87, 116, 62, 0.09);
 }
 
 .thread-layer {
