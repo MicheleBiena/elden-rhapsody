@@ -3,13 +3,13 @@ import { concepts } from './project'
 export const boardGroups = [
   { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'runa-della-morte', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato'] },
   { id: 'senzaluce', label: 'Senzaluce', conceptIds: ['senzaluce', 'frenesia', 'grazia', 'vergini-delle-dita', 'melina', 'hoarah-loux', 'goldmask', 'mangiasterco', 'varre', 'strega-sconosciuta'] },
-  { id: 'primi-incontri', label: 'Primi incontri', conceptIds: ['mercante-kale', 'boc', 'roderika', 'galere-eterne'] },
+  { id: 'primi-incontri', label: 'Primi incontri', conceptIds: ['mercante-kale', 'kenneth-haight', 'medaglione-dectus', 'mezzolupo', 'boc', 'roderika', 'galere-eterne'] },
   { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'scintipietra', 'sellen'] },
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
   { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'statue-chiese-marika'] },
   { id: 'caelid', label: 'Caelid', conceptIds: ['caelid', 'palude-aeonia', 'marcescenza', 'sellia'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
-  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'coloro-che-vivono-nella-morte', 'santa-trina'] },
+  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'coloro-che-vivono-nella-morte', 'santa-trina', 'lord-del-sangue'] },
 ]
 
 // Newly added concepts remain reachable even before receiving a curated group.
