@@ -22,14 +22,14 @@ try {
   await page.screenshot({ path: 'artifacts/dossiers-desktop.png', fullPage: true })
 
   const groupButtons = page.locator('.dossier-rail button')
-  assert.equal(await groupButtons.count(), 9)
+  assert.equal(await groupButtons.count(), 10)
   await groupButtons.nth(5).click()
   await page.getByRole('button', { name: 'Apri Chanting Winged Dames', exact: true }).click()
   assert.equal(await page.locator('.dossier-text-section').count(), 2)
   assert.match(await page.locator('.dossier-text-section').nth(1).textContent(), /quella terra, un tempo benedetta/i)
   assert.equal(await page.locator('.dossier-external-links a').getAttribute('href'), 'https://www.youtube.com/watch?v=GnnvyQn9EPo')
   const allIds = new Set()
-  for (let index = 0; index < 9; index++) {
+  for (let index = 0; index < 10; index++) {
     await groupButtons.nth(index).click()
     await page.waitForFunction(index => document.querySelectorAll('.dossier-rail button')[index]?.getAttribute('aria-current') === 'true', index)
     const cards = await page.locator('.dossier-note').evaluateAll(elements => elements.map(element => {
@@ -41,7 +41,7 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 58)
+  assert.equal(allIds.size, 62)
 
   await groupButtons.nth(0).click()
   await page.getByRole('button', { name: 'Apri Albero Madre', exact: true }).click()
@@ -57,7 +57,20 @@ try {
   await page.getByRole('button', { name: 'Apri Kenneth Haight', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /occhi dorati/i)
   assert.equal(await page.locator('.dossier-detail-scroll > img.concept-image').evaluate(image => getComputedStyle(image).objectPosition), '50% 16%')
+  await page.getByRole('button', { name: 'Apri Blaidd il Mezzolupo', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /Darriwil.*vera giustizia/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /\/blai̯ð\/.*BLY-th/is)
+  assert.equal(await page.locator('.live-update-highlight').count(), 1)
   await page.screenshot({ path: 'artifacts/dossiers-new-notes.png', fullPage: true })
+
+  await groupButtons.nth(7).click()
+  assert.equal(await page.locator('.dossier-note').count(), 3)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 3)
+  await page.getByRole('button', { name: 'Apri Seguaci ancestrali', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /Scifra/i)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Crogiolo primordiale/i)
+  await page.locator('.dossier-note img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
+  await page.screenshot({ path: 'artifacts/dossiers-siofra.png', fullPage: true })
 
   await groupButtons.nth(4).click()
   await page.waitForURL(/#\/board\/irina$/)
@@ -101,17 +114,17 @@ try {
   await page.waitForFunction(() => document.querySelector('#dossier-page-title').textContent === 'Castel Morne')
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Progenie')
 
-  await page.getByRole('button', { name: '13 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '17 da leggere', exact: true }).click()
   await page.waitForURL(/#\/board\/regina-marika$/)
-  assert.match(await page.locator('.dossier-stepper').textContent(), /Live 1 di 13/)
+  assert.match(await page.locator('.dossier-stepper').textContent(), /Live 1 di 17/)
   assert.equal(await page.locator('.live-update-highlight').count(), 2)
   assert.match(await page.locator('.live-update-highlight').first().textContent(), /Aggiunto ora.*Terza Chiesa/i)
   assert.equal(await page.locator('.dossier-text-section.is-highlighted').count(), 1)
   assert.match(await page.locator('.dossier-text-section.is-highlighted').textContent(), /Aggiunto ora.*Privo ciascuno di voi della Grazia/is)
   await page.screenshot({ path: 'artifacts/dossiers-highlight.png', fullPage: true })
-  for (let index = 0; index < 12; index++) {
+  for (let index = 0; index < 16; index++) {
     await page.getByRole('button', { name: 'Appunto successivo', exact: true }).click()
-    await page.waitForFunction(step => document.querySelector('.dossier-stepper').textContent.includes(`Live ${step} di 13`), index + 2)
+    await page.waitForFunction(step => document.querySelector('.dossier-stepper').textContent.includes(`Live ${step} di 17`), index + 2)
   }
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Lord del Sangue')
   assert.equal(await page.getByRole('button', { name: 'Appunto successivo', exact: true }).isDisabled(), true)
@@ -156,12 +169,13 @@ try {
 
   const oldPositions = '{"elden-ring":{"x":22,"y":4.8}}'
   await page.evaluate(value => localStorage.setItem('elden-rhapsody:board-positions-v6', value), oldPositions)
+  await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v9'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v8'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v7'))
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 58)
+  assert.equal(await page.locator('.concept-card').count(), 62)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
-  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v8') || '{}')).length === 58)
+  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v9') || '{}')).length === 62)
   await page.getByRole('button', { name: 'Chiudi il fascicolo', exact: true }).click()
   await page.getByRole('button', { name: 'Fascicoli', exact: true }).click()
   await page.goto(`${baseUrl}#/board/non-esiste`, { waitUntil: 'domcontentloaded' })
@@ -169,7 +183,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: all 58 cards, groups, song text and link, dragging, persistence, keyboard, zoom, threads, cross-group links, history, thirteen-item live queue, highlights, search, fixed cool theme, mobile, legacy layout and invalid links.')
+  console.log('Dossiers passed: all 62 cards, groups, song text and link, dragging, persistence, keyboard, zoom, threads, cross-group links, history, seventeen-item live queue, highlights, search, fixed cool theme, mobile, legacy layout and invalid links.')
 } finally {
   await browser.close()
 }
