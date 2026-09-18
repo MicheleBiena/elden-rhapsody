@@ -28,7 +28,8 @@ const legacyBoardHeight = 3600
 const previousBoardHeight = 4400
 const latestBoardHeight = 8000
 const priorBoardHeight = 9000
-const boardHeight = 10000
+const newestBoardHeight = 10000
+const boardHeight = 11000
 const previousLayoutConceptIds = new Set([
   'accademia-raya-lucaria',
   'scintipietra',
@@ -62,11 +63,17 @@ const priorLayoutConceptIds = new Set([
   'leyndell',
   'statue-chiese-marika',
 ])
-const newLayoutConceptIds = new Set([
+const newestLayoutConceptIds = new Set([
   'kenneth-haight',
   'medaglione-dectus',
   'mezzolupo',
   'lord-del-sangue',
+])
+const newLayoutConceptIds = new Set([
+  'crogiolo-primordiale',
+  'citta-eterna',
+  'seguaci-ancestrali',
+  'alexander-vaso-guerriero',
 ])
 const layoutOverrides: Record<string, BoardPosition> = {
   'albero-madre': { x: 13, y: 9.5 },
@@ -99,6 +106,9 @@ const defaultPositions = Object.fromEntries(
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
     if (newLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (newestLayoutConceptIds.has(concept.id)) {
+      return [concept.id, { ...concept.position, y: concept.position.y * (newestBoardHeight / boardHeight) }]
+    }
     if (priorLayoutConceptIds.has(concept.id)) {
       return [concept.id, { ...concept.position, y: concept.position.y * (priorBoardHeight / boardHeight) }]
     }
@@ -142,6 +152,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const newestSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v8')
+    if (newestSaved) {
+      return migrateBoardPositions(
+        JSON.parse(newestSaved) as Record<string, BoardPosition>,
+        newestBoardHeight,
+        true,
+      )
+    }
+
     const priorSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v7')
     if (priorSaved) {
       return migrateBoardPositions(
@@ -294,6 +313,10 @@ const boardConceptOrder = [
   'chanting-winged-dames',
   'leyndell',
   'statue-chiese-marika',
+  'crogiolo-primordiale',
+  'citta-eterna',
+  'seguaci-ancestrali',
+  'alexander-vaso-guerriero',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -305,71 +328,78 @@ const boardZones = [
     id: 'ordine-spezzato',
     label: 'Ordine spezzato',
     note: 'Marika, l’Elden Ring e la guerra dei semidei',
-    top: 0.315,
-    height: 13.77,
+    top: 0.286,
+    height: 12.518,
   },
   {
     id: 'chiamata-senzaluce',
     label: 'Chiamata dei Senzaluce',
     note: 'Grazia, vergini e figure dell’introduzione',
-    top: 15.12,
-    height: 14.4,
+    top: 13.745,
+    height: 13.091,
   },
   {
     id: 'primi-incontri',
     label: 'Primi incontri nel viaggio',
     note: 'Mercanti, richieste e prigioni incontrate nel viaggio',
-    top: 30.24,
-    height: 4.77,
+    top: 27.491,
+    height: 4.336,
   },
   {
     id: 'sapere-delle-stelle',
     label: 'Sapere delle stelle',
     note: 'Accademia, scintipietra e correnti di studio',
-    top: 36.09,
-    height: 4.86,
+    top: 32.809,
+    height: 4.418,
   },
   {
     id: 'castel-morne',
     label: 'Castel Morne in rivolta',
     note: 'Irina, Edgar e l’insurrezione delle Progenie',
-    top: 41.58,
-    height: 5.13,
+    top: 37.8,
+    height: 4.664,
   },
   {
     id: 'terre-marcescenti',
     label: 'Caelid e terre marcescenti',
     note: 'Aeonia, Sellia e la contaminazione scarlatta',
-    top: 47.25,
-    height: 7.11,
+    top: 42.955,
+    height: 6.464,
   },
   {
     id: 'tavola-rotonda',
     label: 'Visitatori della Tavola Rotonda',
     note: 'Ospiti, membri e prigionieri raccolti attorno alla Tavola',
-    top: 55.98,
-    height: 12.78,
+    top: 50.891,
+    height: 11.618,
   },
   {
     id: 'fede-morte-sonno',
     label: 'Fede, morte e sonno',
     note: 'Due Dita, spiriti e dottrine ai margini',
-    top: 70.38,
-    height: 8.01,
+    top: 63.982,
+    height: 7.282,
   },
   {
     id: 'penisola-capitale-chiese',
     label: 'Penisola, capitale e chiese',
     note: 'Penisola del Pianto, Leyndell e statue nelle chiese',
-    top: 79.2,
-    height: 9.72,
+    top: 72,
+    height: 8.836,
   },
   {
     id: 'sepolcride-orientale',
     label: 'Sepolcride orientale',
     note: 'Forte Haight, Tetrobosco e strada per l’Altopiano di Altus',
-    top: 90.2,
-    height: 9,
+    top: 82,
+    height: 8.182,
+  },
+  {
+    id: 'siofra-civilta-antiche',
+    label: 'Siofra e civiltà antiche',
+    note: 'Città sotterranee, popoli ancestrali e vita primordiale',
+    top: 91,
+    height: 8.3,
   },
 ] as const
 
@@ -391,7 +421,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v8',
+    'elden-rhapsody:board-positions-v9',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()

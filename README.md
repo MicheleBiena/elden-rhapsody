@@ -2,7 +2,7 @@
 
 Companion site statico per seguire una blind run di Elden Ring senza perdere il filo: una lavagna investigativa, un taccuino cartografico collegato a MapGenie e un archivio delle analisi di traduzione.
 
-## Leftoff per il prossimo agente — 17 settembre 2026
+## Leftoff per il prossimo agente — 18 settembre 2026
 
 Leggere questa sezione prima di intervenire. Il progetto è già funzionante e
 pubblicato: non va ricreato né riportato alla sola anteprima.
@@ -12,15 +12,15 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Sito: [Elden Rhapsody](https://michelebiena.github.io/elden-rhapsody/#/board).
 - Repository: `MicheleBiena/elden-rhapsody`, branch di lavoro e pubblicazione `main`.
 - Stack: React 18, TypeScript, Vite 6, CSS, icone Lucide; sito statico senza backend.
-- Redesign **Fascicoli** già pubblico, con 9 gruppi, 58 schede e 94 collegamenti.
+- Redesign **Fascicoli** già pubblico, con 10 gruppi, 62 schede e 101 collegamenti.
   La vecchia **Lavagna completa** resta disponibile: è una seconda vista, non un tema.
 - Unico tema dei Fascicoli: **sughero freddo**. Toggle e variante calda rimossi;
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
-- Ultimo aggiornamento editoriale: nuove schede **Kenneth Haight**, **Medaglione
-  di Dectus**, **Il Mezzolupo** e **Lord del Sangue**. Aggiornate e condensate
-  Marika, Godfrey, Godrick, Malenia, Radahn, Senzaluce, Grazia, Kalé e Albero Madre.
-- La Lavagna completa usa ora `elden-rhapsody:board-positions-v8`: importa le
-  posizioni v7 senza cancellarle e aggiunge in fondo la sezione «Sepolcride orientale».
+- Ultimo aggiornamento editoriale: nuove schede **Crogiolo primordiale**, **Città
+  Eterna**, **Seguaci ancestrali** e **Alexander, Vaso Guerriero**. Aggiornati
+  **Blaidd il Mezzolupo** e **Radahn** senza segnare come lette le novità precedenti.
+- La Lavagna completa usa ora `elden-rhapsody:board-positions-v9`: importa le
+  posizioni v8 senza cancellarle e aggiunge in fondo la sezione «Siofra e civiltà antiche».
 - `npm run build`, `npm test` e `npm run smoke` superati in locale; il fascicolo
   iniziale atteso è «Ordine spezzato».
 - Nessuna modifica funzionale rimasta da completare: attendere il prossimo
@@ -45,17 +45,16 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 
 ### Punto della blind run e novità
 
-Ultimo episodio: liberato il forte di Kenneth Haight, recuperata la metà sinistra
-del Medaglione di Dectus e individuato un Mezzolupo nel Tetrobosco. Le parole di
-Kenneth ridimensionano Godrick e lo collegano a Godfrey, Malenia e Radahn. Gli echi
-di Marika alla Terza Chiesa chiariscono la sottrazione della Grazia e l’esilio dei
-guerrieri di Godfrey. Nuovi indizi riguardano inoltre il Lord del Sangue, l’ascia
-di Godfrey e la distinzione fra Albero Madre, Alberi Madre Minori e arboscelli.
+Ultimo episodio: Blaidd ci affida la caccia al traditore Darriwil e indica un fabbro
+gigante sulla strada per Raya Lucaria; Radahn risulta aver studiato la gravità presso
+un Signore d’Alabastro. L’esplorazione del Siofra introduce la Città Eterna, i
+Seguaci ancestrali e gli indizi sul Crogiolo primordiale. Alexander viaggia invece
+verso Castello Mantorosso per un festival di combattimento.
 
-Le 13 schede «da leggere» sono `kenneth-haight`, `medaglione-dectus`, `mezzolupo`
-e `lord-del-sangue` (nuove); `malenia-la-recisa`, `radahn`, `regina-marika`,
-`albero-madre`, `godfrey`, `godrick-innestato`, `senzaluce`, `grazia` e
-`mercante-kale` (aggiornate). Tutte le altre sono già lette.
+Le 17 schede «da leggere» comprendono tutte le 13 già accumulate al 17 settembre,
+senza azzeramenti, più `crogiolo-primordiale`, `citta-eterna`,
+`seguaci-ancestrali` e `alexander-vaso-guerriero`. `mezzolupo` e `radahn` hanno
+ricevuto nuove frasi evidenziate e restano nella stessa coda.
 
 Per il prossimo episodio, in `src/data/project.ts`:
 
@@ -148,7 +147,7 @@ I contenuti editoriali sono raccolti in `src/data/project.ts`.
 
 ### Fascicoli e lavagna completa
 
-La vista iniziale è **Fascicoli**: nove gruppi tematici definiti in
+La vista iniziale è **Fascicoli**: dieci gruppi tematici definiti in
 `src/data/boardGroups.ts`, ricerca sull’intero archivio, filtro delle novità e
 pannello di lettura laterale. Su telefono le carte diventano un elenco e il
 dettaglio si raggiunge toccando la scheda; «Torna agli appunti» ripristina il focus.
@@ -161,8 +160,8 @@ il fascicolo corrente e richiede conferma. Le posizioni dei fascicoli sono salva
 separatamente in `elden-rhapsody:dossier-positions-v1`.
 
 **Lavagna completa** conserva la vista precedente con tutte le schede, tutti i
-fili e le disposizioni personali salvate in `elden-rhapsody:board-positions-v8`.
-Le posizioni v7 vengono migrate e lasciate intatte come copia di sicurezza.
+fili e le disposizioni personali salvate in `elden-rhapsody:board-positions-v9`.
+Le posizioni v8 vengono migrate e lasciate intatte come copia di sicurezza.
 La modalità e l’ultimo fascicolo vengono ricordati nel browser; i link
 `#/board/<id>` continuano ad aprire la scheda in entrambe le modalità.
 
