@@ -1,11 +1,12 @@
-import { EyeOff, GitBranch, Languages, LockKeyhole, Map as MapIcon } from 'lucide-react'
+import { BookOpen, EyeOff, GitBranch, Languages, LockKeyhole, Map as MapIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { ConceptBoard } from './components/ConceptBoard'
 import { MapWorkspace } from './components/MapWorkspace'
+import { Questbook } from './components/Questbook'
 import { TranslationArchive } from './components/TranslationArchive'
 import { isTranslationArchiveReleased } from './data/project'
 
-type TabId = 'board' | 'map' | 'translations'
+type TabId = 'board' | 'questbook' | 'map' | 'translations'
 
 interface RouteState {
   tab: TabId
@@ -14,6 +15,7 @@ interface RouteState {
 
 const tabs = [
   { id: 'board', label: 'Lavagna', caption: 'Indizi e legami', icon: GitBranch },
+  { id: 'questbook', label: 'Questbook', caption: 'Diario delle quest', icon: BookOpen },
   { id: 'map', label: 'Mappa', caption: 'Luoghi e coordinate', icon: MapIcon },
   {
     id: 'translations',
@@ -30,7 +32,7 @@ function readRoute(): RouteState {
   const parts = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean)
   const candidate = parts[0]
   const tab: TabId =
-    candidate === 'map' || candidate === 'translations' || candidate === 'board'
+    candidate === 'map' || candidate === 'translations' || candidate === 'board' || candidate === 'questbook'
       ? candidate
       : 'board'
   return { tab, detail: parts[1] }
@@ -142,6 +144,7 @@ export default function App() {
             onCloseConcept={closeConcept}
           />
         )}
+        {route.tab === 'questbook' && <Questbook activeQuestId={route.detail} />}
         {route.tab === 'map' && <MapWorkspace />}
         {route.tab === 'translations' && (
           <TranslationArchive onOpenConcept={openConcept} />

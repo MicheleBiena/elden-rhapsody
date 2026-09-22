@@ -175,27 +175,8 @@ assert.deepEqual(
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*31/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*10/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 45)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 17)
-assert.deepEqual(await page.locator('.concept-card.is-unread h2').allTextContents(), [
-  'Regina Marika l’Eterna',
-  'Albero Madre',
-  'Godfrey',
-  'Malenia la Recisa',
-  'Radahn',
-  'Godrick l’Innestato',
-  'I Senzaluce',
-  'Grazia',
-  'Kalé',
-  'Kenneth Haight',
-  'Medaglione di Dectus',
-  'Blaidd il Mezzolupo',
-  'Lord del Sangue',
-  'Crogiolo primordiale',
-  'Città Eterna',
-  'Seguaci ancestrali',
-  'Alexander, Vaso Guerriero',
-])
+assert.equal(await page.locator('.concept-card.is-read').count(), 62)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 0)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -246,18 +227,19 @@ assert.match(
     .textContent()) || '',
   /legato all’autorità delle Due Dita/i,
 )
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 60)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 60)
-assert.match(await page.locator('.board-live-note').textContent(), /17 novità da leggere/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*17/)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 0)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 0)
+assert.match(await page.locator('.board-live-note').textContent(), /Tutto già letto/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*0/)
 
-await page.getByRole('button', { name: 'Apri la prima novità' }).click()
+assert.equal(await page.getByRole('button', { name: 'Apri la prima novità' }).count(), 0)
+await page.locator('.concept-card').filter({ has: page.getByRole('heading', { name: 'Regina Marika l’Eterna', exact: true }) }).locator('.card-action').click()
 await page.locator('.concept-dialog[open]').waitFor()
 assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Regina Marika l’Eterna')
-assert.match(await page.locator('.dialog-content').textContent(), /Da leggere in live/)
+assert.match(await page.locator('.dialog-content').textContent(), /Già letto in live/)
 assert.match(await page.locator('.dialog-content').textContent(), /Tornate nell’Interregno/i)
-assert.equal(await page.locator('.live-update-highlight').count(), 2)
-assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 1)
+assert.equal(await page.locator('.live-update-highlight').count(), 0)
+assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 0)
 await page.locator('.dialog-close').click()
 await page.waitForURL(/#\/board$/)
 

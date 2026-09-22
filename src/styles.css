@@ -137,7 +137,7 @@ main:focus-visible {
   z-index: 100;
   top: 0;
   display: grid;
-  grid-template-columns: minmax(230px, 1fr) auto minmax(180px, 1fr);
+  grid-template-columns: minmax(230px, 1fr) auto auto;
   align-items: stretch;
   min-height: 88px;
   border-bottom: 1px solid rgba(199, 170, 112, 0.24);
@@ -226,9 +226,9 @@ main:focus-visible {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 148px;
+  min-width: 132px;
   min-height: 64px;
-  padding: 14px 18px;
+  padding: 14px 15px;
   border-right: 1px solid rgba(255, 255, 255, 0.055);
   color: #bcbbb1;
   text-decoration: none;
@@ -3406,6 +3406,10 @@ main:focus-visible {
 
   .blind-badge {
     padding: 8px 10px;
+  }
+
+  .blind-badge span {
+    display: none;
   }
 
   .board-toolbar {

@@ -1370,38 +1370,9 @@ const conceptArchive: LoreConcept[] = [
   },
 ]
 
-const currentEpisodeConceptIds = new Set([
-  'malenia-la-recisa',
-  'radahn',
-  'regina-marika',
-  'albero-madre',
-  'godfrey',
-  'godrick-innestato',
-  'senzaluce',
-  'grazia',
-  'mercante-kale',
-  'kenneth-haight',
-  'medaglione-dectus',
-  'mezzolupo',
-  'lord-del-sangue',
-  'crogiolo-primordiale',
-  'citta-eterna',
-  'seguaci-ancestrali',
-  'alexander-vaso-guerriero',
-])
-
-const currentEpisodeUpdatedConceptIds = new Set([
-  'malenia-la-recisa',
-  'radahn',
-  'regina-marika',
-  'albero-madre',
-  'godfrey',
-  'godrick-innestato',
-  'senzaluce',
-  'grazia',
-  'mercante-kale',
-  'mezzolupo',
-])
+// Lettura completata il 22 settembre. Popolare di nuovo al prossimo update lore.
+const currentEpisodeConceptIds = new Set<string>([])
+const currentEpisodeUpdatedConceptIds = new Set<string>([])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
