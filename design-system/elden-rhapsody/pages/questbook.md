@@ -17,4 +17,4 @@ suggerimento automatico di usare 3D/parallasse e scorrimento orizzontale.
 - Stato espresso con testo e icona, non solo colore.
 - Selezione via URL, cronologia browser, ritorno all’indice su telefono.
 - Controlli di almeno 44 px, focus visibile, testo ridimensionabile.
-- Il diario pubblico rimane vuoto finché l’utente non fornisce le quest.
+- Il diario contiene soltanto quest e tappe fornite dall’utente, senza progressi dedotti.

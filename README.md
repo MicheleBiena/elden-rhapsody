@@ -18,9 +18,12 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
 - Tutte le **62 schede sono lette**: nessuna novità attiva, nessuna evidenziazione
   residua. La prossima aggiunta lore riparte da questa situazione.
-- Nuova sezione **Questbook**, `#/questbook`: diario su pergamena, indice a
-  sinistra e pagina a destra. **Il diario deve restare vuoto finché l’utente non
-  fornisce le quest e le tappe. Non ricostruire questline dalle schede lore.**
+- Sezione **Questbook**, `#/questbook`: diario su pergamena, indice a sinistra e
+  pagina a destra. Inserite le prime tre quest fornite dall’utente: Melina,
+  Varré e Boc. **Non ricostruire questline o avanzamenti dalle schede lore.**
+  L’incarico iniziale di Varré è completato (Godrick e udienza dalle Due Dita),
+  ma la quest resta in corso senza un seguito inventato. Le schede lore non sono
+  state aggiornate con questi eventi: questo intervento riguarda solo il diario.
 - La Mappa rimane disponibile; la sua eventuale sostituzione non è stata decisa.
 - La Lavagna completa usa ora `elden-rhapsody:board-positions-v9`: importa le
   posizioni v8 senza cancellarle e aggiunge in fondo la sezione «Siofra e civiltà antiche».
@@ -88,7 +91,7 @@ Per il prossimo episodio, in `src/data/project.ts`:
 | `src/components/ConceptImage.tsx` | Immagini condivise, punto focale e fallback |
 | `src/components/MapWorkspace.tsx` + `src/lib/mapMarkers.ts` | Mappa locale, annotazioni X/Y, export e migrazione pin |
 | `src/components/TranslationArchive.tsx` | Archivio esclusivamente post-run |
-| `src/data/quests.ts` | Quest e tappe fornite dall’utente; attualmente vuoto |
+| `src/data/quests.ts` | Quest e tappe fornite dall’utente: Melina, Varré e Boc |
 | `src/components/Questbook.tsx` + `src/questbook.css` | Diario, indice, filtri, ricerca, immagini e navigazione |
 | `src/App.tsx` | Navigazione hash e integrazione delle quattro sezioni |
 | `src/types.ts` | Tipi dei contenuti e dei marker |
@@ -191,8 +194,10 @@ luoghi anche senza accenti. Le voci hanno URL `#/questbook/<id>` e supportano la
 cronologia browser. L’ultima pagina si ricorda in `elden-rhapsody:questbook-page`;
 questo salvataggio non modifica mai lo stato di una quest.
 
-**Nessuna quest è ancora inserita**, su esplicita richiesta dell’utente.
-Quando arriveranno i contenuti, compilare `quests` in `src/data/quests.ts` usando
+Sono presenti **tre quest**, tutte in corso: «La quest principale» (Melina),
+«La Maschera Bianca» (Varré) e «Il vestito è un po’ antiquato…» (Boc).
+La [guida rapida](GUIDA-QUESTBOOK.md) contiene un esempio per le aggiunte manuali.
+Per i prossimi contenuti, compilare `quests` in `src/data/quests.ts` usando
 `QuestEntry` (definito in `src/types.ts`):
 
 - `id`, `title`, `npc`, `region`, `status`, `summary`: identificazione e stato;
@@ -211,8 +216,8 @@ Le informazioni mancanti vengono indicate come non note. Nessun avanzamento si
 deduce dal completamento di un’altra voce. Riutilizzare le immagini locali dove
 appropriate e aggiungere foto dei momenti di quest quando l’utente le fornisce.
 
-`npm run test:questbook` verifica lo stato vuoto sulla preview e le interazioni
-con tre schede tecniche intercettate soltanto nel browser di test. Avvia un server
+`npm run test:questbook` verifica le tre quest reali sulla preview e controlla
+separatamente lo stato vuoto e tre schede tecniche intercettate soltanto nel browser di test. Avvia un server
 Vite locale sulla porta 4187, lo chiude a fine test e non scrive mai contenuti
 in `quests.ts`. Le schede di prova non sono presenti nella build pubblica.
 Design specifico: `design-system/elden-rhapsody/pages/questbook.md`.
