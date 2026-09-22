@@ -4,7 +4,7 @@ Per aggiungere o aggiornare le quest basta modificare **[src/data/quests.ts](src
 
 ## Esempio da copiare
 
-Lascia l'import iniziale e sostituisci `export const quests: QuestEntry[] = []` con questo esempio. Sostituisci i testi prima di pubblicare.
+Il file contiene già le quest di Melina, Varré e Boc: non cancellarle per aggiungerne altre. Copia solo un nuovo blocco `{ ... },` dentro la lista esistente, prima della parentesi `]` finale. Qui sotto trovi la struttura completa di esempio; sostituisci i testi prima di pubblicare.
 
 ```ts
 export const quests: QuestEntry[] = [
@@ -85,7 +85,7 @@ Gli ID devono corrispondere a schede già presenti nella lavagna, non ai loro ti
 2. Esegui `npm run build`: verifica anche eventuali errori nella struttura delle voci.
 3. Fai commit e push su `main`: GitHub Actions ricostruisce e pubblica il sito.
 
-Nota per chi mantiene i test: il test del Questbook verifica attualmente anche il diario vuoto. Quando si aggiungono le prime quest reali, quei controlli vanno aggiornati.
+Nota per chi mantiene i test: `scripts/questbook-test.mjs` controlla anche l’elenco delle quest pubblicate. Quando cambia la lista, aggiorna quelle aspettative. Il diario vuoto viene verificato separatamente con dati di prova.
 
 ## Gli altri file
 
