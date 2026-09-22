@@ -13,10 +13,10 @@ try {
   await page.evaluate(() => document.fonts.ready)
   assert.equal(await page.getByRole('heading', { name: 'Questbook', exact: true }).count(), 1)
   assert.equal(await page.locator('a[href="#/questbook"].nav-tab').getAttribute('aria-current'), 'page')
-  await page.getByRole('heading', { name: 'La quest principale', exact: true }).waitFor()
-  assert.deepEqual(await page.locator('.quest-index-link').evaluateAll(links => links.map(link => link.dataset.questId)), ['melina', 'varre', 'boc'])
+  await page.getByRole('heading', { name: 'I offer you an accord', exact: true }).waitFor()
+  assert.deepEqual(await page.locator('.quest-index-link').evaluateAll(links => links.map(link => link.dataset.questId)), ['melina', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika'])
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
-  assert.match(await page.locator('.questbook-count').textContent(), /3 in corso/)
+  assert.match(await page.locator('.questbook-count').textContent(), /8 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /Raggiungere l’Albero Madre/)
   const proportion = await page.locator('.quest-book').evaluate(book => {
     const index = book.querySelector('.quest-index').getBoundingClientRect()
@@ -46,6 +46,31 @@ try {
   assert.equal(await page.locator('.quest-history li').count(), 1, 'The cave is a future step, not already visited')
   await page.locator('.quest-portrait img').evaluate(image => image.decode())
 
+  const newQuests = [
+    { id: 'alexander', title: 'Amico Vaso', lastSeen: 'Sepolcride nord', destination: 'Castel Mantorosso', step: /lo aiutiamo a liberarsi/, links: 1, image: true },
+    { id: 'sellen', title: 'Maestra di stelle', lastSeen: 'Sepolcride centrale', destination: 'Non ancora nota', step: /seconda figura identica a Sellen/, links: 1, image: true },
+    { id: 'blaidd', title: 'Berserk', lastSeen: 'Galera eterna del limiere alacre', destination: 'Un fabbro gigante a nord', step: /Darriwil/, links: 2, image: true },
+    { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Chiesa di Grantempesta', destination: 'Non ancora nota', step: /Margit/, links: 0, image: false },
+    { id: 'roderika', title: 'Crisalidi', lastSeen: 'Capanna a Grantempesta', destination: 'Non ancora nota', step: /cumulo di cadaveri/, links: 2, image: true },
+  ]
+  for (const quest of newQuests) {
+    await page.locator(`[data-quest-id="${quest.id}"]`).click()
+    await page.getByRole('heading', { name: quest.title, exact: true }).waitFor()
+    assert.deepEqual(await page.locator('.quest-whereabouts dd strong').allTextContents(), [quest.lastSeen, quest.destination])
+    assert.match(await page.locator('.quest-history').textContent(), quest.step)
+    assert.equal(await page.locator('.quest-lore-links a').count(), quest.links)
+    assert.equal(await page.locator('.quest-portrait img').count(), quest.image ? 1 : 0)
+    if (quest.image) await page.locator('.quest-portrait img').evaluate(image => image.decode())
+    if (quest.id === 'sellen') assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
+    if (quest.id === 'rogier' || quest.id === 'roderika') {
+      assert.equal(await page.locator('.quest-next-step').count(), 0, 'No invented follow-up for an unknown destination')
+    }
+  }
+  await page.locator('[data-quest-id="sellen"]').click()
+  await page.getByRole('heading', { name: 'Maestra di stelle', exact: true }).waitFor()
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+  await page.screenshot({ path: 'artifacts/questbook-sellen-desktop.png', fullPage: true })
+
   for (const [width, height] of [[320, 700], [375, 812], [812, 375], [768, 1024], [861, 768], [1024, 768], [1181, 820], [1280, 720]]) {
     await page.setViewportSize({ width, height })
     const outside = await page.locator('.nav-tab, .quest-bookmarks button, .quest-book').evaluateAll(elements => elements.filter(element => {
@@ -62,7 +87,7 @@ try {
   await page.getByRole('link', { name: 'Torna all’indice' }).click()
   await page.locator('.quest-index').waitFor()
   await page.locator('[data-quest-id="melina"]').click()
-  await page.getByRole('heading', { name: 'La quest principale', exact: true }).waitFor()
+  await page.getByRole('heading', { name: 'I offer you an accord', exact: true }).waitFor()
   await page.locator('a.nav-tab[href="#/map"]').click()
   await page.locator('.map-layout').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
@@ -158,7 +183,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: Melina, Varré and Boc, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
+  console.log('Questbook passed: eight user-provided quests, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()
