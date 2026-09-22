@@ -77,3 +77,29 @@ export interface MapMarker {
   y?: number
   createdAt: string
 }
+
+export type QuestStatus = 'in-corso' | 'pista' | 'conclusa'
+
+export interface QuestImage {
+  imageUrl: string
+  imageAlt: string
+  caption?: string
+  imagePosition?: string
+}
+
+export interface QuestEntry {
+  id: string
+  title: string
+  npc: string
+  region: string
+  status: QuestStatus
+  summary: string
+  portrait?: QuestImage
+  lastSeen?: { location: string; note?: string }
+  destination?: { location: string; note?: string }
+  // Soltanto tappe effettivamente raccontate dall’utente, in ordine cronologico.
+  steps: Array<{ title: string; text: string }>
+  nextStep?: { text: string; hypothetical?: boolean }
+  gallery?: QuestImage[]
+  linkedConceptIds?: string[]
+}

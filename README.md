@@ -1,8 +1,8 @@
 # Elden Rhapsody
 
-Companion site statico per seguire una blind run di Elden Ring senza perdere il filo: una lavagna investigativa, un taccuino cartografico collegato a MapGenie e un archivio delle analisi di traduzione.
+Companion site statico per seguire una blind run di Elden Ring: lavagna investigativa, Questbook, taccuino cartografico e analisi di traduzione post-run.
 
-## Leftoff per il prossimo agente — 18 settembre 2026
+## Leftoff per il prossimo agente — 22 settembre 2026
 
 Leggere questa sezione prima di intervenire. Il progetto è già funzionante e
 pubblicato: non va ricreato né riportato alla sola anteprima.
@@ -16,9 +16,12 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
   La vecchia **Lavagna completa** resta disponibile: è una seconda vista, non un tema.
 - Unico tema dei Fascicoli: **sughero freddo**. Toggle e variante calda rimossi;
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
-- Ultimo aggiornamento editoriale: nuove schede **Crogiolo primordiale**, **Città
-  Eterna**, **Seguaci ancestrali** e **Alexander, Vaso Guerriero**. Aggiornati
-  **Blaidd il Mezzolupo** e **Radahn** senza segnare come lette le novità precedenti.
+- Tutte le **62 schede sono lette**: nessuna novità attiva, nessuna evidenziazione
+  residua. La prossima aggiunta lore riparte da questa situazione.
+- Nuova sezione **Questbook**, `#/questbook`: diario su pergamena, indice a
+  sinistra e pagina a destra. **Il diario deve restare vuoto finché l’utente non
+  fornisce le quest e le tappe. Non ricostruire questline dalle schede lore.**
+- La Mappa rimane disponibile; la sua eventuale sostituzione non è stata decisa.
 - La Lavagna completa usa ora `elden-rhapsody:board-positions-v9`: importa le
   posizioni v8 senza cancellarle e aggiunge in fondo la sezione «Siofra e civiltà antiche».
 - `npm run build`, `npm test` e `npm run smoke` superati in locale; il fascicolo
@@ -40,6 +43,8 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
   modifiche dell'utente già presenti nel worktree.
 - Non aggiungere conoscenze future del gioco. Le wiki possono contenere spoiler:
   usare solo informazioni compatibili con ciò che l'utente ha raccontato in live.
+- Il Questbook si compila solo con l’elenco e i passi forniti dall’utente.
+  Non inserire quest dimostrative, né dedurre avanzamenti dai dialoghi della lore.
 - Non sbloccare Analisi o nuove regioni della mappa senza richiesta. Non cancellare
   pin, posizioni personali o chiavi di storage per semplificare una modifica.
 
@@ -51,10 +56,9 @@ un Signore d’Alabastro. L’esplorazione del Siofra introduce la Città Eterna
 Seguaci ancestrali e gli indizi sul Crogiolo primordiale. Alexander viaggia invece
 verso Castello Mantorosso per un festival di combattimento.
 
-Le 17 schede «da leggere» comprendono tutte le 13 già accumulate al 17 settembre,
-senza azzeramenti, più `crogiolo-primordiale`, `citta-eterna`,
-`seguaci-ancestrali` e `alexander-vaso-guerriero`. `mezzolupo` e `radahn` hanno
-ricevuto nuove frasi evidenziate e restano nella stessa coda.
+Il 22 settembre l’utente ha chiesto di segnare tutto come letto. I due Set
+`currentEpisodeConceptIds` e `currentEpisodeUpdatedConceptIds` sono vuoti.
+I testi rimangono intatti, ma le vecchie evidenziazioni non vengono mostrate.
 
 Per il prossimo episodio, in `src/data/project.ts`:
 
@@ -65,7 +69,8 @@ Per il prossimo episodio, in `src/data/project.ts`:
    `conceptArchive`, perché viene sovrascritto nell’export `concepts`.
 4. Nelle schede aggiornate, elencare in `bodyHighlights` le frasi aggiunte e usare
    `highlighted: true` sulle nuove `textSections`. L’evidenziazione appare solo
-   finché la scheda appartiene alle novità dell’episodio corrente.
+   finché la scheda appartiene alle novità dell’episodio corrente. Sostituire le
+   vecchie evidenziazioni quando una scheda torna nelle novità dopo essere stata letta.
 5. Assegnare gli ID nuovi in `src/data/boardGroups.ts`. Se si condensano schede,
    controllare tutti i riferimenti e i collegamenti; non lasciare ID orfani.
 6. Adeguare le aspettative editoriali dei test (conteggi, gruppi, sequenza delle
@@ -83,10 +88,12 @@ Per il prossimo episodio, in `src/data/project.ts`:
 | `src/components/ConceptImage.tsx` | Immagini condivise, punto focale e fallback |
 | `src/components/MapWorkspace.tsx` + `src/lib/mapMarkers.ts` | Mappa locale, annotazioni X/Y, export e migrazione pin |
 | `src/components/TranslationArchive.tsx` | Archivio esclusivamente post-run |
-| `src/App.tsx` | Navigazione hash e integrazione delle tre sezioni |
+| `src/data/quests.ts` | Quest e tappe fornite dall’utente; attualmente vuoto |
+| `src/components/Questbook.tsx` + `src/questbook.css` | Diario, indice, filtri, ricerca, immagini e navigazione |
+| `src/App.tsx` | Navigazione hash e integrazione delle quattro sezioni |
 | `src/types.ts` | Tipi dei contenuti e dei marker |
 | `public/concepts/`, `public/maps/` | Immagini locali fornite dall'utente |
-| `scripts/dossier-test.mjs`, `scripts/map-migration-test.mjs`, `scripts/smoke-test.mjs` | Test browser |
+| `scripts/dossier-test.mjs`, `scripts/map-migration-test.mjs`, `scripts/questbook-test.mjs`, `scripts/smoke-test.mjs` | Test browser |
 | `design-system/elden-rhapsody/` | Studio e prototipo storico; `atelier.html` non è l'app pubblicata |
 
 ### Verifica e pubblicazione: sequenza pratica
@@ -170,9 +177,45 @@ compaiono comunque in «Altri appunti». Impostare `currentEpisodeConceptIds` pe
 novità e `liveUpdateKind` per distinguere schede nuove e aggiornate; non aggiungere
 slogan o sottotitoli decorativi ai fascicoli.
 
-Verifica completa: con la preview avviata, `npm test` controlla fascicoli e
-migrazione dei pin; `npm run smoke` verifica la lavagna completa, mappa e gate
+Verifica completa: con la preview avviata, `npm test` controlla fascicoli,
+migrazione dei pin e Questbook; `npm run smoke` verifica la lavagna completa, mappa e gate
 post-run. Gli screenshot di test finiscono in `artifacts/` (non versionata).
+
+### Questbook
+
+La sezione `#/questbook` mostra un libro aperto: indice per circa un terzo della
+larghezza, pagina di lettura per i due terzi restanti. Su telefono si passa
+dall’indice alla pagina e si torna con «Indice delle quest», ripristinando il focus.
+I segnalibri filtrano Tutte / In corso / Piste / Concluse; la ricerca trova nomi e
+luoghi anche senza accenti. Le voci hanno URL `#/questbook/<id>` e supportano la
+cronologia browser. L’ultima pagina si ricorda in `elden-rhapsody:questbook-page`;
+questo salvataggio non modifica mai lo stato di una quest.
+
+**Nessuna quest è ancora inserita**, su esplicita richiesta dell’utente.
+Quando arriveranno i contenuti, compilare `quests` in `src/data/quests.ts` usando
+`QuestEntry` (definito in `src/types.ts`):
+
+- `id`, `title`, `npc`, `region`, `status`, `summary`: identificazione e stato;
+  `status` accetta `in-corso`, `pista` o `conclusa`.
+- `lastSeen`: `location` e `note` opzionale, solo ultima posizione osservata.
+- `destination`: `location` e `note` opzionale, luogo indicato dall’NPC o obiettivo
+  del viaggio. Non spostare automaticamente qui l’ultima posizione.
+- `steps`: elenco cronologico di `{ title, text }`, solo tappe già avvenute.
+- `nextStep`: `{ text, hypothetical? }`, separato dalle tappe percorse.
+- `portrait`, `gallery`: immagini con `imageUrl`, `imageAlt`, `caption` e
+  `imagePosition` opzionali. Sono ingrandibili con una finestra chiudibile anche
+  con Escape; il punto focale vale per la miniatura, l’ingrandimento mostra l’intera foto.
+- `linkedConceptIds`: link facoltativi alle schede esistenti della lavagna.
+
+Le informazioni mancanti vengono indicate come non note. Nessun avanzamento si
+deduce dal completamento di un’altra voce. Riutilizzare le immagini locali dove
+appropriate e aggiungere foto dei momenti di quest quando l’utente le fornisce.
+
+`npm run test:questbook` verifica lo stato vuoto sulla preview e le interazioni
+con tre schede tecniche intercettate soltanto nel browser di test. Avvia un server
+Vite locale sulla porta 4187, lo chiude a fine test e non scrive mai contenuti
+in `quests.ts`. Le schede di prova non sono presenti nella build pubblica.
+Design specifico: `design-system/elden-rhapsody/pages/questbook.md`.
 
 ### Concetti e immagini
 
@@ -279,7 +322,7 @@ duplicato.
 
 Il workflow `.github/workflows/deploy.yml` esegue automaticamente la build e pubblica `dist/` a ogni push su `main`. Nelle impostazioni del repository, selezionare **Settings → Pages → Source: GitHub Actions**.
 
-Vite usa asset relativi e la navigazione usa hash (`#/board`, `#/map`, `#/translations`), quindi il sito funziona anche sotto il path di un repository GitHub Pages senza regole server aggiuntive.
+Vite usa asset relativi e la navigazione usa hash (`#/board`, `#/questbook`, `#/map`, `#/translations`), quindi il sito funziona anche sotto il path di un repository GitHub Pages senza regole server aggiuntive.
 
 ## Nota editoriale
 

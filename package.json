@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "capture": "node scripts/capture-pages.mjs",
     "smoke": "node scripts/smoke-test.mjs",
-    "test": "node scripts/dossier-test.mjs && node scripts/map-migration-test.mjs",
+    "test": "node scripts/dossier-test.mjs && node scripts/map-migration-test.mjs && node scripts/questbook-test.mjs",
+    "test:questbook": "node scripts/questbook-test.mjs",
     "test:map": "node scripts/map-migration-test.mjs"
   },
   "dependencies": {
