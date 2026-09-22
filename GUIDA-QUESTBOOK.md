@@ -4,7 +4,7 @@ Per aggiungere o aggiornare le quest basta modificare **[src/data/quests.ts](src
 
 ## Esempio da copiare
 
-Il file contiene già le quest di Melina, Varré e Boc: non cancellarle per aggiungerne altre. Copia solo un nuovo blocco `{ ... },` dentro la lista esistente, prima della parentesi `]` finale. Qui sotto trovi la struttura completa di esempio; sostituisci i testi prima di pubblicare.
+Il file contiene già le quest annotate: non cancellarle per aggiungerne altre. Copia solo un nuovo blocco `{ ... },` dentro la lista esistente, prima della parentesi `]` finale. Qui sotto trovi la struttura completa di esempio; sostituisci i testi prima di pubblicare.
 
 ```ts
 export const quests: QuestEntry[] = [
