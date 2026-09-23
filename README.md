@@ -19,8 +19,9 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Tutte le **62 schede sono lette**: nessuna novità attiva, nessuna evidenziazione
   residua. La prossima aggiunta lore riparte da questa situazione.
 - Sezione **Questbook**, `#/questbook`: diario su pergamena, indice a sinistra e
-  pagina a destra. Inserite **15 quest** fornite dall’utente: 14 in corso e
-  «Insurrezione» archiviata come conclusa secondo la nota dell’utente su Irina.
+  pagina a destra. Inserite **15 quest**, tutte in corso. In «Insurrezione» è
+  conclusa **solo la storia di Irina**: Edgar promette di vendicare sua figlia,
+  quindi la voce condivisa rimane aperta. Non archiviarla per la morte di Irina.
   **Non ricostruire questline o avanzamenti dalle schede lore.**
   L’incarico iniziale di Varré è completato (Godrick e udienza dalle Due Dita),
   ma la quest resta in corso senza un seguito inventato. Le schede lore non sono
@@ -202,12 +203,12 @@ luoghi anche senza accenti. Le voci hanno URL `#/questbook/<id>` e supportano la
 cronologia browser. L’ultima pagina si ricorda in `elden-rhapsody:questbook-page`;
 questo salvataggio non modifica mai lo stato di una quest.
 
-Sono presenti **15 quest**, 14 in corso e una conclusa: «I offer you an accord» (Melina),
+Sono presenti **15 quest**, tutte in corso: «I offer you an accord» (Melina),
 «La Maschera Bianca» (Varré), «Il vestito è un po’ antiquato…» (Boc),
 «Amico Vaso» (Alexander), «Maestra di stelle» (Sellen), «Berserk» (Blaidd),
 «Beata ignoranza» (Rogier), «Crisalidi» (Roderika), «La luna nera» (Renna),
 «La doppia faccia» (D), «Successione» (Kenneth), «Consumare la morte» (Gurranq),
-«Insurrezione» (Edgar e Irina, conclusa), «Via col vento» (Nepheli) e «Vocazione» (Diallos).
+«Insurrezione» (Edgar ancora in corso, Irina conclusa), «Via col vento» (Nepheli) e «Vocazione» (Diallos).
 Rogier, Gurranq e Nepheli non hanno ancora ritratti forniti dall’utente;
 gli altri usano immagini locali. «Insurrezione» include anche una foto di Irina
 al primo incontro, distinta dal ritratto di Edgar.
