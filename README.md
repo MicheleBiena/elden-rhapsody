@@ -12,12 +12,12 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Sito: [Elden Rhapsody](https://michelebiena.github.io/elden-rhapsody/#/board).
 - Repository: `MicheleBiena/elden-rhapsody`, branch di lavoro e pubblicazione `main`.
 - Stack: React 18, TypeScript, Vite 6, CSS, icone Lucide; sito statico senza backend.
-- Redesign **Fascicoli** già pubblico, con 11 gruppi, 67 schede e 107 collegamenti.
+- Redesign **Fascicoli** già pubblico, con 11 gruppi, 68 schede e 110 collegamenti.
   La vecchia **Lavagna completa** resta disponibile: è una seconda vista, non un tema.
 - Unico tema dei Fascicoli: **sughero freddo**. Toggle e variante calda rimossi;
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
-- **6 schede da leggere**: Gurranq, Margit, Rogier, Principesse cariane e Progenie
-  innestata sono nuove; Godrick è aggiornato con testo evidenziato. Le altre 61
+- **7 schede da leggere**: Gurranq, Margit, Rogier, Principesse cariane, Progenie
+  innestata e Nepheli Loux sono nuove; Godrick è aggiornato con testo evidenziato. Le altre 61
   restano lette. Nuovo fascicolo «Grantempesta», senza spostare le carte dei gruppi esistenti.
 - Sezione **Questbook**, `#/questbook`: diario su pergamena, indice a sinistra e
   pagina a destra. Inserite **15 quest**, tutte in corso. In «Insurrezione» è
@@ -32,11 +32,11 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
   di Roderika sia già stato consegnato o che siamo tornati da lei.
   Kenneth è a **Forte Haight**, confermato dall’utente dopo il refuso «Faroth».
   D ha già indirizzato a Gurranq, incontrato; Gurranq chiede radici mortali.
-  Per Nepheli Godrick è ucciso, ma non è indicato un seguito. Edgar è stato visto
+  Nepheli è stata incontrata ed evocata contro Godrick, ma non è indicato alcun seguito. Edgar è stato visto
   al Ponte dei Sacrifici; non aggiungere altri sviluppi di Castel Morne.
 - La Mappa rimane disponibile; la sua eventuale sostituzione non è stata decisa.
-- La Lavagna completa usa ora `elden-rhapsody:board-positions-v10` su 12.000 px:
-  importa v9 (11.000 px) senza cancellarla, conservando X e la posizione verticale
+- La Lavagna completa usa ora `elden-rhapsody:board-positions-v11` su 12.500 px:
+  importa v10 (12.000 px) senza cancellarla, conservando X e la posizione verticale
   in pixel. I nuovi concetti occupano una sezione in fondo. Le migrazioni più vecchie restano disponibili.
 - `npm run build`, `npm test` e `npm run smoke` superati in locale; il fascicolo
   iniziale atteso è «Grantempesta» su un browser senza preferenze salvate.
@@ -74,10 +74,12 @@ di Grantempesta. Spinning Weapon cita le principesse cariane senza identificare
 nessuna di loro. Gli innesti di Godrick includono arti umani, di troll e di animali,
 oltre alla testa di un drago. La Progenie innestata potrebbe essere un sottoposto
 usato come esperimento precedente: resta un’ipotesi, distinta dalle Progenie di Morne.
+Nepheli si presenta come Senzaluce e guerriera, agisce per ordine del padre e ha
+combattuto con noi contro Godrick; non annotare incontri successivi.
 
 Dopo il precedente azzeramento delle novità, `currentEpisodeConceptIds` contiene
 `godrick-innestato`, `gurranq`, `margit`, `rogier`, `principesse-cariane`,
-`progenie-innestata`; `currentEpisodeUpdatedConceptIds` contiene soltanto Godrick.
+`progenie-innestata`, `nepheli-loux`; `currentEpisodeUpdatedConceptIds` contiene soltanto Godrick.
 Le sue vecchie evidenziazioni sono state sostituite. Non usare come osservata la
 battuta di Godrick segnalata dall’utente come esclusiva della versione 1.00.
 
@@ -188,8 +190,8 @@ il fascicolo corrente e richiede conferma. Le posizioni dei fascicoli sono salva
 separatamente in `elden-rhapsody:dossier-positions-v1`.
 
 **Lavagna completa** conserva la vista precedente con tutte le schede, tutti i
-fili e le disposizioni personali salvate in `elden-rhapsody:board-positions-v10`.
-Le posizioni v9 vengono migrate (Y × 11.000 / 12.000) e lasciate intatte come copia
+fili e le disposizioni personali salvate in `elden-rhapsody:board-positions-v11`.
+Le posizioni v10 vengono migrate (Y × 12.000 / 12.500) e lasciate intatte come copia
 di sicurezza. Anche i formati precedenti restano importabili. Il margine di
 trascinamento superiore è fisso in pixel, per evitare salti quando la lavagna cresce.
 La modalità e l’ultimo fascicolo vengono ricordati nel browser; i link
@@ -220,8 +222,8 @@ Sono presenti **15 quest**, tutte in corso: «I offer you an accord» (Melina),
 «Beata ignoranza» (Rogier), «Crisalidi» (Roderika), «La luna nera» (Renna),
 «La doppia faccia» (D), «Successione» (Kenneth), «Consumare la morte» (Gurranq),
 «Insurrezione» (Edgar ancora in corso, Irina conclusa), «Via col vento» (Nepheli) e «Vocazione» (Diallos).
-Nepheli non ha ancora un ritratto fornito dall’utente; Rogier e Gurranq hanno ora
-immagini tratte dalle pagine indicate dall’utente. «Insurrezione» include una foto di Irina
+Nepheli, Rogier e Gurranq hanno immagini tratte dalle pagine indicate dall’utente.
+«Insurrezione» include una foto di Irina
 al primo incontro, distinta dal ritratto di Edgar.
 La [guida rapida](GUIDA-QUESTBOOK.md) contiene un esempio per le aggiunte manuali.
 Per i prossimi contenuti, compilare `quests` in `src/data/quests.ts` usando
@@ -290,6 +292,7 @@ delle wiki. Testi basati sulle descrizioni e sui dialoghi forniti nella chat.
 | `public/concepts/rogier.png` | [Rogier](https://eldenring.wiki.fextralife.com/Sorcerer_Rogier), immagine `Rogier_elden_ring_wiki_guide_300px.png` |
 | `public/concepts/godrick.png` | [Godrick](https://eldenring.wiki.fextralife.com/Godrick_the_Grafted), immagine `Godrick_the_grafted_bosses_elden_ring_wiki_600px1-min.png` |
 | `public/concepts/progenie-innestata.webp` | [Immagine fornita dall’utente](https://eldenring.wiki.gg/images/ER_Grafted_Scion.png?7340e0) |
+| `public/concepts/nepheli.png` | [Nepheli Loux](https://eldenring.wiki.fextralife.com/Nepheli_Loux), immagine `Nepheli-loux-npc-elden-ring-wiki-guide.png` |
 
 Gurranq e Progenie innestata sono copie WebP a massimo 1.400 px sul lato lungo,
 senza ritaglio né generazione: insieme passano da circa 10,3 MB a 684 KB.

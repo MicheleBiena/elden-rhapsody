@@ -30,8 +30,10 @@ const latestBoardHeight = 8000
 const priorBoardHeight = 9000
 const newestBoardHeight = 10000
 const lastBoardHeight = 11000
-const boardHeight = 12000
-const episodeLayoutConceptIds = new Set(['gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata'])
+const previousEpisodeBoardHeight = 12000
+const boardHeight = 12500
+const episodeLayoutConceptIds = new Set(['nepheli-loux'])
+const previousEpisodeLayoutConceptIds = new Set(['gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata'])
 const previousLayoutConceptIds = new Set([
   'accademia-raya-lucaria',
   'scintipietra',
@@ -108,6 +110,7 @@ const defaultPositions = Object.fromEntries(
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
     if (episodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (previousEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousEpisodeBoardHeight / boardHeight) }]
     if (newLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (lastBoardHeight / boardHeight) }]
     if (newestLayoutConceptIds.has(concept.id)) {
       return [concept.id, { ...concept.position, y: concept.position.y * (newestBoardHeight / boardHeight) }]
@@ -155,6 +158,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const previousEpisodeSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v10')
+    if (previousEpisodeSaved) {
+      return migrateBoardPositions(
+        JSON.parse(previousEpisodeSaved) as Record<string, BoardPosition>,
+        previousEpisodeBoardHeight,
+        true,
+      )
+    }
+
     const lastSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v9')
     if (lastSaved) {
       return migrateBoardPositions(
@@ -249,7 +261,7 @@ const boardPositionBounds = {
   // Keep the top clearance in pixels as the canvas grows; otherwise grabbing
   // an existing card near the top makes it jump down to a new percentage limit.
   minY: (200 / boardHeight) * 100,
-  maxY: 96,
+  maxY: 97,
 } as const
 
 const categoryOrder: ConceptCategory[] = [
@@ -336,6 +348,7 @@ const boardConceptOrder = [
   'rogier',
   'principesse-cariane',
   'progenie-innestata',
+  'nepheli-loux',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -424,7 +437,7 @@ const previousBoardZones = [
 
 const boardZones = [
   ...previousBoardZones.map(zone => ({ ...zone, top: zone.top * lastBoardHeight / boardHeight, height: zone.height * lastBoardHeight / boardHeight })),
-  { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 92, height: 7.3 },
+  { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 92 * previousEpisodeBoardHeight / boardHeight, height: 11.2 },
 ]
 
 interface ConceptBoardProps {
@@ -445,7 +458,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v10',
+    'elden-rhapsody:board-positions-v11',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
