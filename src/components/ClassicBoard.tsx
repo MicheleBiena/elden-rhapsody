@@ -29,7 +29,9 @@ const previousBoardHeight = 4400
 const latestBoardHeight = 8000
 const priorBoardHeight = 9000
 const newestBoardHeight = 10000
-const boardHeight = 11000
+const lastBoardHeight = 11000
+const boardHeight = 12000
+const episodeLayoutConceptIds = new Set(['gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata'])
 const previousLayoutConceptIds = new Set([
   'accademia-raya-lucaria',
   'scintipietra',
@@ -105,7 +107,8 @@ const defaultPositions = Object.fromEntries(
   concepts.map((concept) => {
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
-    if (newLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (episodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (newLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (lastBoardHeight / boardHeight) }]
     if (newestLayoutConceptIds.has(concept.id)) {
       return [concept.id, { ...concept.position, y: concept.position.y * (newestBoardHeight / boardHeight) }]
     }
@@ -152,6 +155,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const lastSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v9')
+    if (lastSaved) {
+      return migrateBoardPositions(
+        JSON.parse(lastSaved) as Record<string, BoardPosition>,
+        lastBoardHeight,
+        true,
+      )
+    }
+
     const newestSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v8')
     if (newestSaved) {
       return migrateBoardPositions(
@@ -234,7 +246,9 @@ const zoomStep = 0.1
 const boardPositionBounds = {
   minX: 10,
   maxX: 90,
-  minY: 2.5,
+  // Keep the top clearance in pixels as the canvas grows; otherwise grabbing
+  // an existing card near the top makes it jump down to a new percentage limit.
+  minY: (200 / boardHeight) * 100,
   maxY: 96,
 } as const
 
@@ -317,13 +331,18 @@ const boardConceptOrder = [
   'citta-eterna',
   'seguaci-ancestrali',
   'alexander-vaso-guerriero',
+  'gurranq',
+  'margit',
+  'rogier',
+  'principesse-cariane',
+  'progenie-innestata',
 ] as const
 
 const orderedConcepts = boardConceptOrder
   .map((conceptId) => concepts.find((concept) => concept.id === conceptId))
   .filter((concept): concept is LoreConcept => Boolean(concept))
 
-const boardZones = [
+const previousBoardZones = [
   {
     id: 'ordine-spezzato',
     label: 'Ordine spezzato',
@@ -403,6 +422,11 @@ const boardZones = [
   },
 ] as const
 
+const boardZones = [
+  ...previousBoardZones.map(zone => ({ ...zone, top: zone.top * lastBoardHeight / boardHeight, height: zone.height * lastBoardHeight / boardHeight })),
+  { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 92, height: 7.3 },
+]
+
 interface ConceptBoardProps {
   activeConceptId?: string
   onOpenConcept: (conceptId: string) => void
@@ -421,7 +445,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v9',
+    'elden-rhapsody:board-positions-v10',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()

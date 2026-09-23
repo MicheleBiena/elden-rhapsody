@@ -316,20 +316,30 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Semidio e sovrano di Grantempesta, descritto da Roderika come un “ragno” a cui vengono attaccate parti umane.',
-    body: 'Roderika parla di Godrick come di un “ragno” al quale vengono innestate membra umane. Kenneth Haight lo descrive come un nobile codardo: fuggì dalla capitale nascosto fra le donne, si riparò da Radahn nel castello e, dopo aver insultato Malenia, fu sconfitto e si sottomise. Sarebbe comunque sangue di Godfrey e ultimo discendente della stirpe aurea.',
+      'Sovrano di Grantempesta e ultimo della stirpe aurea: accumula forza attraverso innesti e si proclama lord di tutto ciò che è oro.',
+    body: 'Kenneth Haight descrive Godrick come un discendente di Godfrey fuggito dalla capitale, nascosto da Radahn e sconfitto da Malenia, alla quale si sottomise. Il “ragno” di cui parla Roderika unisce al proprio corpo membra umane, di troll e di animali: gli innesti servono ad appropriarsi della forza altrui, fino a utilizzare una testa di drago. Si proclama lord di tutto ciò che è oro e invoca i propri avi come testimoni della sua potenza. Chiama il drago vero erede e consanguineo: è una sua rivendicazione, non la prova di una parentela. Il contrasto fra l’orgoglio della discendenza e il ricorso a corpi altrui resta centrale nel suo identikit.',
     bodyHighlights: [
-      'Kenneth Haight lo descrive come un nobile codardo: fuggì dalla capitale nascosto fra le donne, si riparò da Radahn nel castello e, dopo aver insultato Malenia, fu sconfitto e si sottomise. Sarebbe comunque sangue di Godfrey e ultimo discendente della stirpe aurea.',
+      'Il “ragno” di cui parla Roderika unisce al proprio corpo membra umane, di troll e di animali: gli innesti servono ad appropriarsi della forza altrui, fino a utilizzare una testa di drago.',
+      'Si proclama lord di tutto ciò che è oro e invoca i propri avi come testimoni della sua potenza. Chiama il drago vero erede e consanguineo: è una sua rivendicazione, non la prova di una parentela.',
+      'Il contrasto fra l’orgoglio della discendenza e il ricorso a corpi altrui resta centrale nel suo identikit.',
     ],
+    imageUrl: './concepts/godrick.png',
+    imageAlt: 'Godrick con una corona e numerose braccia innestate sul corpo',
+    imagePosition: '55% 25%',
+    textSections: [{
+      title: 'Le sue parole',
+      text: 'Pretende che il Senzaluce si inginocchi e considera persino gli altri corpi in termini di materiale per gli innesti. Agli avi chiede di guardarlo; nelle ultime parole immagina un ritorno insieme a una dimora immersa nei raggi d’oro. Non sappiamo a chi si rivolga né quale casa intenda.',
+      highlighted: true,
+    }],
     evidence: [
       'È il sovrano di Grantempesta.',
       'Roderika lo chiama “ragno”.',
-      'A lui vengono portate parti umane da innestare.',
+      'Gli innesti comprendono arti umani, di troll e di animali, oltre a una testa di drago.',
       'Kenneth lo accusa di essere fuggito dalla capitale e da Radahn.',
       'Kenneth afferma che fu sconfitto da Malenia e si sottomise.',
       'Viene indicato come sangue di Godfrey e ultimo della stirpe aurea.',
     ],
-    questions: ['Che cosa ottiene dalle parti innestate?', 'Perché vengono offerti sacrifici a Godrick?'],
+    questions: ['Perché rivendica una parentela con il drago?', 'Chi dovrebbe tornare con lui alla dimora dorata?', 'Chi realizza gli innesti sui suoi sottoposti?'],
     tags: ['Godrick', 'Grantempesta', 'innesto', 'semidio'],
     position: { x: 87, y: 34 },
   },
@@ -1368,11 +1378,66 @@ const conceptArchive: LoreConcept[] = [
     tags: ['statue', 'chiese', 'Marika', 'figura maschile', 'culto'],
     position: { x: 75, y: 94 },
   },
+  {
+    id: 'gurranq', name: 'Gurranq, bestia ecclesiastica', eyebrow: 'Fame di morte',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Creatura del Santuario Ferino, nel Dracotumulo, legata agli incantesimi bestiali e a una fame di radici mortali che non sembra placarsi.',
+    body: 'Gurranq è una figura bestiale associata al Santuario Ferino. Desidera radici mortali e la frase legata al suo occhio esprime una fame persistente: non è sazio e chiede altra morte. Il marchio d’artiglio sul suo sigillo rappresenta la sua ira. D lo indica come interlocutore, ma per ora la natura del loro rapporto e l’origine di questa fame restano sconosciute.',
+    imageUrl: './concepts/gurranq.webp', imageAlt: 'Gurranq avvolto in una veste scura, con grandi mani artigliate', imagePosition: '50% 35%',
+    textSections: [
+      { title: 'Sigillo artiglio', text: 'Un raro sigillo sacro legato a Gurranq: permette agli incantesimi di beneficiare della forza fisica e potenzia quelli bestiali appresi da lui. Il segno dell’artiglio esprime la sua ira.' },
+      { title: 'Occhio di pietra', text: 'Porta segni di artigli e si dice che tremi vicino alle radici mortali. L’iride viola e torbida si contorce come se fosse viva. Le parole associate all’oggetto chiedono ancora morte da consumare.' },
+    ],
+    evidence: ['È chiamato bestia ecclesiastica.', 'Il sigillo lega forza fisica e incantesimi bestiali.', 'L’occhio reagisce alle radici mortali.'],
+    questions: ['Perché desidera consumare la morte?', 'Da dove viene l’occhio che sembra vivo?', 'Che rapporto ha con D?'],
+    tags: ['Gurranq', 'radici mortali', 'occhio', 'artiglio', 'incantesimi bestiali', 'Dracotumulo'], position: { x: 10, y: 95.5 },
+  },
+  {
+    id: 'margit', name: 'Margit il Presagio', eyebrow: 'Guardiano di Grantempesta',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Figura a guardia di Grantempesta che ostacola i Senzaluce resi audaci dalla fiamma dell’ambizione.',
+    body: 'Margit riconosce il Senzaluce in cerca dell’Elden Ring e considera la sua ambizione un motivo per fermarlo. Il termine inglese “emboldened” indica l’essere resi audaci, incoraggiati: la fiamma dell’ambizione è ciò che spinge il Senzaluce a osare. Margit si oppone a questa spinta e associa la propria minaccia alla notte. Non sappiamo che cosa significhi il titolo di Presagio né quale autorità rappresenti.',
+    imageUrl: './concepts/margit.png', imageAlt: 'Margit con corna sul volto, mantello e un grande bastone', imagePosition: '50% 20%',
+    evidence: ['Riconosce i Senzaluce e la ricerca dell’Elden Ring.', 'Vuole frenare la fiamma dell’ambizione.', 'È posto a guardia di Grantempesta.'],
+    questions: ['Che cosa significa Presagio?', 'Per conto di chi difende l’accesso?', 'Che cosa intende con la minaccia della notte?'],
+    tags: ['Margit', 'Presagio', 'Grantempesta', 'ambizione', 'Senzaluce'], position: { x: 30, y: 95.5 },
+  },
+  {
+    id: 'rogier', name: 'Stregone Rogier', eyebrow: 'Insegnante a Grantempesta',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Stregone che offre i propri insegnamenti nella chiesa di Grantempesta. Una delle tecniche proposte cita le principesse cariane.',
+    body: 'Di Rogier conosciamo per ora il ruolo di insegnante. Fra le tecniche del suo negozio, Spinning Weapon fa levitare e ruotare rapidamente un’arma a scopo difensivo, colpendo ripetutamente chi la tocca. La descrizione la attribuisce alle principesse cariane: è un indizio sulla provenienza della tecnica, non una prova dell’appartenenza di Rogier alla loro casata.',
+    imageUrl: './concepts/rogier.png', imageAlt: 'Rogier con un cappello a tesa larga e abiti da stregone', imagePosition: '50% 20%',
+    evidence: ['Offre insegnamenti nella chiesa di Grantempesta.', 'Spinning Weapon è descritta come tecnica difensiva delle principesse cariane.'],
+    questions: ['Perché si trova a Grantempesta?', 'Come conosce le tecniche che insegna?'],
+    tags: ['Rogier', 'stregoneria', 'Grantempesta', 'Spinning Weapon', 'principesse cariane'], position: { x: 50, y: 95.5 },
+  },
+  {
+    id: 'principesse-cariane', name: 'Principesse cariane', eyebrow: 'Indizio da una tecnica',
+    category: 'Tema', state: 'da-verificare', liveReadStatus: 'da-leggere',
+    summary: 'Citate nella descrizione di Spinning Weapon come utilizzatrici di una tecnica difensiva che fa levitare e ruotare un’arma.',
+    body: 'Il nome emerge da Spinning Weapon, proposta nel negozio di Rogier. L’arma sospesa ruota violentemente e infligge colpi successivi a chi entra in contatto con essa. Per ora non conosciamo le identità delle principesse né il significato preciso dell’appellativo “cariane”. Non ci sono elementi per identificarle con le streghe già conosciute.',
+    evidence: ['La descrizione attribuisce loro una tecnica difensiva.', 'La tecnica combina levitazione e rotazione dell’arma.'],
+    questions: ['Chi sono le principesse cariane?', 'Che cosa indica il nome cariano?'],
+    tags: ['principesse cariane', 'Rogier', 'Spinning Weapon', 'tecnica difensiva'], position: { x: 70, y: 95.5 },
+  },
+  {
+    id: 'progenie-innestata', name: 'Progenie innestata', eyebrow: 'Corpo composto da molte membra',
+    category: 'Personaggio', state: 'da-verificare', liveReadStatus: 'da-leggere',
+    summary: 'Creatura umanoide con numerose membra innestate, legata alle pratiche di Godrick. Potrebbe essere un suo sottoposto usato come esperimento.',
+    body: 'La creatura presenta un volto umano e un corpo alterato dall’aggiunta di molte membra. È un altro risultato degli innesti associati a Godrick. L’idea che sia un suo sottoposto, sperimentato prima del lord stesso, resta un’ipotesi: non conosciamo l’ordine degli esperimenti né la sua identità originaria. Non va confusa con le Progenie ribelli di Castel Morne: la somiglianza del nome non dimostra un’origine comune.',
+    imageUrl: './concepts/progenie-innestata.webp', imageAlt: 'Creatura dal volto umano, con numerosi arti innestati e un mantello decorato', imagePosition: '52% 40%',
+    evidence: ['Ha un volto umano e numerose membra aggiuntive.', 'Il suo aspetto richiama gli innesti di Godrick.'],
+    questions: ['Chi era prima degli innesti?', 'È un sottoposto di Godrick?', 'Gli esperimenti su di lei precedono quelli sul lord?'],
+    tags: ['innesti', 'Godrick', 'Grantempesta', 'Progenie innestata'], position: { x: 90, y: 95.5 },
+  },
 ]
 
-// Lettura completata il 22 settembre. Popolare di nuovo al prossimo update lore.
-const currentEpisodeConceptIds = new Set<string>([])
-const currentEpisodeUpdatedConceptIds = new Set<string>([])
+// Dal 23 settembre: identikit sulla lavagna, azioni e avanzamenti nel Questbook.
+const currentEpisodeConceptIds = new Set<string>([
+  'godrick-innestato', 'gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata',
+])
+const currentEpisodeUpdatedConceptIds = new Set<string>(['godrick-innestato'])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
@@ -1383,6 +1448,30 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'gurranq-d', from: 'gurranq', to: 'd-cacciatore', label: 'contatto indicato da D',
+    note: 'D conosce Gurranq e lo indica come interlocutore; la natura del loro rapporto rimane da chiarire.', kind: 'traccia',
+  },
+  {
+    id: 'margit-senzaluce', from: 'margit', to: 'senzaluce', label: 'fiamma dell’ambizione',
+    note: 'Margit vuole fermare i Senzaluce resi audaci dalla propria ambizione.', kind: 'traccia',
+  },
+  {
+    id: 'margit-elden-ring', from: 'margit', to: 'elden-ring', label: 'ricerca ostacolata',
+    note: 'Margit riconosce nella ricerca dell’Elden Ring il motivo dell’avanzata del Senzaluce.', kind: 'traccia',
+  },
+  {
+    id: 'margit-godrick', from: 'margit', to: 'godrick-innestato', label: 'Grantempesta',
+    note: 'Margit difende l’accesso al castello di cui Godrick è sovrano. Questo non basta a chiarire il rapporto fra i due.', kind: 'traccia',
+  },
+  {
+    id: 'rogier-principesse-cariane', from: 'rogier', to: 'principesse-cariane', label: 'Spinning Weapon',
+    note: 'La tecnica proposta da Rogier cita le principesse cariane, senza dimostrare una sua appartenenza alla loro casata.', kind: 'traccia',
+  },
+  {
+    id: 'godrick-progenie-innestata', from: 'godrick-innestato', to: 'progenie-innestata', label: 'corpi ricomposti',
+    note: 'Entrambi presentano numerose membra innestate. La creatura potrebbe essere un sottoposto usato come esperimento prima di Godrick, ma ruolo e cronologia non sono confermati.', kind: 'ipotesi',
+  },
   {
     id: 'elden-ring-shattering',
     from: 'elden-ring',
