@@ -70,7 +70,7 @@ try {
     { id: 'kenneth', title: 'Successione', lastSeen: 'Forte Haight', destination: 'Non ancora nota', step: /degno erede/, links: 1, image: true },
     { id: 'gurranq', title: 'Consumare la morte', lastSeen: 'Santuario Ferino, Dracotumulo', destination: 'Santuario Ferino', step: /occhio per trovare le radici mortali.*Sigillo artiglio/, links: 2, image: true },
     { id: 'edgar-irina', title: 'Insurrezione', lastSeen: 'Ponte dei Sacrifici', destination: 'Non ancora nota', step: /Irina morta/, links: 3, image: true },
-    { id: 'nepheli', title: 'Via col vento', lastSeen: 'Grantempesta', destination: 'Non ancora nota', step: /Uccidiamo Godrick/, links: 1, image: false },
+    { id: 'nepheli', title: 'Via col vento', lastSeen: 'Grantempesta', destination: 'Non ancora nota', step: /Evochiamo Nepheli.*Uccidiamo Godrick/s, links: 4, image: true },
     { id: 'diallos', title: 'Vocazione', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Lanya/, links: 1, image: true },
   ]
   for (const quest of newQuests) {
@@ -137,7 +137,7 @@ try {
   await page.locator('a.nav-tab[href="#/map"]').click()
   await page.locator('.map-layout').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '6 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '7 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 

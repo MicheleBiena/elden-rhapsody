@@ -444,21 +444,30 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta",
     status: "in-corso",
-    summary: "Nepheli voleva liberare Grantempesta dalla sozzura di Godrick. Lo abbiamo ucciso; non è ancora annotato un seguito.",
+    summary: "Nepheli, Senzaluce e guerriera, voleva liberare Grantempesta dalla sozzura di Godrick. L’abbiamo evocata contro di lui; dopo la vittoria non abbiamo incontrato altri sviluppi.",
     lastSeen: {
       location: "Grantempesta",
     },
     steps: [
       {
         title: "La richiesta di Nepheli",
-        text: "Nepheli ci chiede aiuto per liberare Grantempesta dalla sozzura compiuta da Godrick.",
+        text: "Nepheli si presenta come Senzaluce e guerriera, arrivata per ordine del padre. Ci chiede aiuto per liberare Grantempesta dalla sozzura compiuta da Godrick.",
+      },
+      {
+        title: "Combattere insieme",
+        text: "Evochiamo Nepheli e combattiamo insieme contro Godrick.",
       },
       {
         title: "Godrick ucciso",
-        text: "Uccidiamo Godrick, portando a termine l’obiettivo indicato da Nepheli.",
+        text: "Uccidiamo Godrick, portando a termine l’obiettivo indicato da Nepheli. Non abbiamo ancora rivisto la guerriera dopo lo scontro.",
       },
     ],
-    linkedConceptIds: ["godrick-innestato"],
+    portrait: {
+      imageUrl: "./concepts/nepheli.png",
+      imageAlt: "Nepheli Loux con abiti da guerriera e una grande ascia",
+      imagePosition: "50% 22%",
+    },
+    linkedConceptIds: ["nepheli-loux", "godrick-innestato", "senzaluce", "hoarah-loux"],
   },
   {
     id: "diallos",

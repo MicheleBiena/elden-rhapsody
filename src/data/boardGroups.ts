@@ -11,7 +11,7 @@ export const boardGroups = [
   { id: 'siofra-civilta-antiche', label: 'Siofra e civiltà antiche', conceptIds: ['citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
   { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'coloro-che-vivono-nella-morte', 'santa-trina', 'lord-del-sangue', 'gurranq'] },
-  { id: 'grantempesta', label: 'Grantempesta', conceptIds: ['margit', 'rogier', 'progenie-innestata'] },
+  { id: 'grantempesta', label: 'Grantempesta', conceptIds: ['margit', 'rogier', 'progenie-innestata', 'nepheli-loux'] },
 ]
 
 // Newly added concepts remain reachable even before receiving a curated group.

@@ -1431,11 +1431,21 @@ const conceptArchive: LoreConcept[] = [
     questions: ['Chi era prima degli innesti?', 'È un sottoposto di Godrick?', 'Gli esperimenti su di lei precedono quelli sul lord?'],
     tags: ['innesti', 'Godrick', 'Grantempesta', 'Progenie innestata'], position: { x: 90, y: 95.5 },
   },
+  {
+    id: 'nepheli-loux', name: 'Nepheli Loux', eyebrow: 'Senzaluce e guerriera',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Guerriera Senzaluce incontrata a Grantempesta, dove si oppone agli innesti di Godrick e offre il proprio aiuto contro di lui.',
+    body: 'Nepheli si presenta come una Senzaluce e una guerriera, arrivata a Grantempesta per ordine del padre. Considera ripugnanti gli innesti di Godrick e indegni di un lord: secondo lei hanno contaminato persino i venti del castello. Dice di volerlo affrontare e si offre di combattere al nostro fianco. Per ora non sappiamo chi sia suo padre né che cosa farà dopo la battaglia.',
+    imageUrl: './concepts/nepheli.png', imageAlt: 'Nepheli Loux con abiti da guerriera e una grande ascia', imagePosition: '50% 22%',
+    evidence: ['Si presenta come Senzaluce e guerriera.', 'Dice di agire per ordine del padre.', 'Condanna gli innesti di Godrick e offre il proprio aiuto contro di lui.'],
+    questions: ['Chi è il padre che le ha dato l’incarico?', 'Il nome Loux indica un legame con Hoarah Loux?', 'Quale sarà il suo prossimo obiettivo?'],
+    tags: ['Nepheli Loux', 'Senzaluce', 'guerriera', 'Grantempesta', 'Godrick'], position: { x: 50, y: 97 },
+  },
 ]
 
 // Dal 23 settembre: identikit sulla lavagna, azioni e avanzamenti nel Questbook.
 const currentEpisodeConceptIds = new Set<string>([
-  'godrick-innestato', 'gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata',
+  'godrick-innestato', 'gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata', 'nepheli-loux',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>(['godrick-innestato'])
 
@@ -1448,6 +1458,18 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'nepheli-godrick', from: 'nepheli-loux', to: 'godrick-innestato', label: 'contro gli innesti',
+    note: 'Nepheli considera gli innesti di Godrick ripugnanti e indegni di un lord, e si offre di combatterlo.', kind: 'traccia',
+  },
+  {
+    id: 'nepheli-senzaluce', from: 'nepheli-loux', to: 'senzaluce', label: 'Senzaluce e guerriera',
+    note: 'Nepheli si presenta come una Senzaluce e riconosce nel viaggiatore la stessa condizione.', kind: 'traccia',
+  },
+  {
+    id: 'nepheli-hoarah-loux', from: 'nepheli-loux', to: 'hoarah-loux', label: 'nome Loux condiviso',
+    note: 'Nepheli e Hoarah condividono il nome Loux. Non sappiamo ancora se esista un legame fra loro.', kind: 'ipotesi',
+  },
   {
     id: 'gurranq-d', from: 'gurranq', to: 'd-cacciatore', label: 'contatto indicato da D',
     note: 'D conosce Gurranq e lo indica come interlocutore; la natura del loro rapporto rimane da chiarire.', kind: 'traccia',
