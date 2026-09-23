@@ -21,6 +21,10 @@ try {
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /15 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /Raggiungere l’Albero Madre/)
+  assert.match(await page.locator('.quest-history').textContent(), /Margit scompare in una luce dorata/)
+  assert.match(await page.locator('.quest-history').textContent(), /si innesta la testa di un drago/)
+  assert.equal(await page.locator('.quest-lore-links a').count(), 5)
+  assert.equal(await page.locator('.quest-gallery img').count(), 3)
   const proportion = await page.locator('.quest-book').evaluate(book => {
     const index = book.querySelector('.quest-index').getBoundingClientRect()
     const detail = book.querySelector('.quest-page').getBoundingClientRect()
@@ -28,6 +32,12 @@ try {
   })
   assert.ok(proportion >= 1.9 && proportion <= 2.3)
   await page.locator('.quest-portrait img').evaluate(image => image.decode())
+  for (const photo of await page.locator('.quest-gallery img').all()) {
+    await photo.scrollIntoViewIfNeeded()
+    await photo.evaluate(image => image.decode())
+    assert.ok(await photo.evaluate(image => image.naturalWidth > 0))
+  }
+  await page.evaluate(() => window.scrollTo(0, 0))
   await page.screenshot({ path: 'artifacts/questbook-desktop.png', fullPage: true })
 
   await page.getByRole('searchbox').fill('varre')
@@ -53,12 +63,12 @@ try {
     { id: 'alexander', title: 'Amico Vaso', lastSeen: 'Sepolcride nord', destination: 'Castel Mantorosso', step: /lo aiutiamo a liberarsi/, links: 1, image: true },
     { id: 'sellen', title: 'Maestra di stelle', lastSeen: 'Sepolcride centrale', destination: 'Non ancora nota', step: /seconda figura identica a Sellen/, links: 1, image: true },
     { id: 'blaidd', title: 'Berserk', lastSeen: 'Galera eterna del limiere alacre', destination: 'Un fabbro gigante a nord', step: /Darriwil/, links: 2, image: true },
-    { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Chiesa di Grantempesta', destination: 'Non ancora nota', step: /Margit/, links: 0, image: false },
+    { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Chiesa di Grantempesta', destination: 'Non ancora nota', step: /Margit/, links: 3, image: true },
     { id: 'roderika', title: 'Crisalidi', lastSeen: 'Capanna a Grantempesta', destination: 'Non ancora nota', step: /cumulo di cadaveri/, links: 2, image: true },
     { id: 'renna', title: 'La luna nera', lastSeen: 'Chiesa di Elleh', destination: 'Non ancora nota', step: /strega Renna/, links: 1, image: true },
-    { id: 'd', title: 'La doppia faccia', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /uccidiamo il marinaio/, links: 2, image: true },
+    { id: 'd', title: 'La doppia faccia', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /uccidiamo il marinaio/, links: 3, image: true },
     { id: 'kenneth', title: 'Successione', lastSeen: 'Forte Haight', destination: 'Non ancora nota', step: /degno erede/, links: 1, image: true },
-    { id: 'gurranq', title: 'Consumare la morte', lastSeen: 'Santuario Ferino, Dracotumulo', destination: 'Santuario Ferino', step: /occhio per trovare le radici mortali/, links: 1, image: false },
+    { id: 'gurranq', title: 'Consumare la morte', lastSeen: 'Santuario Ferino, Dracotumulo', destination: 'Santuario Ferino', step: /occhio per trovare le radici mortali.*Sigillo artiglio/, links: 2, image: true },
     { id: 'edgar-irina', title: 'Insurrezione', lastSeen: 'Ponte dei Sacrifici', destination: 'Non ancora nota', step: /Irina morta/, links: 3, image: true },
     { id: 'nepheli', title: 'Via col vento', lastSeen: 'Grantempesta', destination: 'Non ancora nota', step: /Uccidiamo Godrick/, links: 1, image: false },
     { id: 'diallos', title: 'Vocazione', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Lanya/, links: 1, image: true },
@@ -127,7 +137,7 @@ try {
   await page.locator('a.nav-tab[href="#/map"]').click()
   await page.locator('.map-layout').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '0 da leggere', exact: true }).isDisabled(), true)
+  assert.equal(await page.getByRole('button', { name: '6 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 

@@ -12,20 +12,21 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Sito: [Elden Rhapsody](https://michelebiena.github.io/elden-rhapsody/#/board).
 - Repository: `MicheleBiena/elden-rhapsody`, branch di lavoro e pubblicazione `main`.
 - Stack: React 18, TypeScript, Vite 6, CSS, icone Lucide; sito statico senza backend.
-- Redesign **Fascicoli** già pubblico, con 10 gruppi, 62 schede e 101 collegamenti.
+- Redesign **Fascicoli** già pubblico, con 11 gruppi, 67 schede e 107 collegamenti.
   La vecchia **Lavagna completa** resta disponibile: è una seconda vista, non un tema.
 - Unico tema dei Fascicoli: **sughero freddo**. Toggle e variante calda rimossi;
   la vecchia preferenza `elden-rhapsody:dossier-theme` viene ignorata.
-- Tutte le **62 schede sono lette**: nessuna novità attiva, nessuna evidenziazione
-  residua. La prossima aggiunta lore riparte da questa situazione.
+- **6 schede da leggere**: Gurranq, Margit, Rogier, Principesse cariane e Progenie
+  innestata sono nuove; Godrick è aggiornato con testo evidenziato. Le altre 61
+  restano lette. Nuovo fascicolo «Grantempesta», senza spostare le carte dei gruppi esistenti.
 - Sezione **Questbook**, `#/questbook`: diario su pergamena, indice a sinistra e
   pagina a destra. Inserite **15 quest**, tutte in corso. In «Insurrezione» è
   conclusa **solo la storia di Irina**: Edgar promette di vendicare sua figlia,
   quindi la voce condivisa rimane aperta. Non archiviarla per la morte di Irina.
   **Non ricostruire questline o avanzamenti dalle schede lore.**
   L’incarico iniziale di Varré è completato (Godrick e udienza dalle Due Dita),
-  ma la quest resta in corso senza un seguito inventato. Le schede lore non sono
-  state aggiornate con questi eventi: questo intervento riguarda solo il diario.
+  ma la quest resta in corso senza un seguito inventato. La quest principale
+  registra ora Margit, Godrick e gli incontri con la creatura innestata.
   Sellen cerca una spiegazione al duplicato (pista, non una destinazione nota);
   per Rogier e Roderika non è annotato un seguito. Non dedurre che il messaggio
   di Roderika sia già stato consegnato o che siamo tornati da lei.
@@ -34,10 +35,11 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
   Per Nepheli Godrick è ucciso, ma non è indicato un seguito. Edgar è stato visto
   al Ponte dei Sacrifici; non aggiungere altri sviluppi di Castel Morne.
 - La Mappa rimane disponibile; la sua eventuale sostituzione non è stata decisa.
-- La Lavagna completa usa ora `elden-rhapsody:board-positions-v9`: importa le
-  posizioni v8 senza cancellarle e aggiunge in fondo la sezione «Siofra e civiltà antiche».
+- La Lavagna completa usa ora `elden-rhapsody:board-positions-v10` su 12.000 px:
+  importa v9 (11.000 px) senza cancellarla, conservando X e la posizione verticale
+  in pixel. I nuovi concetti occupano una sezione in fondo. Le migrazioni più vecchie restano disponibili.
 - `npm run build`, `npm test` e `npm run smoke` superati in locale; il fascicolo
-  iniziale atteso è «Ordine spezzato».
+  iniziale atteso è «Grantempesta» su un browser senza preferenze salvate.
 - Nessuna modifica funzionale rimasta da completare: attendere il prossimo
   aggiornamento dell'utente. Questa sezione fotografa lo stato, non è una lista di
   nuove funzionalità da implementare.
@@ -57,20 +59,27 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
   usare solo informazioni compatibili con ciò che l'utente ha raccontato in live.
 - Il Questbook si compila solo con l’elenco e i passi forniti dall’utente.
   Non inserire quest dimostrative, né dedurre avanzamenti dai dialoghi della lore.
+- **Regola editoriale dal 23 settembre:** lavagna = identikit, concetti, descrizioni
+  degli oggetti e ipotesi; Questbook = azioni compiute, incontri, combattimenti,
+  oggetti ricevuti, ultima posizione e prossimi passi. Applicarla ai nuovi contenuti
+  e alle schede che si aggiornano, senza trasformare la lavagna in un secondo diario.
 - Non sbloccare Analisi o nuove regioni della mappa senza richiesta. Non cancellare
   pin, posizioni personali o chiavi di storage per semplificare una modifica.
 
 ### Punto della blind run e novità
 
-Ultimo episodio: Blaidd ci affida la caccia al traditore Darriwil e indica un fabbro
-gigante sulla strada per Raya Lucaria; Radahn risulta aver studiato la gravità presso
-un Signore d’Alabastro. L’esplorazione del Siofra introduce la Città Eterna, i
-Seguaci ancestrali e gli indizi sul Crogiolo primordiale. Alexander viaggia invece
-verso Castello Mantorosso per un festival di combattimento.
+Ultimo aggiornamento: incontro con Gurranq e ricezione di occhio e Sigillo artiglio;
+Margit e Godrick sconfitti; Rogier aiutante contro Margit e insegnante nella chiesa
+di Grantempesta. Spinning Weapon cita le principesse cariane senza identificare
+nessuna di loro. Gli innesti di Godrick includono arti umani, di troll e di animali,
+oltre alla testa di un drago. La Progenie innestata potrebbe essere un sottoposto
+usato come esperimento precedente: resta un’ipotesi, distinta dalle Progenie di Morne.
 
-Il 22 settembre l’utente ha chiesto di segnare tutto come letto. I due Set
-`currentEpisodeConceptIds` e `currentEpisodeUpdatedConceptIds` sono vuoti.
-I testi rimangono intatti, ma le vecchie evidenziazioni non vengono mostrate.
+Dopo il precedente azzeramento delle novità, `currentEpisodeConceptIds` contiene
+`godrick-innestato`, `gurranq`, `margit`, `rogier`, `principesse-cariane`,
+`progenie-innestata`; `currentEpisodeUpdatedConceptIds` contiene soltanto Godrick.
+Le sue vecchie evidenziazioni sono state sostituite. Non usare come osservata la
+battuta di Godrick segnalata dall’utente come esclusiva della versione 1.00.
 
 Per il prossimo episodio, in `src/data/project.ts`:
 
@@ -166,7 +175,7 @@ I contenuti editoriali sono raccolti in `src/data/project.ts`.
 
 ### Fascicoli e lavagna completa
 
-La vista iniziale è **Fascicoli**: dieci gruppi tematici definiti in
+La vista iniziale è **Fascicoli**: undici gruppi tematici definiti in
 `src/data/boardGroups.ts`, ricerca sull’intero archivio, filtro delle novità e
 pannello di lettura laterale. Su telefono le carte diventano un elenco e il
 dettaglio si raggiunge toccando la scheda; «Torna agli appunti» ripristina il focus.
@@ -179,8 +188,10 @@ il fascicolo corrente e richiede conferma. Le posizioni dei fascicoli sono salva
 separatamente in `elden-rhapsody:dossier-positions-v1`.
 
 **Lavagna completa** conserva la vista precedente con tutte le schede, tutti i
-fili e le disposizioni personali salvate in `elden-rhapsody:board-positions-v9`.
-Le posizioni v8 vengono migrate e lasciate intatte come copia di sicurezza.
+fili e le disposizioni personali salvate in `elden-rhapsody:board-positions-v10`.
+Le posizioni v9 vengono migrate (Y × 11.000 / 12.000) e lasciate intatte come copia
+di sicurezza. Anche i formati precedenti restano importabili. Il margine di
+trascinamento superiore è fisso in pixel, per evitare salti quando la lavagna cresce.
 La modalità e l’ultimo fascicolo vengono ricordati nel browser; i link
 `#/board/<id>` continuano ad aprire la scheda in entrambe le modalità.
 
@@ -209,8 +220,8 @@ Sono presenti **15 quest**, tutte in corso: «I offer you an accord» (Melina),
 «Beata ignoranza» (Rogier), «Crisalidi» (Roderika), «La luna nera» (Renna),
 «La doppia faccia» (D), «Successione» (Kenneth), «Consumare la morte» (Gurranq),
 «Insurrezione» (Edgar ancora in corso, Irina conclusa), «Via col vento» (Nepheli) e «Vocazione» (Diallos).
-Rogier, Gurranq e Nepheli non hanno ancora ritratti forniti dall’utente;
-gli altri usano immagini locali. «Insurrezione» include anche una foto di Irina
+Nepheli non ha ancora un ritratto fornito dall’utente; Rogier e Gurranq hanno ora
+immagini tratte dalle pagine indicate dall’utente. «Insurrezione» include una foto di Irina
 al primo incontro, distinta dal ritratto di Edgar.
 La [guida rapida](GUIDA-QUESTBOOK.md) contiene un esempio per le aggiunte manuali.
 Per i prossimi contenuti, compilare `quests` in `src/data/quests.ts` usando
@@ -266,6 +277,23 @@ Esempio:
 ```
 
 Se `imageUrl` è assente o non raggiungibile, l’interfaccia mostra automaticamente un segnaposto. Le posizioni spostate dal visitatore vengono conservate solo nel suo browser.
+
+### Immagini dell’aggiornamento del 23 settembre
+
+Estratte dalle pagine indicate dall’utente, senza importare informazioni future
+delle wiki. Testi basati sulle descrizioni e sui dialoghi forniti nella chat.
+
+| File locale | Fonte |
+| --- | --- |
+| `public/concepts/gurranq.webp` | [Gurranq](https://eldenring.wiki.fextralife.com/Gurranq_Beast_Clergyman), immagine `Gurranqbeast.png` |
+| `public/concepts/margit.png` | [Margit](https://eldenring.wiki.fextralife.com/Margit,_The_Fell_Omen), immagine `Margit-1-boss-elden-ring-wiki.png` |
+| `public/concepts/rogier.png` | [Rogier](https://eldenring.wiki.fextralife.com/Sorcerer_Rogier), immagine `Rogier_elden_ring_wiki_guide_300px.png` |
+| `public/concepts/godrick.png` | [Godrick](https://eldenring.wiki.fextralife.com/Godrick_the_Grafted), immagine `Godrick_the_grafted_bosses_elden_ring_wiki_600px1-min.png` |
+| `public/concepts/progenie-innestata.webp` | [Immagine fornita dall’utente](https://eldenring.wiki.gg/images/ER_Grafted_Scion.png?7340e0) |
+
+Gurranq e Progenie innestata sono copie WebP a massimo 1.400 px sul lato lungo,
+senza ritaglio né generazione: insieme passano da circa 10,3 MB a 684 KB.
+Gli originali scaricati restano localmente in `artifacts/*-source.png` (non versionati).
 
 ### Fili rossi
 

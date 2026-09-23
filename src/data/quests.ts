@@ -17,8 +17,24 @@ export const quests: QuestEntry[] = [
 
     steps: [
       {
+        title: "La creatura innestata",
+        text: "All’inizio del viaggio incontriamo una creatura con numerose membra innestate.",
+      },
+      {
         title: "Incontro con Melina",
         text: "Incontriamo Melina e accettiamo di accompagnarla ai piedi dell’Albero Madre.",
+      },
+      {
+        title: "Margit a guardia di Grantempesta",
+        text: "Affrontiamo Margit con l’aiuto di Rogier. Alla sconfitta Margit scompare in una luce dorata, ma la sua voce ci avvisa che verremo perseguitati dalla notte.",
+      },
+      {
+        title: "Gli innesti nel castello",
+        text: "A Grantempesta ritroviamo una creatura dello stesso tipo di quella incontrata all’inizio del gioco, un altro risultato degli innesti.",
+      },
+      {
+        title: "Godrick sconfitto",
+        text: "Combattiamo Godrick: durante lo scontro si innesta la testa di un drago e invoca i propri avi. Lo sconfiggiamo, ma la meta concordata con Melina resta l’Albero Madre.",
       },
     ],
 
@@ -32,7 +48,12 @@ export const quests: QuestEntry[] = [
       imageAlt: "Melina con un occhio chiuso e un simbolo scuro sul volto",
       imagePosition: "50% 25%",
     },
-    linkedConceptIds: ["melina", "albero-madre"],
+    gallery: [
+      { imageUrl: "./concepts/margit.png", imageAlt: "Margit a guardia di Grantempesta", caption: "Margit il Presagio" },
+      { imageUrl: "./concepts/godrick.png", imageAlt: "Godrick con le sue membra innestate", caption: "Godrick l’Innestato" },
+      { imageUrl: "./concepts/progenie-innestata.webp", imageAlt: "La creatura con numerosi arti innestati", caption: "La creatura innestata di Grantempesta" },
+    ],
+    linkedConceptIds: ["melina", "albero-madre", "margit", "godrick-innestato", "progenie-innestata"],
   },
   {
     id: "varre",
@@ -206,16 +227,26 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
-    summary: "Rogier ci offre i suoi insegnamenti e ci aiuta contro Margit. Non conosciamo ancora la sua prossima destinazione.",
+    summary: "Rogier ci ha aiutato contro Margit. Lo abbiamo poi incontrato nella chiesa di Grantempesta, dove offre i suoi insegnamenti. Nessuna nuova destinazione nota.",
     lastSeen: {
       location: "Chiesa di Grantempesta",
     },
     steps: [
       {
-        title: "Gli incontri con Rogier",
-        text: "Incontriamo Rogier nella chiesa di Grantempesta, dove ci offre i suoi insegnamenti. Ci ha anche aiutato a combattere Margit.",
+        title: "L’aiuto contro Margit",
+        text: "Rogier ci aiuta nel combattimento contro Margit.",
+      },
+      {
+        title: "L’insegnante nella chiesa",
+        text: "Incontriamo poi Rogier nella chiesa di Grantempesta, dove consultiamo il suo negozio e le descrizioni delle tecniche offerte.",
       },
     ],
+    portrait: {
+      imageUrl: "./concepts/rogier.png",
+      imageAlt: "Rogier con il cappello da stregone nella chiesa di Grantempesta",
+      imagePosition: "50% 20%",
+    },
+    linkedConceptIds: ["rogier", "margit", "principesse-cariane"],
   },
   {
     id: "roderika",
@@ -296,7 +327,7 @@ export const quests: QuestEntry[] = [
       imageAlt: "D con l’armatura gemella e una seconda testa sulla spalla",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["d-cacciatore", "coloro-che-vivono-nella-morte"],
+    linkedConceptIds: ["d-cacciatore", "coloro-che-vivono-nella-morte", "gurranq"],
   },
   {
     id: "kenneth",
@@ -335,7 +366,7 @@ export const quests: QuestEntry[] = [
     npc: "Gurranq, bestia ecclesiastica",
     region: "Dracotumulo",
     status: "in-corso",
-    summary: "Gurranq vuole radici mortali e ci ha dato un occhio che permette di trovarle.",
+    summary: "Abbiamo incontrato Gurranq e ricevuto un occhio di pietra e il Sigillo artiglio. Ci chiede di cercare radici mortali.",
     lastSeen: {
       location: "Santuario Ferino, Dracotumulo",
     },
@@ -349,15 +380,20 @@ export const quests: QuestEntry[] = [
         text: "Incontriamo Gurranq, la bestia ecclesiastica, al Santuario Ferino nel Dracotumulo.",
       },
       {
-        title: "L’occhio e le radici mortali",
-        text: "Gurranq ci consegna il suo occhio per trovare le radici mortali che desidera.",
+        title: "L’occhio e il sigillo",
+        text: "Gurranq ci consegna un occhio per trovare le radici mortali e il Sigillo artiglio. Leggiamo le descrizioni dei due oggetti; per ora non abbiamo annotato altri sviluppi.",
       },
     ],
     nextStep: {
       text: "Cercare radici mortali con l’aiuto dell’occhio e portarle a Gurranq.",
       hypothetical: false,
     },
-    linkedConceptIds: ["d-cacciatore"],
+    portrait: {
+      imageUrl: "./concepts/gurranq.webp",
+      imageAlt: "Gurranq, la bestia ecclesiastica del Santuario Ferino",
+      imagePosition: "50% 35%",
+    },
+    linkedConceptIds: ["gurranq", "d-cacciatore"],
   },
   {
     id: "edgar-irina",
