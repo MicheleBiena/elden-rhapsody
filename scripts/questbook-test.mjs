@@ -14,9 +14,12 @@ try {
   assert.equal(await page.getByRole('heading', { name: 'Questbook', exact: true }).count(), 1)
   assert.equal(await page.locator('a[href="#/questbook"].nav-tab').getAttribute('aria-current'), 'page')
   await page.getByRole('heading', { name: 'I offer you an accord', exact: true }).waitFor()
-  assert.deepEqual(await page.locator('.quest-index-link').evaluateAll(links => links.map(link => link.dataset.questId)), ['melina', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika'])
+  assert.deepEqual(await page.locator('.quest-index-link').evaluateAll(links => links.map(link => link.dataset.questId)), [
+    'melina', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika',
+    'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos',
+  ])
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
-  assert.match(await page.locator('.questbook-count').textContent(), /8 in corso/)
+  assert.match(await page.locator('.questbook-count').textContent(), /14 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /Raggiungere l’Albero Madre/)
   const proportion = await page.locator('.quest-book').evaluate(book => {
     const index = book.querySelector('.quest-index').getBoundingClientRect()
@@ -52,6 +55,13 @@ try {
     { id: 'blaidd', title: 'Berserk', lastSeen: 'Galera eterna del limiere alacre', destination: 'Un fabbro gigante a nord', step: /Darriwil/, links: 2, image: true },
     { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Chiesa di Grantempesta', destination: 'Non ancora nota', step: /Margit/, links: 0, image: false },
     { id: 'roderika', title: 'Crisalidi', lastSeen: 'Capanna a Grantempesta', destination: 'Non ancora nota', step: /cumulo di cadaveri/, links: 2, image: true },
+    { id: 'renna', title: 'La luna nera', lastSeen: 'Chiesa di Elleh', destination: 'Non ancora nota', step: /strega Renna/, links: 1, image: true },
+    { id: 'd', title: 'La doppia faccia', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /uccidiamo il marinaio/, links: 2, image: true },
+    { id: 'kenneth', title: 'Successione', lastSeen: 'Forte Haight', destination: 'Non ancora nota', step: /degno erede/, links: 1, image: true },
+    { id: 'gurranq', title: 'Consumare la morte', lastSeen: 'Santuario Ferino, Dracotumulo', destination: 'Santuario Ferino', step: /occhio per trovare le radici mortali/, links: 1, image: false },
+    { id: 'edgar-irina', title: 'Insurrezione', lastSeen: 'Ponte dei Sacrifici', destination: 'Non ancora nota', step: /Irina morta/, links: 3, image: true },
+    { id: 'nepheli', title: 'Via col vento', lastSeen: 'Grantempesta', destination: 'Non ancora nota', step: /Uccidiamo Godrick/, links: 1, image: false },
+    { id: 'diallos', title: 'Vocazione', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Lanya/, links: 1, image: true },
   ]
   for (const quest of newQuests) {
     await page.locator(`[data-quest-id="${quest.id}"]`).click()
@@ -61,11 +71,28 @@ try {
     assert.equal(await page.locator('.quest-lore-links a').count(), quest.links)
     assert.equal(await page.locator('.quest-portrait img').count(), quest.image ? 1 : 0)
     if (quest.image) await page.locator('.quest-portrait img').evaluate(image => image.decode())
-    if (quest.id === 'sellen') assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
-    if (quest.id === 'rogier' || quest.id === 'roderika') {
+    assert.equal(await page.locator('.quest-status').textContent(), quest.id === 'edgar-irina' ? 'Conclusa' : 'In corso')
+    if (quest.id === 'sellen' || quest.id === 'kenneth') assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
+    if (['rogier', 'roderika', 'renna', 'd', 'edgar-irina', 'nepheli'].includes(quest.id)) {
       assert.equal(await page.locator('.quest-next-step').count(), 0, 'No invented follow-up for an unknown destination')
     }
+    if (quest.id === 'd') assert.match(await page.locator('.quest-history').textContent(), /raggiunto e incontrato/)
+    if (quest.id === 'gurranq') assert.match(await page.locator('.quest-next-step').textContent(), /radici mortali/)
+    if (quest.id === 'diallos') assert.match(await page.locator('.quest-next-step').textContent(), /Trovare Lanya/)
   }
+  await page.getByRole('button', { name: 'Concluse', exact: true }).click()
+  assert.equal(await page.locator('.quest-index-link').count(), 1)
+  await page.locator('[data-quest-id="edgar-irina"]').click()
+  await page.getByRole('heading', { name: 'Insurrezione', exact: true }).waitFor()
+  await page.locator('.quest-gallery img').evaluate(image => image.decode())
+  await page.getByRole('button', { name: 'Ingrandisci: Irina al nostro primo incontro' }).click()
+  await page.locator('.quest-photo-dialog[open]').waitFor()
+  await page.keyboard.press('Escape')
+  await page.locator('.quest-photo-dialog').waitFor({ state: 'detached' })
+  await page.getByRole('button', { name: 'In corso', exact: true }).click()
+  assert.equal(await page.locator('.quest-index-link').count(), 14)
+  assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 0)
+  await page.getByRole('button', { name: 'Tutte', exact: true }).click()
   await page.locator('[data-quest-id="sellen"]').click()
   await page.getByRole('heading', { name: 'Maestra di stelle', exact: true }).waitFor()
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
@@ -86,6 +113,11 @@ try {
   await page.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   await page.getByRole('link', { name: 'Torna all’indice' }).click()
   await page.locator('.quest-index').waitFor()
+  await page.locator('[data-quest-id="diallos"]').click()
+  await page.getByRole('heading', { name: 'Vocazione', exact: true }).waitFor()
+  await page.getByRole('link', { name: 'Indice delle quest', exact: true }).click()
+  await page.locator('.quest-index').waitFor()
+  await page.waitForFunction(() => document.activeElement.dataset.questId === 'diallos')
   await page.locator('[data-quest-id="melina"]').click()
   await page.getByRole('heading', { name: 'I offer you an accord', exact: true }).waitFor()
   await page.locator('a.nav-tab[href="#/map"]').click()
@@ -183,7 +215,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: eight user-provided quests, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
+  console.log('Questbook passed: fifteen user-provided quests, fourteen active and one concluded, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()
