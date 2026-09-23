@@ -19,7 +19,7 @@ try {
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos',
   ])
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
-  assert.match(await page.locator('.questbook-count').textContent(), /14 in corso/)
+  assert.match(await page.locator('.questbook-count').textContent(), /15 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /Raggiungere l’Albero Madre/)
   const proportion = await page.locator('.quest-book').evaluate(book => {
     const index = book.querySelector('.quest-index').getBoundingClientRect()
@@ -71,7 +71,7 @@ try {
     assert.equal(await page.locator('.quest-lore-links a').count(), quest.links)
     assert.equal(await page.locator('.quest-portrait img').count(), quest.image ? 1 : 0)
     if (quest.image) await page.locator('.quest-portrait img').evaluate(image => image.decode())
-    assert.equal(await page.locator('.quest-status').textContent(), quest.id === 'edgar-irina' ? 'Conclusa' : 'In corso')
+    assert.equal(await page.locator('.quest-status').textContent(), 'In corso')
     if (quest.id === 'sellen' || quest.id === 'kenneth') assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
     if (['rogier', 'roderika', 'renna', 'd', 'edgar-irina', 'nepheli'].includes(quest.id)) {
       assert.equal(await page.locator('.quest-next-step').count(), 0, 'No invented follow-up for an unknown destination')
@@ -79,9 +79,16 @@ try {
     if (quest.id === 'd') assert.match(await page.locator('.quest-history').textContent(), /raggiunto e incontrato/)
     if (quest.id === 'gurranq') assert.match(await page.locator('.quest-next-step').textContent(), /radici mortali/)
     if (quest.id === 'diallos') assert.match(await page.locator('.quest-next-step').textContent(), /Trovare Lanya/)
+    if (quest.id === 'edgar-irina') {
+      assert.match(await page.locator('.quest-summary').textContent(), /storia di Irina è conclusa/)
+      assert.match(await page.locator('.quest-history').textContent(), /Edgar dice che vendicherà sua figlia/)
+    }
   }
   await page.getByRole('button', { name: 'Concluse', exact: true }).click()
-  assert.equal(await page.locator('.quest-index-link').count(), 1)
+  assert.equal(await page.locator('.quest-index-link').count(), 0, 'Irina’s ending must not archive Edgar’s ongoing story')
+  await page.getByRole('button', { name: 'In corso', exact: true }).click()
+  assert.equal(await page.locator('.quest-index-link').count(), 15)
+  assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 1)
   await page.locator('[data-quest-id="edgar-irina"]').click()
   await page.getByRole('heading', { name: 'Insurrezione', exact: true }).waitFor()
   await page.locator('.quest-gallery img').evaluate(image => image.decode())
@@ -89,9 +96,6 @@ try {
   await page.locator('.quest-photo-dialog[open]').waitFor()
   await page.keyboard.press('Escape')
   await page.locator('.quest-photo-dialog').waitFor({ state: 'detached' })
-  await page.getByRole('button', { name: 'In corso', exact: true }).click()
-  assert.equal(await page.locator('.quest-index-link').count(), 14)
-  assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 0)
   await page.getByRole('button', { name: 'Tutte', exact: true }).click()
   await page.locator('[data-quest-id="sellen"]').click()
   await page.getByRole('heading', { name: 'Maestra di stelle', exact: true }).waitFor()
@@ -163,6 +167,9 @@ try {
   await fixturePage.route('**/src/data/quests.ts*', route => route.fulfill({ contentType: 'application/javascript', body: `export const quests = ${JSON.stringify(fixtures)}` }))
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook', { waitUntil: 'networkidle' })
   assert.equal(await fixturePage.locator('.quest-index-link').count(), 3)
+  await fixturePage.getByRole('button', { name: 'Concluse', exact: true }).click()
+  assert.equal(await fixturePage.locator('.quest-index-link').count(), 1)
+  assert.equal(await fixturePage.locator('[data-quest-id="test-c"]').count(), 1)
   await fixturePage.getByRole('button', { name: 'Piste', exact: true }).click()
   assert.equal(await fixturePage.locator('.quest-index-link').count(), 1)
   await fixturePage.getByRole('button', { name: 'Tutte', exact: true }).click()
@@ -215,7 +222,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: fifteen user-provided quests, fourteen active and one concluded, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
+  console.log('Questbook passed: fifteen active quests, Irina concluded but Edgar ongoing, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()

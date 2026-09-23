@@ -364,11 +364,11 @@ export const quests: QuestEntry[] = [
     title: "Insurrezione",
     npc: "Edgar e Irina",
     region: "Penisola del Pianto",
-    status: "conclusa",
-    summary: "La vicenda di Castel Morne si chiude con Irina trovata morta. L’ultima posizione nota di Edgar è al Ponte dei Sacrifici.",
+    status: "in-corso",
+    summary: "La storia di Irina è conclusa con la sua morte. Quella di Edgar prosegue: al Ponte dei Sacrifici promette di vendicare sua figlia.",
     lastSeen: {
       location: "Ponte dei Sacrifici",
-      note: "Ultima posizione di Edgar. Irina è morta; la sua vicenda è conclusa.",
+      note: "Edgar vuole vendicare sua figlia; la sua storia è ancora in corso. Solo quella di Irina è conclusa.",
     },
     steps: [
       {
@@ -381,11 +381,11 @@ export const quests: QuestEntry[] = [
       },
       {
         title: "La morte di Irina",
-        text: "Ritroviamo Irina morta al Ponte dei Sacrifici. Accanto al corpo c’è un’arma usata dalle Progenie.",
+        text: "Ritroviamo Irina morta al Ponte dei Sacrifici. Accanto al corpo c’è un’arma usata dalle Progenie. La sua storia si conclude qui.",
       },
       {
-        title: "Edgar al ponte",
-        text: "L’ultimo luogo in cui abbiamo visto Edgar è il Ponte dei Sacrifici.",
+        title: "La promessa di Edgar",
+        text: "Al Ponte dei Sacrifici, Edgar dice che vendicherà sua figlia. La sua storia resta aperta; non sappiamo ancora dove si dirigerà.",
       },
     ],
     portrait: {
