@@ -2,7 +2,7 @@
 
 Companion site statico per seguire una blind run di Elden Ring: lavagna investigativa, Questbook, taccuino cartografico e analisi di traduzione post-run.
 
-## Leftoff per il prossimo agente — 22 settembre 2026
+## Leftoff per il prossimo agente — 23 settembre 2026
 
 Leggere questa sezione prima di intervenire. Il progetto è già funzionante e
 pubblicato: non va ricreato né riportato alla sola anteprima.
@@ -19,8 +19,8 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
 - Tutte le **62 schede sono lette**: nessuna novità attiva, nessuna evidenziazione
   residua. La prossima aggiunta lore riparte da questa situazione.
 - Sezione **Questbook**, `#/questbook`: diario su pergamena, indice a sinistra e
-  pagina a destra. Inserite otto quest fornite dall’utente: Melina, Varré, Boc,
-  Alexander, Sellen, Blaidd, Rogier e Roderika.
+  pagina a destra. Inserite **15 quest** fornite dall’utente: 14 in corso e
+  «Insurrezione» archiviata come conclusa secondo la nota dell’utente su Irina.
   **Non ricostruire questline o avanzamenti dalle schede lore.**
   L’incarico iniziale di Varré è completato (Godrick e udienza dalle Due Dita),
   ma la quest resta in corso senza un seguito inventato. Le schede lore non sono
@@ -28,6 +28,10 @@ pubblicato: non va ricreato né riportato alla sola anteprima.
   Sellen cerca una spiegazione al duplicato (pista, non una destinazione nota);
   per Rogier e Roderika non è annotato un seguito. Non dedurre che il messaggio
   di Roderika sia già stato consegnato o che siamo tornati da lei.
+  Kenneth è a **Forte Haight**, confermato dall’utente dopo il refuso «Faroth».
+  D ha già indirizzato a Gurranq, incontrato; Gurranq chiede radici mortali.
+  Per Nepheli Godrick è ucciso, ma non è indicato un seguito. Edgar è stato visto
+  al Ponte dei Sacrifici; non aggiungere altri sviluppi di Castel Morne.
 - La Mappa rimane disponibile; la sua eventuale sostituzione non è stata decisa.
 - La Lavagna completa usa ora `elden-rhapsody:board-positions-v9`: importa le
   posizioni v8 senza cancellarle e aggiunge in fondo la sezione «Siofra e civiltà antiche».
@@ -95,7 +99,7 @@ Per il prossimo episodio, in `src/data/project.ts`:
 | `src/components/ConceptImage.tsx` | Immagini condivise, punto focale e fallback |
 | `src/components/MapWorkspace.tsx` + `src/lib/mapMarkers.ts` | Mappa locale, annotazioni X/Y, export e migrazione pin |
 | `src/components/TranslationArchive.tsx` | Archivio esclusivamente post-run |
-| `src/data/quests.ts` | Otto quest e relative tappe fornite dall’utente |
+| `src/data/quests.ts` | Quindici quest e relative tappe fornite dall’utente |
 | `src/components/Questbook.tsx` + `src/questbook.css` | Diario, indice, filtri, ricerca, immagini e navigazione |
 | `src/App.tsx` | Navigazione hash e integrazione delle quattro sezioni |
 | `src/types.ts` | Tipi dei contenuti e dei marker |
@@ -198,11 +202,15 @@ luoghi anche senza accenti. Le voci hanno URL `#/questbook/<id>` e supportano la
 cronologia browser. L’ultima pagina si ricorda in `elden-rhapsody:questbook-page`;
 questo salvataggio non modifica mai lo stato di una quest.
 
-Sono presenti **otto quest**, tutte in corso: «I offer you an accord» (Melina),
+Sono presenti **15 quest**, 14 in corso e una conclusa: «I offer you an accord» (Melina),
 «La Maschera Bianca» (Varré), «Il vestito è un po’ antiquato…» (Boc),
 «Amico Vaso» (Alexander), «Maestra di stelle» (Sellen), «Berserk» (Blaidd),
-«Beata ignoranza» (Rogier) e «Crisalidi» (Roderika).
-Rogier non ha ancora un ritratto fornito dall’utente; gli altri usano immagini locali.
+«Beata ignoranza» (Rogier), «Crisalidi» (Roderika), «La luna nera» (Renna),
+«La doppia faccia» (D), «Successione» (Kenneth), «Consumare la morte» (Gurranq),
+«Insurrezione» (Edgar e Irina, conclusa), «Via col vento» (Nepheli) e «Vocazione» (Diallos).
+Rogier, Gurranq e Nepheli non hanno ancora ritratti forniti dall’utente;
+gli altri usano immagini locali. «Insurrezione» include anche una foto di Irina
+al primo incontro, distinta dal ritratto di Edgar.
 La [guida rapida](GUIDA-QUESTBOOK.md) contiene un esempio per le aggiunte manuali.
 Per i prossimi contenuti, compilare `quests` in `src/data/quests.ts` usando
 `QuestEntry` (definito in `src/types.ts`):
@@ -223,7 +231,7 @@ Le informazioni mancanti vengono indicate come non note. Nessun avanzamento si
 deduce dal completamento di un’altra voce. Riutilizzare le immagini locali dove
 appropriate e aggiungere foto dei momenti di quest quando l’utente le fornisce.
 
-`npm run test:questbook` verifica le otto quest reali sulla preview e controlla
+`npm run test:questbook` verifica le 15 quest reali sulla preview e controlla
 separatamente lo stato vuoto e tre schede tecniche intercettate soltanto nel browser di test. Avvia un server
 Vite locale sulla porta 4187, lo chiude a fine test e non scrive mai contenuti
 in `quests.ts`. Le schede di prova non sono presenti nella build pubblica.

@@ -244,4 +244,211 @@ export const quests: QuestEntry[] = [
     },
     linkedConceptIds: ["roderika", "godrick-innestato"],
   },
+  {
+    id: "renna",
+    title: "La luna nera",
+    npc: "Strega Renna",
+    region: "Sepolcride",
+    status: "in-corso",
+    summary: "Abbiamo incontrato la strega Renna alla Chiesa di Elleh. Non conosciamo la sua prossima destinazione.",
+    lastSeen: {
+      location: "Chiesa di Elleh",
+    },
+    steps: [
+      {
+        title: "Incontro alla Chiesa di Elleh",
+        text: "La strega Renna ci appare alla Chiesa di Elleh: è la sua ultima comparsa annotata.",
+      },
+    ],
+    portrait: {
+      imageUrl: "./concepts/strega-sconosciuta.webp",
+      imageAlt: "La strega Renna con il suo grande cappello",
+      imagePosition: "50% 20%",
+    },
+    linkedConceptIds: ["strega-sconosciuta"],
+  },
+  {
+    id: "d",
+    title: "La doppia faccia",
+    npc: "D, cacciatore di non morti",
+    region: "Tavola Rotonda",
+    status: "in-corso",
+    summary: "Abbiamo ucciso il marinaio non morto da cui D ci aveva messi in guardia e incontrato Gurranq seguendo la sua indicazione.",
+    lastSeen: {
+      location: "Tavola Rotonda",
+    },
+    steps: [
+      {
+        title: "L’avvertimento di D",
+        text: "D ci mette in guardia dal marinaio non morto.",
+      },
+      {
+        title: "Il marinaio sconfitto",
+        text: "Affrontiamo e uccidiamo il marinaio non morto.",
+      },
+      {
+        title: "L’incontro con Gurranq",
+        text: "D ci indirizza verso Gurranq, la bestia ecclesiastica. Lo abbiamo raggiunto e incontrato.",
+      },
+    ],
+    portrait: {
+      imageUrl: "./concepts/d.jpg",
+      imageAlt: "D con l’armatura gemella e una seconda testa sulla spalla",
+      imagePosition: "50% 20%",
+    },
+    linkedConceptIds: ["d-cacciatore", "coloro-che-vivono-nella-morte"],
+  },
+  {
+    id: "kenneth",
+    title: "Successione",
+    npc: "Kenneth Haight",
+    region: "Sepolcride",
+    status: "in-corso",
+    summary: "Abbiamo liberato il forte di Kenneth. Ora attende un degno erede al trono di Sepolcride.",
+    lastSeen: {
+      location: "Forte Haight",
+    },
+    steps: [
+      {
+        title: "Il forte liberato",
+        text: "Liberiamo il forte di Kenneth.",
+      },
+      {
+        title: "In attesa di un erede",
+        text: "Kenneth aspetta un degno erede al trono di Sepolcride. Non abbiamo ancora un candidato da indicargli.",
+      },
+    ],
+    nextStep: {
+      text: "Individuare un possibile erede degno del trono di Sepolcride.",
+      hypothetical: true,
+    },
+    portrait: {
+      imageUrl: "./concepts/kenneth-haight.png",
+      imageAlt: "Kenneth Haight, nobile dai capelli chiari e dagli occhi dorati",
+      imagePosition: "50% 16%",
+    },
+    linkedConceptIds: ["kenneth-haight"],
+  },
+  {
+    id: "gurranq",
+    title: "Consumare la morte",
+    npc: "Gurranq, bestia ecclesiastica",
+    region: "Dracotumulo",
+    status: "in-corso",
+    summary: "Gurranq vuole radici mortali e ci ha dato un occhio che permette di trovarle.",
+    lastSeen: {
+      location: "Santuario Ferino, Dracotumulo",
+    },
+    destination: {
+      location: "Santuario Ferino",
+      note: "Dove portare a Gurranq le radici mortali trovate.",
+    },
+    steps: [
+      {
+        title: "Incontro al Santuario Ferino",
+        text: "Incontriamo Gurranq, la bestia ecclesiastica, al Santuario Ferino nel Dracotumulo.",
+      },
+      {
+        title: "L’occhio e le radici mortali",
+        text: "Gurranq ci consegna il suo occhio per trovare le radici mortali che desidera.",
+      },
+    ],
+    nextStep: {
+      text: "Cercare radici mortali con l’aiuto dell’occhio e portarle a Gurranq.",
+      hypothetical: false,
+    },
+    linkedConceptIds: ["d-cacciatore"],
+  },
+  {
+    id: "edgar-irina",
+    title: "Insurrezione",
+    npc: "Edgar e Irina",
+    region: "Penisola del Pianto",
+    status: "conclusa",
+    summary: "La vicenda di Castel Morne si chiude con Irina trovata morta. L’ultima posizione nota di Edgar è al Ponte dei Sacrifici.",
+    lastSeen: {
+      location: "Ponte dei Sacrifici",
+      note: "Ultima posizione di Edgar. Irina è morta; la sua vicenda è conclusa.",
+    },
+    steps: [
+      {
+        title: "La lettera di Irina",
+        text: "Irina ci racconta della rivolta a Castel Morne e ci affida una lettera per suo padre Edgar, rimasto a difendere la fortezza.",
+      },
+      {
+        title: "Edgar a Castel Morne",
+        text: "Consegniamo la lettera a Edgar. Ci dona un ramoscello, ma resta nella fortezza per adempiere al proprio dovere.",
+      },
+      {
+        title: "La morte di Irina",
+        text: "Ritroviamo Irina morta al Ponte dei Sacrifici. Accanto al corpo c’è un’arma usata dalle Progenie.",
+      },
+      {
+        title: "Edgar al ponte",
+        text: "L’ultimo luogo in cui abbiamo visto Edgar è il Ponte dei Sacrifici.",
+      },
+    ],
+    portrait: {
+      imageUrl: "./concepts/edgar.png",
+      imageAlt: "Edgar il castellano in armatura sulle mura di Castel Morne",
+      imagePosition: "50% 10%",
+    },
+    gallery: [
+      {
+        imageUrl: "./concepts/irina.png",
+        imageAlt: "Irina seduta presso il Ponte dei Sacrifici",
+        caption: "Irina al nostro primo incontro",
+      },
+    ],
+    linkedConceptIds: ["edgar-castellano", "irina", "castel-morne"],
+  },
+  {
+    id: "nepheli",
+    title: "Via col vento",
+    npc: "Nepheli Loux",
+    region: "Grantempesta",
+    status: "in-corso",
+    summary: "Nepheli voleva liberare Grantempesta dalla sozzura di Godrick. Lo abbiamo ucciso; non è ancora annotato un seguito.",
+    lastSeen: {
+      location: "Grantempesta",
+    },
+    steps: [
+      {
+        title: "La richiesta di Nepheli",
+        text: "Nepheli ci chiede aiuto per liberare Grantempesta dalla sozzura compiuta da Godrick.",
+      },
+      {
+        title: "Godrick ucciso",
+        text: "Uccidiamo Godrick, portando a termine l’obiettivo indicato da Nepheli.",
+      },
+    ],
+    linkedConceptIds: ["godrick-innestato"],
+  },
+  {
+    id: "diallos",
+    title: "Vocazione",
+    npc: "Diallos Hoslow",
+    region: "Tavola Rotonda",
+    status: "in-corso",
+    summary: "Diallos cerca la sua serva Lanya. Non sappiamo ancora dove si trovi.",
+    lastSeen: {
+      location: "Tavola Rotonda",
+    },
+    steps: [
+      {
+        title: "La ricerca di Lanya",
+        text: "Incontriamo Diallos alla Tavola Rotonda. Ci chiede aiuto per trovare la sua serva Lanya.",
+      },
+    ],
+    nextStep: {
+      text: "Trovare Lanya, la serva di Diallos.",
+      hypothetical: false,
+    },
+    portrait: {
+      imageUrl: "./concepts/diallos.png",
+      imageAlt: "Diallos con l’armatura decorata della casata Hoslow",
+      imagePosition: "50% 20%",
+    },
+    linkedConceptIds: ["diallos"],
+  },
 ];
