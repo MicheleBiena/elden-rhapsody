@@ -30,12 +30,14 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'gia-letto',
     summary:
       'Notte in cui la Runa della Morte venne rubata e Godwyn l’Aureo fu ucciso, primo fra i semidei.',
-    body: 'Lo story trailer mostra il furto della Runa della Morte e l’assassinio di Godwyn l’Aureo, indicato come il primo semidio a essere ucciso.',
+    body: 'Lo story trailer mostra il furto della Runa della Morte e l’assassinio di Godwyn l’Aureo, indicato come il primo semidio a essere ucciso. Rogier colloca la congiura nell’Età dell’Oro dell’Albero Madre, molto prima dello Shattering: la morte di Godwyn fu il catalizzatore che condusse alla distruzione dell’Elden Ring e alla guerra.',
+    bodyHighlights: ['Rogier colloca la congiura nell’Età dell’Oro dell’Albero Madre, molto prima dello Shattering: la morte di Godwyn fu il catalizzatore che condusse alla distruzione dell’Elden Ring e alla guerra.'],
     imageUrl: './concepts/notte-neri-coltelli.webp',
     imageAlt: 'Godwyn l’Aureo circondato dagli assassini durante la Notte dei Neri Coltelli',
     evidence: [
       'La Runa della Morte venne rubata.',
       'Godwyn l’Aureo fu il primo fra i semidei a essere ucciso.',
+      'La congiura precede lo Shattering e ne diventa il catalizzatore.',
     ],
     questions: ['Chi rubò la Runa della Morte?', 'Chi organizzò l’assassinio?'],
     tags: ['story trailer', 'Godwyn', 'assassinio'],
@@ -48,10 +50,11 @@ const conceptArchive: LoreConcept[] = [
     category: 'Indizio',
     state: 'da-verificare',
     liveReadStatus: 'gia-letto',
-    summary: 'Venne rubata durante la Notte dei Neri Coltelli. Per ora non sappiamo altro.',
-    body: 'L’unica informazione raccolta finora è il suo furto durante la Notte dei Neri Coltelli. Ogni altra interpretazione resta sospesa.',
-    evidence: ['Il suo furto è mostrato nello story trailer.'],
-    questions: ['Che cos’è esattamente?', 'Chi la rubò e per quale motivo?'],
+    summary: 'Un suo frammento venne sottratto a Maliketh, la Lama Nera, e impiegato nella congiura che uccise Godwyn.',
+    body: 'Rogier precisa che qualcuno sottrasse un frammento della Runa della Morte a Maliketh, la Lama Nera. Quella porzione fu legata all’assassinio di Godwyn durante la Notte dei Neri Coltelli; identità e movente del ladro restano ignoti.',
+    bodyHighlights: ['Rogier precisa che qualcuno sottrasse un frammento della Runa della Morte a Maliketh, la Lama Nera. Quella porzione fu legata all’assassinio di Godwyn durante la Notte dei Neri Coltelli; identità e movente del ladro restano ignoti.'],
+    evidence: ['Un frammento venne rubato a Maliketh, la Lama Nera.', 'La congiura lo lega alla prima morte registrata di un semidio.'],
+    questions: ['Che cos’è esattamente?', 'Chi rubò il frammento e per quale motivo?', 'Chi è Maliketh?'],
     tags: ['runa', 'morte', 'mistero'],
     position: { x: 87, y: 7 },
   },
@@ -741,17 +744,18 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Nobildonna abbandonata dalle sue guardie sulla via di Grantempesta, combattuta davanti al sacrificio per il “ragno”.',
-    body: 'Roderika è stata lasciata indietro dalle proprie guardie in una casa sulla via di Grantempesta. Parla del “ragno” Godrick e sembra pensare di unirsi agli altri come sacrificio, ma ammette che le manca il coraggio.',
+      'Nobildonna sopravvissuta ai propri compagni, ora consapevole del suo potenziale come Spirit Tuner sotto la guida di Hewg.',
+    body: 'Roderika è stata lasciata indietro dalle proprie guardie sulla via di Grantempesta. Dopo aver scoperto il terribile destino dei suoi compagni destinati agli innesti, riconosce il proprio potenziale come Spirit Tuner. Sotto la guida di Hewg trova così un nuovo scopo nella vita.',
+    bodyHighlights: ['Dopo aver scoperto il terribile destino dei suoi compagni destinati agli innesti, riconosce il proprio potenziale come Spirit Tuner. Sotto la guida di Hewg trova così un nuovo scopo nella vita.'],
     imageUrl: './concepts/roderika.jpg',
     imageAlt: 'Roderika in mantello rosso conversa all’interno di una capanna',
     evidence: [
       'È una nobildonna abbandonata dalle proprie guardie.',
       'Chiama Godrick “ragno”.',
-      'Vorrebbe unirsi al sacrificio, ma ha paura.',
+      'Hewg la guida nello sviluppo delle capacità di Spirit Tuner.',
     ],
-    questions: ['Perché le sue guardie l’hanno abbandonata?', 'Che cosa accade alle persone offerte al ragno?'],
-    tags: ['Roderika', 'Godrick', 'Grantempesta', 'sacrificio'],
+    questions: ['Da dove proviene il suo talento con gli spiriti?'],
+    tags: ['Roderika', 'Godrick', 'Grantempesta', 'Spirit Tuner', 'Hewg'],
     position: { x: 63, y: 90 },
   },
   {
@@ -1132,13 +1136,14 @@ const conceptArchive: LoreConcept[] = [
     category: 'Personaggio',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Guerriero dalla doppia armatura che caccia Coloro che vivono nella morte, ritenendoli impuri e blasfemi.',
-    body: 'D siede alla Tavola Rotonda con un’armatura che sembra composta da due corpi abbracciati: una seconda testa riposa sulla sua spalla. Si presenta come cacciatore di non morti e ci avverte di Coloro che vivono nella morte, soprattutto se incontriamo un Marinaio.',
+    summary: 'Cacciatore di non morti ed ex compagno di Rogier nelle ricerche sulla morte; ora considera l’amico perduto.',
+    body: 'D siede alla Tavola Rotonda con un’armatura che sembra composta da due corpi abbracciati. È un cacciatore di non morti e giudica blasfemi Coloro che vivono nella morte. Rogier rivela che un tempo viaggiavano insieme, legati dall’esplorazione della Morte, prima che le loro strade divergessero. D ha scoperto il Marchio del Centipede e considera Rogier ormai perduto per ciò che guida le sue ricerche.',
+    bodyHighlights: ['Rogier rivela che un tempo viaggiavano insieme, legati dall’esplorazione della Morte, prima che le loro strade divergessero. D ha scoperto il Marchio del Centipede e considera Rogier ormai perduto per ciò che guida le sue ricerche.'],
     imageUrl: './concepts/d.jpg',
     imageAlt: 'D indossa l’armatura gemella con una seconda testa sulla spalla',
-    evidence: ['Caccia i non morti.', 'Definisce impuri e blasfemi Coloro che vivono nella morte.', 'Ci mette in guardia dai Marinai.'],
-    questions: ['Che cosa rappresentano le due figure della sua armatura?', 'Chi sono i Marinai che sta cercando?'],
-    tags: ['D', 'non morti', 'Coloro che vivono nella morte', 'Marinaio'],
+    evidence: ['Caccia i non morti.', 'Ha viaggiato con Rogier studiando la Morte.', 'Ha scoperto il Marchio del Centipede.'],
+    questions: ['Che cosa rappresentano le due figure della sua armatura?', 'Perché considera Rogier perduto?'],
+    tags: ['D', 'non morti', 'Rogier', 'Marchio del Centipede', 'Morte'],
     position: { x: 70, y: 76 },
   },
   {
@@ -1148,11 +1153,12 @@ const conceptArchive: LoreConcept[] = [
     category: 'Personaggio',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Fabbro incatenato alla Tavola Rotonda e costretto a lavorare per i Senzaluce.',
-    body: 'Hewg è imprigionato e incatenato alla Tavola Rotonda con il solo compito di forgiare armi per i Senzaluce. Parlando lascia emergere un forte terrore nei confronti di una misteriosa figura femminile.',
+    summary: 'Fabbro incatenato alla Tavola Rotonda; oltre a forgiare armi, guida Roderika nello sviluppo delle sue capacità.',
+    body: 'Hewg è imprigionato e incatenato alla Tavola Rotonda con il compito di forgiare armi per i Senzaluce. Lascia emergere un forte terrore nei confronti di una misteriosa figura femminile. Riconosce inoltre il potenziale di Roderika e accetta di guidarla come Spirit Tuner.',
+    bodyHighlights: ['Riconosce inoltre il potenziale di Roderika e accetta di guidarla come Spirit Tuner.'],
     imageUrl: './concepts/hewg.png',
     imageAlt: 'Il Maestro Fabbro Hewg incatenato presso la sua forgia',
-    evidence: ['È prigioniero e incatenato.', 'Deve lavorare come fabbro per i Senzaluce.', 'Teme profondamente una figura femminile.'],
+    evidence: ['È prigioniero e incatenato.', 'Deve lavorare come fabbro per i Senzaluce.', 'Guida Roderika come Spirit Tuner.'],
     questions: ['Chi lo ha imprigionato?', 'Quale donna lo terrorizza?'],
     tags: ['Hewg', 'fabbro', 'prigioniero', 'Tavola Rotonda'],
     position: { x: 50, y: 83 },
@@ -1424,12 +1430,13 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'rogier', name: 'Stregone Rogier', eyebrow: 'Insegnante a Grantempesta',
     category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
-    summary: 'Stregone che offre i propri insegnamenti nella chiesa di Grantempesta. Una delle tecniche proposte cita le principesse cariane.',
-    body: 'Di Rogier conosciamo per ora il ruolo di insegnante. Fra le tecniche del suo negozio, Spinning Weapon fa levitare e ruotare rapidamente un’arma a scopo difensivo, colpendo ripetutamente chi la tocca. La descrizione la attribuisce alle principesse cariane: è un indizio sulla provenienza della tecnica, non una prova dell’appartenenza di Rogier alla loro casata.',
+    summary: 'Studioso della congiura dei Neri Coltelli e del morbo mortale, ora infermo dopo il contatto con la reliquia sotto Grantempesta.',
+    body: 'Rogier insegna stregonerie e studia la congiura dei Neri Coltelli per comprendere come il mondo sia diventato distorto. Sotto Grantempesta entra in contatto con un cadavere deforme legato alla congiura: lo vediamo venire impalato in forma spirituale e lo ritroviamo poi infermo, segnato dal morbo mortale. Un tempo esplorava la Morte insieme a D, ma le loro strade si sono separate; ora cerca chi possiede il Marchio del Centipede per una possibile alleanza.',
+    bodyHighlights: ['Rogier insegna stregonerie e studia la congiura dei Neri Coltelli per comprendere come il mondo sia diventato distorto. Sotto Grantempesta entra in contatto con un cadavere deforme legato alla congiura: lo vediamo venire impalato in forma spirituale e lo ritroviamo poi infermo, segnato dal morbo mortale. Un tempo esplorava la Morte insieme a D, ma le loro strade si sono separate; ora cerca chi possiede il Marchio del Centipede per una possibile alleanza.'],
     imageUrl: './concepts/rogier.png', imageAlt: 'Rogier con un cappello a tesa larga e abiti da stregone', imagePosition: '50% 20%',
-    evidence: ['Offre insegnamenti nella chiesa di Grantempesta.', 'Spinning Weapon è descritta come tecnica difensiva delle principesse cariane.'],
-    questions: ['Perché si trova a Grantempesta?', 'Come conosce le tecniche che insegna?'],
-    tags: ['Rogier', 'stregoneria', 'Grantempesta', 'Spinning Weapon', 'principesse cariane'], position: { x: 50, y: 95.5 },
+    evidence: ['Studia la Notte dei Neri Coltelli.', 'Il contatto con la reliquia sotto Grantempesta lo ha lasciato infermo.', 'D era un suo compagno nelle ricerche sulla Morte.'],
+    questions: ['Che cos’è il cadavere sotto Grantempesta?', 'Quale alleanza vuole formare attraverso il Marchio?'],
+    tags: ['Rogier', 'morbo mortale', 'Neri Coltelli', 'D', 'Marchio del Centipede'], position: { x: 50, y: 95.5 },
   },
   {
     id: 'principesse-cariane', name: 'Principesse cariane', eyebrow: 'Indizio da una tecnica',
@@ -1453,12 +1460,32 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'nepheli-loux', name: 'Nepheli Loux', eyebrow: 'Senzaluce e guerriera',
     category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
-    summary: 'Guerriera Senzaluce incontrata a Grantempesta, dove si oppone agli innesti di Godrick e offre il proprio aiuto contro di lui.',
-    body: 'Nepheli si presenta come una Senzaluce e una guerriera, arrivata a Grantempesta per ordine del padre. Considera ripugnanti gli innesti di Godrick e indegni di un lord: secondo lei hanno contaminato persino i venti del castello. Dice di volerlo affrontare e si offre di combattere al nostro fianco. Per ora non sappiamo chi sia suo padre né che cosa farà dopo la battaglia.',
+    summary: 'Guerriera Senzaluce e figlia adottiva di Gideon, pronta ad assisterci in battaglia mentre svolge incarichi per lui.',
+    body: 'Nepheli è una Senzaluce e una guerriera che si oppone agli innesti di Godrick e combatte al nostro fianco contro di lui. Alla Tavola Rotonda scopriamo che il padre da cui riceve gli incarichi è Gideon, suo padre adottivo. Continuerà a operare per suo conto e si dichiara pronta ad aiutarci ancora in battaglia.',
+    bodyHighlights: ['Alla Tavola Rotonda scopriamo che il padre da cui riceve gli incarichi è Gideon, suo padre adottivo. Continuerà a operare per suo conto e si dichiara pronta ad aiutarci ancora in battaglia.'],
     imageUrl: './concepts/nepheli.png', imageAlt: 'Nepheli Loux con abiti da guerriera e una grande ascia', imagePosition: '50% 22%',
-    evidence: ['Si presenta come Senzaluce e guerriera.', 'Dice di agire per ordine del padre.', 'Condanna gli innesti di Godrick e offre il proprio aiuto contro di lui.'],
-    questions: ['Chi è il padre che le ha dato l’incarico?', 'Il nome Loux indica un legame con Hoarah Loux?', 'Quale sarà il suo prossimo obiettivo?'],
-    tags: ['Nepheli Loux', 'Senzaluce', 'guerriera', 'Grantempesta', 'Godrick'], position: { x: 50, y: 97 },
+    evidence: ['È una Senzaluce e guerriera.', 'Gideon è suo padre adottivo.', 'È pronta a combattere ancora al nostro fianco.'],
+    questions: ['Il nome Loux indica un legame con Hoarah Loux?', 'Quale incarico le affiderà Gideon?'],
+    tags: ['Nepheli Loux', 'Senzaluce', 'guerriera', 'Gideon', 'figlia adottiva'], position: { x: 50, y: 97 },
+  },
+  {
+    id: 'morbo-mortale', name: 'Morbo mortale', eyebrow: 'Tracce della Prima Morte',
+    category: 'Tema', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Corruzione legata agli effetti della Morte: deforma i corpi e ha lasciato Rogier infermo dopo il contatto con la reliquia sotto Grantempesta.',
+    body: 'Il cadavere deforme sotto Grantempesta reca tracce del morbo mortale e il contatto con esso ha contaminato Rogier. La Vitalità governa la resistenza agli effetti della Morte. Una pustola fetida, ricavata da carne del volto, viene attribuita al Principe della Morte: colui che un tempo era chiamato Godwyn. Come Primo Morto tra i semidei, si dice che sia sepolto profondamente sotto la capitale, fra le radici dell’Albero Madre.',
+    imageUrl: './concepts/pustola-principe-morte.png', imageAlt: 'Pustola scura e deformata attribuita al Principe della Morte',
+    evidence: ['Il cadavere sotto Grantempesta mostra gli effetti del morbo.', 'Rogier presenta gli stessi segni sul corpo.', 'La pustola del Principe della Morte aumenta la resistenza agli effetti della Morte.', 'Godwyn viene chiamato Primo Morto e Principe della Morte.'],
+    questions: ['Il cadavere sotto Grantempesta appartiene a Godwyn o è soltanto una reliquia della congiura?', 'Come si diffonde il morbo mortale?', 'Perché Godwyn sarebbe sepolto fra le radici dell’Albero Madre?'],
+    tags: ['morbo mortale', 'Godwyn', 'Principe della Morte', 'Vitalità', 'Grantempesta', 'Albero Madre'], position: { x: 10, y: 97 },
+  },
+  {
+    id: 'marchio-centipede', name: 'Marchio del Centipede', eyebrow: 'Antico simbolo del marchio maledetto',
+    category: 'Indizio', state: 'da-verificare', liveReadStatus: 'da-leggere',
+    summary: 'Marchio scoperto da D e cercato da Rogier, che vuole incontrare chi lo troverà per valutare una possibile alleanza.',
+    body: 'Rogier descrive il centipede come un antico simbolo del marchio maledetto. D ha scoperto il segno, mentre Rogier desidera parlare direttamente con chi lo troverà e lo userà. Se quella persona non avrà intenzioni malvagie, potrebbe nascere un’alleanza.',
+    evidence: ['D ha scoperto il Marchio del Centipede.', 'È un antico simbolo del marchio maledetto.', 'Rogier cerca il suo possessore per una possibile alleanza.'],
+    questions: ['Che cosa marchia?', 'Chi lo possiede?', 'Quale uso ne vuole fare Rogier?'],
+    tags: ['Marchio del Centipede', 'marchio maledetto', 'D', 'Rogier', 'Morte'], position: { x: 30, y: 97 },
   },
   {
     id: 'volonta-superiore', name: 'Volontà Superiore', eyebrow: 'Potere oltre le Due Dita',
@@ -1477,9 +1504,12 @@ const conceptArchive: LoreConcept[] = [
 
 // Dal 23 settembre: identikit sulla lavagna, azioni e avanzamenti nel Questbook.
 const currentEpisodeConceptIds = new Set<string>([
-  'due-dita', 'volonta-superiore',
+  'due-dita', 'volonta-superiore', 'notte-neri-coltelli', 'runa-della-morte',
+  'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux', 'morbo-mortale', 'marchio-centipede',
 ])
-const currentEpisodeUpdatedConceptIds = new Set<string>(['due-dita'])
+const currentEpisodeUpdatedConceptIds = new Set<string>([
+  'due-dita', 'notte-neri-coltelli', 'runa-della-morte', 'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux',
+])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
@@ -1490,6 +1520,46 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'rogier-d-ricerca-morte', from: 'rogier', to: 'd-cacciatore', label: 'vecchi compagni',
+    note: 'Rogier e D hanno viaggiato insieme, legati dalle ricerche sulla Morte, prima che le loro strade divergessero.', kind: 'traccia',
+  },
+  {
+    id: 'rogier-notte-neri-coltelli', from: 'rogier', to: 'notte-neri-coltelli', label: 'studia la congiura',
+    note: 'Rogier ha consultato a lungo gli archivi per comprendere la congiura e il modo in cui ha distorto il mondo.', kind: 'traccia',
+  },
+  {
+    id: 'rogier-morbo-mortale', from: 'rogier', to: 'morbo-mortale', label: 'contaminato',
+    note: 'Il contatto con la reliquia sotto Grantempesta ha lasciato Rogier infermo e segnato dal morbo mortale.', kind: 'traccia',
+  },
+  {
+    id: 'd-marchio-centipede', from: 'd-cacciatore', to: 'marchio-centipede', label: 'scoperta di D',
+    note: 'Secondo Rogier, D ha scoperto il Marchio del Centipede.', kind: 'traccia',
+  },
+  {
+    id: 'rogier-marchio-centipede', from: 'rogier', to: 'marchio-centipede', label: 'cerca il possessore',
+    note: 'Rogier vuole incontrare chi troverà e userà il marchio per valutare una possibile alleanza.', kind: 'traccia',
+  },
+  {
+    id: 'morbo-runa-morte', from: 'morbo-mortale', to: 'runa-della-morte', label: 'effetti della Morte?',
+    note: 'Il morbo, la resistenza agli effetti della Morte e la prima morte di Godwyn sembrano parte dello stesso fenomeno, ma il rapporto preciso resta da chiarire.', kind: 'ipotesi',
+  },
+  {
+    id: 'morbo-albero-madre', from: 'morbo-mortale', to: 'albero-madre', label: 'sepolto alle radici',
+    note: 'Si dice che Godwyn, ora Principe della Morte, sia sepolto sotto la capitale fra le radici dell’Albero Madre.', kind: 'traccia',
+  },
+  {
+    id: 'roderika-hewg', from: 'roderika', to: 'hewg', label: 'maestro e allieva',
+    note: 'Hewg riconosce il potenziale di Roderika e la guida come Spirit Tuner.', kind: 'traccia',
+  },
+  {
+    id: 'roderika-spiriti', from: 'roderika', to: 'spiriti', label: 'Spirit Tuner',
+    note: 'Il nuovo talento di Roderika riguarda la sintonia con gli spiriti.', kind: 'traccia',
+  },
+  {
+    id: 'nepheli-gideon', from: 'nepheli-loux', to: 'gideon-ofnir', label: 'padre adottivo',
+    note: 'Gideon è il padre adottivo di Nepheli e le affida degli incarichi.', kind: 'traccia',
+  },
   {
     id: 'due-dita-volonta-superiore', from: 'due-dita', to: 'volonta-superiore', label: 'emissarie',
     note: 'Enia identifica le Due Dita come emissarie della Volontà Superiore.', kind: 'traccia',

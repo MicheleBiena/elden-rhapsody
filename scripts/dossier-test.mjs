@@ -10,8 +10,8 @@ try {
   await page.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
   await page.evaluate(() => document.fonts.ready)
   assert.equal(await page.locator('#dossier-page-title').textContent(), 'Fede, morte e sonno')
-  assert.equal(await page.locator('.dossier-note').count(), 9)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
+  assert.equal(await page.locator('.dossier-note').count(), 11)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 4)
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Due Dita')
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
   assert.ok(await page.locator('.live-update-highlight').count() >= 1)
@@ -41,7 +41,7 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 69)
+  assert.equal(allIds.size, 71)
 
   await groupButtons.nth(0).click()
   await page.getByRole('button', { name: 'Apri Albero Madre', exact: true }).click()
@@ -53,7 +53,7 @@ try {
 
   await groupButtons.nth(2).click()
   assert.equal(await page.locator('.dossier-note').count(), 7)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 0)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
   await page.getByRole('button', { name: 'Apri Kenneth Haight', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /occhi dorati/i)
   assert.equal(await page.locator('.dossier-detail-scroll > img.concept-image').evaluate(image => getComputedStyle(image).objectPosition), '50% 16%')
@@ -114,12 +114,24 @@ try {
   await page.waitForFunction(() => document.querySelector('#dossier-page-title').textContent === 'Castel Morne')
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Progenie')
 
-  const liveIds = ['due-dita', 'volonta-superiore']
-  await page.getByRole('button', { name: '2 da leggere', exact: true }).click()
+  const liveIds = [
+    'notte-neri-coltelli',
+    'runa-della-morte',
+    'roderika',
+    'd-cacciatore',
+    'hewg',
+    'due-dita',
+    'volonta-superiore',
+    'morbo-mortale',
+    'marchio-centipede',
+    'rogier',
+    'nepheli-loux',
+  ]
+  await page.getByRole('button', { name: '11 da leggere', exact: true }).click()
   for (let index = 0; index < liveIds.length; index++) {
     await page.waitForURL(new RegExp(`#/board/${liveIds[index]}$`))
-    await page.waitForFunction(expected => document.querySelector('.dossier-stepper')?.textContent.includes(`Live ${expected} di 2`), index + 1)
-    if (index === 0) {
+    await page.waitForFunction(expected => document.querySelector('.dossier-stepper')?.textContent.includes(`Live ${expected} di 11`), index + 1)
+    if (liveIds[index] === 'due-dita') {
       assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
       assert.ok(await page.locator('.live-update-highlight').count() >= 1)
       assert.equal(await page.locator('.dossier-text-section.is-highlighted').count(), 2)
@@ -183,9 +195,9 @@ try {
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v8'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v7'))
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 69)
+  assert.equal(await page.locator('.concept-card').count(), 71)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
-  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v11') || '{}')).length === 69)
+  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v11') || '{}')).length === 71)
   const v10Positions = '{"elden-ring":{"x":22,"y":4.8},"godrick-innestato":{"x":40,"y":18}}'
   await page.evaluate(value => {
     localStorage.setItem('elden-rhapsody:board-positions-v10', value)
@@ -205,7 +217,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 69 cards, 2 unread, Fede, morte e sonno, editorial highlights, live queue, groups, dragging, keyboard, zoom, links, history, search, mobile and legacy v10 migration.')
+  console.log('Dossiers passed: 71 cards, 11 unread, Fede, morte e sonno, editorial highlights, live queue, groups, dragging, keyboard, zoom, links, history, search, mobile and legacy v10 migration.')
 } finally {
   await browser.close()
 }

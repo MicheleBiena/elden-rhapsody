@@ -10,7 +10,7 @@ export const boardGroups = [
   { id: 'caelid', label: 'Caelid', conceptIds: ['caelid', 'palude-aeonia', 'marcescenza', 'sellia', 'alexander-vaso-guerriero'] },
   { id: 'siofra-civilta-antiche', label: 'Siofra e civiltà antiche', conceptIds: ['citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
-  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'coloro-che-vivono-nella-morte', 'santa-trina', 'lord-del-sangue', 'gurranq'] },
+  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'coloro-che-vivono-nella-morte', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'lord-del-sangue', 'gurranq'] },
   { id: 'grantempesta', label: 'Grantempesta', conceptIds: ['margit', 'rogier', 'progenie-innestata', 'nepheli-loux'] },
 ]
 

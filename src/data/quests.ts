@@ -9,7 +9,8 @@ export const quests: QuestEntry[] = [
     npc: "Melina",
     region: "Sepolcride",
     status: "in-corso",
-    summary: "Acquisire abbastanza Rune Maggiori per entrare nella capitale, dove Melina ci aspetta, e accompagnarla ai piedi dell’Albero Madre.",
+    summary:
+      "Acquisire abbastanza Rune Maggiori per entrare nella capitale, dove Melina ci aspetta, e accompagnarla ai piedi dell’Albero Madre.",
 
     destination: {
       location: "Leyndell, ai piedi dell’Albero Madre",
@@ -54,11 +55,29 @@ export const quests: QuestEntry[] = [
       imagePosition: "50% 25%",
     },
     gallery: [
-      { imageUrl: "./concepts/margit.png", imageAlt: "Margit a guardia di Grantempesta", caption: "Margit il Presagio" },
-      { imageUrl: "./concepts/godrick.png", imageAlt: "Godrick con le sue membra innestate", caption: "Godrick l’Innestato" },
-      { imageUrl: "./concepts/progenie-innestata.webp", imageAlt: "La creatura con numerosi arti innestati", caption: "La creatura innestata di Grantempesta" },
+      {
+        imageUrl: "./concepts/margit.png",
+        imageAlt: "Margit a guardia di Grantempesta",
+        caption: "Margit il Presagio",
+      },
+      {
+        imageUrl: "./concepts/godrick.png",
+        imageAlt: "Godrick con le sue membra innestate",
+        caption: "Godrick l’Innestato",
+      },
+      {
+        imageUrl: "./concepts/progenie-innestata.webp",
+        imageAlt: "La creatura con numerosi arti innestati",
+        caption: "La creatura innestata di Grantempesta",
+      },
     ],
-    linkedConceptIds: ["melina", "albero-madre", "margit", "godrick-innestato", "progenie-innestata"],
+    linkedConceptIds: [
+      "melina",
+      "albero-madre",
+      "margit",
+      "godrick-innestato",
+      "progenie-innestata",
+    ],
   },
   {
     id: "big-boys",
@@ -66,7 +85,8 @@ export const quests: QuestEntry[] = [
     npc: "Araldi delle Rune Maggiori",
     region: "Interregno",
     status: "in-corso",
-    summary: "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
+    summary:
+      "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
     lastSeen: {
       location: "Tavola Rotonda",
       note: "Gideon ci ha descritto i principali obiettivi conosciuti.",
@@ -95,10 +115,12 @@ export const quests: QuestEntry[] = [
         name: "Godrick l’Innestato",
         epithet: "Signore di Grantempesta",
         location: "Sepolcride nord-occidentale",
-        description: "Pur discendendo da Godfrey, Gideon lo considera un vecchio grottesco e sciocco, affamato di potere. Il suo castello sorge sulla scogliera a nord-ovest di Sepolcride.",
+        description:
+          "Pur discendendo da Godfrey, Gideon lo considera un vecchio grottesco e sciocco, affamato di potere. Il suo castello sorge sulla scogliera a nord-ovest di Sepolcride.",
         image: {
           imageUrl: "./concepts/godrick.png",
-          imageAlt: "Godrick l’Innestato con le numerose membra aggiunte al corpo",
+          imageAlt:
+            "Godrick l’Innestato con le numerose membra aggiunte al corpo",
           imagePosition: "50% 22%",
         },
         linkedConceptId: "godrick-innestato",
@@ -109,7 +131,8 @@ export const quests: QuestEntry[] = [
         name: "Generale Radahn",
         epithet: "Leone Rosso, flagello delle stelle",
         location: "Caelid",
-        description: "Guerriero feroce che combatté Malenia e la sua marcescenza fino a uno stallo. Caelid è ormai sommersa dal marcio scarlatto; Radahn sembra essere ancora lì, ma forse non assomiglia più a com’era un tempo.",
+        description:
+          "Guerriero feroce che combatté Malenia e la sua marcescenza fino a uno stallo. Caelid è ormai sommersa dal marcio scarlatto; Radahn sembra essere ancora lì, ma forse non assomiglia più a com’era un tempo.",
         image: {
           imageUrl: "./concepts/radahn.webp",
           imageAlt: "Il generale Radahn in armatura rossa",
@@ -122,24 +145,32 @@ export const quests: QuestEntry[] = [
         name: "Pretore Rykard",
         epithet: "Signore di Villa Vulcano",
         location: "Monte Gelmir, Altopiano di Altus occidentale",
-        description: "Giustiziere spietato a capo di una compagnia di inquisitori, disprezzato per il suo contegno serpentino. Sul Monte Gelmir si combatté la battaglia più terribile dello Shattering; la sua blasfemia lo ha reso un nemico imperdonabile.",
+        description:
+          "Giustiziere spietato a capo di una compagnia di inquisitori, disprezzato per il suo contegno serpentino. Sul Monte Gelmir si combatté la battaglia più terribile dello Shattering; la sua blasfemia lo ha reso un nemico imperdonabile.",
       },
       {
         id: "morgott",
         name: "Morgott, il Benedetto dalla Grazia",
         epithet: "Monarca Velato e signore di Leyndell",
         location: "Leyndell, Altopiano di Altus orientale",
-        description: "Governa la capitale ai piedi dell’Albero Madre. Le Due Dita ci vietano di raggiungerlo finché non avremo ottenuto abbastanza Rune Maggiori per riparare l’Elden Ring.",
+        description:
+          "Governa la capitale ai piedi dell’Albero Madre. Le Due Dita ci vietano di raggiungerlo finché non avremo ottenuto abbastanza Rune Maggiori per riparare l’Elden Ring.",
       },
       {
         id: "rennala",
         name: "Rennala",
         epithet: "Regina dei reali cariani",
         location: "Accademia di Raya Lucaria, Liurnia",
-        description: "Governa l’Accademia, ma non è una semidea. La sua Runa Maggiore dimora nell’uovo d’ambra donatole da Radagon, che la lasciò per diventare secondo marito di Marika e Re Consorte.",
+        description:
+          "Governa l’Accademia, ma non è una semidea. La sua Runa Maggiore dimora nell’uovo d’ambra donatole da Radagon, che la lasciò per diventare secondo marito di Marika e Re Consorte.",
       },
     ],
-    linkedConceptIds: ["gideon-ofnir", "godrick-innestato", "radahn", "leyndell"],
+    linkedConceptIds: [
+      "gideon-ofnir",
+      "godrick-innestato",
+      "radahn",
+      "leyndell",
+    ],
   },
   {
     id: "varre",
@@ -148,10 +179,14 @@ export const quests: QuestEntry[] = [
     region: "Sepolcride",
     status: "in-corso",
     summary:
-      "Abbiamo seguito l’indicazione di Varré: Godrick è sconfitto e abbiamo ottenuto udienza dalle Due Dita. Nessun seguito ancora annotato.",
+      "Abbiamo seguito l’indicazione di Varré: Godrick è sconfitto e abbiamo ottenuto udienza dalle Due Dita.",
 
     lastSeen: {
       location: "Primo Passo",
+    },
+    nextStep: {
+      text: "Chiesa della Rosa (Liurnia)",
+      hypothetical: false,
     },
     steps: [
       {
@@ -165,6 +200,10 @@ export const quests: QuestEntry[] = [
       {
         title: "Udienza dalle Due Dita",
         text: "Otteniamo udienza dalle Due Dita, completando l’incarico iniziale indicato da Varré.",
+      },
+      {
+        title: "Verso Liurnia",
+        text: "Varré ci consiglia di raggiungerlo alla Chiesa della Rosa a Liurnia (Nord)",
       },
     ],
     portrait: {
@@ -181,12 +220,9 @@ export const quests: QuestEntry[] = [
     region: "Sepolcride",
     status: "in-corso",
     summary:
-      "Dopo l’incontro con Boc, la prossima tappa è una grotta sulla spiaggia a ovest di Sepolcride.",
+      "Abbiamo recuperato nella grotta sulla spiaggia l’ago e il filo appartenuti alla madre di Boc e glieli abbiamo consegnati. Non conosciamo il prossimo passo.",
 
     lastSeen: {
-      location: "Sepolcride centrale",
-    },
-    destination: {
       location: "Grotta sulla spiaggia a ovest di Sepolcride",
     },
     steps: [
@@ -194,11 +230,11 @@ export const quests: QuestEntry[] = [
         title: "Incontro con Boc",
         text: "Incontriamo Boc, un semiumano, nella Sepolcride centrale.",
       },
+      {
+        title: "Gli strumenti di sua madre",
+        text: "Nella grotta sulla spiaggia recuperiamo l’ago e il filo appartenuti alla madre di Boc e glieli consegniamo.",
+      },
     ],
-    nextStep: {
-      text: "Raggiungere la grotta sulla spiaggia a ovest di Sepolcride.",
-      hypothetical: false,
-    },
     portrait: {
       imageUrl: "./concepts/boc.jpg",
       imageAlt: "Boc, il piccolo semiumano con un cappello",
@@ -212,14 +248,15 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride",
     status: "in-corso",
-    summary: "Abbiamo liberato Alexander, rimasto incastrato nel terreno. È diretto a Castel Mantorosso per un festival di combattimento.",
+    summary:
+      "Alexander è rimasto bloccato dietro una porta chiusa in una miniera fra Sepolcride e Caelid. Potrebbe essere necessario raggiungere l’ingresso sul lato di Caelid.",
     lastSeen: {
-      location: "Sepolcride nord",
-      note: "Nel punto in cui lo abbiamo aiutato a uscire dal terreno.",
+      location: "Miniera fra Sepolcride e Caelid",
+      note: "È dietro una porta che non possiamo aprire dal nostro lato.",
     },
     destination: {
-      location: "Castel Mantorosso",
-      note: "Alexander vuole raggiungerlo per un festival di combattimento.",
+      location: "Ingresso della miniera sul lato di Caelid",
+      note: "Possibile percorso per raggiungerlo e aprire il passaggio.",
     },
     steps: [
       {
@@ -230,10 +267,14 @@ export const quests: QuestEntry[] = [
         title: "Il festival di combattimento",
         text: "Alexander ci racconta che la sua destinazione è Castel Mantorosso, dove si terrà un festival di combattimento.",
       },
+      {
+        title: "Dietro una porta chiusa",
+        text: "Ritroviamo Alexander bloccato dietro una porta in una miniera fra Sepolcride e Caelid; da questo lato il passaggio non si apre.",
+      },
     ],
     nextStep: {
-      text: "Raggiungere Castel Mantorosso, la destinazione indicata da Alexander.",
-      hypothetical: false,
+      text: "Cercare l’altro ingresso della miniera sul lato di Caelid e provare ad aprire il passaggio verso Alexander.",
+      hypothetical: true,
     },
     portrait: {
       imageUrl: "./concepts/alexander.webp",
@@ -248,7 +289,8 @@ export const quests: QuestEntry[] = [
     npc: "Sellen",
     region: "Sepolcride",
     status: "in-corso",
-    summary: "Abbiamo incontrato Sellen e un suo apparente duplicato. Non sappiamo ancora come spiegare il «manichino» o come intervenire.",
+    summary:
+      "Abbiamo incontrato Sellen e un suo apparente duplicato. Non sappiamo ancora come spiegare il «manichino» o come intervenire.",
     lastSeen: {
       location: "Sepolcride centrale",
     },
@@ -279,7 +321,8 @@ export const quests: QuestEntry[] = [
     npc: "Blaidd il Mezzolupo",
     region: "Sepolcride",
     status: "in-corso",
-    summary: "Abbiamo aiutato Blaidd contro Darriwil. La prossima indicazione ci porta da un fabbro gigante a nord.",
+    summary:
+      "Abbiamo aiutato Blaidd contro Darriwil. La prossima indicazione ci porta da un fabbro gigante a nord.",
     lastSeen: {
       location: "Galera eterna del limiere alacre",
     },
@@ -313,9 +356,11 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
-    summary: "Rogier ci ha aiutato contro Margit. Lo abbiamo poi incontrato nella chiesa di Grantempesta, dove offre i suoi insegnamenti. Nessuna nuova destinazione nota.",
+    summary:
+      "Rogier studia il morbo mortale e la Notte dei Neri Coltelli. Dopo il contatto con il cadavere sotto Grantempesta, lo ritroviamo infermo alla Tavola Rotonda.",
     lastSeen: {
-      location: "Chiesa di Grantempesta",
+      location: "Tavola Rotonda",
+      note: "È seduto e mostra sul corpo tracce evidenti del morbo mortale.",
     },
     steps: [
       {
@@ -326,23 +371,46 @@ export const quests: QuestEntry[] = [
         title: "L’insegnante nella chiesa",
         text: "Incontriamo poi Rogier nella chiesa di Grantempesta, dove consultiamo il suo negozio e le descrizioni delle tecniche offerte.",
       },
+      {
+        title: "Il cadavere sotto Grantempesta",
+        text: "Sotto il castello troviamo un cadavere deforme e quasi sciolto, segnato dal morbo mortale. Interagendo con la reliquia vediamo lo spirito di Rogier venire impalato.",
+      },
+      {
+        title: "Rogier infermo",
+        text: "Alla Tavola Rotonda ritroviamo Rogier infermo e contaminato. Ci spiega che il cadavere è una reliquia della congiura dei Neri Coltelli e che il contatto con quella creatura è responsabile delle sue condizioni.",
+      },
+      {
+        title: "La ricerca sulla morte",
+        text: "Rogier studia la congiura e il morbo mortale per comprendere come il mondo sia diventato così distorto. D, un tempo suo compagno di viaggio in questa ricerca, ora lo considera perduto.",
+      },
+      {
+        title: "Il Marchio del Centipede",
+        text: "D ha scoperto il Marchio del Centipede, antico simbolo del marchio maledetto. Rogier vorrebbe parlare con chi lo troverà e usarlo per formare un’alleanza, purché non abbia intenzioni malvagie.",
+      },
     ],
+    nextStep: {
+      text: "Cercare altre informazioni sul morbo mortale, sulla Runa della Morte e sul Marchio del Centipede.",
+      hypothetical: false,
+    },
     portrait: {
       imageUrl: "./concepts/rogier.png",
-      imageAlt: "Rogier con il cappello da stregone nella chiesa di Grantempesta",
+      imageAlt:
+        "Rogier con il cappello da stregone nella chiesa di Grantempesta",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["rogier", "margit", "principesse-cariane"],
+    linkedConceptIds: ["rogier", "margit", "principesse-cariane", "morbo-mortale", "marchio-centipede", "notte-neri-coltelli", "runa-della-morte", "d-cacciatore"],
   },
   {
     id: "roderika",
     title: "Crisalidi",
     npc: "Roderika",
     region: "Grantempesta",
-    status: "in-corso",
-    summary: "Roderika ci ha affidato un messaggio per i suoi uomini. Li abbiamo trovati nel cumulo di cadaveri destinati agli innesti a Grantempesta.",
+    status: "conclusa",
+    summary:
+      "Dopo aver scoperto il destino dei suoi compagni, Roderika riconosce il proprio potenziale come Spirit Tuner e trova un nuovo scopo sotto la guida di Hewg.",
     lastSeen: {
-      location: "Capanna a Grantempesta",
+      location: "Tavola Rotonda",
+      note: "Studia come Spirit Tuner sotto la guida del Maestro Fabbro Hewg.",
     },
     steps: [
       {
@@ -353,13 +421,17 @@ export const quests: QuestEntry[] = [
         title: "Il cumulo di cadaveri",
         text: "Troviamo i suoi uomini nel cumulo di cadaveri utilizzati per gli innesti.",
       },
+      {
+        title: "Un nuovo scopo",
+        text: "Roderika comprende il proprio potenziale come Spirit Tuner e inizia a coltivarlo sotto la guida di Hewg, trovando un nuovo scopo dopo il destino terribile dei suoi compagni.",
+      },
     ],
     portrait: {
       imageUrl: "./concepts/roderika.jpg",
       imageAlt: "Roderika con il mantello rosso all’interno della capanna",
       imagePosition: "50% 25%",
     },
-    linkedConceptIds: ["roderika", "godrick-innestato"],
+    linkedConceptIds: ["roderika", "godrick-innestato", "hewg", "spiriti"],
   },
   {
     id: "renna",
@@ -367,7 +439,8 @@ export const quests: QuestEntry[] = [
     npc: "Strega Renna",
     region: "Sepolcride",
     status: "in-corso",
-    summary: "Abbiamo incontrato la strega Renna alla Chiesa di Elleh. Non conosciamo la sua prossima destinazione.",
+    summary:
+      "Abbiamo incontrato la strega Renna alla Chiesa di Elleh. Non conosciamo la sua prossima destinazione.",
     lastSeen: {
       location: "Chiesa di Elleh",
     },
@@ -390,7 +463,8 @@ export const quests: QuestEntry[] = [
     npc: "D, cacciatore di non morti",
     region: "Tavola Rotonda",
     status: "in-corso",
-    summary: "Abbiamo ucciso il marinaio non morto da cui D ci aveva messi in guardia e incontrato Gurranq seguendo la sua indicazione.",
+    summary:
+      "Abbiamo ucciso il marinaio non morto da cui D ci aveva messi in guardia e incontrato Gurranq seguendo la sua indicazione.",
     lastSeen: {
       location: "Tavola Rotonda",
     },
@@ -413,7 +487,11 @@ export const quests: QuestEntry[] = [
       imageAlt: "D con l’armatura gemella e una seconda testa sulla spalla",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["d-cacciatore", "coloro-che-vivono-nella-morte", "gurranq"],
+    linkedConceptIds: [
+      "d-cacciatore",
+      "coloro-che-vivono-nella-morte",
+      "gurranq",
+    ],
   },
   {
     id: "kenneth",
@@ -421,7 +499,8 @@ export const quests: QuestEntry[] = [
     npc: "Kenneth Haight",
     region: "Sepolcride",
     status: "in-corso",
-    summary: "Abbiamo liberato il forte di Kenneth. Ora attende un degno erede al trono di Sepolcride.",
+    summary:
+      "Abbiamo liberato il forte di Kenneth. Ora attende un degno erede al trono di Sepolcride.",
     lastSeen: {
       location: "Forte Haight",
     },
@@ -441,7 +520,8 @@ export const quests: QuestEntry[] = [
     },
     portrait: {
       imageUrl: "./concepts/kenneth-haight.png",
-      imageAlt: "Kenneth Haight, nobile dai capelli chiari e dagli occhi dorati",
+      imageAlt:
+        "Kenneth Haight, nobile dai capelli chiari e dagli occhi dorati",
       imagePosition: "50% 16%",
     },
     linkedConceptIds: ["kenneth-haight"],
@@ -452,7 +532,8 @@ export const quests: QuestEntry[] = [
     npc: "Gurranq, bestia ecclesiastica",
     region: "Dracotumulo",
     status: "in-corso",
-    summary: "Abbiamo incontrato Gurranq e ricevuto un occhio di pietra e il Sigillo artiglio. Ci chiede di cercare radici mortali.",
+    summary:
+      "Abbiamo incontrato Gurranq e ricevuto un occhio di pietra e il Sigillo artiglio. Ci chiede di cercare radici mortali.",
     lastSeen: {
       location: "Santuario Ferino, Dracotumulo",
     },
@@ -487,7 +568,8 @@ export const quests: QuestEntry[] = [
     npc: "Edgar e Irina",
     region: "Penisola del Pianto",
     status: "in-corso",
-    summary: "La storia di Irina è conclusa con la sua morte. Quella di Edgar prosegue: al Ponte dei Sacrifici promette di vendicare sua figlia.",
+    summary:
+      "La storia di Irina è conclusa con la sua morte. Quella di Edgar prosegue: al Ponte dei Sacrifici promette di vendicare sua figlia.",
     lastSeen: {
       location: "Ponte dei Sacrifici",
       note: "Edgar vuole vendicare sua figlia; la sua storia è ancora in corso. Solo quella di Irina è conclusa.",
@@ -530,9 +612,10 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta",
     status: "in-corso",
-    summary: "Nepheli, Senzaluce e guerriera, voleva liberare Grantempesta dalla sozzura di Godrick. L’abbiamo evocata contro di lui; dopo la vittoria non abbiamo incontrato altri sviluppi.",
+    summary:
+      "Dopo la vittoria su Godrick, ritroviamo Nepheli alla Tavola Rotonda e scopriamo che Gideon è suo padre adottivo. È pronta ad aiutarci ancora in battaglia.",
     lastSeen: {
-      location: "Grantempesta",
+      location: "Tavola Rotonda",
     },
     steps: [
       {
@@ -545,15 +628,29 @@ export const quests: QuestEntry[] = [
       },
       {
         title: "Godrick ucciso",
-        text: "Uccidiamo Godrick, portando a termine l’obiettivo indicato da Nepheli. Non abbiamo ancora rivisto la guerriera dopo lo scontro.",
+        text: "Uccidiamo Godrick, portando a termine l’obiettivo indicato da Nepheli.",
+      },
+      {
+        title: "Il padre adottivo",
+        text: "Ritroviamo Nepheli alla Tavola Rotonda e scopriamo che Gideon è suo padre adottivo. Nepheli continuerà a svolgere incarichi per lui ed è pronta ad aiutarci ancora in battaglia.",
       },
     ],
+    nextStep: {
+      text: "Ritrovare Nepheli dopo che avrà proseguito gli incarichi affidati da Gideon.",
+      hypothetical: true,
+    },
     portrait: {
       imageUrl: "./concepts/nepheli.png",
       imageAlt: "Nepheli Loux con abiti da guerriera e una grande ascia",
       imagePosition: "50% 22%",
     },
-    linkedConceptIds: ["nepheli-loux", "godrick-innestato", "senzaluce", "hoarah-loux"],
+    linkedConceptIds: [
+      "nepheli-loux",
+      "godrick-innestato",
+      "senzaluce",
+      "hoarah-loux",
+      "gideon-ofnir",
+    ],
   },
   {
     id: "diallos",
@@ -561,7 +658,8 @@ export const quests: QuestEntry[] = [
     npc: "Diallos Hoslow",
     region: "Tavola Rotonda",
     status: "in-corso",
-    summary: "Diallos cerca la sua serva Lanya. Non sappiamo ancora dove si trovi.",
+    summary:
+      "Diallos cerca la sua serva Lanya. Non sappiamo ancora dove si trovi.",
     lastSeen: {
       location: "Tavola Rotonda",
     },
