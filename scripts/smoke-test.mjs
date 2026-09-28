@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 68)
+assert.equal(await page.locator('.concept-card').count(), 69)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -67,6 +67,7 @@ assert.deepEqual(
     'Varré',
     'Strega Renna',
     'Due Dita',
+    'Volontà Superiore',
     'Kalé',
     'Kenneth Haight',
     'Medaglione di Dectus',
@@ -142,17 +143,17 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '12',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 110)
-assert.equal(await page.locator('.thread-layer line').count(), 220)
-assert.equal(await page.locator('.relation-list button').count(), 110)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 60)
+assert.equal(await page.locator('.thread-layer g').count(), 113)
+assert.equal(await page.locator('.thread-layer line').count(), 226)
+assert.equal(await page.locator('.relation-list button').count(), 113)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 61)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 8)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
     'Runa della Morte',
     'Semidei',
-    'Due Dita',
+    'Volontà Superiore',
     'Accademia di Raya Lucaria',
     'Tavola Rotonda',
     'Ordine Aureo',
@@ -182,8 +183,8 @@ assert.deepEqual(
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*36/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*10/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 61)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 7)
+assert.equal(await page.locator('.concept-card.is-read').count(), 67)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 2)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -222,10 +223,10 @@ assert.match(
 )
 assert.match(
   (await page
-    .locator('.concept-card.is-read')
+    .locator('.concept-card.is-unread')
     .filter({ has: page.getByRole('heading', { name: 'Due Dita', exact: true }) })
     .textContent()) || '',
-  /avversione/i,
+  /emissarie della Volontà Superiore/i,
 )
 assert.match(
   (await page
@@ -234,16 +235,16 @@ assert.match(
     .textContent()) || '',
   /legato all’autorità delle Due Dita/i,
 )
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 18)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 18)
-assert.match(await page.locator('.board-live-note').textContent(), /7/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*7/)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 9)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 9)
+assert.match(await page.locator('.board-live-note').textContent(), /2/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*2/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Godrick l’Innestato')
-assert.ok(await page.locator('.live-update-highlight').count() >= 2)
-assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 1)
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Due Dita')
+assert.ok(await page.locator('.live-update-highlight').count() >= 1)
+assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 2)
 await page.locator('.dialog-close').click()
 await page.locator('.concept-card').filter({ has: page.getByRole('heading', { name: 'Regina Marika l’Eterna', exact: true }) }).locator('.card-action').click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -547,7 +548,7 @@ assert.equal(
   await migratedBoard.evaluate(() =>
     Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v11') || '{}')).length,
   ),
-  68,
+  69,
 )
 await migratedBoard.close()
 

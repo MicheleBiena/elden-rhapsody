@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, CheckCheck, Compass, Expand, Feather, MapPin, Search, Signpost, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, CheckCheck, Compass, Expand, Feather, MapPin, RotateCcw, Search, Signpost, Skull, Swords, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { quests } from '../data/quests'
 import { concepts } from '../data/project'
@@ -19,11 +19,11 @@ const filters = [
 type QuestFilter = typeof filters[number]['id']
 const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('it')
 
-function JournalImage({ photo }: { photo: QuestImage }) {
+function JournalImage({ photo, eager = false }: { photo: QuestImage; eager?: boolean }) {
   const [failed, setFailed] = useState(false)
   useEffect(() => setFailed(false), [photo.imageUrl])
   return !failed && isSafeContentUrl(photo.imageUrl)
-    ? <img src={photo.imageUrl} alt={photo.imageAlt} style={{ objectPosition: photo.imagePosition || '50% 50%' }} width={640} height={480} loading="lazy" decoding="async" onError={() => setFailed(true)} />
+    ? <img src={photo.imageUrl} alt={photo.imageAlt} style={{ objectPosition: photo.imagePosition || '50% 50%' }} width={640} height={480} loading={eager ? 'eager' : 'lazy'} decoding="async" onError={() => setFailed(true)} />
     : <span className="quest-image-fallback" role="img" aria-label="Immagine non disponibile"><Feather aria-hidden="true" /><span>Immagine non disponibile</span></span>
 }
 
@@ -54,6 +54,10 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
   const [filter, setFilter] = useState<QuestFilter>('tutte')
   const [query, setQuery] = useState('')
   const [lastQuestId, setLastQuestId] = usePersistentState('elden-rhapsody:questbook-page', '')
+  const [defeatedTargets, setDefeatedTargets] = usePersistentState<Record<string, boolean>>(
+    'elden-rhapsody:questbook-big-boys-targets-v1',
+    { godrick: true },
+  )
   const [photo, setPhoto] = useState<QuestImage>()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const indexRef = useRef<HTMLElement>(null)
@@ -95,6 +99,15 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
   }, [activeQuestId, invalidRoute, setLastQuestId])
 
   function resetFilters() { setFilter('tutte'); setQuery('') }
+  function isTargetDefeated(targetId: string, initiallyDefeated = false) {
+    return defeatedTargets[targetId] ?? initiallyDefeated
+  }
+  function toggleTarget(targetId: string, initiallyDefeated = false) {
+    setDefeatedTargets(current => ({
+      ...current,
+      [targetId]: !(current[targetId] ?? initiallyDefeated),
+    }))
+  }
 
   return <section className="questbook" aria-labelledby="questbook-title">
     <header className="questbook-heading">
@@ -150,6 +163,42 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
               <div><dt><MapPin aria-hidden="true" />Ultima posizione nota</dt><dd><strong>{selected.lastSeen?.location || 'Non ancora annotata'}</strong>{selected.lastSeen?.note && <p>{selected.lastSeen.note}</p>}</dd></div>
               <div><dt><Signpost aria-hidden="true" />Destinazione indicata</dt><dd><strong>{selected.destination?.location || 'Non ancora nota'}</strong>{selected.destination?.note && <p>{selected.destination.note}</p>}</dd></div>
             </dl>
+
+            {selected.targets && selected.targets.length > 0 && <section className="quest-targets" aria-labelledby="quest-targets-title">
+              <div className="quest-targets-heading">
+                <div><p className="quest-small-label">Rune Maggiori</p><h3 id="quest-targets-title">Obiettivi di Gideon</h3></div>
+                <p aria-live="polite"><Swords aria-hidden="true" />{selected.targets.filter(target => isTargetDefeated(target.id, target.initiallyDefeated)).length} di {selected.targets.length} eliminati</p>
+              </div>
+              <div className="quest-target-grid">
+                {selected.targets.map(target => {
+                  const defeated = isTargetDefeated(target.id, target.initiallyDefeated)
+                  return <article className={`quest-target${defeated ? ' is-defeated' : ''}`} key={target.id} data-target-id={target.id}>
+                    <button className="quest-target-image" type="button" aria-label={`Ingrandisci: ${target.name}`} onClick={() => setPhoto({ ...target.image, caption: `${target.name} · ${target.epithet}` })}>
+                      <JournalImage photo={target.image} eager />
+                      <span className="quest-target-cross" aria-hidden="true" />
+                      <Expand aria-hidden="true" />
+                    </button>
+                    <div className="quest-target-copy">
+                      <p className="quest-target-status"><span aria-hidden="true">{defeated ? '×' : '○'}</span>{defeated ? 'Eliminato' : 'Da affrontare'}</p>
+                      <h4>{target.name}</h4>
+                      <p className="quest-target-epithet">{target.epithet}</p>
+                      <p className="quest-target-location"><MapPin aria-hidden="true" />{target.location}</p>
+                      <p className="quest-target-description">{target.description}</p>
+                      <button
+                        type="button"
+                        className={`quest-target-toggle${defeated ? ' is-restore' : ''}`}
+                        aria-pressed={defeated}
+                        aria-label={`${defeated ? 'Ripristina' : 'Segna eliminato'}: ${target.name}`}
+                        onClick={() => toggleTarget(target.id, target.initiallyDefeated)}
+                      >
+                        {defeated ? <RotateCcw aria-hidden="true" /> : <Skull aria-hidden="true" />}
+                        {defeated ? 'Ripristina obiettivo' : 'Segna eliminato'}
+                      </button>
+                    </div>
+                  </article>
+                })}
+              </div>
+            </section>}
 
             <section className="quest-history" aria-labelledby="quest-history-title"><h3 id="quest-history-title">Tappe percorse</h3>{selected.steps.length ? <ol>{selected.steps.map((step, index) => <li key={`${selected.id}-${index}`}><span className="quest-step-mark"><Check aria-hidden="true" /><span className="sr-only">Tappa annotata {index + 1}</span></span><div><h4>{step.title}</h4><p>{step.text}</p></div></li>)}</ol> : <p>Nessuna tappa ancora annotata.</p>}</section>
 

@@ -80,6 +80,36 @@
 .quest-whereabouts dd { margin: 0; font-size: .9rem; line-height: 1.55; }
 .quest-whereabouts dd strong { font-weight: 500; }
 .quest-whereabouts dd p { margin: 7px 0 0; color: var(--journal-muted); font-size: .85rem; }
+.quest-targets { margin: 4px 0 38px; padding: 26px 0 30px; border-block: 1px solid var(--journal-rule); }
+.quest-targets-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+.quest-targets-heading h3 { margin: 3px 0 0; }
+.quest-targets-heading > p { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: var(--journal-muted); font-size: .82rem; font-variant-numeric: tabular-nums; }
+.quest-targets-heading > p svg { width: 18px; height: 18px; }
+.quest-target-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.quest-target { position: relative; min-width: 0; overflow: hidden; border: 1px solid #8f7c5c; background: #f0e5cb; box-shadow: 2px 3px 0 #6c563817; }
+.quest-target-image { position: relative; display: block; width: 100%; padding: 0; overflow: hidden; border: 0; border-bottom: 1px solid #8f7c5c; background: #282820; }
+.quest-target-image img, .quest-target-image .quest-image-fallback { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: filter 180ms, opacity 180ms; }
+.quest-target-image > svg { position: absolute; right: 10px; bottom: 10px; z-index: 3; width: 27px; height: 27px; padding: 5px; color: #f3ead6; background: #24251de0; }
+.quest-target-cross { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; }
+.quest-target-cross::before, .quest-target-cross::after { content: ''; position: absolute; top: 50%; left: 50%; width: 78%; height: 9px; border-radius: 999px; background: #9f201b; box-shadow: 0 1px 0 #f2b2a56b, 0 2px 5px #260604a6; transform-origin: center; }
+.quest-target-cross::before { transform: translate(-50%, -50%) rotate(34deg); }
+.quest-target-cross::after { transform: translate(-50%, -50%) rotate(-34deg); }
+.quest-target.is-defeated .quest-target-image img { filter: grayscale(1) contrast(.88); opacity: .72; }
+.quest-target.is-defeated .quest-target-cross { opacity: 1; }
+.quest-target-copy { display: flex; flex-direction: column; min-height: 330px; padding: 17px; }
+.quest-target-status { display: inline-flex; align-items: center; align-self: flex-start; gap: 6px; min-height: 26px; margin: 0 0 13px; padding: 3px 9px; border: 1px solid #7d6f55; border-radius: 999px; color: var(--journal-muted); font-size: .69rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.quest-target-status span { font-size: 1rem; line-height: 1; }
+.quest-target.is-defeated .quest-target-status { border-color: #8e302b; color: #842a25; background: #a02c2112; }
+.quest-target-copy h4 { margin: 0; font: 600 1.4rem/1.15 'Newsreader', Georgia, serif; }
+.quest-target-epithet { min-height: 2.8em; margin: 6px 0 12px; color: var(--journal-muted); font: 500 .95rem/1.4 'Newsreader', Georgia, serif; }
+.quest-target-location { display: flex; align-items: start; gap: 6px; margin: 0 0 12px; color: #564e3d; font-size: .76rem; line-height: 1.45; }
+.quest-target-location svg { flex: 0 0 14px; width: 14px; height: 14px; margin-top: 1px; }
+.quest-target-description { margin: 0 0 18px; color: #4d493c; font-size: .84rem; line-height: 1.62; }
+.quest-target-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 46px; margin-top: auto; padding: 10px 12px; border: 1px solid #761e19; color: #fff3df; background: #8c2822; font-size: .78rem; font-weight: 700; letter-spacing: .035em; text-transform: uppercase; box-shadow: inset 0 0 0 1px #e5a28c33; }
+.quest-target-toggle:hover { background: #a03129; }
+.quest-target-toggle.is-restore { border-color: #75684f; color: var(--journal-ink); background: transparent; box-shadow: none; }
+.quest-target-toggle.is-restore:hover { background: #76653f14; }
+.quest-target-toggle svg { width: 18px; height: 18px; }
 .quest-page h3 { margin: 0 0 20px; font: 600 1.45rem/1.2 'Newsreader', Georgia, serif; }
 .quest-history { margin-bottom: 28px; }
 .quest-history ol { margin: 0; padding: 0; list-style: none; }
@@ -139,6 +169,8 @@
   .quest-portrait { max-width: 180px; grid-row: 1; }
   .quest-portrait img { aspect-ratio: 4/3; }
   .quest-whereabouts { grid-template-columns: 1fr; gap: 22px; }
+  .quest-target-grid { grid-template-columns: 1fr; }
+  .quest-target-copy { min-height: 0; }
 }
 
 @media (max-width: 860px) {
@@ -172,6 +204,7 @@
   .quest-history p, .quest-next-step p { font-size: 1rem; }
   .quest-next-step { padding: 16px; }
   .quest-gallery > div { grid-template-columns: 1fr; }
+  .quest-targets-heading { align-items: start; flex-direction: column; }
   .quest-empty-page { padding: 36px 0 48px; }
   .quest-empty-page h2 { font-size: 2.15rem; }
   .quest-empty-fields { font-size: .8rem; }

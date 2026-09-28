@@ -9,10 +9,11 @@ export const quests: QuestEntry[] = [
     npc: "Melina",
     region: "Sepolcride",
     status: "in-corso",
-    summary: "Accompagnare Melina ai piedi dell’Albero Madre.",
+    summary: "Acquisire abbastanza Rune Maggiori per entrare nella capitale, dove Melina ci aspetta, e accompagnarla ai piedi dell’Albero Madre.",
 
     destination: {
-      location: "Ai piedi dell’Albero Madre",
+      location: "Leyndell, ai piedi dell’Albero Madre",
+      note: "Melina ci aspetta nella capitale; l’accesso richiede abbastanza Rune Maggiori.",
     },
 
     steps: [
@@ -36,10 +37,14 @@ export const quests: QuestEntry[] = [
         title: "Godrick sconfitto",
         text: "Combattiamo Godrick: durante lo scontro si innesta la testa di un drago e invoca i propri avi. Lo sconfiggiamo, ma la meta concordata con Melina resta l’Albero Madre.",
       },
+      {
+        title: "La via per la capitale",
+        text: "Scopriamo che per accedere a Leyndell dobbiamo prima acquisire abbastanza Rune Maggiori. Melina ci aspetta nella capitale.",
+      },
     ],
 
     nextStep: {
-      text: "Raggiungere l’Albero Madre.",
+      text: "Acquisire abbastanza Rune Maggiori per entrare a Leyndell e raggiungere Melina.",
       hypothetical: false,
     },
 
@@ -54,6 +59,102 @@ export const quests: QuestEntry[] = [
       { imageUrl: "./concepts/progenie-innestata.webp", imageAlt: "La creatura con numerosi arti innestati", caption: "La creatura innestata di Grantempesta" },
     ],
     linkedConceptIds: ["melina", "albero-madre", "margit", "godrick-innestato", "progenie-innestata"],
+  },
+  {
+    id: "big-boys",
+    title: "The Big Boys",
+    npc: "Araldi delle Rune Maggiori",
+    region: "Interregno",
+    status: "in-corso",
+    summary: "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
+    lastSeen: {
+      location: "Tavola Rotonda",
+      note: "Gideon ci ha descritto i principali obiettivi conosciuti.",
+    },
+    destination: {
+      location: "Leyndell, capitale reale",
+      note: "Le Due Dita vietano di entrarvi finché non avremo raccolto abbastanza Rune Maggiori.",
+    },
+    steps: [
+      {
+        title: "L’elenco di Gideon",
+        text: "Gideon identifica cinque portatori di Rune Maggiori: Godrick, Radahn, Rykard, Morgott e Rennala.",
+      },
+      {
+        title: "Godrick eliminato",
+        text: "Godrick l’Innestato è stato sconfitto a Grantempesta e la sua Runa Maggiore è in nostro possesso.",
+      },
+    ],
+    nextStep: {
+      text: "Sconfiggere altri portatori e acquisire abbastanza Rune Maggiori per ottenere accesso a Leyndell.",
+      hypothetical: false,
+    },
+    targets: [
+      {
+        id: "godrick",
+        name: "Godrick l’Innestato",
+        epithet: "Signore di Grantempesta",
+        location: "Sepolcride nord-occidentale",
+        description: "Pur discendendo da Godfrey, Gideon lo considera un vecchio grottesco e sciocco, affamato di potere. Il suo castello sorge sulla scogliera a nord-ovest di Sepolcride.",
+        image: {
+          imageUrl: "./concepts/godrick.png",
+          imageAlt: "Godrick l’Innestato con le numerose membra aggiunte al corpo",
+          imagePosition: "50% 22%",
+        },
+        linkedConceptId: "godrick-innestato",
+        initiallyDefeated: true,
+      },
+      {
+        id: "radahn",
+        name: "Generale Radahn",
+        epithet: "Leone Rosso, flagello delle stelle",
+        location: "Caelid",
+        description: "Guerriero feroce che combatté Malenia e la sua marcescenza fino a uno stallo. Caelid è ormai sommersa dal marcio scarlatto; Radahn sembra essere ancora lì, ma forse non assomiglia più a com’era un tempo.",
+        image: {
+          imageUrl: "./concepts/radahn.webp",
+          imageAlt: "Il generale Radahn in armatura rossa",
+          imagePosition: "50% 24%",
+        },
+        linkedConceptId: "radahn",
+      },
+      {
+        id: "rykard",
+        name: "Pretore Rykard",
+        epithet: "Signore di Villa Vulcano",
+        location: "Monte Gelmir, Altopiano di Altus occidentale",
+        description: "Giustiziere spietato a capo di una compagnia di inquisitori, disprezzato per il suo contegno serpentino. Sul Monte Gelmir si combatté la battaglia più terribile dello Shattering; la sua blasfemia lo ha reso un nemico imperdonabile.",
+        image: {
+          imageUrl: "./quests/rykard.jpg",
+          imageAlt: "Rykard nel paesaggio infuocato di Villa Vulcano",
+          imagePosition: "50% 50%",
+        },
+      },
+      {
+        id: "morgott",
+        name: "Morgott, il Benedetto dalla Grazia",
+        epithet: "Monarca Velato e signore di Leyndell",
+        location: "Leyndell, Altopiano di Altus orientale",
+        description: "Governa la capitale ai piedi dell’Albero Madre. Le Due Dita ci vietano di raggiungerlo finché non avremo ottenuto abbastanza Rune Maggiori per riparare l’Elden Ring.",
+        image: {
+          imageUrl: "./quests/morgott.jpg",
+          imageAlt: "Concept art di Morgott avvolto in un grande mantello",
+          imagePosition: "50% 20%",
+        },
+      },
+      {
+        id: "rennala",
+        name: "Rennala",
+        epithet: "Regina dei reali cariani",
+        location: "Accademia di Raya Lucaria, Liurnia",
+        description: "Governa l’Accademia, ma non è una semidea. La sua Runa Maggiore dimora nell’uovo d’ambra donatole da Radagon, che la lasciò per diventare secondo marito di Marika e Re Consorte.",
+        image: {
+          imageUrl: "./quests/rennala.jpg",
+          imageAlt: "Concept art di Rennala con le vesti dei reali cariani",
+          imagePosition: "64% 32%",
+        },
+      },
+    ],
+    linkedConceptIds: ["gideon-ofnir", "godrick-innestato", "radahn", "leyndell"],
   },
   {
     id: "varre",

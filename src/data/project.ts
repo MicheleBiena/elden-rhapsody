@@ -582,13 +582,19 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'due-dita',
     name: 'Due Dita',
-    eyebrow: 'Autorità della fede',
+    eyebrow: 'Emissarie della Volontà Superiore',
     category: 'Indizio',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Autorità che concede incantamenti e impone un dovere ai Senzaluce; Renna mostra una chiara avversione per la loro obbedienza.',
-    body: 'Non abbiamo ancora incontrato direttamente le Due Dita, ma Corhyn le serve e insegna la forza che concedono. I loro incantamenti esigono perseveranza, fede e rinuncia. Renna assume invece un tono apertamente avverso: critica i Senzaluce che continuano a obbedire e si domanda quanto durerà ancora questa sottomissione.',
+      'Emissarie della Volontà Superiore, parlano attraverso la Leggidita Enia e ordinano ai Senzaluce di raccogliere Rune Maggiori.',
+    body: 'Abbiamo incontrato le Due Dita alla Tavola Rotonda. Enia ne interpreta le parole: ci accolgono come portatori di una scheggia e ci ordinano di cercare un’altra Runa Maggiore, diventare Lord ancestrale e restaurare l’Ordine Aureo. Corhyn serve la loro fede, mentre Renna critica apertamente i Senzaluce che continuano a obbedire.',
+    bodyHighlights: [
+      'Abbiamo incontrato le Due Dita alla Tavola Rotonda. Enia ne interpreta le parole: ci accolgono come portatori di una scheggia e ci ordinano di cercare un’altra Runa Maggiore, diventare Lord ancestrale e restaurare l’Ordine Aureo.',
+    ],
+    imageUrl: './concepts/due-dita.webp',
+    imageAlt: 'Le Due Dita nella camera della Tavola Rotonda',
+    imagePosition: '50% 42%',
     gallery: [
       {
         imageUrl: './concepts/incantamento-guarigione.png',
@@ -596,15 +602,28 @@ const conceptArchive: LoreConcept[] = [
         caption: 'Incantamento delle Due Dita',
       },
     ],
+    textSections: [
+      {
+        title: 'Il messaggio interpretato da Enia',
+        text: 'L’Elden Ring è la radice dell’Ordine Aureo, sostegno delle terre e fonte della Grazia. La sua frantumazione ha corrotto l’Ordine e diffuso rovina, ma la Volontà Superiore non ha abbandonato l’Interregno: per questo i Senzaluce vengono guidati dalla Grazia e chiamati ad agire.',
+        highlighted: true,
+      },
+      {
+        title: 'Rune Maggiori e rimembranze',
+        text: 'Le Rune Maggiori appartengono ai semidei, figli di Marika; Godrick è però soltanto un parente lontano dal sangue divino molto diluito. Alla morte, i semidei e i più grandi campioni vengono incisi dall’Albero Madre in rimembranze che conservano il potere dei loro antichi proprietari.',
+        highlighted: true,
+      },
+    ],
     evidence: [
+      'Enia si presenta come Leggidita e interprete delle parole delle Due Dita.',
+      'Le Due Dita sono definite emissarie della Volontà Superiore.',
+      'Ordinano di cercare un’altra Runa Maggiore e restaurare l’Ordine Aureo.',
+      'Le rimembranze conservano il potere dei semidei e dei grandi campioni caduti.',
       'Corhyn è un fedele delle Due Dita.',
-      'Gli incantamenti vengono descritti come una forza da loro concessa.',
-      'Le Due Dita si aspettano che i Senzaluce continuino a combattere per il proprio dovere anche dopo essere caduti.',
-      'La loro fede richiede di essere pronti a rifiutare tutto il resto.',
       'Renna critica apertamente l’obbedienza dei Senzaluce alle Due Dita.',
     ],
-    questions: ['Che cosa sono le Due Dita?', 'Perché Renna avversa la loro autorità?'],
-    tags: ['Due Dita', 'obbedienza', 'Renna', 'incantamenti'],
+    questions: ['Qual è la natura delle Due Dita?', 'Che cosa vuole davvero la Volontà Superiore?', 'Perché Renna avversa la loro autorità?'],
+    tags: ['Due Dita', 'Volontà Superiore', 'Enia', 'Rune Maggiori', 'rimembranze', 'Renna'],
     position: { x: 87, y: 76 },
   },
   {
@@ -1441,13 +1460,26 @@ const conceptArchive: LoreConcept[] = [
     questions: ['Chi è il padre che le ha dato l’incarico?', 'Il nome Loux indica un legame con Hoarah Loux?', 'Quale sarà il suo prossimo obiettivo?'],
     tags: ['Nepheli Loux', 'Senzaluce', 'guerriera', 'Grantempesta', 'Godrick'], position: { x: 50, y: 97 },
   },
+  {
+    id: 'volonta-superiore', name: 'Volontà Superiore', eyebrow: 'Potere oltre le Due Dita',
+    category: 'Indizio', state: 'da-verificare', liveReadStatus: 'da-leggere',
+    summary: 'Potere nominato da Enia come autorità di cui le Due Dita sono emissarie; sembra collocarsi sopra la loro dottrina.',
+    body: 'Enia definisce le Due Dita emissarie della Volontà Superiore. Secondo il messaggio che interpreta, questa forza non ha abbandonato l’Interregno né la vita che lo abita: la Grazia guida quindi i Senzaluce e li chiama ad agire. Potrebbe trattarsi di una divinità posta sopra le altre, ma per ora conosciamo soltanto il nome, i suoi emissari e la volontà dichiarata di restaurare l’Ordine Aureo.',
+    evidence: [
+      'Enia chiama le Due Dita emissarie della Volontà Superiore.',
+      'Il loro messaggio afferma che la Volontà Superiore non ha abbandonato il regno.',
+      'La guida della Grazia viene presentata come una chiamata ad agire.',
+    ],
+    questions: ['È una divinità?', 'Qual è il suo rapporto con Marika e l’Elden Ring?', 'La Grazia esprime direttamente la sua volontà?'],
+    tags: ['Volontà Superiore', 'Due Dita', 'Enia', 'Grazia', 'Ordine Aureo'], position: { x: 70, y: 97 },
+  },
 ]
 
 // Dal 23 settembre: identikit sulla lavagna, azioni e avanzamenti nel Questbook.
 const currentEpisodeConceptIds = new Set<string>([
-  'godrick-innestato', 'gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata', 'nepheli-loux',
+  'due-dita', 'volonta-superiore',
 ])
-const currentEpisodeUpdatedConceptIds = new Set<string>(['godrick-innestato'])
+const currentEpisodeUpdatedConceptIds = new Set<string>(['due-dita'])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
@@ -1458,6 +1490,18 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'due-dita-volonta-superiore', from: 'due-dita', to: 'volonta-superiore', label: 'emissarie',
+    note: 'Enia identifica le Due Dita come emissarie della Volontà Superiore.', kind: 'traccia',
+  },
+  {
+    id: 'volonta-superiore-grazia', from: 'volonta-superiore', to: 'grazia', label: 'chiamata ad agire',
+    note: 'Il messaggio delle Due Dita collega la guida della Grazia alla volontà che i Senzaluce tornino ad agire.', kind: 'traccia',
+  },
+  {
+    id: 'volonta-superiore-ordine-aureo', from: 'volonta-superiore', to: 'ordine-aureo', label: 'restaurazione ordinata',
+    note: 'Le Due Dita ordinano di raccogliere Rune Maggiori e restaurare l’Ordine Aureo in nome della Volontà Superiore.', kind: 'traccia',
+  },
   {
     id: 'nepheli-godrick', from: 'nepheli-loux', to: 'godrick-innestato', label: 'contro gli innesti',
     note: 'Nepheli considera gli innesti di Godrick ripugnanti e indegni di un lord, e si offre di combatterlo.', kind: 'traccia',

@@ -87,6 +87,17 @@ export interface QuestImage {
   imagePosition?: string
 }
 
+export interface QuestTarget {
+  id: string
+  name: string
+  epithet: string
+  location: string
+  description: string
+  image: QuestImage
+  linkedConceptId?: string
+  initiallyDefeated?: boolean
+}
+
 export interface QuestEntry {
   id: string
   title: string
@@ -102,4 +113,5 @@ export interface QuestEntry {
   nextStep?: { text: string; hypothetical?: boolean }
   gallery?: QuestImage[]
   linkedConceptIds?: string[]
+  targets?: QuestTarget[]
 }

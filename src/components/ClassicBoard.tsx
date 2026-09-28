@@ -32,7 +32,7 @@ const newestBoardHeight = 10000
 const lastBoardHeight = 11000
 const previousEpisodeBoardHeight = 12000
 const boardHeight = 12500
-const episodeLayoutConceptIds = new Set(['nepheli-loux'])
+const episodeLayoutConceptIds = new Set(['nepheli-loux', 'volonta-superiore'])
 const previousEpisodeLayoutConceptIds = new Set(['gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata'])
 const previousLayoutConceptIds = new Set([
   'accademia-raya-lucaria',
@@ -304,6 +304,7 @@ const boardConceptOrder = [
   'varre',
   'strega-sconosciuta',
   'due-dita',
+  'volonta-superiore',
   'mercante-kale',
   'kenneth-haight',
   'medaglione-dectus',

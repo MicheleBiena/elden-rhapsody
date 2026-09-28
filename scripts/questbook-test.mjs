@@ -15,12 +15,13 @@ try {
   assert.equal(await page.locator('a[href="#/questbook"].nav-tab').getAttribute('aria-current'), 'page')
   await page.getByRole('heading', { name: 'I offer you an accord', exact: true }).waitFor()
   assert.deepEqual(await page.locator('.quest-index-link').evaluateAll(links => links.map(link => link.dataset.questId)), [
-    'melina', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika',
+    'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika',
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos',
   ])
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
-  assert.match(await page.locator('.questbook-count').textContent(), /15 in corso/)
-  assert.match(await page.locator('.quest-next-step').textContent(), /Raggiungere l’Albero Madre/)
+  assert.match(await page.locator('.questbook-count').textContent(), /16 in corso/)
+  assert.match(await page.locator('.quest-next-step').textContent(), /abbastanza Rune Maggiori.*Leyndell/i)
+  assert.match(await page.locator('.quest-whereabouts').textContent(), /Melina ci aspetta nella capitale/)
   assert.match(await page.locator('.quest-history').textContent(), /Margit scompare in una luce dorata/)
   assert.match(await page.locator('.quest-history').textContent(), /si innesta la testa di un drago/)
   assert.equal(await page.locator('.quest-lore-links a').count(), 5)
@@ -40,6 +41,33 @@ try {
   await page.evaluate(() => window.scrollTo(0, 0))
   await page.screenshot({ path: 'artifacts/questbook-desktop.png', fullPage: true })
 
+  await page.locator('[data-quest-id="big-boys"]').click()
+  await page.getByRole('heading', { name: 'The Big Boys', exact: true }).waitFor()
+  assert.equal(await page.locator('.quest-target').count(), 5)
+  assert.deepEqual(await page.locator('.quest-target h4').allTextContents(), [
+    'Godrick l’Innestato', 'Generale Radahn', 'Pretore Rykard', 'Morgott, il Benedetto dalla Grazia', 'Rennala',
+  ])
+  assert.equal(await page.locator('.quest-target.is-defeated').count(), 1)
+  assert.equal(await page.locator('[data-target-id="godrick"]').getAttribute('class'), 'quest-target is-defeated')
+  assert.match(await page.locator('[data-target-id="godrick"] img').evaluate(image => getComputedStyle(image).filter), /grayscale\(1\)/)
+  assert.match(await page.locator('.quest-targets-heading').textContent(), /1 di 5 eliminati/)
+  for (const image of await page.locator('.quest-target img').all()) {
+    await image.scrollIntoViewIfNeeded()
+    await image.evaluate(element => element.decode())
+    assert.ok(await image.evaluate(element => element.naturalWidth > 0))
+  }
+  await page.getByRole('button', { name: 'Segna eliminato: Generale Radahn', exact: true }).click()
+  assert.equal(await page.locator('.quest-target.is-defeated').count(), 2)
+  assert.match(await page.locator('.quest-targets-heading').textContent(), /2 di 5 eliminati/)
+  assert.equal(await page.getByRole('button', { name: 'Ripristina: Generale Radahn', exact: true }).getAttribute('aria-pressed'), 'true')
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('elden-rhapsody:questbook-big-boys-targets-v1')).radahn), true)
+  await page.reload({ waitUntil: 'networkidle' })
+  await page.getByRole('heading', { name: 'The Big Boys', exact: true }).waitFor()
+  assert.equal(await page.locator('[data-target-id="radahn"].is-defeated').count(), 1, 'Target state must survive reloads')
+  await page.getByRole('button', { name: 'Ripristina: Generale Radahn', exact: true }).click()
+  assert.equal(await page.locator('.quest-target.is-defeated').count(), 1)
+  await page.screenshot({ path: 'artifacts/questbook-big-boys.png', fullPage: true })
+
   await page.getByRole('searchbox').fill('varre')
   assert.equal(await page.locator('.quest-index-link').count(), 1)
   await page.locator('[data-quest-id="varre"]').click()
@@ -50,6 +78,7 @@ try {
   assert.equal(await page.locator('.quest-next-step').count(), 0, 'Do not invent a follow-up for Varré')
   assert.equal(await page.locator('.quest-status').textContent(), 'In corso', 'Initial task completed does not conclude the whole quest')
   assert.equal(await page.locator('.quest-lore-links a').count(), 3)
+  assert.equal(await page.locator('.quest-targets').count(), 0, 'The target tracker belongs only to The Big Boys')
   await page.locator('.quest-portrait img').evaluate(image => image.decode())
   await page.getByRole('searchbox').fill('')
   await page.locator('[data-quest-id="boc"]').click()
@@ -97,7 +126,7 @@ try {
   await page.getByRole('button', { name: 'Concluse', exact: true }).click()
   assert.equal(await page.locator('.quest-index-link').count(), 0, 'Irina’s ending must not archive Edgar’s ongoing story')
   await page.getByRole('button', { name: 'In corso', exact: true }).click()
-  assert.equal(await page.locator('.quest-index-link').count(), 15)
+  assert.equal(await page.locator('.quest-index-link').count(), 16)
   assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 1)
   await page.locator('[data-quest-id="edgar-irina"]').click()
   await page.getByRole('heading', { name: 'Insurrezione', exact: true }).waitFor()
@@ -122,7 +151,13 @@ try {
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   }
   await page.setViewportSize({ width: 375, height: 812 })
-  await page.screenshot({ path: 'artifacts/questbook-mobile.png', fullPage: true })
+  await page.goto(`${baseUrl}#/questbook/big-boys`, { waitUntil: 'networkidle' })
+  await page.getByRole('heading', { name: 'The Big Boys', exact: true }).waitFor()
+  await page.locator('.quest-target img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
+  assert.equal(await page.locator('.quest-target-grid').evaluate(grid => getComputedStyle(grid).gridTemplateColumns.split(' ').length), 1)
+  assert.ok(await page.locator('.quest-target-toggle').evaluateAll(buttons => buttons.every(button => button.getBoundingClientRect().height >= 44)))
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
+  await page.screenshot({ path: 'artifacts/questbook-big-boys-mobile.png', fullPage: true })
   await page.goto(`${baseUrl}#/questbook/non-esiste`)
   await page.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   await page.getByRole('link', { name: 'Torna all’indice' }).click()
@@ -137,7 +172,7 @@ try {
   await page.locator('a.nav-tab[href="#/map"]').click()
   await page.locator('.map-layout').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '7 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '2 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -232,7 +267,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: fifteen active quests, Irina concluded but Edgar ongoing, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
+  console.log('Questbook passed: sixteen active quests, persistent Big Boys tracker, Irina concluded but Edgar ongoing, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()
