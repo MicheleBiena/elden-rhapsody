@@ -123,11 +123,6 @@ export const quests: QuestEntry[] = [
         epithet: "Signore di Villa Vulcano",
         location: "Monte Gelmir, Altopiano di Altus occidentale",
         description: "Giustiziere spietato a capo di una compagnia di inquisitori, disprezzato per il suo contegno serpentino. Sul Monte Gelmir si combatté la battaglia più terribile dello Shattering; la sua blasfemia lo ha reso un nemico imperdonabile.",
-        image: {
-          imageUrl: "./quests/rykard.jpg",
-          imageAlt: "Rykard nel paesaggio infuocato di Villa Vulcano",
-          imagePosition: "50% 50%",
-        },
       },
       {
         id: "morgott",
@@ -135,11 +130,6 @@ export const quests: QuestEntry[] = [
         epithet: "Monarca Velato e signore di Leyndell",
         location: "Leyndell, Altopiano di Altus orientale",
         description: "Governa la capitale ai piedi dell’Albero Madre. Le Due Dita ci vietano di raggiungerlo finché non avremo ottenuto abbastanza Rune Maggiori per riparare l’Elden Ring.",
-        image: {
-          imageUrl: "./quests/morgott.jpg",
-          imageAlt: "Concept art di Morgott avvolto in un grande mantello",
-          imagePosition: "50% 20%",
-        },
       },
       {
         id: "rennala",
@@ -147,11 +137,6 @@ export const quests: QuestEntry[] = [
         epithet: "Regina dei reali cariani",
         location: "Accademia di Raya Lucaria, Liurnia",
         description: "Governa l’Accademia, ma non è una semidea. La sua Runa Maggiore dimora nell’uovo d’ambra donatole da Radagon, che la lasciò per diventare secondo marito di Marika e Re Consorte.",
-        image: {
-          imageUrl: "./quests/rennala.jpg",
-          imageAlt: "Concept art di Rennala con le vesti dei reali cariani",
-          imagePosition: "64% 32%",
-        },
       },
     ],
     linkedConceptIds: ["gideon-ofnir", "godrick-innestato", "radahn", "leyndell"],

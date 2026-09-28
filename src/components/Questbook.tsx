@@ -173,11 +173,11 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
                 {selected.targets.map(target => {
                   const defeated = isTargetDefeated(target.id, target.initiallyDefeated)
                   return <article className={`quest-target${defeated ? ' is-defeated' : ''}`} key={target.id} data-target-id={target.id}>
-                    <button className="quest-target-image" type="button" aria-label={`Ingrandisci: ${target.name}`} onClick={() => setPhoto({ ...target.image, caption: `${target.name} · ${target.epithet}` })}>
+                    {target.image && <button className="quest-target-image" type="button" aria-label={`Ingrandisci: ${target.name}`} onClick={() => target.image && setPhoto({ ...target.image, caption: `${target.name} · ${target.epithet}` })}>
                       <JournalImage photo={target.image} eager />
                       <span className="quest-target-cross" aria-hidden="true" />
                       <Expand aria-hidden="true" />
-                    </button>
+                    </button>}
                     <div className="quest-target-copy">
                       <p className="quest-target-status"><span aria-hidden="true">{defeated ? '×' : '○'}</span>{defeated ? 'Eliminato' : 'Da affrontare'}</p>
                       <h4>{target.name}</h4>

@@ -91,9 +91,9 @@
 .quest-target-image img, .quest-target-image .quest-image-fallback { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: filter 180ms, opacity 180ms; }
 .quest-target-image > svg { position: absolute; right: 10px; bottom: 10px; z-index: 3; width: 27px; height: 27px; padding: 5px; color: #f3ead6; background: #24251de0; }
 .quest-target-cross { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; }
-.quest-target-cross::before, .quest-target-cross::after { content: ''; position: absolute; top: 50%; left: 50%; width: 78%; height: 9px; border-radius: 999px; background: #9f201b; box-shadow: 0 1px 0 #f2b2a56b, 0 2px 5px #260604a6; transform-origin: center; }
-.quest-target-cross::before { transform: translate(-50%, -50%) rotate(34deg); }
-.quest-target-cross::after { transform: translate(-50%, -50%) rotate(-34deg); }
+.quest-target-cross::before, .quest-target-cross::after { content: ''; position: absolute; top: 50%; left: 50%; width: 132%; height: clamp(15px, 7%, 21px); border-radius: 42% 58% 46% 54%; background: #a61914; box-shadow: 0 0 0 2px #4d0907a8, 0 3px 9px #260604c7, inset 0 2px 0 #ef82726b; transform-origin: center; }
+.quest-target-cross::before { transform: translate(-50%, -50%) rotate(33deg); }
+.quest-target-cross::after { transform: translate(-50%, -50%) rotate(-33deg); }
 .quest-target.is-defeated .quest-target-image img { filter: grayscale(1) contrast(.88); opacity: .72; }
 .quest-target.is-defeated .quest-target-cross { opacity: 1; }
 .quest-target-copy { display: flex; flex-direction: column; min-height: 330px; padding: 17px; }

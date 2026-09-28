@@ -93,7 +93,7 @@ export interface QuestTarget {
   epithet: string
   location: string
   description: string
-  image: QuestImage
+  image?: QuestImage
   linkedConceptId?: string
   initiallyDefeated?: boolean
 }

@@ -47,9 +47,20 @@ try {
   assert.deepEqual(await page.locator('.quest-target h4').allTextContents(), [
     'Godrick l’Innestato', 'Generale Radahn', 'Pretore Rykard', 'Morgott, il Benedetto dalla Grazia', 'Rennala',
   ])
+  assert.equal(await page.locator('.quest-target img').count(), 2, 'Only already-seen targets may reveal an image')
+  for (const id of ['rykard', 'morgott', 'rennala']) {
+    assert.equal(await page.locator(`[data-target-id="${id}"] .quest-target-image`).count(), 0, `${id} must remain visually undisclosed`)
+  }
   assert.equal(await page.locator('.quest-target.is-defeated').count(), 1)
   assert.equal(await page.locator('[data-target-id="godrick"]').getAttribute('class'), 'quest-target is-defeated')
   assert.match(await page.locator('[data-target-id="godrick"] img').evaluate(image => getComputedStyle(image).filter), /grayscale\(1\)/)
+  const crossGeometry = await page.locator('[data-target-id="godrick"] .quest-target-cross').evaluate(cross => {
+    const imageWidth = cross.parentElement.getBoundingClientRect().width
+    const stroke = getComputedStyle(cross, '::before')
+    return { imageWidth, strokeWidth: Number.parseFloat(stroke.width), strokeHeight: Number.parseFloat(stroke.height) }
+  })
+  assert.ok(crossGeometry.strokeWidth > crossGeometry.imageWidth, 'The red cross must overrun the useful image width')
+  assert.ok(crossGeometry.strokeHeight >= 15, 'The red cross must use a thick stroke')
   assert.match(await page.locator('.quest-targets-heading').textContent(), /1 di 5 eliminati/)
   for (const image of await page.locator('.quest-target img').all()) {
     await image.scrollIntoViewIfNeeded()
