@@ -5,4 +5,5 @@ dist/
 artifacts/
 *.local
 *.log
+*.zip
 *.tsbuildinfo

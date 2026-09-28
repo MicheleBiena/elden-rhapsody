@@ -219,6 +219,7 @@ export const quests: QuestEntry[] = [
     npc: "Boc il semiumano",
     region: "Sepolcride",
     status: "in-corso",
+    updatedThisEpisode: true,
     summary:
       "Abbiamo recuperato nella grotta sulla spiaggia l’ago e il filo appartenuti alla madre di Boc e glieli abbiamo consegnati. Non conosciamo il prossimo passo.",
 
@@ -248,6 +249,7 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride",
     status: "in-corso",
+    updatedThisEpisode: true,
     summary:
       "Alexander è rimasto bloccato dietro una porta chiusa in una miniera fra Sepolcride e Caelid. Potrebbe essere necessario raggiungere l’ingresso sul lato di Caelid.",
     lastSeen: {
@@ -356,6 +358,7 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
+    updatedThisEpisode: true,
     summary:
       "Rogier studia il morbo mortale e la Notte dei Neri Coltelli. Dopo il contatto con il cadavere sotto Grantempesta, lo ritroviamo infermo alla Tavola Rotonda.",
     lastSeen: {
@@ -406,6 +409,7 @@ export const quests: QuestEntry[] = [
     npc: "Roderika",
     region: "Grantempesta",
     status: "conclusa",
+    updatedThisEpisode: true,
     summary:
       "Dopo aver scoperto il destino dei suoi compagni, Roderika riconosce il proprio potenziale come Spirit Tuner e trova un nuovo scopo sotto la guida di Hewg.",
     lastSeen: {
@@ -612,6 +616,7 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta",
     status: "in-corso",
+    updatedThisEpisode: true,
     summary:
       "Dopo la vittoria su Godrick, ritroviamo Nepheli alla Tavola Rotonda e scopriamo che Gideon è suo padre adottivo. È pronta ad aiutarci ancora in battaglia.",
     lastSeen: {

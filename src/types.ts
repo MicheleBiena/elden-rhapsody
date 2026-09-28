@@ -104,6 +104,7 @@ export interface QuestEntry {
   npc: string
   region: string
   status: QuestStatus
+  updatedThisEpisode?: boolean
   summary: string
   portrait?: QuestImage
   lastSeen?: { location: string; note?: string }

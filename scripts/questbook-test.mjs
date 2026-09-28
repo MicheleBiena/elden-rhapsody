@@ -18,6 +18,10 @@ try {
     'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika',
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos',
   ])
+  assert.deepEqual(await page.locator('.quest-index-link.is-updated').evaluateAll(links => links.map(link => link.dataset.questId)), [
+    'boc', 'alexander', 'rogier', 'roderika', 'nepheli',
+  ])
+  assert.equal(await page.locator('.quest-index-update', { hasText: 'Aggiornata' }).count(), 5)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /15 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /abbastanza Rune Maggiori.*Leyndell/i)
@@ -166,6 +170,11 @@ try {
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   }
   await page.setViewportSize({ width: 375, height: 812 })
+  await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
+  await page.locator('.quest-index').waitFor()
+  assert.equal(await page.locator('.quest-index-link.is-updated').count(), 5)
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
+  await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
   await page.goto(`${baseUrl}#/questbook/big-boys`, { waitUntil: 'networkidle' })
   await page.getByRole('heading', { name: 'The Big Boys', exact: true }).waitFor()
   await page.locator('.quest-target img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
