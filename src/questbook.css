@@ -49,13 +49,15 @@
 .quest-index-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 8px; margin-top: 6px; }
 .quest-index-link small { display: block; color: var(--journal-muted); font-size: .75rem; line-height: 1.4; }
 .quest-index-update { display: inline-flex; align-items: center; min-height: 20px; padding: 2px 6px; border: 1px solid #8e302b; border-radius: 2px; color: #76231f; background: #f2dcc2; font-size: .6rem; font-weight: 700; line-height: 1; letter-spacing: .07em; text-transform: uppercase; }
-.quest-index-link.is-updated > svg:first-child { color: #8e302b; fill: #8e302b1f; }
+.quest-index-link:is(.is-aggiornata, .is-nuova) > svg:first-child { color: #8e302b; fill: #8e302b1f; }
+.quest-index-update--nuova { border-color: #55623f; color: #3e4b2e; background: #dce3c6; }
 .quest-index-link:hover { background: #f6edd74d; }
 .quest-index-link .quest-index-arrow { width: 14px; opacity: 0; }
 .quest-index-link.is-selected { background: var(--journal-accent); color: #faf1da; box-shadow: -4px 0 0 #b19458; border-color: transparent; }
 .quest-index-link.is-selected small { color: #e0dbc8; }
 .quest-index-link.is-selected .quest-index-update { border-color: #e1b08b; color: #fff1dd; background: #842a25; }
-.quest-index-link.is-selected.is-updated > svg:first-child { color: #f2c09b; fill: #f2c09b1f; }
+.quest-index-link.is-selected .quest-index-update--nuova { border-color: #d9cf9d; color: #fff7d5; background: #586544; }
+.quest-index-link.is-selected:is(.is-aggiornata, .is-nuova) > svg:first-child { color: #f2c09b; fill: #f2c09b1f; }
 .quest-index-link.is-selected .quest-index-arrow { opacity: 1; }
 .quest-index-link.is-selected:focus-visible { outline-color: #302d24; }
 .quest-index-empty { margin: 0 26px; padding: 26px 0; border-top: 1px solid var(--journal-rule); border-bottom: 1px solid var(--journal-rule); color: var(--journal-muted); font-size: .9rem; line-height: 1.6; }

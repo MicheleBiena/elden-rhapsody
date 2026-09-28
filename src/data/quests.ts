@@ -85,6 +85,7 @@ export const quests: QuestEntry[] = [
     npc: "Araldi delle Rune Maggiori",
     region: "Interregno",
     status: "in-corso",
+    updateKind: "nuova",
     summary:
       "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
     lastSeen: {
@@ -219,7 +220,7 @@ export const quests: QuestEntry[] = [
     npc: "Boc il semiumano",
     region: "Sepolcride",
     status: "in-corso",
-    updatedThisEpisode: true,
+    updateKind: "aggiornata",
     summary:
       "Abbiamo recuperato nella grotta sulla spiaggia l’ago e il filo appartenuti alla madre di Boc e glieli abbiamo consegnati. Non conosciamo il prossimo passo.",
 
@@ -249,7 +250,7 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride",
     status: "in-corso",
-    updatedThisEpisode: true,
+    updateKind: "aggiornata",
     summary:
       "Alexander è rimasto bloccato dietro una porta chiusa in una miniera fra Sepolcride e Caelid. Potrebbe essere necessario raggiungere l’ingresso sul lato di Caelid.",
     lastSeen: {
@@ -358,7 +359,7 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
-    updatedThisEpisode: true,
+    updateKind: "aggiornata",
     summary:
       "Rogier studia il morbo mortale e la Notte dei Neri Coltelli. Dopo il contatto con il cadavere sotto Grantempesta, lo ritroviamo infermo alla Tavola Rotonda.",
     lastSeen: {
@@ -409,7 +410,7 @@ export const quests: QuestEntry[] = [
     npc: "Roderika",
     region: "Grantempesta",
     status: "conclusa",
-    updatedThisEpisode: true,
+    updateKind: "aggiornata",
     summary:
       "Dopo aver scoperto il destino dei suoi compagni, Roderika riconosce il proprio potenziale come Spirit Tuner e trova un nuovo scopo sotto la guida di Hewg.",
     lastSeen: {
@@ -616,7 +617,7 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta",
     status: "in-corso",
-    updatedThisEpisode: true,
+    updateKind: "aggiornata",
     summary:
       "Dopo la vittoria su Godrick, ritroviamo Nepheli alla Tavola Rotonda e scopriamo che Gideon è suo padre adottivo. È pronta ad aiutarci ancora in battaglia.",
     lastSeen: {
@@ -684,5 +685,77 @@ export const quests: QuestEntry[] = [
       imagePosition: "50% 20%",
     },
     linkedConceptIds: ["diallos"],
+  },
+  {
+    id: "patches",
+    title: "Con amici come questi",
+    npc: "Patches",
+    region: "Sepolcride",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary:
+      "Patches si è arreso dopo averci aggredito, ha aperto il suo emporio e ci ha poi ingannati con un forziere che ci ha teletrasportati a Tetrobosco.",
+    lastSeen: {
+      location: "Grotta di Acquafosca",
+      note: "Siamo tornati a parlargli dopo essere sfuggiti alla trappola di trasferimento.",
+    },
+    steps: [
+      {
+        title: "Il forziere nella grotta",
+        text: "Apriamo un forziere nella Grotta di Acquafosca e Patches ci aggredisce accusandoci di furto.",
+      },
+      {
+        title: "La resa di Patches",
+        text: "Durante lo scontro Patches si arrende. Lo risparmiamo e al nostro ritorno lo troviamo alla guida del suo emporio.",
+      },
+      {
+        title: "La trappola di trasferimento",
+        text: "Patches ci indirizza verso un altro forziere: aprendolo veniamo teletrasportati a Tetrobosco, senza poter viaggiare rapidamente finché non troviamo un luogo di grazia.",
+      },
+      {
+        title: "Ritorno alla grotta",
+        text: "Torniamo da Patches dopo la trappola. Si mostra sorpreso di vederci vivi e tratta l’inganno come una lezione, poi riprende i suoi affari.",
+      },
+    ],
+    portrait: {
+      imageUrl: "./concepts/patches.png",
+      imageAlt: "Primo piano di Patches, mercante calvo dal volto segnato",
+      imagePosition: "50% 32%",
+    },
+    linkedConceptIds: ["patches"],
+  },
+  {
+    id: "yura",
+    title: "Il cacciatore solitario",
+    npc: "Yura, cacciatore di Dita Sanguinanti",
+    region: "Sepolcride",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary:
+      "Yura è intervenuto contro il Dito Sanguinante Nerijus. Dopo la vittoria si è presentato come cacciatore dei Senzaluce corrotti dal sangue che perseguitano i propri simili.",
+    lastSeen: {
+      location: "Costa di Acquafosca",
+      note: "Lo abbiamo incontrato subito dopo l’invasione di Nerijus.",
+    },
+    steps: [
+      {
+        title: "Un incontro non registrato",
+        text: "Abbiamo perso il dialogo introduttivo di Yura e non ne annotiamo il contenuto.",
+      },
+      {
+        title: "L’invasione di Nerijus",
+        text: "Il Dito Sanguinante Nerijus ci invade lungo il corso di Acquafosca. Yura entra nello scontro e ci aiuta a sconfiggerlo.",
+      },
+      {
+        title: "Il cacciatore di Dita Sanguinanti",
+        text: "Dopo lo scontro Yura loda la nostra sopravvivenza e si presenta. Descrive le Dita Sanguinanti come Senzaluce soggiogati da un sangue corrotto: fanatici che cacciano i propri simili e con cui, secondo lui, non è più possibile ragionare.",
+      },
+    ],
+    portrait: {
+      imageUrl: "./concepts/yura.jpg",
+      imageAlt: "Yura con il grande cappello di ferro dopo lo scontro con Nerijus",
+      imagePosition: "22% 50%",
+    },
+    linkedConceptIds: ["yura"],
   },
 ];

@@ -1469,6 +1469,28 @@ const conceptArchive: LoreConcept[] = [
     tags: ['Nepheli Loux', 'Senzaluce', 'guerriera', 'Gideon', 'figlia adottiva'], position: { x: 50, y: 97 },
   },
   {
+    id: 'patches', name: 'Patches', eyebrow: 'Bandito e mercante',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Bandito dalla lingua sciolta che alterna resa, commercio e inganni con estrema naturalezza.',
+    body: 'Patches è un uomo calvo dal volto segnato, armato di lancia e grande scudo. Si presenta inizialmente come bandito, ma sa arrendersi quando lo scontro volge al peggio e trasformarsi subito dopo in mercante. La cordialità del suo emporio non lo rende affidabile: tratta i propri inganni come lezioni impartite agli altri e torna agli affari senza particolare rimorso.',
+    imageUrl: './concepts/patches.png', imageAlt: 'Primo piano di Patches, uomo calvo dal volto segnato', imagePosition: '50% 32%',
+    externalLinks: [{ label: 'Scheda wiki di Patches', url: 'https://eldenring.wiki.fextralife.com/Patches' }],
+    evidence: ['Combatte con lancia e scudo.', 'Si arrende e apre un emporio.', 'Usa un forziere come trappola di trasferimento.'],
+    questions: ['Perché alterna aggressioni e commercio?', 'Dove si sposterà dopo la Grotta di Acquafosca?'],
+    tags: ['Patches', 'mercante', 'bandito', 'inganno', 'forziere-trappola'], position: { x: 90, y: 87 },
+  },
+  {
+    id: 'yura', name: 'Yura', eyebrow: 'Cacciatore di Dita Sanguinanti',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Guerriero solitario che dà la caccia alle Dita Sanguinanti e ammonisce a non esitare contro di loro.',
+    body: 'Yura indossa un grande cappello di ferro e impugna una lama insolitamente lunga. Si definisce cacciatore di Dita Sanguinanti: Senzaluce soggiogati da un sangue corrotto, fanatici che perseguitano i propri simili. Secondo lui la loro follia ha cancellato ogni possibile fratellanza, perciò invita a non lasciare che l’emozione trattenga la lama.',
+    imageUrl: './concepts/yura.jpg', imageAlt: 'Yura con il grande cappello di ferro e una lunga lama', imagePosition: '22% 50%',
+    externalLinks: [{ label: 'Scheda wiki di Yura', url: 'https://eldenring.wiki.fextralife.com/Bloody_Finger_Hunter_Yura' }],
+    evidence: ['Si presenta come cacciatore di Dita Sanguinanti.', 'Interviene nello scontro contro Nerijus.', 'Descrive le Dita Sanguinanti come Senzaluce corrotti che cacciano i propri simili.'],
+    questions: ['Chi sono le Dita Sanguinanti?', 'Da dove nasce il sangue che le soggioga?', 'Perché Yura ha scelto di cacciarle?'],
+    tags: ['Yura', 'Dita Sanguinanti', 'Nerijus', 'invasione', 'sangue'], position: { x: 90, y: 97 },
+  },
+  {
     id: 'morbo-mortale', name: 'Morbo mortale', eyebrow: 'Tracce della Prima Morte',
     category: 'Tema', state: 'osservato', liveReadStatus: 'da-leggere',
     summary: 'Corruzione legata agli effetti della Morte: deforma i corpi e ha lasciato Rogier infermo dopo il contatto con la reliquia sotto Grantempesta.',
@@ -1506,6 +1528,7 @@ const conceptArchive: LoreConcept[] = [
 const currentEpisodeConceptIds = new Set<string>([
   'due-dita', 'volonta-superiore', 'notte-neri-coltelli', 'runa-della-morte',
   'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux', 'morbo-mortale', 'marchio-centipede',
+  'patches', 'yura',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
   'due-dita', 'notte-neri-coltelli', 'runa-della-morte', 'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux',
@@ -1520,6 +1543,10 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'yura-lord-sangue', from: 'yura', to: 'lord-del-sangue', label: 'lessico del sangue?',
+    note: 'Le Dita Sanguinanti cacciate da Yura e il culto del Lord del Sangue condividono lo stesso lessico. Un rapporto diretto non è ancora confermato.', kind: 'ipotesi',
+  },
   {
     id: 'rogier-d-ricerca-morte', from: 'rogier', to: 'd-cacciatore', label: 'vecchi compagni',
     note: 'Rogier e D hanno viaggiato insieme, legati dalle ricerche sulla Morte, prima che le loro strade divergessero.', kind: 'traccia',

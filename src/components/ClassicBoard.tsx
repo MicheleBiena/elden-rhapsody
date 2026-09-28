@@ -37,6 +37,8 @@ const episodeLayoutConceptIds = new Set([
   'volonta-superiore',
   'morbo-mortale',
   'marchio-centipede',
+  'patches',
+  'yura',
 ])
 const previousEpisodeLayoutConceptIds = new Set(['gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata'])
 const previousLayoutConceptIds = new Set([
@@ -313,6 +315,8 @@ const boardConceptOrder = [
   'morbo-mortale',
   'marchio-centipede',
   'mercante-kale',
+  'patches',
+  'yura',
   'kenneth-haight',
   'medaglione-dectus',
   'mezzolupo',
