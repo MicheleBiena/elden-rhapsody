@@ -156,8 +156,8 @@ await assertBoardZonesSpanCanvas(page)
 assert.equal(await page.locator('.thread-layer g').count(), 134)
 assert.equal(await page.locator('.thread-layer line').count(), 268)
 assert.equal(await page.locator('.relation-list button').count(), 134)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 67)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 10)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 72)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -165,11 +165,6 @@ assert.deepEqual(
     'Semidei',
     'Volontà Superiore',
     'Marchio del Centipede',
-    'Liurnia Lacustre',
-    'Accademia di Raya Lucaria',
-    'Tavola Rotonda',
-    'Ordine Aureo',
-    'Coloro che vivono nella morte',
     'Principesse cariane',
   ],
 )

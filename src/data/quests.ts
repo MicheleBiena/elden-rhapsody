@@ -184,6 +184,7 @@ export const quests: QuestEntry[] = [
     npc: "Varré",
     region: "Sepolcride",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
       "Abbiamo seguito l’indicazione di Varré: Godrick è sconfitto e abbiamo ottenuto udienza dalle Due Dita.",
 

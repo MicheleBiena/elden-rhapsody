@@ -19,12 +19,12 @@ try {
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops',
   ])
   assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), [
-    'boc', 'alexander', 'rogier', 'roderika', 'nepheli',
+    'varre', 'boc', 'alexander', 'rogier', 'roderika', 'nepheli',
   ])
   assert.deepEqual(await page.locator('.quest-index-link.is-nuova').evaluateAll(links => links.map(link => link.dataset.questId)), [
     'big-boys', 'patches', 'yura', 'hyetta', 'thops',
   ])
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 5)
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 6)
   assert.equal(await page.locator('.quest-index-update--nuova').count(), 5)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /19 in corso/)
@@ -188,7 +188,7 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 5)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 6)
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 5)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
@@ -308,7 +308,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: nineteen active quests, five new badges, five updated badges, Roderika complete, persistent Big Boys tracker, Irina concluded but Edgar ongoing, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
+  console.log('Questbook passed: nineteen active quests, five new badges, six updated badges, Roderika complete, persistent Big Boys tracker, Irina concluded but Edgar ongoing, known and unknown destinations, responsive navigation, isolated empty state and fixture search, filters, deep links, history, focus, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()
