@@ -591,9 +591,10 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'da-leggere',
     summary:
       'Emissarie della Volontà Superiore, parlano attraverso la Leggidita Enia e ordinano ai Senzaluce di raccogliere Rune Maggiori.',
-    body: 'Abbiamo incontrato le Due Dita alla Tavola Rotonda. Enia ne interpreta le parole: ci accolgono come portatori di una scheggia e ci ordinano di cercare un’altra Runa Maggiore, diventare Lord ancestrale e restaurare l’Ordine Aureo. Corhyn serve la loro fede, mentre Renna critica apertamente i Senzaluce che continuano a obbedire.',
+    body: 'Abbiamo incontrato le Due Dita alla Tavola Rotonda. Enia ne interpreta le parole: ci accolgono come portatori di una scheggia e ci ordinano di cercare un’altra Runa Maggiore, diventare Lord ancestrale e restaurare l’Ordine Aureo. Corhyn serve la loro fede, mentre Renna critica apertamente i Senzaluce che continuano a obbedire. In cima alla Torre Divina di Sepolcride giace un’altra coppia di Dita, avvizzita e immobile: non sappiamo se ogni Runa Maggiore abbia le proprie Due Dita né se queste coppie appartengano a qualcosa di più grande.',
     bodyHighlights: [
       'Abbiamo incontrato le Due Dita alla Tavola Rotonda. Enia ne interpreta le parole: ci accolgono come portatori di una scheggia e ci ordinano di cercare un’altra Runa Maggiore, diventare Lord ancestrale e restaurare l’Ordine Aureo.',
+      'In cima alla Torre Divina di Sepolcride giace un’altra coppia di Dita, avvizzita e immobile: non sappiamo se ogni Runa Maggiore abbia le proprie Due Dita né se queste coppie appartengano a qualcosa di più grande.',
     ],
     imageUrl: './concepts/due-dita.webp',
     imageAlt: 'Le Due Dita nella camera della Tavola Rotonda',
@@ -616,16 +617,22 @@ const conceptArchive: LoreConcept[] = [
         text: 'Le Rune Maggiori appartengono ai semidei, figli di Marika; Godrick è però soltanto un parente lontano dal sangue divino molto diluito. Alla morte, i semidei e i più grandi campioni vengono incisi dall’Albero Madre in rimembranze che conservano il potere dei loro antichi proprietari.',
         highlighted: true,
       },
+      {
+        title: 'Le Dita della Torre',
+        text: 'Alla sommità della Torre Divina di Sepolcride troviamo Due Dita avvizzite, diverse dalla coppia viva della Tavola Rotonda. La scoperta dimostra che non esiste una sola coppia, ma non chiarisce quante siano né se formino una “mano”.',
+        highlighted: true,
+      },
     ],
     evidence: [
       'Enia si presenta come Leggidita e interprete delle parole delle Due Dita.',
       'Le Due Dita sono definite emissarie della Volontà Superiore.',
       'Ordinano di cercare un’altra Runa Maggiore e restaurare l’Ordine Aureo.',
       'Le rimembranze conservano il potere dei semidei e dei grandi campioni caduti.',
+      'Sulla Torre Divina di Sepolcride esiste un’altra coppia di Due Dita, ormai avvizzita.',
       'Corhyn è un fedele delle Due Dita.',
       'Renna critica apertamente l’obbedienza dei Senzaluce alle Due Dita.',
     ],
-    questions: ['Qual è la natura delle Due Dita?', 'Che cosa vuole davvero la Volontà Superiore?', 'Perché Renna avversa la loro autorità?'],
+    questions: ['Qual è la natura delle Due Dita?', 'Quante coppie esistono?', 'Le Dita appartengono a una mano o possono avere numeri diversi?', 'Che cosa vuole davvero la Volontà Superiore?', 'Perché Renna avversa la loro autorità?'],
     tags: ['Due Dita', 'Volontà Superiore', 'Enia', 'Rune Maggiori', 'rimembranze', 'Renna'],
     position: { x: 87, y: 76 },
   },
@@ -935,20 +942,24 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Centro degli studi astrologici: allontana alcuni studiosi e mantiene un contratto ancora oscuro con i Cavalieri del Cuculo.',
-    body: 'Vesti e bastone iniziali dell’Astrologo appartengono a studiosi allontanati dall’Accademia di Raya Lucaria. L’istituzione è inoltre legata ai Cavalieri del Cuculo da un contratto dai termini sconosciuti: come compenso ha insegnato loro “false stregonerie”, tecniche utilizzabili anche senza padroneggiare davvero le arti magiche.',
+      'Centro degli studi di scintipietra, isolato da sigilli dopo aver dichiarato la propria neutralità nello Shattering.',
+    body: 'Vesti e bastone iniziali dell’Astrologo appartengono a studiosi allontanati dall’Accademia di Raya Lucaria. L’istituzione è inoltre legata ai Cavalieri del Cuculo da un contratto dai termini sconosciuti: come compenso ha insegnato loro “false stregonerie”, tecniche utilizzabili anche senza padroneggiare davvero le arti magiche. Durante lo Shattering l’Accademia dichiarò che non sarebbe intervenuta e chiuse con sigilli respingenti il cancello orientale verso la capitale e quello meridionale verso Liurnia. Per attraversarli serve una Chiave di scintipietra dell’Accademia.',
+    bodyHighlights: ['Durante lo Shattering l’Accademia dichiarò che non sarebbe intervenuta e chiuse con sigilli respingenti il cancello orientale verso la capitale e quello meridionale verso Liurnia. Per attraversarli serve una Chiave di scintipietra dell’Accademia.'],
     evidence: [
       'La classe Astrologo indossa le vesti degli studiosi allontanati dall’Accademia.',
       'Il suo bastone appartiene alla stessa tradizione di studio.',
       'I Cavalieri del Cuculo sono alleati dell’Accademia per contratto.',
       'Come pagamento hanno ricevuto false stregonerie accessibili ai non esperti.',
+      'L’Accademia dichiarò la propria neutralità durante lo Shattering.',
+      'I due cancelli sono protetti da sigilli che richiedono una Chiave di scintipietra.',
     ],
     questions: [
       'Perché alcuni studiosi vengono allontanati dall’Accademia?',
       'Quale servizio prevede il contratto dei Cavalieri del Cuculo?',
       'Che cosa distingue una falsa stregoneria da una vera?',
+      'Perché l’Accademia scelse di non intervenire nello Shattering?',
     ],
-    tags: ['Raya Lucaria', 'Accademia', 'Astrologo', 'Cavalieri del Cuculo', 'false stregonerie'],
+    tags: ['Raya Lucaria', 'Accademia', 'Astrologo', 'Cavalieri del Cuculo', 'false stregonerie', 'Chiave di scintipietra', 'sigilli'],
     position: { x: 38, y: 87 },
   },
   {
@@ -1491,6 +1502,57 @@ const conceptArchive: LoreConcept[] = [
     tags: ['Yura', 'Dita Sanguinanti', 'Nerijus', 'invasione', 'sangue'], position: { x: 90, y: 97 },
   },
   {
+    id: 'torri-divine', name: 'Torri Divine', eyebrow: 'Rune Maggiori e Dita avvizzite',
+    category: 'Luogo', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Strutture legate alle Rune Maggiori: quella di Sepolcride restituisce potere alla runa di Godrick e custodisce Due Dita avvizzite.',
+    body: 'La Torre Divina di Sepolcride permette di riattivare la Runa Maggiore di Godrick. Alla sommità troviamo Due Dita avvizzite e immobili, differenti da quelle incontrate alla Tavola Rotonda. Se ciascuno dei cinque portatori conosciuti possiede una torre corrispondente, dovrebbero esisterne almeno altre quattro, ma per ora è soltanto un’ipotesi. Red ha inoltre notato nella struttura elementi simili a meteoriti: il dettaglio potrebbe avvicinare ancora una volta il divino alle stelle, come accade con la scintipietra, ma il rapporto non è confermato.',
+    imageUrl: './concepts/torre-divina-sepolcride.webp',
+    imageAlt: 'La Torre Divina di Sepolcride oltre il lungo ponte, sotto i rami dell’Albero Madre',
+    imagePosition: '50% 46%',
+    externalLinks: [
+      { label: 'Immagine indicata per la Torre Divina', url: 'https://static.wikia.nocookie.net/eldenring/images/2/28/Divine_Tower_of_Limgrave_-_MENU_Load_00005_PS5.png/revision/latest?cb=20230503054535' },
+      { label: 'Fonte della fotografia locale', url: 'https://www.robhainescreative.space/visual-art/in-game-photography/elden-ring-limgrave/' },
+    ],
+    evidence: ['La Torre di Sepolcride riattiva la Runa Maggiore di Godrick.', 'Alla sommità giacciono Due Dita avvizzite.', 'La struttura presenta elementi che ricordano meteoriti.'],
+    questions: ['Esiste una Torre Divina per ogni portatore di Runa Maggiore?', 'Perché le Due Dita della torre sono avvizzite?', 'Le torri hanno davvero un’origine o un legame cosmico?'],
+    tags: ['Torri Divine', 'Runa Maggiore', 'Godrick', 'Due Dita', 'meteoriti', 'stelle'], position: { x: 10, y: 87 },
+  },
+  {
+    id: 'liurnia-lacustre', name: 'Liurnia Lacustre', eyebrow: 'Nuova regione oltre Grantempesta',
+    category: 'Luogo', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Regione lacustre dominata dall’Accademia di Raya Lucaria, raggiunta dopo Grantempesta.',
+    body: 'Liurnia Lacustre è la nuova regione raggiunta oltre Grantempesta. L’Accademia di Raya Lucaria si innalza sulle acque ed è protetta da sigilli; tra i primi luoghi visitati figurano la Chiesa di Irith e le Rovine Purificate.',
+    evidence: ['La regione si estende oltre Grantempesta.', 'L’Accademia di Raya Lucaria domina il paesaggio lacustre.', 'Hyetta e Thops sono stati incontrati in questa regione.'],
+    questions: ['Come si attraversano i sigilli dell’Accademia?', 'Quale porzione della regione è già stata rivelata dalla mappa di gioco?'],
+    tags: ['Liurnia Lacustre', 'Raya Lucaria', 'Chiesa di Irith', 'Rovine Purificate'], position: { x: 30, y: 87 },
+  },
+  {
+    id: 'hyetta', name: 'Hyetta', eyebrow: 'Fanciulla cieca in cerca di luce',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Giovane cieca identica a Irina, comparsa dopo la sua morte e guidata da bulbi oculari chiamati Uve di Shabriri.',
+    body: 'Hyetta è una giovane cieca dall’aspetto indistinguibile da Irina e compare soltanto dopo la morte di quest’ultima. Cerca una luce lontana e chiede Uve di Shabriri: non veri frutti, ma bulbi oculari ingialliti, marci e trasudanti che alcuni fedeli si strappano per offrirglieli. La somiglianza e la successione degli eventi suggeriscono un legame con Irina, ma non ne conosciamo la natura.',
+    imageUrl: './concepts/hyetta.jpg', imageAlt: 'Primo piano di Hyetta con gli occhi coperti da una benda', imagePosition: '50% 24%',
+    gallery: [
+      { imageUrl: './concepts/hyetta-grapes-fanart.jpg', imageAlt: 'Fanart di Hyetta che regge un occhio simile a un’uva', caption: 'Hyetta e le “uve” · fanart indicata dall’utente' },
+      { imageUrl: './concepts/uva-shabriri.png', imageAlt: 'Un bulbo oculare ingiallito e deformato chiamato Uva di Shabriri', caption: 'Uva di Shabriri' },
+    ],
+    textSections: [{ title: 'Uva di Shabriri', text: 'Bulbo oculare ingiallito e trasudante di un infermo: raggrinzito all’esterno e molle all’interno, tanto da ricordare un’uva troppo matura. Va donato alla fanciulla cieca affinché la guidi verso la luce lontana.' }],
+    evidence: ['Hyetta è cieca e ha lo stesso aspetto di Irina.', 'Compare dopo la morte di Irina.', 'Le Uve di Shabriri sono bulbi oculari deteriorati.', 'Le uve dovrebbero guidarla verso una luce lontana.'],
+    questions: ['Hyetta e Irina sono la stessa persona?', 'Quale luce sta cercando?', 'Perché gli occhi degli infermi possono guidarla?'],
+    tags: ['Hyetta', 'Irina', 'Uva di Shabriri', 'occhi', 'luce lontana', 'Rovine Purificate'], position: { x: 50, y: 87 },
+  },
+  {
+    id: 'thops', name: 'Thops', eyebrow: 'Studente rimasto fuori dall’Accademia',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Studente di Raya Lucaria escluso dai sigilli dell’Accademia, convinto di avere scarso talento ma deciso a tornarvi.',
+    body: 'Thops studiava stregonerie di scintipietra a Raya Lucaria. Quando l’Accademia dichiarò la propria neutralità nello Shattering e sigillò i cancelli, si trovava all’esterno e rimase separato dal suo luogo di studio. Si definisce una “pietra ottusa”, priva di talento, e insegna soltanto incantesimi modesti; continua però a considerare l’Accademia il proprio posto. Per attraversarne i sigilli occorre una Chiave di scintipietra, della quale spera di ricevere un secondo esemplare.',
+    imageUrl: './concepts/thops.jpg', imageAlt: 'Thops seduto su una panca con le vesti da studioso di scintipietra', imagePosition: '50% 34%',
+    externalLinks: [{ label: 'Immagine indicata per Thops', url: 'https://static.wikia.nocookie.net/eldenring/images/0/0e/ER_NPC_Closeup_Thops.png/revision/latest?cb=20230710220608' }],
+    evidence: ['Ha studiato stregonerie di scintipietra a Raya Lucaria.', 'Rimase fuori quando l’Accademia sigillò i cancelli.', 'Si considera privo di talento e insegna incantesimi deboli.', 'Desidera una seconda Chiave di scintipietra per tornare all’Accademia.'],
+    questions: ['Dove si trovano le Chiavi di scintipietra?', 'Perché Thops viene considerato una “pietra ottusa”?', 'L’Accademia lo accoglierebbe ancora?'],
+    tags: ['Thops', 'Raya Lucaria', 'Chiave di scintipietra', 'pietra ottusa', 'Chiesa di Irith'], position: { x: 70, y: 87 },
+  },
+  {
     id: 'morbo-mortale', name: 'Morbo mortale', eyebrow: 'Tracce della Prima Morte',
     category: 'Tema', state: 'osservato', liveReadStatus: 'da-leggere',
     summary: 'Corruzione legata agli effetti della Morte: deforma i corpi e ha lasciato Rogier infermo dopo il contatto con la reliquia sotto Grantempesta.',
@@ -1528,10 +1590,11 @@ const conceptArchive: LoreConcept[] = [
 const currentEpisodeConceptIds = new Set<string>([
   'due-dita', 'volonta-superiore', 'notte-neri-coltelli', 'runa-della-morte',
   'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux', 'morbo-mortale', 'marchio-centipede',
-  'patches', 'yura',
+  'patches', 'yura', 'torri-divine', 'liurnia-lacustre', 'hyetta', 'thops', 'accademia-raya-lucaria',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
   'due-dita', 'notte-neri-coltelli', 'runa-della-morte', 'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux',
+  'accademia-raya-lucaria',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -1543,6 +1606,46 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'torri-godrick', from: 'torri-divine', to: 'godrick-innestato', label: 'riattiva la sua runa',
+    note: 'La Torre Divina di Sepolcride restituisce potere alla Runa Maggiore sottratta a Godrick.', kind: 'traccia',
+  },
+  {
+    id: 'torri-due-dita', from: 'torri-divine', to: 'due-dita', label: 'coppia avvizzita',
+    note: 'Alla sommità della torre giace una coppia di Due Dita ormai avvizzita, distinta da quella della Tavola Rotonda.', kind: 'traccia',
+  },
+  {
+    id: 'torri-semidei', from: 'torri-divine', to: 'semidei', label: 'una torre per ogni runa?',
+    note: 'I cinque portatori conosciuti fanno supporre l’esistenza di almeno altre quattro torri, ma la corrispondenza non è ancora verificata.', kind: 'ipotesi',
+  },
+  {
+    id: 'torri-scintipietra', from: 'torri-divine', to: 'scintipietra', label: 'tracce cosmiche?',
+    note: 'Gli elementi simili a meteoriti notati da Red potrebbero collegare le torri alle stelle, come la scintipietra; per ora è soltanto un confronto visivo.', kind: 'ipotesi',
+  },
+  {
+    id: 'liurnia-accademia', from: 'liurnia-lacustre', to: 'accademia-raya-lucaria', label: 'domina la regione',
+    note: 'L’Accademia di Raya Lucaria si innalza sulle acque della regione ed è protetta da sigilli respingenti.', kind: 'traccia',
+  },
+  {
+    id: 'hyetta-liurnia', from: 'hyetta', to: 'liurnia-lacustre', label: 'Rovine Purificate',
+    note: 'L’ultima posizione conosciuta di Hyetta è presso le Rovine Purificate, in Liurnia Lacustre.', kind: 'traccia',
+  },
+  {
+    id: 'hyetta-irina', from: 'hyetta', to: 'irina', label: 'stesso volto?',
+    note: 'Hyetta è cieca, appare identica a Irina e compare soltanto dopo la sua morte. Il rapporto fra le due resta ignoto.', kind: 'ipotesi',
+  },
+  {
+    id: 'thops-liurnia', from: 'thops', to: 'liurnia-lacustre', label: 'Chiesa di Irith',
+    note: 'Thops è rimasto alla Chiesa di Irith, appena oltre Grantempesta nella regione lacustre.', kind: 'traccia',
+  },
+  {
+    id: 'thops-accademia', from: 'thops', to: 'accademia-raya-lucaria', label: 'studente escluso',
+    note: 'Thops studiava a Raya Lucaria, ma rimase fuori quando i sigilli dell’Accademia vennero innalzati.', kind: 'traccia',
+  },
+  {
+    id: 'accademia-shattering', from: 'accademia-raya-lucaria', to: 'guerra-shattering', label: 'neutralità e sigilli',
+    note: 'Durante lo Shattering l’Accademia dichiarò di non voler intervenire e chiuse i propri cancelli con sigilli respingenti.', kind: 'traccia',
+  },
   {
     id: 'yura-lord-sangue', from: 'yura', to: 'lord-del-sangue', label: 'lessico del sangue?',
     note: 'Le Dita Sanguinanti cacciate da Yura e il culto del Lord del Sangue condividono lo stesso lessico. Un rapporto diretto non è ancora confermato.', kind: 'ipotesi',
@@ -2055,9 +2158,9 @@ export const connections: LoreConnection[] = [
     id: 'raya-lucaria-scintipietra',
     from: 'accademia-raya-lucaria',
     to: 'scintipietra',
-    label: 'traccia dell’Astrologo',
-    note: 'La classe Astrologo accosta due indizi: il suo equipaggiamento richiama gli studiosi espulsi da Raya Lucaria, mentre la scintipietra lega la stregoneria alle stelle. Un rapporto diretto fra Accademia e minerale resta da confermare.',
-    kind: 'ipotesi',
+    label: 'stregoneria di scintipietra',
+    note: 'A Raya Lucaria si studiano le stregonerie di scintipietra e una chiave dello stesso materiale permette di attraversarne i sigilli.',
+    kind: 'traccia',
   },
   {
     id: 'sellen-raya-lucaria',

@@ -105,6 +105,10 @@ export const quests: QuestEntry[] = [
         title: "Godrick eliminato",
         text: "Godrick l’Innestato è stato sconfitto a Grantempesta e la sua Runa Maggiore è in nostro possesso.",
       },
+      {
+        title: "La Torre Divina di Sepolcride",
+        text: "Raggiungiamo la sommità della Torre Divina di Sepolcride e riattiviamo il potere della Runa Maggiore di Godrick davanti a Due Dita avvizzite.",
+      },
     ],
     nextStep: {
       text: "Sconfiggere altri portatori e acquisire abbastanza Rune Maggiori per ottenere accesso a Leyndell.",
@@ -171,6 +175,7 @@ export const quests: QuestEntry[] = [
       "godrick-innestato",
       "radahn",
       "leyndell",
+      "torri-divine",
     ],
   },
   {
@@ -757,5 +762,101 @@ export const quests: QuestEntry[] = [
       imagePosition: "22% 50%",
     },
     linkedConceptIds: ["yura"],
+  },
+  {
+    id: "hyetta",
+    title: "Grant Us Eyes",
+    npc: "Hyetta",
+    region: "Liurnia Lacustre",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary:
+      "Hyetta, giovane cieca identica a Irina, ci chiede Uve di Shabriri per seguire una luce lontana. Le uve sono in realtà bulbi oculari deteriorati.",
+    lastSeen: {
+      location: "Rovine Purificate, Liurnia Lacustre",
+      note: "È comparsa soltanto dopo la morte di Irina.",
+    },
+    steps: [
+      {
+        title: "Una fanciulla dal volto noto",
+        text: "Incontriamo Hyetta dopo la morte di Irina. È cieca e il suo aspetto è identico a quello della giovane della Penisola del Pianto.",
+      },
+      {
+        title: "Le Uve di Shabriri",
+        text: "Hyetta ci chiede uve per farsi guidare verso una luce lontana. Scopriamo che si tratta di bulbi oculari ingialliti e marci, strappati da alcuni fedeli per essere donati a lei.",
+      },
+      {
+        title: "Rovine Purificate",
+        text: "L’ultima volta incontriamo Hyetta presso le Rovine Purificate di Liurnia Lacustre.",
+      },
+    ],
+    nextStep: {
+      text: "Trovare altre Uve di Shabriri per Hyetta.",
+      hypothetical: false,
+    },
+    portrait: {
+      imageUrl: "./concepts/hyetta.jpg",
+      imageAlt: "Primo piano di Hyetta con gli occhi coperti da una benda",
+      imagePosition: "50% 24%",
+    },
+    gallery: [
+      {
+        imageUrl: "./concepts/hyetta-grapes-fanart.jpg",
+        imageAlt: "Fanart di Hyetta che regge un occhio simile a un’uva",
+        caption: "Hyetta e le Uve di Shabriri · fanart",
+      },
+      {
+        imageUrl: "./concepts/uva-shabriri.png",
+        imageAlt: "Un bulbo oculare ingiallito e deformato chiamato Uva di Shabriri",
+        caption: "Uva di Shabriri",
+      },
+    ],
+    linkedConceptIds: ["hyetta", "irina", "liurnia-lacustre"],
+  },
+  {
+    id: "thops",
+    title: "Un maestro senza allievo",
+    npc: "Thops",
+    region: "Liurnia Lacustre",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary:
+      "Thops è uno studente di Raya Lucaria rimasto fuori quando l’Accademia sigillò i cancelli. Vorrebbe tornarvi, ma gli serve una Chiave di scintipietra.",
+    lastSeen: {
+      location: "Chiesa di Irith, Liurnia Lacustre",
+      note: "È seduto nella chiesa e insegna alcuni incantesimi di scintipietra.",
+    },
+    destination: {
+      location: "Accademia di Raya Lucaria",
+      note: "Per entrarvi occorre una Chiave di scintipietra; Thops spera di riceverne un esemplare aggiuntivo.",
+    },
+    steps: [
+      {
+        title: "Incontro alla Chiesa di Irith",
+        text: "Incontriamo Thops, studente di Raya Lucaria rimasto fuori dai cancelli dopo lo Shattering.",
+      },
+      {
+        title: "Una piccola donazione",
+        text: "Gli doniamo dieci rune. Thops si presenta e mantiene la promessa di insegnarci i pochi incantesimi, piuttosto deboli, che conosce.",
+      },
+      {
+        title: "I sigilli dell’Accademia",
+        text: "Thops spiega che Raya Lucaria dichiarò la propria neutralità nello Shattering e sigillò i cancelli orientale e meridionale. Senza una Chiave di scintipietra non è possibile entrare né proseguire verso la capitale.",
+      },
+      {
+        title: "Una chiave anche per Thops",
+        text: "Ci chiede di cercare una Chiave di scintipietra e, se ne troveremo una seconda dopo aver sistemato i nostri affari, di donargliela per permettergli di tornare all’Accademia.",
+      },
+    ],
+    nextStep: {
+      text: "Cercare le Chiavi di scintipietra dell’Accademia.",
+      hypothetical: false,
+    },
+    portrait: {
+      imageUrl: "./concepts/thops.jpg",
+      imageAlt: "Thops seduto su una panca con le vesti da studioso di scintipietra",
+      imagePosition: "50% 34%",
+    },
+    linkedConceptIds: ["thops", "accademia-raya-lucaria", "scintipietra", "liurnia-lacustre"],
   },
 ];

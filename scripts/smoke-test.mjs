@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 73)
+assert.equal(await page.locator('.concept-card').count(), 77)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -56,6 +56,7 @@ assert.deepEqual(
     'Malenia la Recisa',
     'Radahn',
     'Godrick l’Innestato',
+    'Torri Divine',
     'I Senzaluce',
     'Frenesia',
     'Grazia',
@@ -79,10 +80,13 @@ assert.deepEqual(
     'Boc',
     'Roderika',
     'Galere Eterne',
+    'Liurnia Lacustre',
     'Accademia di Raya Lucaria',
+    'Thops',
     'Scintipietra',
     'Strega Sellen',
     'Irina',
+    'Hyetta',
     'Castel Morne',
     'Edgar il Castellano',
     'Progenie',
@@ -120,7 +124,7 @@ assert.deepEqual(
   ],
 )
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
-assert.equal(await page.locator('.board-zone').count(), 12)
+assert.equal(await page.locator('.board-zone').count(), 13)
 assert.match(await page.locator('.board-zones').textContent(), /Ordine spezzato/)
 assert.match(await page.locator('.board-zones').textContent(), /Chiamata dei Senzaluce/)
 assert.match(await page.locator('.board-zones').textContent(), /Primi incontri nel viaggio/)
@@ -132,6 +136,7 @@ assert.match(await page.locator('.board-zones').textContent(), /Fede, morte e so
 assert.match(await page.locator('.board-zones').textContent(), /Penisola, capitale e chiese/)
 assert.match(await page.locator('.board-zones').textContent(), /Sepolcride orientale/)
 assert.match(await page.locator('.board-zones').textContent(), /Siofra e civiltà antiche/)
+assert.match(await page.locator('.board-zones').textContent(), /Nuove piste in viaggio/)
 assert.deepEqual(await page.locator('.board-zone__heading small').allTextContents(), [
   '01',
   '02',
@@ -145,13 +150,14 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '10',
   '11',
   '12',
+  '13',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 124)
-assert.equal(await page.locator('.thread-layer line').count(), 248)
-assert.equal(await page.locator('.relation-list button').count(), 124)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 64)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 9)
+assert.equal(await page.locator('.thread-layer g').count(), 134)
+assert.equal(await page.locator('.thread-layer line').count(), 268)
+assert.equal(await page.locator('.relation-list button').count(), 134)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 67)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 10)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -159,6 +165,7 @@ assert.deepEqual(
     'Semidei',
     'Volontà Superiore',
     'Marchio del Centipede',
+    'Liurnia Lacustre',
     'Accademia di Raya Lucaria',
     'Tavola Rotonda',
     'Ordine Aureo',
@@ -186,10 +193,10 @@ assert.deepEqual(
   [],
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*2/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*38/)
-assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*10/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 60)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 13)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*40/)
+assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*12/)
+assert.equal(await page.locator('.concept-card.is-read').count(), 59)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 18)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -198,15 +205,18 @@ assert.equal(
   1,
 )
 assert.equal(
-  await page.locator('.concept-card.is-read').filter({ hasText: 'Accademia di Raya Lucaria' }).count(),
+  await page
+    .locator('.concept-card.is-unread')
+    .filter({ has: page.getByRole('heading', { name: 'Accademia di Raya Lucaria', exact: true }) })
+    .count(),
   1,
 )
 assert.match(
   (await page
-    .locator('.concept-card.is-read')
+    .locator('.concept-card.is-unread')
     .filter({ has: page.getByRole('heading', { name: 'Accademia di Raya Lucaria', exact: true }) })
     .textContent()) || '',
-  /Cavalieri del Cuculo/i,
+  /sigilli.*neutralità/is,
 )
 assert.match(
   (await page
@@ -240,10 +250,10 @@ assert.match(
     .textContent()) || '',
   /legato all’autorità delle Due Dita/i,
 )
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 34)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 34)
-assert.match(await page.locator('.board-live-note').textContent(), /13/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*13/)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 46)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 46)
+assert.match(await page.locator('.board-live-note').textContent(), /18/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*18/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -525,6 +535,7 @@ assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTe
   '10',
   '11',
   '12',
+  '13',
 ])
 await zoomedDesktop.close()
 
@@ -553,7 +564,7 @@ assert.equal(
   await migratedBoard.evaluate(() =>
     Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v11') || '{}')).length,
   ),
-  73,
+  77,
 )
 await migratedBoard.close()
 

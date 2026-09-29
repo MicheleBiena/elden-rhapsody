@@ -39,6 +39,10 @@ const episodeLayoutConceptIds = new Set([
   'marchio-centipede',
   'patches',
   'yura',
+  'torri-divine',
+  'liurnia-lacustre',
+  'hyetta',
+  'thops',
 ])
 const previousEpisodeLayoutConceptIds = new Set(['gurranq', 'margit', 'rogier', 'principesse-cariane', 'progenie-innestata'])
 const previousLayoutConceptIds = new Set([
@@ -300,6 +304,7 @@ const boardConceptOrder = [
   'malenia-la-recisa',
   'radahn',
   'godrick-innestato',
+  'torri-divine',
   'senzaluce',
   'frenesia',
   'grazia',
@@ -323,10 +328,13 @@ const boardConceptOrder = [
   'boc',
   'roderika',
   'galere-eterne',
+  'liurnia-lacustre',
   'accademia-raya-lucaria',
+  'thops',
   'scintipietra',
   'sellen',
   'irina',
+  'hyetta',
   'castel-morne',
   'edgar-castellano',
   'progenie',
@@ -443,13 +451,14 @@ const previousBoardZones = [
     label: 'Siofra e civiltà antiche',
     note: 'Città sotterranee, popoli ancestrali e vita primordiale',
     top: 91,
-    height: 8.3,
+    height: 4.5,
   },
 ] as const
 
 const boardZones = [
   ...previousBoardZones.map(zone => ({ ...zone, top: zone.top * lastBoardHeight / boardHeight, height: zone.height * lastBoardHeight / boardHeight })),
-  { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 92 * previousEpisodeBoardHeight / boardHeight, height: 11.2 },
+  { id: 'nuove-piste-in-viaggio', label: 'Nuove piste in viaggio', note: 'Torri Divine e primi incontri in Liurnia', top: 84.3, height: 5.2 },
+  { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 90, height: 10 },
 ]
 
 interface ConceptBoardProps {

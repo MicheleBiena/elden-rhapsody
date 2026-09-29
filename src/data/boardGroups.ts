@@ -1,10 +1,11 @@
 import { concepts } from './project'
 
 export const boardGroups = [
-  { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'runa-della-morte', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato'] },
+  { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'runa-della-morte', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato', 'torri-divine'] },
   { id: 'senzaluce', label: 'Senzaluce', conceptIds: ['senzaluce', 'frenesia', 'grazia', 'vergini-delle-dita', 'melina', 'hoarah-loux', 'goldmask', 'mangiasterco', 'varre', 'strega-sconosciuta'] },
   { id: 'primi-incontri', label: 'Primi incontri', conceptIds: ['mercante-kale', 'patches', 'yura', 'kenneth-haight', 'medaglione-dectus', 'mezzolupo', 'boc', 'roderika', 'galere-eterne'] },
   { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'scintipietra', 'sellen', 'principesse-cariane'] },
+  { id: 'liurnia-lacustre', label: 'Liurnia Lacustre', conceptIds: ['liurnia-lacustre', 'hyetta', 'thops'] },
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
   { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'statue-chiese-marika'] },
   { id: 'caelid', label: 'Caelid', conceptIds: ['caelid', 'palude-aeonia', 'marcescenza', 'sellia', 'alexander-vaso-guerriero'] },
