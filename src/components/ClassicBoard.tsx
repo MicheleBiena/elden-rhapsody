@@ -31,7 +31,16 @@ const priorBoardHeight = 9000
 const newestBoardHeight = 10000
 const lastBoardHeight = 11000
 const previousEpisodeBoardHeight = 12000
-const boardHeight = 12500
+const currentBoardHeight = 12500
+const boardHeight = 14000
+const latestEpisodeLayoutConceptIds = new Set([
+  'profezia-leggidita',
+  'draghi-antichi',
+  'cavalieri-cariani',
+  'antica-grantempesta',
+  'serosh',
+  'rya',
+])
 const episodeLayoutConceptIds = new Set([
   'nepheli-loux',
   'volonta-superiore',
@@ -120,7 +129,8 @@ const defaultPositions = Object.fromEntries(
   concepts.map((concept) => {
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
-    if (episodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (latestEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (episodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (currentBoardHeight / boardHeight) }]
     if (previousEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousEpisodeBoardHeight / boardHeight) }]
     if (newLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (lastBoardHeight / boardHeight) }]
     if (newestLayoutConceptIds.has(concept.id)) {
@@ -169,6 +179,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const currentEpisodeSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v11')
+    if (currentEpisodeSaved) {
+      return migrateBoardPositions(
+        JSON.parse(currentEpisodeSaved) as Record<string, BoardPosition>,
+        currentBoardHeight,
+        true,
+      )
+    }
+
     const previousEpisodeSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v10')
     if (previousEpisodeSaved) {
       return migrateBoardPositions(
@@ -298,6 +317,7 @@ const boardConceptOrder = [
   'runa-della-morte',
   'albero-madre',
   'godfrey',
+  'serosh',
   'guerra-shattering',
   'semidei',
   'miquella',
@@ -317,6 +337,7 @@ const boardConceptOrder = [
   'strega-sconosciuta',
   'due-dita',
   'volonta-superiore',
+  'profezia-leggidita',
   'morbo-mortale',
   'marchio-centipede',
   'mercante-kale',
@@ -331,6 +352,7 @@ const boardConceptOrder = [
   'liurnia-lacustre',
   'accademia-raya-lucaria',
   'thops',
+  'rya',
   'scintipietra',
   'sellen',
   'irina',
@@ -358,15 +380,18 @@ const boardConceptOrder = [
   'lord-del-sangue',
   'chanting-winged-dames',
   'leyndell',
+  'draghi-antichi',
   'statue-chiese-marika',
   'crogiolo-primordiale',
   'citta-eterna',
   'seguaci-ancestrali',
   'alexander-vaso-guerriero',
   'gurranq',
+  'antica-grantempesta',
   'margit',
   'rogier',
   'principesse-cariane',
+  'cavalieri-cariani',
   'progenie-innestata',
   'nepheli-loux',
 ] as const
@@ -457,8 +482,9 @@ const previousBoardZones = [
 
 const boardZones = [
   ...previousBoardZones.map(zone => ({ ...zone, top: zone.top * lastBoardHeight / boardHeight, height: zone.height * lastBoardHeight / boardHeight })),
-  { id: 'nuove-piste-in-viaggio', label: 'Nuove piste in viaggio', note: 'Torri Divine e primi incontri in Liurnia', top: 84.3, height: 5.2 },
-  { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 90, height: 10 },
+  { id: 'nuove-piste-in-viaggio', label: 'Nuove piste in viaggio', note: 'Torri Divine e primi incontri in Liurnia', top: 84.3 * currentBoardHeight / boardHeight, height: 5.2 * currentBoardHeight / boardHeight },
+  { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 90 * currentBoardHeight / boardHeight, height: 10 * currentBoardHeight / boardHeight },
+  { id: 'liurnia-antichi-poteri', label: 'Liurnia, fuoco e antiche stirpi', note: '', top: 90, height: 10 },
 ]
 
 interface ConceptBoardProps {
@@ -479,7 +505,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v11',
+    'elden-rhapsody:board-positions-v12',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()

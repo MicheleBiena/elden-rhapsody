@@ -228,10 +228,11 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Abbiamo recuperato nella grotta sulla spiaggia l’ago e il filo appartenuti alla madre di Boc e glieli abbiamo consegnati. Non conosciamo il prossimo passo.",
+      "Boc ha recuperato ago e filo della madre e si è offerto di seguirci come nostro sarto. Non conosciamo il prossimo passo.",
 
     lastSeen: {
-      location: "Grotta sulla spiaggia a ovest di Sepolcride",
+      location: "Rupe sul Lago, Liurnia Lacustre",
+      note: "Si trova presso il luogo di Grazia Lake-Facing Cliffs.",
     },
     steps: [
       {
@@ -241,6 +242,10 @@ export const quests: QuestEntry[] = [
       {
         title: "Gli strumenti di sua madre",
         text: "Nella grotta sulla spiaggia recuperiamo l’ago e il filo appartenuti alla madre di Boc e glieli consegniamo.",
+      },
+      {
+        title: "Il nostro sarto",
+        text: "Ritroviamo Boc presso la Rupe sul Lago. Si offre di diventare il nostro sarto e di seguirci durante il viaggio.",
       },
     ],
     portrait: {
@@ -625,7 +630,7 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Dopo la vittoria su Godrick, ritroviamo Nepheli alla Tavola Rotonda e scopriamo che Gideon è suo padre adottivo. È pronta ad aiutarci ancora in battaglia.",
+      "Nepheli resta alla Tavola Rotonda. Le Ceneri del Re Falco, sovrano dell’antica Grantempesta, potrebbero costituire una pista legata al suo disgusto per il dominio di Godrick.",
     lastSeen: {
       location: "Tavola Rotonda",
     },
@@ -646,9 +651,13 @@ export const quests: QuestEntry[] = [
         title: "Il padre adottivo",
         text: "Ritroviamo Nepheli alla Tavola Rotonda e scopriamo che Gideon è suo padre adottivo. Nepheli continuerà a svolgere incarichi per lui ed è pronta ad aiutarci ancora in battaglia.",
       },
+      {
+        title: "La pista del Re Falco",
+        text: "Troviamo le ceneri dell’antico Re Falco di Grantempesta. Poiché Nepheli condanna Godrick per aver insozzato i venti della fortezza, annotiamo un possibile legame da verificare.",
+      },
     ],
     nextStep: {
-      text: "Ritrovare Nepheli dopo che avrà proseguito gli incarichi affidati da Gideon.",
+      text: "Verificare se le Ceneri del Re Falco hanno un significato per Nepheli.",
       hypothetical: true,
     },
     portrait: {
@@ -662,6 +671,7 @@ export const quests: QuestEntry[] = [
       "senzaluce",
       "hoarah-loux",
       "gideon-ofnir",
+      "antica-grantempesta",
     ],
   },
   {
@@ -820,9 +830,9 @@ export const quests: QuestEntry[] = [
     npc: "Thops",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "nuova",
+    updateKind: "aggiornata",
     summary:
-      "Thops è uno studente di Raya Lucaria rimasto fuori quando l’Accademia sigillò i cancelli. Vorrebbe tornarvi, ma gli serve una Chiave di scintipietra.",
+      "Abbiamo trovato una Chiave di scintipietra e possiamo entrare nell’Accademia. Thops rifiuta di privarci di questo onore: ne accetterà soltanto un’altra.",
     lastSeen: {
       location: "Chiesa di Irith, Liurnia Lacustre",
       note: "È seduto nella chiesa e insegna alcuni incantesimi di scintipietra.",
@@ -848,9 +858,13 @@ export const quests: QuestEntry[] = [
         title: "Una chiave anche per Thops",
         text: "Ci chiede di cercare una Chiave di scintipietra e, se ne troveremo una seconda dopo aver sistemato i nostri affari, di donargliela per permettergli di tornare all’Accademia.",
       },
+      {
+        title: "La prima chiave",
+        text: "Troviamo una Chiave di scintipietra che ci permette di entrare a Raya Lucaria. Thops rifiuta di prenderla e insiste perché usiamo noi questa occasione; accetterebbe soltanto un secondo esemplare.",
+      },
     ],
     nextStep: {
-      text: "Cercare le Chiavi di scintipietra dell’Accademia.",
+      text: "Esplorare l’Accademia e cercare una seconda Chiave di scintipietra da consegnare a Thops.",
       hypothetical: false,
     },
     portrait: {
@@ -859,5 +873,43 @@ export const quests: QuestEntry[] = [
       imagePosition: "50% 34%",
     },
     linkedConceptIds: ["thops", "accademia-raya-lucaria", "scintipietra", "liurnia-lacustre"],
+  },
+  {
+    id: "rya",
+    title: "Family’s complicated",
+    npc: "Rya l’esploratrice",
+    region: "Liurnia Lacustre",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary:
+      "Rya, esploratrice dalla postura curva incontrata nel centro di Liurnia, ci chiede di recuperare un medaglione che le è stato rubato.",
+    lastSeen: {
+      location: "Centro di Liurnia Lacustre",
+      note: "Attende non lontano dal luogo in cui si trova il ladro.",
+    },
+    destination: {
+      location: "Poco distante da Rya",
+      note: "Il ladro del medaglione dovrebbe trovarsi nelle vicinanze.",
+    },
+    steps: [
+      {
+        title: "L’esploratrice di Liurnia",
+        text: "Incontriamo Rya nel centro di Liurnia. La sua pelle chiarissima e la postura fortemente curva la rendono immediatamente riconoscibile.",
+      },
+      {
+        title: "Il medaglione rubato",
+        text: "Rya racconta che qualcuno le ha sottratto un medaglione e ci chiede di recuperarlo. Il responsabile dovrebbe trovarsi poco distante.",
+      },
+    ],
+    nextStep: {
+      text: "Trovare il ladro nelle vicinanze e recuperare il medaglione di Rya.",
+      hypothetical: false,
+    },
+    portrait: {
+      imageUrl: "./concepts/rya.png",
+      imageAlt: "Rya in abito verde, con pelle chiarissima e postura curva",
+      imagePosition: "50% 20%",
+    },
+    linkedConceptIds: ["rya", "liurnia-lacustre"],
   },
 ];
