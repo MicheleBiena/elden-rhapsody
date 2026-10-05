@@ -10,8 +10,8 @@ try {
   await page.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
   await page.evaluate(() => document.fonts.ready)
   assert.equal(await page.locator('#dossier-page-title').textContent(), 'Fede, morte e sonno')
-  assert.equal(await page.locator('.dossier-note').count(), 12)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 6)
+  assert.equal(await page.locator('.dossier-note').count(), 13)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 9)
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Due Dita')
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
   assert.ok(await page.locator('.live-update-highlight').count() >= 1)
@@ -41,7 +41,7 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 83)
+  assert.equal(allIds.size, 86)
 
   await groupButtons.nth(0).click()
   await page.getByRole('button', { name: 'Apri Albero Madre', exact: true }).click()
@@ -70,16 +70,16 @@ try {
   await page.screenshot({ path: 'artifacts/dossiers-new-notes.png', fullPage: true })
 
   await groupButtons.nth(3).click()
-  assert.equal(await page.locator('.dossier-note').count(), 5)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
+  assert.equal(await page.locator('.dossier-note').count(), 6)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 3)
   await page.getByRole('button', { name: 'Apri Accademia di Raya Lucaria', exact: true }).click()
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
   assert.match(await page.locator('.dossier-detail').textContent(), /neutralità.*sigilli.*Chiave di scintipietra/is)
   assert.ok(await page.locator('.live-update-highlight').count() >= 1)
 
   await groupButtons.nth(4).click()
-  assert.equal(await page.locator('.dossier-note').count(), 4)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 4)
+  assert.equal(await page.locator('.dossier-note').count(), 5)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 5)
   await page.getByRole('button', { name: 'Apri Hyetta', exact: true }).click()
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Nuova/)
   assert.equal(await page.locator('.dossier-gallery').count(), 2)
@@ -153,10 +153,12 @@ try {
     'roderika',
     'accademia-raya-lucaria',
     'cavalieri-cariani',
+    'guerra-civile-liurnia',
     'liurnia-lacustre',
     'hyetta',
     'thops',
     'rya',
+    'incubi-di-red',
     'leyndell',
     'draghi-antichi',
     'd-cacciatore',
@@ -166,17 +168,20 @@ try {
     'volonta-superiore',
     'fiamma-della-rovina',
     'profezia-leggidita',
+    'coloro-che-vivono-nella-morte',
+    'radici-mortali',
     'morbo-mortale',
     'marchio-centipede',
+    'gurranq',
     'rogier',
     'antica-grantempesta',
     'nepheli-loux',
     'serosh',
   ]
-  await page.getByRole('button', { name: '29 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '34 da leggere', exact: true }).click()
   for (let index = 0; index < liveIds.length; index++) {
     await page.waitForURL(new RegExp(`#/board/${liveIds[index]}$`))
-    await page.waitForFunction(expected => document.querySelector('.dossier-stepper')?.textContent.includes(`Live ${expected} di 29`), index + 1)
+    await page.waitForFunction(expected => document.querySelector('.dossier-stepper')?.textContent.includes(`Live ${expected} di 34`), index + 1)
     if (liveIds[index] === 'due-dita') {
       assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
       assert.ok(await page.locator('.live-update-highlight').count() >= 1)
@@ -211,9 +216,9 @@ try {
   assert.match(await page.locator('.dossier-detail').textContent(), /seconda Sellen/i)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
-  assert.equal(await page.locator('.dossier-note').count(), 2)
+  assert.equal(await page.locator('.dossier-note').count(), 3)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
-  assert.equal(await page.locator('.dossier-note').count(), 5)
+  assert.equal(await page.locator('.dossier-note').count(), 6)
   await page.getByRole('searchbox').fill('nessun-risultato-inesistente')
   assert.equal(await page.locator('.dossier-note').count(), 0)
   await page.getByRole('button', { name: 'Mostra il fascicolo', exact: true }).click()
@@ -243,26 +248,28 @@ try {
   await page.evaluate(value => localStorage.setItem('elden-rhapsody:board-positions-v6', value), oldPositions)
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v11'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v12'))
+  await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v13'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v10'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v9'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v8'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v7'))
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 83)
+  assert.equal(await page.locator('.concept-card').count(), 86)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
-  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v12') || '{}')).length === 83)
+  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v13') || '{}')).length === 86)
   const v10Positions = '{"elden-ring":{"x":22,"y":4.8},"godrick-innestato":{"x":40,"y":18}}'
   await page.evaluate(value => {
     localStorage.setItem('elden-rhapsody:board-positions-v10', value)
     localStorage.removeItem('elden-rhapsody:board-positions-v11')
     localStorage.removeItem('elden-rhapsody:board-positions-v12')
+    localStorage.removeItem('elden-rhapsody:board-positions-v13')
   }, v10Positions)
   await page.reload({ waitUntil: 'domcontentloaded' })
-  await page.waitForFunction(() => Boolean(localStorage.getItem('elden-rhapsody:board-positions-v12')))
-  const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v12')))
-  assert.ok(Math.abs(migrated['godrick-innestato'].y - 18 * 12000 / 14000) < .0001)
+  await page.waitForFunction(() => Boolean(localStorage.getItem('elden-rhapsody:board-positions-v13')))
+  const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v13')))
+  assert.ok(Math.abs(migrated['godrick-innestato'].y - 18 * 12000 / 15500) < .0001)
   assert.equal(migrated['godrick-innestato'].x, 40)
-  assert.ok(Math.abs(migrated['nepheli-loux'].y - 97 * 12500 / 14000) < .0001)
+  assert.ok(Math.abs(migrated['nepheli-loux'].y - 97 * 12500 / 15500) < .0001)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v10')), v10Positions)
   await page.getByRole('button', { name: 'Chiudi il fascicolo', exact: true }).click()
   await page.getByRole('button', { name: 'Fascicoli', exact: true }).click()
@@ -271,7 +278,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 83 cards, 29 unread, preserved live queue plus fire, dragons, Carian knights, old Stormveil, Serosh and Rya, groups, dragging, keyboard, zoom, links, history, search, mobile and legacy v10 migration.')
+  console.log('Dossiers passed: 86 cards, 34 unread, Liurnia civil war, horned creatures, deathroots, groups, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }

@@ -548,8 +548,9 @@ export const quests: QuestEntry[] = [
     npc: "Gurranq, bestia ecclesiastica",
     region: "Dracotumulo",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Abbiamo incontrato Gurranq e ricevuto un occhio di pietra e il Sigillo artiglio. Ci chiede di cercare radici mortali.",
+      "Le radici mortali comparvero dopo la Notte dei Neri Coltelli e precedettero i non morti. Gurranq vuole consumarle; Red ipotizza che consegnargliele tutte possa fermare la piaga.",
     lastSeen: {
       location: "Santuario Ferino, Dracotumulo",
     },
@@ -566,6 +567,10 @@ export const quests: QuestEntry[] = [
         title: "L’occhio e il sigillo",
         text: "Gurranq ci consegna un occhio per trovare le radici mortali e il Sigillo artiglio. Leggiamo le descrizioni dei due oggetti; per ora non abbiamo annotato altri sviluppi.",
       },
+      {
+        title: "La piaga delle radici",
+        text: "Scopriamo che le radici mortali si diffusero dopo la congiura dei Neri Coltelli e che in seguito apparvero Coloro che vivono nella morte. Red ipotizza che farle consumare tutte a Gurranq possa porre fine ai non morti, ma non è ancora confermato.",
+      },
     ],
     nextStep: {
       text: "Cercare radici mortali con l’aiuto dell’occhio e portarle a Gurranq.",
@@ -576,7 +581,7 @@ export const quests: QuestEntry[] = [
       imageAlt: "Gurranq, la bestia ecclesiastica del Santuario Ferino",
       imagePosition: "50% 35%",
     },
-    linkedConceptIds: ["gurranq", "d-cacciatore"],
+    linkedConceptIds: ["gurranq", "d-cacciatore", "radici-mortali", "coloro-che-vivono-nella-morte", "notte-neri-coltelli"],
   },
   {
     id: "edgar-irina",
@@ -911,5 +916,35 @@ export const quests: QuestEntry[] = [
       imagePosition: "50% 20%",
     },
     linkedConceptIds: ["rya", "liurnia-lacustre"],
+  },
+  {
+    id: "ehi-cuggi",
+    title: "EHI CUGGI",
+    npc: "Vasi di Vasburgo",
+    region: "Liurnia Lacustre",
+    status: "fallita",
+    updateKind: "nuova",
+    summary:
+      "La possibile quest di Vasburgo si è interrotta prima di iniziare: Red ha attaccato i vasi pacifici del villaggio. La ricostruzione completa resta rinviata alla fine della run.",
+    lastSeen: {
+      location: "Vasburgo, Liurnia Lacustre",
+      note: "I vasi del villaggio sono diventati ostili dopo l’attacco.",
+    },
+    steps: [
+      {
+        title: "Arrivo a Vasburgo",
+        text: "Raggiungiamo un villaggio abitato da vasi pacifici, che non mostrano ostilità al nostro arrivo.",
+      },
+      {
+        title: "La quest interrotta",
+        text: "Red attacca i vasi di Vasburgo e la possibile storia del villaggio termina prematuramente. Non aggiungiamo dettagli futuri per evitare spoiler.",
+      },
+    ],
+    portrait: {
+      imageUrl: "./concepts/vasburgo-vaso.webp",
+      imageAlt: "Un piccolo vaso senziente seduto fra i fiori di Vasburgo",
+      imagePosition: "30% 46%",
+    },
+    linkedConceptIds: ["liurnia-lacustre"],
   },
 ];

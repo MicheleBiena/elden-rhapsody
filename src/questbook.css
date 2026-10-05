@@ -70,6 +70,7 @@
 .quest-status { display: inline-flex; align-items: center; gap: 6px; color: var(--journal-accent); font-size: .8rem; font-weight: 500; }
 .quest-status svg { width: 16px; height: 16px; }
 .quest-status--pista { color: #7b5423; }
+.quest-status--fallita { color: #842a25; font-weight: 600; }
 .quest-entry-heading { display: grid; gap: 22px; margin-bottom: 30px; }
 .quest-entry-heading.has-portrait { grid-template-columns: minmax(0, 1fr) minmax(140px, 28%); align-items: start; }
 .quest-entry-heading h2 { margin: 0 0 8px; font: 500 clamp(2.15rem, 3.2vw, 3.35rem)/1.05 'Newsreader', Georgia, serif; letter-spacing: -.035em; overflow-wrap: anywhere; scroll-margin-top: 120px; }

@@ -8,13 +8,13 @@ import type { QuestImage, QuestStatus } from '../types'
 import '../questbook.css'
 
 const statusLabels: Record<QuestStatus, string> = {
-  'in-corso': 'In corso', pista: 'Pista da verificare', conclusa: 'Conclusa',
+  'in-corso': 'In corso', pista: 'Pista da verificare', conclusa: 'Conclusa', fallita: 'Fallita',
 }
 const filters = [
   { id: 'tutte', label: 'Tutte', icon: BookOpen },
   { id: 'in-corso', label: 'In corso', icon: Bookmark },
   { id: 'pista', label: 'Piste', icon: Compass },
-  { id: 'conclusa', label: 'Concluse', icon: CheckCheck },
+  { id: 'chiuse', label: 'Chiuse', icon: CheckCheck },
 ] as const
 type QuestFilter = typeof filters[number]['id']
 const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('it')
@@ -65,7 +65,8 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
   const selected = quests.find(quest => quest.id === (activeQuestId || lastQuestId)) || quests[0]
   const invalidRoute = Boolean(activeQuestId && !quests.some(quest => quest.id === activeQuestId))
   const search = normalize(query.trim())
-  const visibleQuests = quests.filter(quest => (filter === 'tutte' || quest.status === filter) &&
+  const visibleQuests = quests.filter(quest => (filter === 'tutte' ||
+    (filter === 'chiuse' ? quest.status === 'conclusa' || quest.status === 'fallita' : quest.status === filter)) &&
     (!search || normalize([quest.title, quest.npc, quest.region, quest.summary, quest.lastSeen?.location, quest.destination?.location].join(' ')).includes(search)))
   const selectedIndex = visibleQuests.findIndex(quest => quest.id === selected?.id)
   const linkedConcepts = concepts.filter(concept => selected?.linkedConceptIds?.includes(concept.id))
@@ -153,7 +154,7 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
               <span><CheckCheck aria-hidden="true" />Tappe percorse e immagini</span>
             </div>
           </div> : <>
-            <div className="quest-page-top"><span className="quest-small-label">{selected.region}</span><span className={`quest-status quest-status--${selected.status}`}>{selected.status === 'conclusa' ? <CheckCheck aria-hidden="true" /> : selected.status === 'pista' ? <Compass aria-hidden="true" /> : <Bookmark aria-hidden="true" />}{statusLabels[selected.status]}</span></div>
+            <div className="quest-page-top"><span className="quest-small-label">{selected.region}</span><span className={`quest-status quest-status--${selected.status}`}>{selected.status === 'conclusa' ? <CheckCheck aria-hidden="true" /> : selected.status === 'fallita' ? <Skull aria-hidden="true" /> : selected.status === 'pista' ? <Compass aria-hidden="true" /> : <Bookmark aria-hidden="true" />}{statusLabels[selected.status]}</span></div>
             <header className={`quest-entry-heading${selected.portrait ? ' has-portrait' : ''}`}>
               <div><h2 id="quest-page-title" ref={headingRef} tabIndex={-1}>{selected.title}</h2><p className="quest-npc">{selected.npc}</p><p className="quest-summary">{selected.summary}</p></div>
               {selected.portrait && <button className="quest-portrait" type="button" aria-label={`Ingrandisci: ${selected.portrait.imageAlt}`} onClick={() => setPhoto(selected.portrait)}><JournalImage photo={selected.portrait} /><Expand aria-hidden="true" /></button>}

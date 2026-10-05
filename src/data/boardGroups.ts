@@ -4,14 +4,14 @@ export const boardGroups = [
   { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'runa-della-morte', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato', 'torri-divine'] },
   { id: 'senzaluce', label: 'Senzaluce', conceptIds: ['senzaluce', 'frenesia', 'grazia', 'vergini-delle-dita', 'melina', 'hoarah-loux', 'goldmask', 'mangiasterco', 'varre', 'strega-sconosciuta'] },
   { id: 'primi-incontri', label: 'Primi incontri', conceptIds: ['mercante-kale', 'patches', 'yura', 'kenneth-haight', 'medaglione-dectus', 'mezzolupo', 'boc', 'roderika', 'galere-eterne'] },
-  { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'scintipietra', 'sellen', 'principesse-cariane', 'cavalieri-cariani'] },
-  { id: 'liurnia-lacustre', label: 'Liurnia Lacustre', conceptIds: ['liurnia-lacustre', 'hyetta', 'thops', 'rya'] },
+  { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'scintipietra', 'sellen', 'principesse-cariane', 'cavalieri-cariani', 'guerra-civile-liurnia'] },
+  { id: 'liurnia-lacustre', label: 'Liurnia Lacustre', conceptIds: ['liurnia-lacustre', 'hyetta', 'thops', 'rya', 'incubi-di-red'] },
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
   { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'draghi-antichi', 'statue-chiese-marika'] },
   { id: 'caelid', label: 'Caelid', conceptIds: ['caelid', 'palude-aeonia', 'marcescenza', 'sellia', 'alexander-vaso-guerriero'] },
   { id: 'siofra-civilta-antiche', label: 'Siofra e civiltà antiche', conceptIds: ['citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
-  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'lord-del-sangue', 'gurranq'] },
+  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'radici-mortali', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'lord-del-sangue', 'gurranq'] },
   { id: 'grantempesta', label: 'Grantempesta', conceptIds: ['margit', 'rogier', 'antica-grantempesta', 'progenie-innestata', 'nepheli-loux', 'serosh'] },
 ]
 

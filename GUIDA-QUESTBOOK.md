@@ -54,7 +54,7 @@ Per altre quest, duplica l'intero blocco `{ ... },` dentro la lista. L'ordine ne
 ## Regole essenziali
 
 - **`id`**: unico, minuscolo, senza spazi; usa i trattini. Non cambiarlo dopo la pubblicazione: identifica il link diretto alla quest.
-- **`status`**: scegli `'in-corso'`, `'pista'` oppure `'conclusa'`.
+- **`status`**: scegli `'in-corso'`, `'pista'`, `'conclusa'` oppure `'fallita'`.
 - **`steps`**: solo tappe già avvenute, dalla più vecchia alla più recente. Può essere `[]` se non hai ancora annotato tappe.
 - **`nextStep.hypothetical`**: `true` per una pista da verificare; `false` per un prossimo passo noto.
 - **Campi facoltativi**: puoi eliminare `lastSeen`, `destination`, `nextStep` e `portrait`. Per i luoghi mancanti il diario mostra che non sono ancora noti/annotati.

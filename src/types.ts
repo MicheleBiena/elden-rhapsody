@@ -78,7 +78,7 @@ export interface MapMarker {
   createdAt: string
 }
 
-export type QuestStatus = 'in-corso' | 'pista' | 'conclusa'
+export type QuestStatus = 'in-corso' | 'pista' | 'conclusa' | 'fallita'
 
 export interface QuestImage {
   imageUrl: string
