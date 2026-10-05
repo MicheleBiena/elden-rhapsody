@@ -17,10 +17,7 @@ export function MapComingSoon() {
         </div>
         <p className="overline">Nuova scheda in preparazione</p>
         <h1 id="map-title">Coming soon</h1>
-        <p>
-          La mappa tornerà in una forma nuova, pensata per seguire la blind run
-          senza anticipare le regioni ancora inesplorate.
-        </p>
+        <p>Qualcosa sta prendendo forma... ma dobbiamo aspettare</p>
       </div>
     </section>
   )
