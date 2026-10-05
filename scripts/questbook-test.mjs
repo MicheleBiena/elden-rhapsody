@@ -18,14 +18,10 @@ try {
     'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika',
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops', 'rya', 'ehi-cuggi',
   ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), [
-    'varre', 'boc', 'alexander', 'rogier', 'roderika', 'gurranq', 'nepheli', 'thops',
-  ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-nuova').evaluateAll(links => links.map(link => link.dataset.questId)), [
-    'big-boys', 'patches', 'yura', 'hyetta', 'rya', 'ehi-cuggi',
-  ])
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 8)
-  assert.equal(await page.locator('.quest-index-update--nuova').count(), 6)
+  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), [])
+  assert.deepEqual(await page.locator('.quest-index-link.is-nuova').evaluateAll(links => links.map(link => link.dataset.questId)), [])
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 0)
+  assert.equal(await page.locator('.quest-index-update--nuova').count(), 0)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /20 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /abbastanza Rune Maggiori.*Leyndell/i)
@@ -192,8 +188,8 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 8)
-  assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 6)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 0)
+  assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
   await page.goto(`${baseUrl}#/questbook/big-boys`, { waitUntil: 'networkidle' })
@@ -215,9 +211,9 @@ try {
   await page.locator('[data-quest-id="melina"]').click()
   await page.getByRole('heading', { name: 'I offer you an accord', exact: true }).waitFor()
   await page.locator('a.nav-tab[href="#/map"]').click()
-  await page.locator('.map-layout').waitFor()
+  await page.locator('.map-coming-soon').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '34 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '3 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -312,7 +308,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: twenty active quests, one complete and one failed, six new badges, eight updated badges, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
+  console.log('Questbook passed: twenty active quests, one complete and one failed, no current update badges, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()

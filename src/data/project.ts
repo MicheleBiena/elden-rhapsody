@@ -1329,6 +1329,69 @@ const conceptArchive: LoreConcept[] = [
     position: { x: 38, y: 94 },
   },
   {
+    id: 'fiume-ainsel',
+    name: 'Fiume Ainsel',
+    eyebrow: 'Corso sotterraneo infestato',
+    category: 'Luogo',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Fiume sotterraneo finalmente raggiunto, popolato da formiche giganti tra rovine di civiltà anteriori all’Albero Madre.',
+    body: 'Red ha finalmente raggiunto il fiume Ainsel. Il corso scorre sotto l’Interregno, fra rovine attribuite a civiltà anteriori all’Albero Madre, ed è infestato da formiche giganti.',
+    imageUrl: './concepts/fiume-ainsel.png',
+    imageAlt: 'Il fiume Ainsel attraversa grandi rovine sotto un cielo stellato sotterraneo',
+    imagePosition: '50% 50%',
+    evidence: ['Il fiume scorre nel sottosuolo.', 'L’area conserva rovine di civiltà antiche.', 'Il percorso è infestato da formiche giganti.'],
+    questions: ['Quale civiltà costruì le rovine lungo l’Ainsel?', 'Perché le formiche hanno colonizzato il fiume?'],
+    tags: ['Ainsel', 'fiume sotterraneo', 'formiche giganti', 'rovine', 'civiltà antiche'],
+    position: { x: 20, y: 97 },
+  },
+  {
+    id: 'soldato-draconico-nokstella',
+    name: 'Soldato Draconico di Nokstella',
+    eyebrow: 'Fulmini di ghiaccio',
+    category: 'Personaggio',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Creatura nata nella Città Eterna: un gigantesco corpo umanoide scavato, con quattro ali draconiche in mutazione e fulmini capaci di congelare.',
+    body: 'Durante lo scontro Red nota un corpo enorme e scavato, quasi umanoide, ma provvisto di quattro ali da drago che sembrano mutare nel corso della battaglia. Il Soldato controlla fulmini che, invece di bruciare soltanto, possono congelare gli avversari. La descrizione del drop chiarisce che i draconici nacquero nella Città Eterna: senza un vero cielo né veri fulmini, fecero del fulmine di ghiaccio la propria arma.',
+    imageUrl: './concepts/soldato-draconico-nokstella.webp',
+    imageAlt: 'Il Soldato Draconico di Nokstella muta mentre sprigiona fulmini di ghiaccio',
+    imagePosition: '50% 69%',
+    textSections: [
+      {
+        title: 'Descrizione del drop',
+        language: 'en',
+        text: 'The Dragonkin were born in the Eternal City, where they knew no true sky, nor true lightning. Instead, ice lightning was their weapon.',
+      },
+      {
+        title: 'Traduzione italiana',
+        language: 'it',
+        text: 'I draconici nacquero nella Città Eterna, dove non conobbero né un vero cielo né veri fulmini. Al loro posto, usarono come arma i fulmini di ghiaccio.',
+      },
+    ],
+    evidence: ['Il corpo è gigantesco, scavato e quasi umanoide.', 'Possiede quattro ali da drago che mutano durante lo scontro.', 'I suoi fulmini possono congelare.', 'I draconici nacquero nella Città Eterna.'],
+    questions: ['Perché il suo corpo e le sue ali stanno mutando?', 'Chi diede origine ai draconici?', 'Perché la Città Eterna non conobbe un vero cielo?'],
+    tags: ['Soldato Draconico', 'Nokstella', 'Città Eterna', 'quattro ali', 'fulmini di ghiaccio'],
+    position: { x: 50, y: 97 },
+  },
+  {
+    id: 'bestia-meteoritica',
+    name: 'Bestia meteoritica non identificata',
+    eyebrow: 'Insetto dal cranio umano',
+    category: 'Personaggio',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary: 'Creatura dall’aspetto di un insetto gigante, con cranio umano, mandibole e un occhio stellato al centro della fronte.',
+    body: 'Una strana bestia meteoritica non ancora identificata ricorda un insetto gigantesco. Ha un cranio umano incorniciato da mandibole da insetto e, al centro del cranio, un occhio dai colori di un cielo stellato. Per ora ne conosciamo soltanto l’aspetto.',
+    imageUrl: './concepts/bestia-meteoritica.png',
+    imageAlt: 'Creatura meteoritica con corpo da insetto, cranio umano e un occhio luminoso stellato',
+    imagePosition: '50% 30%',
+    evidence: ['Ha proporzioni e mandibole da insetto gigante.', 'Il volto ricorda un cranio umano.', 'Un occhio dai colori stellati occupa il centro del cranio.'],
+    questions: ['Che cos’è questa creatura?', 'Da dove proviene?', 'Il suo occhio è legato al cielo stellato sotterraneo?'],
+    tags: ['bestia meteoritica', 'insetto', 'cranio umano', 'occhio stellato', 'Ainsel'],
+    position: { x: 80, y: 97 },
+  },
+  {
     id: 'seguaci-ancestrali',
     name: 'Seguaci ancestrali',
     eyebrow: 'Popolo del fiume Siofra',
@@ -1751,18 +1814,9 @@ const conceptArchive: LoreConcept[] = [
 
 // Dal 23 settembre: identikit sulla lavagna, azioni e avanzamenti nel Questbook.
 const currentEpisodeConceptIds = new Set<string>([
-  'due-dita', 'volonta-superiore', 'notte-neri-coltelli', 'runa-della-morte',
-  'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux', 'morbo-mortale', 'marchio-centipede',
-  'patches', 'yura', 'torri-divine', 'liurnia-lacustre', 'hyetta', 'thops', 'accademia-raya-lucaria',
-  'fiamma-della-rovina', 'miquella', 'gideon-ofnir', 'godfrey', 'leyndell',
-  'profezia-leggidita', 'draghi-antichi', 'cavalieri-cariani', 'antica-grantempesta', 'serosh', 'rya',
-  'guerra-civile-liurnia', 'incubi-di-red', 'radici-mortali', 'coloro-che-vivono-nella-morte', 'gurranq',
+  'fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica',
 ])
-const currentEpisodeUpdatedConceptIds = new Set<string>([
-  'due-dita', 'notte-neri-coltelli', 'runa-della-morte', 'roderika', 'd-cacciatore', 'hewg', 'rogier', 'nepheli-loux',
-  'accademia-raya-lucaria', 'thops', 'fiamma-della-rovina', 'miquella', 'gideon-ofnir', 'godfrey', 'leyndell',
-  'liurnia-lacustre', 'cavalieri-cariani', 'coloro-che-vivono-nella-morte', 'gurranq',
-])
+const currentEpisodeUpdatedConceptIds = new Set<string>([])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
   ...concept,
@@ -1773,6 +1827,22 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'ainsel-citta-eterna', from: 'fiume-ainsel', to: 'citta-eterna', label: 'rovine sotterranee',
+    note: 'L’Ainsel attraversa il sottosuolo e le rovine di civiltà fiorite prima dell’Albero Madre.', kind: 'traccia',
+  },
+  {
+    id: 'draconico-ainsel', from: 'soldato-draconico-nokstella', to: 'fiume-ainsel', label: 'incontrato lungo il fiume',
+    note: 'Il Soldato Draconico di Nokstella è stato affrontato durante l’esplorazione dell’Ainsel.', kind: 'traccia',
+  },
+  {
+    id: 'draconico-citta-eterna', from: 'soldato-draconico-nokstella', to: 'citta-eterna', label: 'nato nella città',
+    note: 'La descrizione del drop afferma che i draconici nacquero nella Città Eterna.', kind: 'traccia',
+  },
+  {
+    id: 'draconico-draghi', from: 'soldato-draconico-nokstella', to: 'draghi-antichi', label: 'mutazione draconica',
+    note: 'Le quattro ali e la mutazione richiamano i draghi, ma la natura del rapporto non è ancora nota.', kind: 'ipotesi',
+  },
   {
     id: 'guerra-liurnia-accademia', from: 'guerra-civile-liurnia', to: 'accademia-raya-lucaria', label: 'fronte accademico',
     note: 'L’Accademia affrontò la casa reale attraverso la legione dei Guerrieri del Cuculo.', kind: 'traccia',

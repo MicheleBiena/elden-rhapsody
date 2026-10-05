@@ -35,10 +35,10 @@ permette di depennare quelli sconfitti. Lo stato resta nel browser del visitator
 
 ### Mappa
 
-La mappa mostra esclusivamente le regioni già rivelate nella run. È possibile
-aggiungere annotazioni direttamente sull'immagine e conservarle nel browser.
-L'integrazione MapGenie rimane separata e protetta da un avviso, perché anche una
-semplice panoramica può mostrare aree non ancora scoperte.
+La vecchia mappa è stata ritirata. La sezione mostra temporaneamente una scheda
+**Coming soon** con una spada e un fondale attenuato, in attesa di una soluzione
+cartografica nuova e anti-spoiler. Gli eventuali pin salvati in precedenza restano
+nel browser e non vengono cancellati.
 
 ### Analisi
 
@@ -61,7 +61,7 @@ diario e rende più facile tornare su un mistero dopo molte ore di gioco.
 ## Dati locali
 
 Elden Rhapsody è un sito statico e non richiede un account. Posizioni delle
-schede, annotazioni sulla mappa, pagina aperta nel Questbook e obiettivi depennati
+schede, pagina aperta nel Questbook, obiettivi depennati e vecchi pin cartografici
 vengono salvati nel `localStorage` del singolo browser. Non vengono inviati a un
 server e non si sincronizzano fra dispositivi.
 
@@ -97,7 +97,7 @@ Il branch `main` viene pubblicato automaticamente su GitHub Pages dal workflow i
 - `src/data/project.ts`: schede, collegamenti, mappa e archivio post-run;
 - `src/data/quests.ts`: pagine e tappe del Questbook;
 - `src/data/boardGroups.ts`: ordine dei fascicoli;
-- `src/components/`: interfaccia delle quattro sezioni;
+- `src/components/`: interfaccia delle quattro sezioni, compreso il placeholder della mappa;
 - `public/concepts/` e `public/maps/`: immagini usate dal sito;
 - `scripts/`: test di navigazione, layout, persistenza e migrazione dei dati locali.
 

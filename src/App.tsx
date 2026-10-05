@@ -1,7 +1,7 @@
 import { BookOpen, EyeOff, GitBranch, Languages, LockKeyhole, Map as MapIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { ConceptBoard } from './components/ConceptBoard'
-import { MapWorkspace } from './components/MapWorkspace'
+import { MapComingSoon } from './components/MapComingSoon'
 import { Questbook } from './components/Questbook'
 import { TranslationArchive } from './components/TranslationArchive'
 import { isTranslationArchiveReleased } from './data/project'
@@ -145,7 +145,7 @@ export default function App() {
           />
         )}
         {route.tab === 'questbook' && <Questbook activeQuestId={route.detail} />}
-        {route.tab === 'map' && <MapWorkspace />}
+        {route.tab === 'map' && <MapComingSoon />}
         {route.tab === 'translations' && (
           <TranslationArchive onOpenConcept={openConcept} />
         )}

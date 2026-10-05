@@ -85,7 +85,6 @@ export const quests: QuestEntry[] = [
     npc: "Araldi delle Rune Maggiori",
     region: "Interregno",
     status: "in-corso",
-    updateKind: "nuova",
     summary:
       "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
     lastSeen: {
@@ -184,7 +183,6 @@ export const quests: QuestEntry[] = [
     npc: "Varré",
     region: "Sepolcride",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Abbiamo seguito l’indicazione di Varré: Godrick è sconfitto e abbiamo ottenuto udienza dalle Due Dita.",
 
@@ -226,7 +224,6 @@ export const quests: QuestEntry[] = [
     npc: "Boc il semiumano",
     region: "Sepolcride",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Boc ha recuperato ago e filo della madre e si è offerto di seguirci come nostro sarto. Non conosciamo il prossimo passo.",
 
@@ -261,7 +258,6 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Alexander è rimasto bloccato dietro una porta chiusa in una miniera fra Sepolcride e Caelid. Potrebbe essere necessario raggiungere l’ingresso sul lato di Caelid.",
     lastSeen: {
@@ -370,7 +366,6 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Rogier studia il morbo mortale e la Notte dei Neri Coltelli. Dopo il contatto con il cadavere sotto Grantempesta, lo ritroviamo infermo alla Tavola Rotonda.",
     lastSeen: {
@@ -421,7 +416,6 @@ export const quests: QuestEntry[] = [
     npc: "Roderika",
     region: "Grantempesta",
     status: "conclusa",
-    updateKind: "aggiornata",
     summary:
       "Dopo aver scoperto il destino dei suoi compagni, Roderika riconosce il proprio potenziale come Spirit Tuner e trova un nuovo scopo sotto la guida di Hewg.",
     lastSeen: {
@@ -548,7 +542,6 @@ export const quests: QuestEntry[] = [
     npc: "Gurranq, bestia ecclesiastica",
     region: "Dracotumulo",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Le radici mortali comparvero dopo la Notte dei Neri Coltelli e precedettero i non morti. Gurranq vuole consumarle; Red ipotizza che consegnargliele tutte possa fermare la piaga.",
     lastSeen: {
@@ -633,7 +626,6 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Nepheli resta alla Tavola Rotonda. Le Ceneri del Re Falco, sovrano dell’antica Grantempesta, potrebbero costituire una pista legata al suo disgusto per il dominio di Godrick.",
     lastSeen: {
@@ -713,7 +705,6 @@ export const quests: QuestEntry[] = [
     npc: "Patches",
     region: "Sepolcride",
     status: "in-corso",
-    updateKind: "nuova",
     summary:
       "Patches si è arreso dopo averci aggredito, ha aperto il suo emporio e ci ha poi ingannati con un forziere che ci ha teletrasportati a Tetrobosco.",
     lastSeen: {
@@ -751,7 +742,6 @@ export const quests: QuestEntry[] = [
     npc: "Yura, cacciatore di Dita Sanguinanti",
     region: "Sepolcride",
     status: "in-corso",
-    updateKind: "nuova",
     summary:
       "Yura è intervenuto contro il Dito Sanguinante Nerijus. Dopo la vittoria si è presentato come cacciatore dei Senzaluce corrotti dal sangue che perseguitano i propri simili.",
     lastSeen: {
@@ -785,7 +775,6 @@ export const quests: QuestEntry[] = [
     npc: "Hyetta",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "nuova",
     summary:
       "Hyetta, giovane cieca identica a Irina, ci chiede Uve di Shabriri per seguire una luce lontana. Le uve sono in realtà bulbi oculari deteriorati.",
     lastSeen: {
@@ -835,7 +824,6 @@ export const quests: QuestEntry[] = [
     npc: "Thops",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Abbiamo trovato una Chiave di scintipietra e possiamo entrare nell’Accademia. Thops rifiuta di privarci di questo onore: ne accetterà soltanto un’altra.",
     lastSeen: {
@@ -885,7 +873,6 @@ export const quests: QuestEntry[] = [
     npc: "Rya l’esploratrice",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "nuova",
     summary:
       "Rya, esploratrice dalla postura curva incontrata nel centro di Liurnia, ci chiede di recuperare un medaglione che le è stato rubato.",
     lastSeen: {
@@ -923,7 +910,6 @@ export const quests: QuestEntry[] = [
     npc: "Vasi di Vasburgo",
     region: "Liurnia Lacustre",
     status: "fallita",
-    updateKind: "nuova",
     summary:
       "La possibile quest di Vasburgo si è interrotta prima di iniziare: Red ha attaccato i vasi pacifici del villaggio. La ricostruzione completa resta rinviata alla fine della run.",
     lastSeen: {
