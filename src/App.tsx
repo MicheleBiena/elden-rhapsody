@@ -19,7 +19,7 @@ interface RouteState {
 const tabs = [
   { id: 'board', label: 'Lavagna', caption: 'Indizi e legami', icon: GitBranch },
   { id: 'questbook', label: 'Questbook', caption: 'Diario delle quest', icon: BookOpen },
-  { id: 'build', label: 'SPOILER NON APRIRE', caption: 'Prepara il personaggio', icon: Swords },
+  { id: 'build', label: 'SPOILER NON APRIRE', caption: undefined, icon: Swords },
   {
     id: 'translations',
     label: 'Analisi',
@@ -110,7 +110,7 @@ export default function App() {
                 <Icon aria-hidden="true" />
                 <span>
                   <strong>{tab.label}</strong>
-                  <small>{tab.caption}</small>
+                  {tab.caption && <small>{tab.caption}</small>}
                 </span>
               </a>
             )
