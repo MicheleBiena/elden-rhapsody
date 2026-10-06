@@ -47,6 +47,13 @@ Il pulsante informativo accanto a ogni oggetto apre una scheda con miniatura gra
 e descrizione ufficiale italiana. Il catalogo delle descrizioni è caricato soltanto
 alla prima apertura, così non appesantisce l'accesso iniziale alla pagina.
 
+L'equipaggiamento può essere modificato in una bozza temporanea trascinando armi,
+armature e talismani dall'inventario, oppure selezionandoli e scegliendo uno slot.
+Ogni oggetto è accettato soltanto negli slot compatibili e sostituisce quello già
+presente. Il comando di ripristino ricarica il loadout letto dal save; anche questa
+funzione resta interamente in memoria e non scrive mai sul file `.sl2`. Le magie
+restano consultabili in attesa della gestione dei costi degli slot memoria.
+
 ### Analisi
 
 La raccolta dedicata alle traduzioni e agli articoli di approfondimento resta

@@ -20,6 +20,7 @@ function writeCharacter(slot, name, level, stats, withBuildItems = false) {
     const gaitems = [
       [0x80000001, 3180000], // Claymore
       [0x80000002, 50000000], // Freccia: deve essere esclusa dalle armi
+      [0x80000003, 2000000], // Spada lunga: alternativa per la bozza
     ]
     for (const [handle, id] of gaitems) {
       saveBuffer.writeUInt32LE(handle, gaitemOffset)
@@ -106,11 +107,28 @@ try {
   assert.match(await page.locator('.build-great-rune').textContent(), /potere non è attivo/i)
   assert.match(await page.locator('.build-great-rune').textContent(), /Rune attivate disponibili: Runa maggiore di Godrick/i)
   await page.getByText('Armi', { exact: true }).click()
-  assert.equal(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).locator('li').count(), 1)
+  assert.equal(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).locator('li').count(), 2)
   assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).textContent(), /Claymore/)
+  assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).textContent(), /Spada lunga/)
   assert.doesNotMatch(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).textContent(), /Freccia/)
-  assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).locator('img').getAttribute('src'), /claymore\.png$/)
+  assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).locator('img').first().getAttribute('src'), /claymore\.png$/)
   const weapons = page.locator('.build-inventory-section').filter({ hasText: /^Armi/ })
+  const rightHandSlot = page.locator('[data-equip-target="rightHand-0"]')
+  const leftHandSlot = page.locator('[data-equip-target="leftHand-0"]')
+  const talismanSlot = page.locator('[data-equip-target="talisman-0"]')
+  assert.match(await rightHandSlot.textContent(), /Claymore/)
+  await weapons.getByRole('button', { name: 'Seleziona Spada lunga per equipaggiarlo' }).dragTo(rightHandSlot)
+  assert.match(await rightHandSlot.textContent(), /Spada lunga/)
+  await weapons.getByRole('button', { name: 'Seleziona Claymore per equipaggiarlo' }).dragTo(talismanSlot)
+  assert.doesNotMatch(await talismanSlot.textContent(), /Claymore/)
+  await weapons.getByRole('button', { name: 'Seleziona Claymore per equipaggiarlo' }).click()
+  await talismanSlot.click()
+  assert.match(await page.locator('.build-draft-status').textContent(), /non può essere inserito/i)
+  await leftHandSlot.click()
+  assert.match(await leftHandSlot.textContent(), /Claymore/)
+  await page.getByRole('button', { name: /Ripristina save/i }).click()
+  assert.match(await rightHandSlot.textContent(), /Claymore/)
+  assert.doesNotMatch(await leftHandSlot.textContent(), /Claymore/)
   await weapons.getByRole('button', { name: 'Apri la descrizione di Claymore' }).click()
   const claymoreDialog = page.getByRole('dialog', { name: 'Claymore' })
   await claymoreDialog.waitFor()
@@ -152,7 +170,7 @@ try {
   await page.screenshot({ path: 'artifacts/build-lab-item-lore-mobile.png', fullPage: true })
 
   assert.deepEqual(errors, [])
-  console.log('Build Lab passed: upload locale, lettura dati, icone e descrizioni italiane, dialog accessibile, alias mappa e layout responsive.')
+  console.log('Build Lab passed: upload locale, lettura dati, bozza equipaggiamento drag/click, vincoli slot, reset, descrizioni e layout responsive.')
 } finally {
   await browser.close()
 }

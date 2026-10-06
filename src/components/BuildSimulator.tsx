@@ -15,6 +15,7 @@ import {
 import { useEffect, useId, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type ReactNode } from 'react'
 import {
   parseBuildSave,
+  type ArmorSlot,
   type BuildCharacter,
   type BuildItem,
   type ParsedBuildSave,
@@ -34,7 +35,47 @@ const statLabels = [
   ['ARC', 'Arcano', 'arcane'],
 ] as const
 
-const armorSlots = ['Testa', 'Torso', 'Braccia', 'Gambe']
+const armorSlots: Array<{ label: string; type: ArmorSlot }> = [
+  { label: 'Testa', type: 'head' },
+  { label: 'Torso', type: 'chest' },
+  { label: 'Braccia', type: 'arms' },
+  { label: 'Gambe', type: 'legs' },
+]
+
+type DraftSlotKind = 'rightHand' | 'leftHand' | 'armor' | 'talisman'
+
+interface DraftTarget {
+  kind: DraftSlotKind
+  index: number
+  label: string
+  armorSlot?: ArmorSlot
+}
+
+interface DraftLoadout {
+  rightHand: Array<BuildItem | null>
+  leftHand: Array<BuildItem | null>
+  armor: Array<BuildItem | null>
+  talismans: Array<BuildItem | null>
+}
+
+function itemKey(item: BuildItem): string {
+  return `${item.category}-${item.id}-${item.upgradeLevel ?? 0}`
+}
+
+function canEquip(item: BuildItem, target: DraftTarget): boolean {
+  if ((target.kind === 'rightHand' || target.kind === 'leftHand')) return item.category === 'weapon'
+  if (target.kind === 'talisman') return item.category === 'talisman'
+  return item.category === 'armor' && item.armorSlot === target.armorSlot
+}
+
+function createDraftLoadout(character: BuildCharacter): DraftLoadout {
+  return {
+    rightHand: [...character.equipped.rightHand],
+    leftHand: [...character.equipped.leftHand],
+    armor: [...character.equipped.armor],
+    talismans: character.equipped.talismans.slice(0, character.talismanSlots),
+  }
+}
 
 function displayItem(item: BuildItem | null): string {
   if (!item) return '—'
@@ -156,26 +197,53 @@ function EquippedList({
   title,
   items,
   labels,
+  slotKind,
+  armorSlotTypes,
+  activeItem,
+  draggedItem,
+  onEquip,
   onInspect,
 }: {
   title: string
   items: Array<BuildItem | null>
   labels: string[]
+  slotKind: DraftSlotKind
+  armorSlotTypes?: ArmorSlot[]
+  activeItem: BuildItem | null
+  draggedItem: BuildItem | null
+  onEquip: (item: BuildItem, target: DraftTarget) => void
   onInspect: (item: BuildItem) => void
 }) {
   return (
     <div className="build-equipped-group">
       <h3>{title}</h3>
-      <dl>
+      <ul>
         {items.map((item, index) => (
-          <div key={`${title}-${labels[index]}`}>
-            <dt>{labels[index]}</dt>
-            <dd className={item ? undefined : 'is-empty'}>
-              {item ? <><ItemIcon item={item} /><span>{displayItem(item)}</span><ItemInfoButton item={item} onInspect={onInspect} /></> : '—'}
-            </dd>
-          </div>
+          <li key={`${title}-${labels[index]}`}>
+            <span className="build-equipped-label">{labels[index]}</span>
+            <div className="build-equipped-slot-wrap">
+              <button
+                type="button"
+                className={`build-equipped-slot${item ? ' has-item' : ' is-empty'}${activeItem ? (canEquip(activeItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] }) ? ' is-compatible' : ' is-incompatible') : ''}`}
+                data-equip-target={`${slotKind}-${index}`}
+                aria-label={`${title}, ${labels[index]}: ${item ? displayItem(item) : 'vuoto'}${activeItem ? `. Inserisci ${displayItem(activeItem)}` : ''}`}
+                onClick={() => activeItem && onEquip(activeItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] })}
+                onDragOver={(event) => {
+                  event.preventDefault()
+                  event.dataTransfer.dropEffect = draggedItem && canEquip(draggedItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] }) ? 'copy' : 'none'
+                }}
+                onDrop={(event) => {
+                  event.preventDefault()
+                  if (draggedItem) onEquip(draggedItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] })
+                }}
+              >
+                {item ? <><ItemIcon item={item} /><span>{displayItem(item)}</span></> : <span>—</span>}
+              </button>
+              {item && <ItemInfoButton item={item} onInspect={onInspect} />}
+            </div>
+          </li>
         ))}
-      </dl>
+      </ul>
     </div>
   )
 }
@@ -185,12 +253,22 @@ function InventorySection({
   items,
   icon,
   emptyLabel,
+  selectedItem,
+  equippedKeys,
+  onSelect,
+  onDragStart,
+  onDragEnd,
   onInspect,
 }: {
   title: string
   items: BuildItem[]
   icon: ReactNode
   emptyLabel: string
+  selectedItem: BuildItem | null
+  equippedKeys: Set<string>
+  onSelect: (item: BuildItem) => void
+  onDragStart: (item: BuildItem) => void
+  onDragEnd: () => void
   onInspect: (item: BuildItem) => void
 }) {
   return (
@@ -204,15 +282,33 @@ function InventorySection({
         <ul>
           {items.map((item) => (
             <li key={`${item.category}-${item.id}-${item.upgradeLevel ?? 0}`}>
-              <span className="build-item-main">
+              <button
+                type="button"
+                className={`build-item-pick${selectedItem && itemKey(selectedItem) === itemKey(item) ? ' is-selected' : ''}`}
+                draggable={item.category !== 'spell'}
+                disabled={item.category === 'spell'}
+                aria-pressed={item.category !== 'spell' ? Boolean(selectedItem && itemKey(selectedItem) === itemKey(item)) : undefined}
+                aria-label={item.category === 'spell' ? displayItem(item) : `Seleziona ${displayItem(item)} per equipaggiarlo`}
+                onClick={() => item.category !== 'spell' && onSelect(item)}
+                onDragStart={(event) => {
+                  if (item.category === 'spell') {
+                    event.preventDefault()
+                    return
+                  }
+                  event.dataTransfer.effectAllowed = 'copy'
+                  event.dataTransfer.setData('text/plain', itemKey(item))
+                  onDragStart(item)
+                }}
+                onDragEnd={onDragEnd}
+              >
                 <ItemIcon item={item} />
                 <span>
                   {displayItem(item)}
                   {item.spellType && <small>{item.spellType === 'sorcery' ? 'Stregoneria' : 'Incantesimo'}</small>}
                 </span>
-              </span>
+              </button>
               <span className="build-item-meta">
-                {item.equipped && <em><Check aria-hidden="true" /> Equipaggiato</em>}
+                {equippedKeys.has(itemKey(item)) && <em><Check aria-hidden="true" /> Equipaggiato</em>}
                 {item.quantity > 1 && <small>×{item.quantity}</small>}
                 <ItemInfoButton item={item} onInspect={onInspect} />
               </span>
@@ -231,6 +327,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
   const [inspectedItem, setInspectedItem] = useState<BuildItem | null>(null)
   const [description, setDescription] = useState<string | null>(null)
   const [descriptionLoading, setDescriptionLoading] = useState(false)
+  const [draft, setDraft] = useState<DraftLoadout>(() => createDraftLoadout(character))
+  const [selectedItem, setSelectedItem] = useState<BuildItem | null>(null)
+  const [draggedItem, setDraggedItem] = useState<BuildItem | null>(null)
+  const [draftStatus, setDraftStatus] = useState('')
   const normalizedQuery = query.trim().toLocaleLowerCase('it')
   const filterItems = (items: BuildItem[]) => normalizedQuery
     ? items.filter((item) => item.name.toLocaleLowerCase('it').includes(normalizedQuery))
@@ -241,6 +341,50 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     armor: filterItems(character.inventory.armor),
     talismans: filterItems(character.inventory.talismans),
     spells: filterItems(character.inventory.spells),
+  }
+  const activeItem = draggedItem ?? selectedItem
+  const equippedKeys = useMemo(() => new Set(
+    [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans]
+      .filter((item): item is BuildItem => item !== null)
+      .map(itemKey),
+  ), [draft])
+
+  const equipItem = (item: BuildItem, target: DraftTarget) => {
+    if (!canEquip(item, target)) {
+      setDraftStatus(`${displayItem(item)} non può essere inserito in ${target.label}.`)
+      return
+    }
+
+    const equippedItem = { ...item, quantity: 1, equipped: true }
+    setDraft((current) => {
+      const next: DraftLoadout = {
+        rightHand: [...current.rightHand],
+        leftHand: [...current.leftHand],
+        armor: [...current.armor],
+        talismans: [...current.talismans],
+      }
+      if (target.kind === 'rightHand') next.rightHand[target.index] = equippedItem
+      else if (target.kind === 'leftHand') next.leftHand[target.index] = equippedItem
+      else if (target.kind === 'armor') next.armor[target.index] = equippedItem
+      else next.talismans[target.index] = equippedItem
+      return next
+    })
+    setDraftStatus(`${displayItem(item)} inserito in ${target.label}.`)
+    setSelectedItem(null)
+    setDraggedItem(null)
+  }
+
+  const selectItem = (item: BuildItem) => {
+    const isAlreadySelected = selectedItem && itemKey(selectedItem) === itemKey(item)
+    setSelectedItem(isAlreadySelected ? null : item)
+    setDraftStatus(isAlreadySelected ? 'Selezione annullata.' : `${displayItem(item)} selezionato: scegli uno slot compatibile.`)
+  }
+
+  const resetDraft = () => {
+    setDraft(createDraftLoadout(character))
+    setSelectedItem(null)
+    setDraggedItem(null)
+    setDraftStatus('Equipaggiamento ripristinato dai dati del salvataggio.')
   }
 
   useEffect(() => {
@@ -301,15 +445,20 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
 
       <div className="build-two-column">
         <section className="build-panel" aria-labelledby="equipment-title">
-          <div className="build-panel-heading">
-            <Shield aria-hidden="true" />
-            <div><p className="overline">Loadout attuale</p><h2 id="equipment-title">Equipaggiamento</h2></div>
+          <div className="build-equipment-header">
+            <div className="build-panel-heading">
+              <Shield aria-hidden="true" />
+              <div><p className="overline">Bozza locale</p><h2 id="equipment-title">Equipaggiamento di prova</h2></div>
+            </div>
+            <button type="button" className="build-draft-reset" onClick={resetDraft}><RefreshCcw aria-hidden="true" /> Ripristina save</button>
           </div>
+          <p className="build-draft-help">Trascina un oggetto dall’inventario, oppure selezionalo e scegli uno slot compatibile. La bozza non modifica il salvataggio.</p>
+          <p className={`build-draft-status${draftStatus.includes('non può') ? ' is-error' : ''}`} role="status" aria-live="polite">{draftStatus}</p>
           <div className="build-equipped-grid">
-            <EquippedList title="Mano destra" items={character.equipped.rightHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} onInspect={setInspectedItem} />
-            <EquippedList title="Mano sinistra" items={character.equipped.leftHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} onInspect={setInspectedItem} />
-            <EquippedList title="Armatura" items={character.equipped.armor} labels={armorSlots} onInspect={setInspectedItem} />
-            <EquippedList title="Talismani" items={character.equipped.talismans.slice(0, character.talismanSlots)} labels={['Slot 1', 'Slot 2', 'Slot 3', 'Slot 4']} onInspect={setInspectedItem} />
+            <EquippedList title="Mano destra" items={draft.rightHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="rightHand" activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
+            <EquippedList title="Mano sinistra" items={draft.leftHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="leftHand" activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
+            <EquippedList title="Armatura" items={draft.armor} labels={armorSlots.map((slot) => slot.label)} slotKind="armor" armorSlotTypes={armorSlots.map((slot) => slot.type)} activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
+            <EquippedList title="Talismani" items={draft.talismans} labels={['Slot 1', 'Slot 2', 'Slot 3', 'Slot 4']} slotKind="talisman" activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
           </div>
         </section>
 
@@ -360,10 +509,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
           </label>
         </div>
         <div className="build-inventory-grid">
-          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." onInspect={setInspectedItem} />
-          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." onInspect={setInspectedItem} />
-          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." onInspect={setInspectedItem} />
-          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." onInspect={setInspectedItem} />
+          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
+          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
+          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
+          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
         </div>
         {character.unresolvedItems > 0 && <p className="build-parser-note">{character.unresolvedItems} oggetti non sono ancora riconosciuti dal dizionario di questa versione.</p>}
       </section>

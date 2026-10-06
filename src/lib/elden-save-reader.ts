@@ -10,6 +10,7 @@ const INVENTORY_ENTRY_SIZE = 12
 const EMPTY_ITEM = 0xffffffff
 
 type ItemCategory = 'weapon' | 'armor' | 'talisman' | 'spell'
+export type ArmorSlot = 'head' | 'chest' | 'arms' | 'legs'
 
 interface NameDatabase {
   weapons: Record<string, string>
@@ -49,6 +50,7 @@ export interface BuildItem {
   iconUrl?: string
   upgradeLevel?: number
   spellType?: 'sorcery' | 'incantation'
+  armorSlot?: ArmorSlot
 }
 
 export interface EquippedBuild {
@@ -203,6 +205,15 @@ function getIconUrl(category: Exclude<ItemCategory, 'spell'>, id: number): strin
   return path ? `${names.icons.baseUrl}${path}` : undefined
 }
 
+function getArmorSlot(id: number): ArmorSlot | undefined {
+  const path = names.icons.armor[String(id)]
+  if (path?.includes('/head/')) return 'head'
+  if (path?.includes('/chest/')) return 'chest'
+  if (path?.includes('/arms/')) return 'arms'
+  if (path?.includes('/legs/')) return 'legs'
+  return undefined
+}
+
 function resolveSpell(id: number, quantity = 1, equipped = false): BuildItem | null {
   const spellType = names.spellTypes[String(id)]
   const name = names.goods[String(id)]
@@ -252,7 +263,15 @@ function resolveHandle(
     if (itemId === undefined) return null
     const baseId = (itemId ^ 0x10000000) >>> 0
     const name = names.armor[String(baseId)]
-    return name ? { id: baseId, name, category, quantity, equipped, iconUrl: getIconUrl('armor', baseId) } : null
+    return name ? {
+      id: baseId,
+      name,
+      category,
+      quantity,
+      equipped,
+      iconUrl: getIconUrl('armor', baseId),
+      armorSlot: getArmorSlot(baseId),
+    } : null
   }
 
   if (category === 'talisman' && type === 0xa) {
