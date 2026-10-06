@@ -52,7 +52,8 @@ armature e talismani dall'inventario, oppure selezionandoli e scegliendo uno slo
 Ogni oggetto è accettato soltanto negli slot compatibili e sostituisce quello già
 presente. Il comando di ripristino ricarica il loadout letto dal save; anche questa
 funzione resta interamente in memoria e non scrive mai sul file `.sl2`. Le magie
-restano consultabili in attesa della gestione dei costi degli slot memoria.
+possono essere trascinate negli slot memoria generati dal totale del personaggio;
+equipaggiare o rimuovere la Luna di Nokstella aggiorna subito anche i due slot bonus.
 
 ### Analisi
 

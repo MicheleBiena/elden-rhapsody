@@ -42,7 +42,7 @@ const armorSlots: Array<{ label: string; type: ArmorSlot }> = [
   { label: 'Gambe', type: 'legs' },
 ]
 
-type DraftSlotKind = 'rightHand' | 'leftHand' | 'armor' | 'talisman'
+type DraftSlotKind = 'rightHand' | 'leftHand' | 'armor' | 'talisman' | 'spell'
 
 interface DraftTarget {
   kind: DraftSlotKind
@@ -56,6 +56,7 @@ interface DraftLoadout {
   leftHand: Array<BuildItem | null>
   armor: Array<BuildItem | null>
   talismans: Array<BuildItem | null>
+  spells: Array<BuildItem | null>
 }
 
 function itemKey(item: BuildItem): string {
@@ -65,7 +66,17 @@ function itemKey(item: BuildItem): string {
 function canEquip(item: BuildItem, target: DraftTarget): boolean {
   if ((target.kind === 'rightHand' || target.kind === 'leftHand')) return item.category === 'weapon'
   if (target.kind === 'talisman') return item.category === 'talisman'
+  if (target.kind === 'spell') return item.category === 'spell'
   return item.category === 'armor' && item.armorSlot === target.armorSlot
+}
+
+function getDraftMemorySlots(character: BuildCharacter, talismans: Array<BuildItem | null>): number {
+  const permanentSlots = Math.min(10, 2 + Math.min(8, character.memoryStones))
+  return permanentSlots + (talismans.some((item) => item?.id === 1140) ? 2 : 0)
+}
+
+function createSpellSlots(spells: BuildItem[], total: number): Array<BuildItem | null> {
+  return Array.from({ length: total }, (_, index) => spells[index] ?? null)
 }
 
 function createDraftLoadout(character: BuildCharacter): DraftLoadout {
@@ -74,6 +85,7 @@ function createDraftLoadout(character: BuildCharacter): DraftLoadout {
     leftHand: [...character.equipped.leftHand],
     armor: [...character.equipped.armor],
     talismans: character.equipped.talismans.slice(0, character.talismanSlots),
+    spells: createSpellSlots(character.equipped.spells, character.memorySlots),
   }
 }
 
@@ -200,8 +212,9 @@ function EquippedList({
   slotKind,
   armorSlotTypes,
   activeItem,
-  draggedItem,
   onEquip,
+  canDropItem,
+  onDropItem,
   onInspect,
 }: {
   title: string
@@ -210,8 +223,9 @@ function EquippedList({
   slotKind: DraftSlotKind
   armorSlotTypes?: ArmorSlot[]
   activeItem: BuildItem | null
-  draggedItem: BuildItem | null
   onEquip: (item: BuildItem, target: DraftTarget) => void
+  canDropItem: (target: DraftTarget) => boolean
+  onDropItem: (target: DraftTarget) => void
   onInspect: (item: BuildItem) => void
 }) {
   return (
@@ -230,11 +244,11 @@ function EquippedList({
                 onClick={() => activeItem && onEquip(activeItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] })}
                 onDragOver={(event) => {
                   event.preventDefault()
-                  event.dataTransfer.dropEffect = draggedItem && canEquip(draggedItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] }) ? 'copy' : 'none'
+                  event.dataTransfer.dropEffect = canDropItem({ kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] }) ? 'copy' : 'none'
                 }}
                 onDrop={(event) => {
                   event.preventDefault()
-                  if (draggedItem) onEquip(draggedItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] })
+                  onDropItem({ kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] })
                 }}
               >
                 {item ? <><ItemIcon item={item} /><span>{displayItem(item)}</span></> : <span>—</span>}
@@ -244,6 +258,58 @@ function EquippedList({
           </li>
         ))}
       </ul>
+    </div>
+  )
+}
+
+function SpellSlotGrid({
+  items,
+  activeItem,
+  onEquip,
+  canDropItem,
+  onDropItem,
+  onInspect,
+}: {
+  items: Array<BuildItem | null>
+  activeItem: BuildItem | null
+  onEquip: (item: BuildItem, target: DraftTarget) => void
+  canDropItem: (target: DraftTarget) => boolean
+  onDropItem: (target: DraftTarget) => void
+  onInspect: (item: BuildItem) => void
+}) {
+  return (
+    <div className="build-memory-slots" role="group" aria-label={`${items.filter(Boolean).length} magie armonizzate su ${items.length} slot`}>
+      {items.map((item, index) => {
+        const target: DraftTarget = { kind: 'spell', index, label: `Slot memoria ${index + 1}` }
+        const compatibilityClass = activeItem ? (canEquip(activeItem, target) ? ' is-compatible' : ' is-incompatible') : ''
+        return (
+          <div className="build-memory-slot-wrap" key={`memory-slot-${index + 1}`}>
+            <button
+              type="button"
+              className={`build-memory-slot${item ? ' has-item' : ' is-empty'}${compatibilityClass}`}
+              data-equip-target={`spell-${index}`}
+              aria-label={`Slot memoria ${index + 1}: ${item ? displayItem(item) : 'vuoto'}${activeItem ? `. Inserisci ${displayItem(activeItem)}` : ''}`}
+              onClick={() => activeItem && onEquip(activeItem, target)}
+              onDragOver={(event) => {
+                event.preventDefault()
+                event.dataTransfer.dropEffect = canDropItem(target) ? 'copy' : 'none'
+              }}
+              onDrop={(event) => {
+                event.preventDefault()
+                onDropItem(target)
+              }}
+            >
+              <span className="build-memory-slot__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              {item && <ItemIcon item={item} />}
+              <span className="build-memory-slot__copy">
+                <strong>{item ? displayItem(item) : 'Slot vuoto'}</strong>
+                {item?.spellType && <small>{item.spellType === 'sorcery' ? 'Stregoneria' : 'Incantesimo'}</small>}
+              </span>
+            </button>
+            {item && <ItemInfoButton item={item} onInspect={onInspect} />}
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -285,16 +351,11 @@ function InventorySection({
               <button
                 type="button"
                 className={`build-item-pick${selectedItem && itemKey(selectedItem) === itemKey(item) ? ' is-selected' : ''}`}
-                draggable={item.category !== 'spell'}
-                disabled={item.category === 'spell'}
-                aria-pressed={item.category !== 'spell' ? Boolean(selectedItem && itemKey(selectedItem) === itemKey(item)) : undefined}
-                aria-label={item.category === 'spell' ? displayItem(item) : `Seleziona ${displayItem(item)} per equipaggiarlo`}
-                onClick={() => item.category !== 'spell' && onSelect(item)}
+                draggable
+                aria-pressed={Boolean(selectedItem && itemKey(selectedItem) === itemKey(item))}
+                aria-label={`Seleziona ${displayItem(item)} per equipaggiarlo`}
+                onClick={() => onSelect(item)}
                 onDragStart={(event) => {
-                  if (item.category === 'spell') {
-                    event.preventDefault()
-                    return
-                  }
                   event.dataTransfer.effectAllowed = 'copy'
                   event.dataTransfer.setData('text/plain', itemKey(item))
                   onDragStart(item)
@@ -323,6 +384,7 @@ function InventorySection({
 }
 
 function CharacterDashboard({ character }: { character: BuildCharacter }) {
+  const draggedItemRef = useRef<BuildItem | null>(null)
   const [query, setQuery] = useState('')
   const [inspectedItem, setInspectedItem] = useState<BuildItem | null>(null)
   const [description, setDescription] = useState<string | null>(null)
@@ -343,8 +405,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     spells: filterItems(character.inventory.spells),
   }
   const activeItem = draggedItem ?? selectedItem
+  const draftMemorySlots = getDraftMemorySlots(character, draft.talismans)
+  const draftMoonOfNokstellaEquipped = draft.talismans.some((item) => item?.id === 1140)
   const equippedKeys = useMemo(() => new Set(
-    [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans]
+    [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans, ...draft.spells]
       .filter((item): item is BuildItem => item !== null)
       .map(itemKey),
   ), [draft])
@@ -356,22 +420,55 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     }
 
     const equippedItem = { ...item, quantity: 1, equipped: true }
+    let removedSpellCount = 0
+    if (target.kind === 'talisman') {
+      const nextTalismans = [...draft.talismans]
+      nextTalismans[target.index] = equippedItem
+      const nextTotal = getDraftMemorySlots(character, nextTalismans)
+      removedSpellCount = draft.spells.slice(nextTotal).filter(Boolean).length
+    }
     setDraft((current) => {
       const next: DraftLoadout = {
         rightHand: [...current.rightHand],
         leftHand: [...current.leftHand],
         armor: [...current.armor],
         talismans: [...current.talismans],
+        spells: [...current.spells],
       }
       if (target.kind === 'rightHand') next.rightHand[target.index] = equippedItem
       else if (target.kind === 'leftHand') next.leftHand[target.index] = equippedItem
       else if (target.kind === 'armor') next.armor[target.index] = equippedItem
-      else next.talismans[target.index] = equippedItem
+      else if (target.kind === 'talisman') {
+        next.talismans[target.index] = equippedItem
+        const total = getDraftMemorySlots(character, next.talismans)
+        next.spells = Array.from({ length: total }, (_, index) => next.spells[index] ?? null)
+      } else next.spells[target.index] = equippedItem
       return next
     })
-    setDraftStatus(`${displayItem(item)} inserito in ${target.label}.`)
+    setDraftStatus(`${displayItem(item)} inserito in ${target.label}.${removedSpellCount ? ` ${removedSpellCount} ${removedSpellCount === 1 ? 'magia rimossa' : 'magie rimosse'} perché gli slot memoria sono diminuiti.` : ''}`)
     setSelectedItem(null)
     setDraggedItem(null)
+    draggedItemRef.current = null
+  }
+
+  const beginDragging = (item: BuildItem) => {
+    draggedItemRef.current = item
+    setDraggedItem(item)
+  }
+
+  const endDragging = () => {
+    draggedItemRef.current = null
+    setDraggedItem(null)
+  }
+
+  const dropItem = (target: DraftTarget) => {
+    const item = draggedItemRef.current
+    if (item) equipItem(item, target)
+  }
+
+  const canDropItem = (target: DraftTarget) => {
+    const item = draggedItemRef.current
+    return Boolean(item && canEquip(item, target))
   }
 
   const selectItem = (item: BuildItem) => {
@@ -384,6 +481,7 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     setDraft(createDraftLoadout(character))
     setSelectedItem(null)
     setDraggedItem(null)
+    draggedItemRef.current = null
     setDraftStatus('Equipaggiamento ripristinato dai dati del salvataggio.')
   }
 
@@ -455,10 +553,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
           <p className="build-draft-help">Trascina un oggetto dall’inventario, oppure selezionalo e scegli uno slot compatibile. La bozza non modifica il salvataggio.</p>
           <p className={`build-draft-status${draftStatus.includes('non può') ? ' is-error' : ''}`} role="status" aria-live="polite">{draftStatus}</p>
           <div className="build-equipped-grid">
-            <EquippedList title="Mano destra" items={draft.rightHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="rightHand" activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
-            <EquippedList title="Mano sinistra" items={draft.leftHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="leftHand" activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
-            <EquippedList title="Armatura" items={draft.armor} labels={armorSlots.map((slot) => slot.label)} slotKind="armor" armorSlotTypes={armorSlots.map((slot) => slot.type)} activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
-            <EquippedList title="Talismani" items={draft.talismans} labels={['Slot 1', 'Slot 2', 'Slot 3', 'Slot 4']} slotKind="talisman" activeItem={activeItem} draggedItem={draggedItem} onEquip={equipItem} onInspect={setInspectedItem} />
+            <EquippedList title="Mano destra" items={draft.rightHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="rightHand" activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
+            <EquippedList title="Mano sinistra" items={draft.leftHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="leftHand" activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
+            <EquippedList title="Armatura" items={draft.armor} labels={armorSlots.map((slot) => slot.label)} slotKind="armor" armorSlotTypes={armorSlots.map((slot) => slot.type)} activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
+            <EquippedList title="Talismani" items={draft.talismans} labels={['Slot 1', 'Slot 2', 'Slot 3', 'Slot 4']} slotKind="talisman" activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
           </div>
         </section>
 
@@ -468,14 +566,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
               <Sparkles aria-hidden="true" />
               <div><p className="overline">Armonizzazione</p><h2 id="memory-title">Slot memoria</h2></div>
             </div>
-            <div className="build-memory-count"><strong>{character.memorySlots}</strong><span>slot attuali</span></div>
-            <p>{character.memoryStones} Pietre della Memoria rilevate · {character.potentialMemorySlots} slot disponibili con i talismani posseduti.</p>
-            {character.moonOfNokstellaEquipped && <span className="build-equipped-pill"><Check aria-hidden="true" /> Luna di Nokstella equipaggiata (+2)</span>}
-            <div className="build-spell-slots" aria-label={`${character.equipped.spells.length} magie armonizzate`}>
-              {character.equipped.spells.length
-                ? character.equipped.spells.map((spell) => <span key={spell.id}>{spell.name}<ItemInfoButton item={spell} onInspect={setInspectedItem} /></span>)
-                : <span className="is-empty">Nessuna magia rilevata negli slot.</span>}
-            </div>
+            <div className="build-memory-count"><strong>{draftMemorySlots}</strong><span>slot nella bozza</span></div>
+            <p>{character.memoryStones} Pietre della Memoria rilevate · trascina qui stregonerie e incantesimi, oppure selezionali dall’inventario.</p>
+            {draftMoonOfNokstellaEquipped && <span className="build-equipped-pill"><Check aria-hidden="true" /> Luna di Nokstella equipaggiata (+2)</span>}
+            <SpellSlotGrid items={draft.spells} activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
           </section>
 
           <section className="build-panel build-great-rune" aria-labelledby="great-rune-title">
@@ -509,10 +603,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
           </label>
         </div>
         <div className="build-inventory-grid">
-          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
-          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
-          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
-          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={setDraggedItem} onDragEnd={() => setDraggedItem(null)} onInspect={setInspectedItem} />
+          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
+          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
+          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
+          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
         </div>
         {character.unresolvedItems > 0 && <p className="build-parser-note">{character.unresolvedItems} oggetti non sono ancora riconosciuti dal dizionario di questa versione.</p>}
       </section>
