@@ -5,6 +5,7 @@ import {
   Gem,
   Info,
   LockKeyhole,
+  PersonStanding,
   RefreshCcw,
   Search,
   Shield,
@@ -205,111 +206,134 @@ function ItemLoreDialog({
   )
 }
 
-function EquippedList({
-  title,
-  items,
-  labels,
-  slotKind,
-  armorSlotTypes,
-  activeItem,
-  onEquip,
-  canDropItem,
-  onDropItem,
-  onInspect,
-}: {
-  title: string
-  items: Array<BuildItem | null>
-  labels: string[]
-  slotKind: DraftSlotKind
-  armorSlotTypes?: ArmorSlot[]
+interface VisualSlotProps {
+  item: BuildItem | null
+  target: DraftTarget
+  mark: string
+  placeholder: ReactNode
+  className?: string
   activeItem: BuildItem | null
   onEquip: (item: BuildItem, target: DraftTarget) => void
   canDropItem: (target: DraftTarget) => boolean
   onDropItem: (target: DraftTarget) => void
   onInspect: (item: BuildItem) => void
-}) {
+}
+
+function VisualSlot({
+  item,
+  target,
+  mark,
+  placeholder,
+  className = '',
+  activeItem,
+  onEquip,
+  canDropItem,
+  onDropItem,
+  onInspect,
+}: VisualSlotProps) {
+  const compatibilityClass = activeItem ? (canEquip(activeItem, target) ? ' is-compatible' : ' is-incompatible') : ''
   return (
-    <div className="build-equipped-group">
-      <h3>{title}</h3>
-      <ul>
-        {items.map((item, index) => (
-          <li key={`${title}-${labels[index]}`}>
-            <span className="build-equipped-label">{labels[index]}</span>
-            <div className="build-equipped-slot-wrap">
-              <button
-                type="button"
-                className={`build-equipped-slot${item ? ' has-item' : ' is-empty'}${activeItem ? (canEquip(activeItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] }) ? ' is-compatible' : ' is-incompatible') : ''}`}
-                data-equip-target={`${slotKind}-${index}`}
-                aria-label={`${title}, ${labels[index]}: ${item ? displayItem(item) : 'vuoto'}${activeItem ? `. Inserisci ${displayItem(activeItem)}` : ''}`}
-                onClick={() => activeItem && onEquip(activeItem, { kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] })}
-                onDragOver={(event) => {
-                  event.preventDefault()
-                  event.dataTransfer.dropEffect = canDropItem({ kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] }) ? 'copy' : 'none'
-                }}
-                onDrop={(event) => {
-                  event.preventDefault()
-                  onDropItem({ kind: slotKind, index, label: `${title}, ${labels[index]}`, armorSlot: armorSlotTypes?.[index] })
-                }}
-              >
-                {item ? <><ItemIcon item={item} /><span>{displayItem(item)}</span></> : <span>—</span>}
-              </button>
-              {item && <ItemInfoButton item={item} onInspect={onInspect} />}
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className={`build-visual-slot-wrap ${className}`.trim()}>
+      <button
+        type="button"
+        className={`build-visual-slot${item ? ' has-item' : ' is-empty'}${compatibilityClass}`}
+        data-equip-target={`${target.kind}-${target.index}`}
+        aria-label={`${target.label}: ${item ? displayItem(item) : 'vuoto'}${activeItem ? `. Inserisci ${displayItem(activeItem)}` : ''}`}
+        title={item ? displayItem(item) : `${target.label}: vuoto`}
+        onClick={() => activeItem && onEquip(activeItem, target)}
+        onDragOver={(event) => {
+          event.preventDefault()
+          event.dataTransfer.dropEffect = canDropItem(target) ? 'copy' : 'none'
+        }}
+        onDrop={(event) => {
+          event.preventDefault()
+          onDropItem(target)
+        }}
+      >
+        <span className="build-visual-slot__mark" aria-hidden="true">{mark}</span>
+        {item ? <ItemIcon item={item} /> : <span className="build-visual-slot__placeholder" aria-hidden="true">{placeholder}</span>}
+        <span className="sr-only">{item ? displayItem(item) : 'Slot vuoto'}</span>
+      </button>
+      {item && <ItemInfoButton item={item} onInspect={onInspect} />}
     </div>
   )
 }
 
-function SpellSlotGrid({
-  items,
-  activeItem,
-  onEquip,
-  canDropItem,
-  onDropItem,
-  onInspect,
-}: {
-  items: Array<BuildItem | null>
-  activeItem: BuildItem | null
-  onEquip: (item: BuildItem, target: DraftTarget) => void
-  canDropItem: (target: DraftTarget) => boolean
-  onDropItem: (target: DraftTarget) => void
-  onInspect: (item: BuildItem) => void
-}) {
+type InteractiveSlotProps = Pick<VisualSlotProps, 'activeItem' | 'onEquip' | 'canDropItem' | 'onDropItem' | 'onInspect'>
+
+function EquipmentPaperDoll({ draft, ...slotProps }: { draft: DraftLoadout } & InteractiveSlotProps) {
+  return (
+    <div className="build-paper-doll" role="group" aria-label="Schema dell’equipaggiamento di prova">
+      <div className="build-paper-doll__stage">
+        <div className="build-paper-doll__silhouette" aria-hidden="true">
+          <PersonStanding />
+        </div>
+        {draft.leftHand.map((item, index) => (
+          <VisualSlot
+            key={`left-hand-${index}`}
+            item={item}
+            target={{ kind: 'leftHand', index, label: `Mano sinistra, slot ${index + 1}` }}
+            mark={`SX${index + 1}`}
+            placeholder={<Swords />}
+            className={`build-paper-slot--left-${index + 1}`}
+            {...slotProps}
+          />
+        ))}
+        {draft.rightHand.map((item, index) => (
+          <VisualSlot
+            key={`right-hand-${index}`}
+            item={item}
+            target={{ kind: 'rightHand', index, label: `Mano destra, slot ${index + 1}` }}
+            mark={`DX${index + 1}`}
+            placeholder={<Swords />}
+            className={`build-paper-slot--right-${index + 1}`}
+            {...slotProps}
+          />
+        ))}
+        {armorSlots.map((slot, index) => (
+          <VisualSlot
+            key={slot.type}
+            item={draft.armor[index]}
+            target={{ kind: 'armor', index, label: `Armatura, ${slot.label}`, armorSlot: slot.type }}
+            mark={slot.label}
+            placeholder={<Shield />}
+            className={`build-paper-slot--${slot.type}`}
+            {...slotProps}
+          />
+        ))}
+      </div>
+      <div className="build-paper-doll__talismans">
+        <span>Talismani</span>
+        <div>
+          {draft.talismans.map((item, index) => (
+            <VisualSlot
+              key={`talisman-${index}`}
+              item={item}
+              target={{ kind: 'talisman', index, label: `Talismano, slot ${index + 1}` }}
+              mark={`T${index + 1}`}
+              placeholder={<Gem />}
+              {...slotProps}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function SpellSlotGrid({ items, ...slotProps }: { items: Array<BuildItem | null> } & InteractiveSlotProps) {
   return (
     <div className="build-memory-slots" role="group" aria-label={`${items.filter(Boolean).length} magie armonizzate su ${items.length} slot`}>
-      {items.map((item, index) => {
-        const target: DraftTarget = { kind: 'spell', index, label: `Slot memoria ${index + 1}` }
-        const compatibilityClass = activeItem ? (canEquip(activeItem, target) ? ' is-compatible' : ' is-incompatible') : ''
-        return (
-          <div className="build-memory-slot-wrap" key={`memory-slot-${index + 1}`}>
-            <button
-              type="button"
-              className={`build-memory-slot${item ? ' has-item' : ' is-empty'}${compatibilityClass}`}
-              data-equip-target={`spell-${index}`}
-              aria-label={`Slot memoria ${index + 1}: ${item ? displayItem(item) : 'vuoto'}${activeItem ? `. Inserisci ${displayItem(activeItem)}` : ''}`}
-              onClick={() => activeItem && onEquip(activeItem, target)}
-              onDragOver={(event) => {
-                event.preventDefault()
-                event.dataTransfer.dropEffect = canDropItem(target) ? 'copy' : 'none'
-              }}
-              onDrop={(event) => {
-                event.preventDefault()
-                onDropItem(target)
-              }}
-            >
-              <span className="build-memory-slot__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              {item && <ItemIcon item={item} />}
-              <span className="build-memory-slot__copy">
-                <strong>{item ? displayItem(item) : 'Slot vuoto'}</strong>
-                {item?.spellType && <small>{item.spellType === 'sorcery' ? 'Stregoneria' : 'Incantesimo'}</small>}
-              </span>
-            </button>
-            {item && <ItemInfoButton item={item} onInspect={onInspect} />}
-          </div>
-        )
-      })}
+      {items.map((item, index) => (
+        <VisualSlot
+          key={`memory-slot-${index + 1}`}
+          item={item}
+          target={{ kind: 'spell', index, label: `Slot memoria ${index + 1}` }}
+          mark={String(index + 1).padStart(2, '0')}
+          placeholder={<Sparkles />}
+          {...slotProps}
+        />
+      ))}
     </div>
   )
 }
@@ -552,12 +576,7 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
           </div>
           <p className="build-draft-help">Trascina un oggetto dall’inventario, oppure selezionalo e scegli uno slot compatibile. La bozza non modifica il salvataggio.</p>
           <p className={`build-draft-status${draftStatus.includes('non può') ? ' is-error' : ''}`} role="status" aria-live="polite">{draftStatus}</p>
-          <div className="build-equipped-grid">
-            <EquippedList title="Mano destra" items={draft.rightHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="rightHand" activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
-            <EquippedList title="Mano sinistra" items={draft.leftHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} slotKind="leftHand" activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
-            <EquippedList title="Armatura" items={draft.armor} labels={armorSlots.map((slot) => slot.label)} slotKind="armor" armorSlotTypes={armorSlots.map((slot) => slot.type)} activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
-            <EquippedList title="Talismani" items={draft.talismans} labels={['Slot 1', 'Slot 2', 'Slot 3', 'Slot 4']} slotKind="talisman" activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
-          </div>
+          <EquipmentPaperDoll draft={draft} activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
         </section>
 
         <div className="build-side-panels">

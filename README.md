@@ -51,8 +51,10 @@ L'equipaggiamento può essere modificato in una bozza temporanea trascinando arm
 armature e talismani dall'inventario, oppure selezionandoli e scegliendo uno slot.
 Ogni oggetto è accettato soltanto negli slot compatibili e sostituisce quello già
 presente. Il comando di ripristino ricarica il loadout letto dal save; anche questa
-funzione resta interamente in memoria e non scrive mai sul file `.sl2`. Le magie
-possono essere trascinate negli slot memoria generati dal totale del personaggio;
+funzione resta interamente in memoria e non scrive mai sul file `.sl2`.
+L'equipaggiamento è disposto in quadrati attorno alla sagoma del personaggio, mentre
+le magie usano una griglia compatta di icone generata dal totale degli slot memoria.
+Ogni quadrato occupato conserva il pulsante `i` per aprire immagine e descrizione;
 equipaggiare o rimuovere la Luna di Nokstella aggiorna subito anche i due slot bonus.
 
 ### Analisi
