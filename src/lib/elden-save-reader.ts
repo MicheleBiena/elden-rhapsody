@@ -22,6 +22,8 @@ interface NameDatabase {
     weapons: Record<string, string>
     armor: Record<string, string>
     talismans: Record<string, string>
+    sorceries: Record<string, string>
+    incantations: Record<string, string>
   }
 }
 
@@ -204,8 +206,21 @@ function getIconUrl(category: Exclude<ItemCategory, 'spell'>, id: number): strin
 function resolveSpell(id: number, quantity = 1, equipped = false): BuildItem | null {
   const spellType = names.spellTypes[String(id)]
   const name = names.goods[String(id)]
+  const iconPath = spellType === 'sorcery'
+    ? names.icons.sorceries[String(id)]
+    : spellType === 'incantation'
+      ? names.icons.incantations[String(id)]
+      : undefined
   return spellType && name
-    ? { id, name, category: 'spell', quantity, equipped, spellType }
+    ? {
+        id,
+        name,
+        category: 'spell',
+        quantity,
+        equipped,
+        spellType,
+        iconUrl: iconPath ? `${names.icons.baseUrl}${iconPath}` : undefined,
+      }
     : null
 }
 

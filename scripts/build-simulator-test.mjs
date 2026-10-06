@@ -48,7 +48,7 @@ function writeCharacter(slot, name, level, stats, withBuildItems = false) {
     saveBuffer.writeUInt32LE(0x40000053, playerData + 0x31c)
 
     const inventory = playerData + 0x3a4
-    const entries = [...inventoryHandles, 0xb00000bf]
+    const entries = [...inventoryHandles, 0xb00000bf, 0xb0000fa0]
     saveBuffer.writeUInt32LE(entries.length, inventory)
     entries.forEach((handle, index) => {
       saveBuffer.writeUInt32LE(handle, inventory + 4 + index * 12)
@@ -110,6 +110,10 @@ try {
   assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).textContent(), /Claymore/)
   assert.doesNotMatch(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).textContent(), /Freccia/)
   assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).locator('img').getAttribute('src'), /claymore\.png$/)
+  await page.getByText('Magie equipaggiabili', { exact: true }).click()
+  const spells = page.locator('.build-inventory-section').filter({ hasText: /^Magie equipaggiabili/ })
+  assert.match(await spells.textContent(), /Ciottolo di scintipietra/)
+  assert.match(await spells.locator('img').getAttribute('src'), /glintstone_pebble\.png$/)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:map-markers-v2')), savedMarkers)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/build-lab-desktop.png', fullPage: true })
@@ -125,7 +129,7 @@ try {
   await page.screenshot({ path: 'artifacts/build-lab-mobile.png', fullPage: true })
 
   assert.deepEqual(errors, [])
-  console.log('Build Lab passed: upload locale, selezione personaggio, lettura dati, alias mappa e layout responsive.')
+  console.log('Build Lab passed: upload locale, selezione personaggio, lettura dati, icone magie, alias mappa e layout responsive.')
 } finally {
   await browser.close()
 }

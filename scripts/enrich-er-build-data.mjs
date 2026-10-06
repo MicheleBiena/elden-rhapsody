@@ -4,10 +4,11 @@ import { basename, resolve } from 'node:path'
 const [databasePath, fmgRoot, saveForgeRoot] = process.argv.slice(2)
 
 if (!databasePath || !fmgRoot || !saveForgeRoot) {
-  throw new Error('Uso: node scripts/enrich-er-build-data.mjs <item-names.json> <cartella-fmg-xml> <cartella-saveforge>')
+  throw new Error('Uso: node scripts/enrich-er-build-data.mjs <item-names.json> <cartella-fmg-xml|-> <cartella-saveforge>')
 }
 
 const database = JSON.parse(readFileSync(resolve(databasePath), 'utf8'))
+const skipLocalization = fmgRoot === '-'
 
 function decodeXml(value) {
   return value
@@ -30,22 +31,24 @@ function readFmg(filename) {
   return entries
 }
 
-const italian = {
-  weapons: readFmg('WeaponName.fmg.xml'),
-  armor: readFmg('ProtectorName.fmg.xml'),
-  talismans: readFmg('AccessoryName.fmg.xml'),
-  goods: readFmg('GoodsName.fmg.xml'),
-}
-
 database.spellTypes ??= {}
 for (const [id, name] of Object.entries(database.goods)) {
   if (name.startsWith('[Sorcery] ')) database.spellTypes[id] = 'sorcery'
   if (name.startsWith('[Incantation] ')) database.spellTypes[id] = 'incantation'
 }
 
-for (const category of ['weapons', 'armor', 'talismans', 'goods']) {
-  for (const id of Object.keys(database[category])) {
-    if (italian[category][id]) database[category][id] = italian[category][id]
+if (!skipLocalization) {
+  const italian = {
+    weapons: readFmg('WeaponName.fmg.xml'),
+    armor: readFmg('ProtectorName.fmg.xml'),
+    talismans: readFmg('AccessoryName.fmg.xml'),
+    goods: readFmg('GoodsName.fmg.xml'),
+  }
+
+  for (const category of ['weapons', 'armor', 'talismans', 'goods']) {
+    for (const id of Object.keys(database[category])) {
+      if (italian[category][id]) database[category][id] = italian[category][id]
+    }
   }
 }
 
@@ -74,12 +77,16 @@ database.icons = {
   weapons: readIconMap(['melee_armaments.go', 'ranged_and_catalysts.go', 'shields.go'], false),
   armor: readIconMap(['head.go', 'chest.go', 'arms.go', 'legs.go'], true),
   talismans: readIconMap(['talismans.go'], true),
+  sorceries: readIconMap(['sorceries.go'], true),
+  incantations: readIconMap(['incantations.go'], true),
 }
 
-database.source.localization = {
-  language: 'it-IT',
-  source: basename(fmgRoot),
-  note: 'Nomi estratti dai file FMG italiani dell’installazione locale di Elden Ring.',
+if (!skipLocalization) {
+  database.source.localization = {
+    language: 'it-IT',
+    source: basename(fmgRoot),
+    note: 'Nomi estratti dai file FMG italiani dell’installazione locale di Elden Ring.',
+  }
 }
 
 writeFileSync(resolve(databasePath), `${JSON.stringify(database)}\n`)

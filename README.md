@@ -39,7 +39,7 @@ Il Build Lab legge localmente un salvataggio PC `ER0000.sl2`, mostra i personagg
 presenti e ricostruisce statistiche, equipaggiamento, armi, armature, talismani,
 magie, slot memoria e Rune Maggiori. I nomi arrivano dai testi italiani del
 gioco, le munizioni sono escluse dalle armi e le miniature aiutano a riconoscere
-subito l'equipaggiamento. Questa prima versione è esclusivamente di
+subito equipaggiamento, stregonerie e incantesimi. Questa prima versione è esclusivamente di
 consultazione: non scrive mai nel salvataggio. Il vecchio indirizzo `#/map` porta
 alla nuova scheda senza cancellare eventuali pin conservati nel browser.
 
@@ -130,3 +130,6 @@ file `*Name.fmg.xml` con WitchyBND:
 ```bash
 node scripts/enrich-er-build-data.mjs src/data/build/item-names.json <cartella-fmg-xml> <cartella-saveforge>
 ```
+
+Usare `-` al posto della cartella FMG per aggiornare soltanto i riferimenti alle
+miniature, mantenendo la localizzazione già presente nel dizionario.
