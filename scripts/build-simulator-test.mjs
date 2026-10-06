@@ -110,6 +110,16 @@ try {
   assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).textContent(), /Claymore/)
   assert.doesNotMatch(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).textContent(), /Freccia/)
   assert.match(await page.locator('.build-inventory-section').filter({ hasText: /^Armi/ }).locator('img').getAttribute('src'), /claymore\.png$/)
+  const weapons = page.locator('.build-inventory-section').filter({ hasText: /^Armi/ })
+  await weapons.getByRole('button', { name: 'Apri la descrizione di Claymore' }).click()
+  const claymoreDialog = page.getByRole('dialog', { name: 'Claymore' })
+  await claymoreDialog.waitFor()
+  await claymoreDialog.getByText(/Spadone a lama lunga e dritta/).waitFor()
+  assert.match(await claymoreDialog.textContent(), /Spadone a lama lunga e dritta/)
+  assert.match(await claymoreDialog.locator('img').getAttribute('src'), /claymore\.png$/)
+  await page.screenshot({ path: 'artifacts/build-lab-item-lore-desktop.png', fullPage: true })
+  await page.keyboard.press('Escape')
+  await claymoreDialog.waitFor({ state: 'hidden' })
   await page.getByText('Magie equipaggiabili', { exact: true }).click()
   const spells = page.locator('.build-inventory-section').filter({ hasText: /^Magie equipaggiabili/ })
   assert.match(await spells.textContent(), /Ciottolo di scintipietra/)
@@ -124,12 +134,25 @@ try {
 
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/build`, { waitUntil: 'networkidle' })
+  await page.locator('input[type=file]').setInputFiles({
+    name: 'ER0000.sl2',
+    mimeType: 'application/octet-stream',
+    buffer: saveBuffer,
+  })
+  await page.getByRole('button', { name: /Red/ }).click()
+  await page.getByText('Magie equipaggiabili', { exact: true }).click()
+  const mobileSpells = page.locator('.build-inventory-section').filter({ hasText: /^Magie equipaggiabili/ })
+  await mobileSpells.getByRole('button', { name: 'Apri la descrizione di Ciottolo di scintipietra' }).click()
+  const spellDialog = page.getByRole('dialog', { name: 'Ciottolo di scintipietra' })
+  await spellDialog.waitFor()
+  await spellDialog.getByText(/Stregoneria scintipietra da apprendista/).waitFor()
+  assert.match(await spellDialog.textContent(), /Stregoneria scintipietra da apprendista/)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:map-markers-v2')), savedMarkers)
-  await page.screenshot({ path: 'artifacts/build-lab-mobile.png', fullPage: true })
+  await page.screenshot({ path: 'artifacts/build-lab-item-lore-mobile.png', fullPage: true })
 
   assert.deepEqual(errors, [])
-  console.log('Build Lab passed: upload locale, selezione personaggio, lettura dati, icone magie, alias mappa e layout responsive.')
+  console.log('Build Lab passed: upload locale, lettura dati, icone e descrizioni italiane, dialog accessibile, alias mappa e layout responsive.')
 } finally {
   await browser.close()
 }

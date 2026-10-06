@@ -3,14 +3,16 @@ import {
   CircleGauge,
   FileUp,
   Gem,
+  Info,
   LockKeyhole,
   RefreshCcw,
   Search,
   Shield,
   Sparkles,
   Swords,
+  X,
 } from 'lucide-react'
-import { useMemo, useRef, useState, type ChangeEvent, type DragEvent, type ReactNode } from 'react'
+import { useEffect, useId, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type ReactNode } from 'react'
 import {
   parseBuildSave,
   type BuildCharacter,
@@ -60,14 +62,106 @@ function ItemIcon({ item }: { item: BuildItem }) {
   )
 }
 
+function ItemInfoButton({ item, onInspect }: { item: BuildItem; onInspect: (item: BuildItem) => void }) {
+  return (
+    <button
+      type="button"
+      className="build-item-info"
+      aria-label={`Apri la descrizione di ${displayItem(item)}`}
+      title="Apri descrizione"
+      onClick={() => onInspect(item)}
+    >
+      <Info aria-hidden="true" />
+    </button>
+  )
+}
+
+function itemCategoryLabel(item: BuildItem): string {
+  if (item.category === 'weapon') return 'Arma'
+  if (item.category === 'armor') return 'Armatura'
+  if (item.category === 'talisman') return 'Talismano'
+  return item.spellType === 'sorcery' ? 'Stregoneria' : 'Incantesimo'
+}
+
+function ItemLoreDialog({
+  item,
+  description,
+  loading,
+  onClose,
+}: {
+  item: BuildItem | null
+  description: string | null
+  loading: boolean
+  onClose: () => void
+}) {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const titleId = useId()
+  const descriptionId = useId()
+  const [imageFailed, setImageFailed] = useState(false)
+  const FallbackIcon = item?.category === 'weapon'
+    ? Swords
+    : item?.category === 'armor'
+      ? Shield
+      : item?.category === 'talisman'
+        ? Gem
+        : Sparkles
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (item && !dialog.open) dialog.showModal()
+    if (!item && dialog.open) dialog.close()
+  }, [item])
+
+  useEffect(() => setImageFailed(false), [item?.category, item?.id])
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className="build-item-dialog"
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      onCancel={(event) => {
+        event.preventDefault()
+        onClose()
+      }}
+      onClose={onClose}
+    >
+      {item && (
+        <div className="build-item-dialog__content">
+          <button type="button" className="build-item-dialog__close" aria-label="Chiudi descrizione" onClick={onClose} autoFocus>
+            <X aria-hidden="true" />
+          </button>
+          <div className="build-item-dialog__art">
+            {item.iconUrl && !imageFailed
+              ? <img src={item.iconUrl} alt={`Icona di ${item.name}`} decoding="async" onError={() => setImageFailed(true)} />
+              : <FallbackIcon aria-hidden="true" />}
+          </div>
+          <article className="build-item-dialog__copy">
+            <p className="overline">{itemCategoryLabel(item)} · Descrizione oggetto</p>
+            <h2 id={titleId}>{displayItem(item)}</h2>
+            <div id={descriptionId} className="build-item-dialog__description">
+              {loading
+                ? <p role="status">Caricamento descrizione…</p>
+                : <p>{description ?? 'Descrizione non disponibile nei testi di gioco per questo oggetto.'}</p>}
+            </div>
+          </article>
+        </div>
+      )}
+    </dialog>
+  )
+}
+
 function EquippedList({
   title,
   items,
   labels,
+  onInspect,
 }: {
   title: string
   items: Array<BuildItem | null>
   labels: string[]
+  onInspect: (item: BuildItem) => void
 }) {
   return (
     <div className="build-equipped-group">
@@ -77,7 +171,7 @@ function EquippedList({
           <div key={`${title}-${labels[index]}`}>
             <dt>{labels[index]}</dt>
             <dd className={item ? undefined : 'is-empty'}>
-              {item ? <><ItemIcon item={item} /><span>{displayItem(item)}</span></> : '—'}
+              {item ? <><ItemIcon item={item} /><span>{displayItem(item)}</span><ItemInfoButton item={item} onInspect={onInspect} /></> : '—'}
             </dd>
           </div>
         ))}
@@ -91,11 +185,13 @@ function InventorySection({
   items,
   icon,
   emptyLabel,
+  onInspect,
 }: {
   title: string
   items: BuildItem[]
   icon: ReactNode
   emptyLabel: string
+  onInspect: (item: BuildItem) => void
 }) {
   return (
     <details className="build-inventory-section">
@@ -118,6 +214,7 @@ function InventorySection({
               <span className="build-item-meta">
                 {item.equipped && <em><Check aria-hidden="true" /> Equipaggiato</em>}
                 {item.quantity > 1 && <small>×{item.quantity}</small>}
+                <ItemInfoButton item={item} onInspect={onInspect} />
               </span>
             </li>
           ))}
@@ -131,6 +228,9 @@ function InventorySection({
 
 function CharacterDashboard({ character }: { character: BuildCharacter }) {
   const [query, setQuery] = useState('')
+  const [inspectedItem, setInspectedItem] = useState<BuildItem | null>(null)
+  const [description, setDescription] = useState<string | null>(null)
+  const [descriptionLoading, setDescriptionLoading] = useState(false)
   const normalizedQuery = query.trim().toLocaleLowerCase('it')
   const filterItems = (items: BuildItem[]) => normalizedQuery
     ? items.filter((item) => item.name.toLocaleLowerCase('it').includes(normalizedQuery))
@@ -142,6 +242,29 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     talismans: filterItems(character.inventory.talismans),
     spells: filterItems(character.inventory.spells),
   }
+
+  useEffect(() => {
+    if (!inspectedItem) {
+      setDescription(null)
+      setDescriptionLoading(false)
+      return
+    }
+    let cancelled = false
+    setDescription(null)
+    setDescriptionLoading(true)
+    void import('../lib/elden-item-descriptions').then(({ getItemDescription }) => {
+      if (!cancelled) {
+        setDescription(getItemDescription(inspectedItem))
+        setDescriptionLoading(false)
+      }
+    }).catch(() => {
+      if (!cancelled) {
+        setDescription(null)
+        setDescriptionLoading(false)
+      }
+    })
+    return () => { cancelled = true }
+  }, [inspectedItem])
 
   return (
     <div className="build-dashboard">
@@ -183,10 +306,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
             <div><p className="overline">Loadout attuale</p><h2 id="equipment-title">Equipaggiamento</h2></div>
           </div>
           <div className="build-equipped-grid">
-            <EquippedList title="Mano destra" items={character.equipped.rightHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} />
-            <EquippedList title="Mano sinistra" items={character.equipped.leftHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} />
-            <EquippedList title="Armatura" items={character.equipped.armor} labels={armorSlots} />
-            <EquippedList title="Talismani" items={character.equipped.talismans.slice(0, character.talismanSlots)} labels={['Slot 1', 'Slot 2', 'Slot 3', 'Slot 4']} />
+            <EquippedList title="Mano destra" items={character.equipped.rightHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} onInspect={setInspectedItem} />
+            <EquippedList title="Mano sinistra" items={character.equipped.leftHand} labels={['Slot 1', 'Slot 2', 'Slot 3']} onInspect={setInspectedItem} />
+            <EquippedList title="Armatura" items={character.equipped.armor} labels={armorSlots} onInspect={setInspectedItem} />
+            <EquippedList title="Talismani" items={character.equipped.talismans.slice(0, character.talismanSlots)} labels={['Slot 1', 'Slot 2', 'Slot 3', 'Slot 4']} onInspect={setInspectedItem} />
           </div>
         </section>
 
@@ -201,7 +324,7 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
             {character.moonOfNokstellaEquipped && <span className="build-equipped-pill"><Check aria-hidden="true" /> Luna di Nokstella equipaggiata (+2)</span>}
             <div className="build-spell-slots" aria-label={`${character.equipped.spells.length} magie armonizzate`}>
               {character.equipped.spells.length
-                ? character.equipped.spells.map((spell) => <span key={spell.id}>{spell.name}</span>)
+                ? character.equipped.spells.map((spell) => <span key={spell.id}>{spell.name}<ItemInfoButton item={spell} onInspect={setInspectedItem} /></span>)
                 : <span className="is-empty">Nessuna magia rilevata negli slot.</span>}
             </div>
           </section>
@@ -237,13 +360,19 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
           </label>
         </div>
         <div className="build-inventory-grid">
-          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." />
-          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." />
-          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." />
-          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." />
+          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." onInspect={setInspectedItem} />
+          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." onInspect={setInspectedItem} />
+          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." onInspect={setInspectedItem} />
+          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." onInspect={setInspectedItem} />
         </div>
         {character.unresolvedItems > 0 && <p className="build-parser-note">{character.unresolvedItems} oggetti non sono ancora riconosciuti dal dizionario di questa versione.</p>}
       </section>
+      <ItemLoreDialog
+        item={inspectedItem}
+        description={description}
+        loading={descriptionLoading}
+        onClose={() => setInspectedItem(null)}
+      />
     </div>
   )
 }

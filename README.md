@@ -43,6 +43,10 @@ subito equipaggiamento, stregonerie e incantesimi. Questa prima versione è escl
 consultazione: non scrive mai nel salvataggio. Il vecchio indirizzo `#/map` porta
 alla nuova scheda senza cancellare eventuali pin conservati nel browser.
 
+Il pulsante informativo accanto a ogni oggetto apre una scheda con miniatura grande
+e descrizione ufficiale italiana. Il catalogo delle descrizioni è caricato soltanto
+alla prima apertura, così non appesantisce l'accesso iniziale alla pagina.
+
 ### Analisi
 
 La raccolta dedicata alle traduzioni e agli articoli di approfondimento resta
@@ -124,12 +128,13 @@ I nomi italiani sono estratti dai file FMG dell'installazione locale del gioco;
 le miniature vengono caricate, con fallback locale, dagli asset di SaveForge
 fissati a una revisione precisa e distribuiti con licenza GPL-3.0.
 
-Per rigenerare localizzazione e riferimenti alle miniature dopo aver estratto i
-file `*Name.fmg.xml` con WitchyBND:
+Per rigenerare localizzazione, descrizioni e riferimenti alle miniature dopo aver
+estratto i file `*Name.fmg.xml` e `*Caption.fmg.xml` con WitchyBND:
 
 ```bash
 node scripts/enrich-er-build-data.mjs src/data/build/item-names.json <cartella-fmg-xml> <cartella-saveforge>
 ```
 
 Usare `-` al posto della cartella FMG per aggiornare soltanto i riferimenti alle
-miniature, mantenendo la localizzazione già presente nel dizionario.
+miniature; usare `-` al posto della cartella SaveForge per aggiornare soltanto
+localizzazione e descrizioni.
