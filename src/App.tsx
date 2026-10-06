@@ -19,7 +19,7 @@ interface RouteState {
 const tabs = [
   { id: 'board', label: 'Lavagna', caption: 'Indizi e legami', icon: GitBranch },
   { id: 'questbook', label: 'Questbook', caption: 'Diario delle quest', icon: BookOpen },
-  { id: 'build', label: 'Build Lab', caption: 'Prepara il personaggio', icon: Swords },
+  { id: 'build', label: 'SPOILER NON APRIRE', caption: 'Prepara il personaggio', icon: Swords },
   {
     id: 'translations',
     label: 'Analisi',
