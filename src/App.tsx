@@ -1,12 +1,15 @@
-import { BookOpen, EyeOff, GitBranch, Languages, LockKeyhole, Map as MapIcon } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { BookOpen, EyeOff, GitBranch, Languages, LockKeyhole, Swords } from 'lucide-react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { ConceptBoard } from './components/ConceptBoard'
-import { MapComingSoon } from './components/MapComingSoon'
 import { Questbook } from './components/Questbook'
 import { TranslationArchive } from './components/TranslationArchive'
 import { isTranslationArchiveReleased } from './data/project'
 
-type TabId = 'board' | 'questbook' | 'map' | 'translations'
+const BuildSimulator = lazy(() =>
+  import('./components/BuildSimulator').then((module) => ({ default: module.BuildSimulator })),
+)
+
+type TabId = 'board' | 'questbook' | 'build' | 'translations'
 
 interface RouteState {
   tab: TabId
@@ -16,7 +19,7 @@ interface RouteState {
 const tabs = [
   { id: 'board', label: 'Lavagna', caption: 'Indizi e legami', icon: GitBranch },
   { id: 'questbook', label: 'Questbook', caption: 'Diario delle quest', icon: BookOpen },
-  { id: 'map', label: 'Mappa', caption: 'Luoghi e coordinate', icon: MapIcon },
+  { id: 'build', label: 'Build Lab', caption: 'Prepara il personaggio', icon: Swords },
   {
     id: 'translations',
     label: 'Analisi',
@@ -31,8 +34,9 @@ const tabs = [
 function readRoute(): RouteState {
   const parts = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean)
   const candidate = parts[0]
-  const tab: TabId =
-    candidate === 'map' || candidate === 'translations' || candidate === 'board' || candidate === 'questbook'
+  const tab: TabId = candidate === 'map'
+    ? 'build'
+    : candidate === 'build' || candidate === 'translations' || candidate === 'board' || candidate === 'questbook'
       ? candidate
       : 'board'
   return { tab, detail: parts[1] }
@@ -145,7 +149,11 @@ export default function App() {
           />
         )}
         {route.tab === 'questbook' && <Questbook activeQuestId={route.detail} />}
-        {route.tab === 'map' && <MapComingSoon />}
+        {route.tab === 'build' && (
+          <Suspense fallback={<p className="page">Apro l’officina…</p>}>
+            <BuildSimulator />
+          </Suspense>
+        )}
         {route.tab === 'translations' && (
           <TranslationArchive onOpenConcept={openConcept} />
         )}

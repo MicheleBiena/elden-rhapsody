@@ -33,12 +33,13 @@ dichiaratamente tali.
 La pagina **The Big Boys** raccoglie i portatori di Rune Maggiori conosciuti e
 permette di depennare quelli sconfitti. Lo stato resta nel browser del visitatore.
 
-### Mappa
+### Build Lab
 
-La vecchia mappa è stata ritirata. La sezione mostra temporaneamente una scheda
-**Coming soon** con una spada e un fondale attenuato, in attesa di una soluzione
-cartografica nuova e anti-spoiler. Gli eventuali pin salvati in precedenza restano
-nel browser e non vengono cancellati.
+Il Build Lab legge localmente un salvataggio PC `ER0000.sl2`, mostra i personaggi
+presenti e ricostruisce statistiche, equipaggiamento, armi, armature, talismani,
+magie, slot memoria e Runa Maggiore. Questa prima versione è esclusivamente di
+consultazione: non scrive mai nel salvataggio. Il vecchio indirizzo `#/map` porta
+alla nuova scheda senza cancellare eventuali pin conservati nel browser.
 
 ### Analisi
 
@@ -63,7 +64,9 @@ diario e rende più facile tornare su un mistero dopo molte ore di gioco.
 Elden Rhapsody è un sito statico e non richiede un account. Posizioni delle
 schede, pagina aperta nel Questbook, obiettivi depennati e vecchi pin cartografici
 vengono salvati nel `localStorage` del singolo browser. Non vengono inviati a un
-server e non si sincronizzano fra dispositivi.
+server e non si sincronizzano fra dispositivi. Anche il file `.sl2` scelto nel
+Build Lab viene elaborato soltanto in memoria: non viene caricato, copiato o
+conservato dal sito e sparisce ricaricando la pagina.
 
 ## Sviluppo locale
 
@@ -94,10 +97,12 @@ Il branch `main` viene pubblicato automaticamente su GitHub Pages dal workflow i
 
 ## Struttura essenziale
 
-- `src/data/project.ts`: schede, collegamenti, mappa e archivio post-run;
+- `src/data/project.ts`: schede, collegamenti e archivio post-run;
 - `src/data/quests.ts`: pagine e tappe del Questbook;
 - `src/data/boardGroups.ts`: ordine dei fascicoli;
-- `src/components/`: interfaccia delle quattro sezioni, compreso il placeholder della mappa;
+- `src/lib/elden-save-reader.ts`: lettore locale e in sola lettura dei salvataggi PC;
+- `src/data/build/`: dizionario degli oggetti riconosciuti dal Build Lab;
+- `src/components/`: interfaccia delle quattro sezioni, compreso il Build Lab;
 - `public/concepts/` e `public/maps/`: immagini usate dal sito;
 - `scripts/`: test di navigazione, layout, persistenza e migrazione dei dati locali.
 
@@ -107,3 +112,9 @@ Elden Rhapsody è un fan project non ufficiale e senza finalità commerciali.
 *Elden Ring*, i personaggi e i relativi marchi appartengono ai rispettivi
 titolari. Le immagini restano proprietà dei loro autori e delle fonti indicate
 nelle schede del sito.
+
+Il dizionario degli identificativi usato dal Build Lab è generato dai dati di
+[ClayAmore/ER-Save-Editor](https://github.com/ClayAmore/ER-Save-Editor), distribuiti
+con licenza MIT oppure Apache-2.0. La struttura binaria è stata verificata anche
+con la documentazione comunitaria di
+[EldenRing-SaveForge](https://github.com/oisis/EldenRing-SaveForge/blob/main/docs/sl2-binary-format-spec.md).

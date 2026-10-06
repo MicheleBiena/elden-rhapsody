@@ -448,13 +448,12 @@ assert.match(new URL(page.url()).hash, /^#\/board\//)
 await page.locator('.dialog-close').click()
 await page.waitForURL(/#\/board$/)
 
-await page.locator('a[href="#/map"]').click()
-await page.waitForURL(/#\/map$/)
+await page.locator('a[href="#/build"]').click()
+await page.waitForURL(/#\/build$/)
 
-await page.getByRole('heading', { name: 'Coming soon', exact: true }).waitFor()
-await page.locator('.map-coming-soon__backdrop').evaluate(image => image.decode())
-assert.equal(await page.locator('.map-coming-soon__sword svg').count(), 1)
-assert.equal(await page.locator('.map-layout, .map-iframe, .marker-form').count(), 0)
+await page.getByRole('heading', { name: 'Build Lab', exact: true }).waitFor()
+assert.equal(await page.locator('input[type="file"][accept*=".sl2"]').count(), 1)
+assert.match(await page.locator('.build-privacy').textContent(), /dati restano in questo browser/i)
 assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
 
 await page.locator('a[href="#/translations"]').click()
@@ -590,5 +589,5 @@ await page.evaluate(() => localStorage.clear())
 await browser.close()
 
 console.log(
-  'Smoke test completato: board, trascinamento, legenda, zoom, placeholder mappa, archivio post-run e 375 px.',
+  'Smoke test completato: board, trascinamento, legenda, zoom, Build Lab, archivio post-run e 375 px.',
 )
