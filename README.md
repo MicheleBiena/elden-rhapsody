@@ -37,7 +37,9 @@ permette di depennare quelli sconfitti. Lo stato resta nel browser del visitator
 
 Il Build Lab legge localmente un salvataggio PC `ER0000.sl2`, mostra i personaggi
 presenti e ricostruisce statistiche, equipaggiamento, armi, armature, talismani,
-magie, slot memoria e Runa Maggiore. Questa prima versione è esclusivamente di
+magie, slot memoria e Rune Maggiori. I nomi arrivano dai testi italiani del
+gioco, le munizioni sono escluse dalle armi e le miniature aiutano a riconoscere
+subito l'equipaggiamento. Questa prima versione è esclusivamente di
 consultazione: non scrive mai nel salvataggio. Il vecchio indirizzo `#/map` porta
 alla nuova scheda senza cancellare eventuali pin conservati nel browser.
 
@@ -118,3 +120,13 @@ Il dizionario degli identificativi usato dal Build Lab è generato dai dati di
 con licenza MIT oppure Apache-2.0. La struttura binaria è stata verificata anche
 con la documentazione comunitaria di
 [EldenRing-SaveForge](https://github.com/oisis/EldenRing-SaveForge/blob/main/docs/sl2-binary-format-spec.md).
+I nomi italiani sono estratti dai file FMG dell'installazione locale del gioco;
+le miniature vengono caricate, con fallback locale, dagli asset di SaveForge
+fissati a una revisione precisa e distribuiti con licenza GPL-3.0.
+
+Per rigenerare localizzazione e riferimenti alle miniature dopo aver estratto i
+file `*Name.fmg.xml` con WitchyBND:
+
+```bash
+node scripts/enrich-er-build-data.mjs src/data/build/item-names.json <cartella-fmg-xml> <cartella-saveforge>
+```

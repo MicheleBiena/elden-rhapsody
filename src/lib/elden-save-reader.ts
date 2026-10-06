@@ -16,6 +16,13 @@ interface NameDatabase {
   armor: Record<string, string>
   talismans: Record<string, string>
   goods: Record<string, string>
+  spellTypes: Record<string, 'sorcery' | 'incantation'>
+  icons: {
+    baseUrl: string
+    weapons: Record<string, string>
+    armor: Record<string, string>
+    talismans: Record<string, string>
+  }
 }
 
 const names = itemNames as NameDatabase
@@ -37,6 +44,7 @@ export interface BuildItem {
   category: ItemCategory
   quantity: number
   equipped: boolean
+  iconUrl?: string
   upgradeLevel?: number
   spellType?: 'sorcery' | 'incantation'
 }
@@ -48,6 +56,8 @@ export interface EquippedBuild {
   talismans: Array<BuildItem | null>
   spells: BuildItem[]
   greatRune: string | null
+  greatRuneActive: boolean
+  availableGreatRunes: string[]
 }
 
 export interface BuildCharacter {
@@ -136,7 +146,7 @@ function parseGaItems(view: DataView, start: number, slotEnd: number): ParsedGaI
 }
 
 function getInventoryLayout(view: DataView, chrAsmOffset: number, slotEnd: number): InventoryLayout {
-  const candidates = [chrAsmOffset + 0x60, chrAsmOffset + 0x58]
+  const candidates = [chrAsmOffset + 0x58, chrAsmOffset + 0x60]
 
   for (const start of candidates) {
     const commonCount = readUint32(view, start, slotEnd)
@@ -180,14 +190,23 @@ function getInventoryLayout(view: DataView, chrAsmOffset: number, slotEnd: numbe
   return { entries: [], endOffset: chrAsmOffset + 0x9070 }
 }
 
-function stripSpellPrefix(name: string): { name: string; spellType?: 'sorcery' | 'incantation' } {
-  if (name.startsWith('[Sorcery] ')) {
-    return { name: name.slice(10), spellType: 'sorcery' }
-  }
-  if (name.startsWith('[Incantation] ')) {
-    return { name: name.slice(14), spellType: 'incantation' }
-  }
-  return { name }
+function getIconUrl(category: Exclude<ItemCategory, 'spell'>, id: number): string | undefined {
+  const lookupId = category === 'weapon' ? Math.floor(id / 10_000) * 10_000 : id
+  const group = category === 'weapon'
+    ? names.icons.weapons
+    : category === 'armor'
+      ? names.icons.armor
+      : names.icons.talismans
+  const path = group[String(lookupId)]
+  return path ? `${names.icons.baseUrl}${path}` : undefined
+}
+
+function resolveSpell(id: number, quantity = 1, equipped = false): BuildItem | null {
+  const spellType = names.spellTypes[String(id)]
+  const name = names.goods[String(id)]
+  return spellType && name
+    ? { id, name, category: 'spell', quantity, equipped, spellType }
+    : null
 }
 
 function resolveHandle(
@@ -207,7 +226,10 @@ function resolveHandle(
     const baseId = Math.floor(itemId / 100) * 100
     if (baseId === 110000) return null
     const name = names.weapons[String(baseId)]
-    return name ? { id: baseId, name, category, quantity, equipped, upgradeLevel } : null
+    const iconUrl = getIconUrl('weapon', baseId)
+    return name && iconUrl
+      ? { id: baseId, name, category, quantity, equipped, upgradeLevel, iconUrl }
+      : null
   }
 
   if (category === 'armor' && type === 0x9) {
@@ -215,21 +237,18 @@ function resolveHandle(
     if (itemId === undefined) return null
     const baseId = (itemId ^ 0x10000000) >>> 0
     const name = names.armor[String(baseId)]
-    return name ? { id: baseId, name, category, quantity, equipped } : null
+    return name ? { id: baseId, name, category, quantity, equipped, iconUrl: getIconUrl('armor', baseId) } : null
   }
 
   if (category === 'talisman' && type === 0xa) {
     const baseId = handle & 0x0fffffff
     const name = names.talismans[String(baseId)]
-    return name ? { id: baseId, name, category, quantity, equipped } : null
+    return name ? { id: baseId, name, category, quantity, equipped, iconUrl: getIconUrl('talisman', baseId) } : null
   }
 
   if (category === 'spell' && type === 0xb) {
     const baseId = handle & 0x0fffffff
-    const spell = stripSpellPrefix(names.goods[String(baseId)] ?? '')
-    return spell.spellType
-      ? { id: baseId, name: spell.name, category, quantity, equipped, spellType: spell.spellType }
-      : null
+    return resolveSpell(baseId, quantity, equipped)
   }
 
   return null
@@ -249,44 +268,18 @@ function readEquippedSpells(
     for (let index = 0; index < 14; index += 1) {
       const id = readUint32(view, candidate + index * 8, slotEnd)
       if (isEmpty(id)) continue
-      const spell = stripSpellPrefix(names.goods[String(id)] ?? '')
-      if (!spell.spellType) {
+      const spell = resolveSpell(id, 1, true)
+      if (!spell) {
         valid = false
         break
       }
-      spells.push({
-        id,
-        name: spell.name,
-        category: 'spell',
-        quantity: 1,
-        equipped: true,
-        spellType: spell.spellType,
-      })
+      spells.push(spell)
     }
 
     if (valid && spells.length >= best.length) best = spells
   }
 
   return best
-}
-
-function findEquippedItemsStruct(
-  view: DataView,
-  searchStart: number,
-  slotEnd: number,
-): number | null {
-  const searchEnd = Math.min(searchStart + 0x4000, slotEnd - 0xa0)
-  for (let offset = searchStart; offset < searchEnd; offset += 4) {
-    const armor1 = readUint32(view, offset + 0x30, slotEnd)
-    const armor2 = readUint32(view, offset + 0x34, slotEnd)
-    const talisman = readUint32(view, offset + 0x44, slotEnd)
-    const weapon = readUint32(view, offset, slotEnd)
-    const armorOk = (value: number) => value === EMPTY_ITEM || ((value >>> 28) & 0xf) === 1
-    const talismanOk = talisman === EMPTY_ITEM || ((talisman >>> 28) & 0xf) === 2
-    const weaponOk = weapon === EMPTY_ITEM || weapon === 110000 || (weapon >= 1_000_000 && weapon < 50_000_000)
-    if (armorOk(armor1) && armorOk(armor2) && talismanOk && weaponOk) return offset
-  }
-  return null
 }
 
 function aggregateItems(items: BuildItem[]): BuildItem[] {
@@ -324,12 +317,12 @@ function parseCharacter(
   const level = readUint32(view, playerData + 0x60, slotEnd)
   if (!name || level > 713) return null
 
-  const chrAsmOffset = playerData + 0x344
+  const chrAsmOffset = playerData + 0x34c
   const handleAt = (relativeOffset: number) => readUint32(view, chrAsmOffset + relativeOffset, slotEnd)
   const leftHandles = [0x00, 0x08, 0x10].map(handleAt)
   const rightHandles = [0x04, 0x0c, 0x14].map(handleAt)
-  const armorHandles = [0x38, 0x3c, 0x40, 0x44].map(handleAt)
-  const talismanHandles = [0x4c, 0x50, 0x54, 0x58].map(handleAt)
+  const armorHandles = [0x30, 0x34, 0x38, 0x3c].map(handleAt)
+  const talismanHandles = [0x44, 0x48, 0x4c, 0x50].map(handleAt)
 
   const rightHand = rightHandles.map((handle) => resolveHandle(handle, 'weapon', gaItems.itemIds, 1, true))
   const leftHand = leftHandles.map((handle) => resolveHandle(handle, 'weapon', gaItems.itemIds, 1, true))
@@ -340,6 +333,7 @@ function parseCharacter(
   const inventoryItems: BuildItem[] = []
   let unresolvedItems = 0
   let memoryStones = 0
+  const availableGreatRuneIds = new Set<number>()
 
   for (const entry of inventoryLayout.entries) {
     const type = (entry.handle >>> 28) & 0xf
@@ -350,10 +344,15 @@ function parseCharacter(
     if (type === 0xb) {
       const baseId = entry.handle & 0x0fffffff
       if (baseId === 10030) memoryStones += entry.quantity
+      if (baseId >= 191 && baseId <= 196) availableGreatRuneIds.add(baseId)
       item = resolveHandle(entry.handle, 'spell', gaItems.itemIds, entry.quantity)
     }
     if (item) inventoryItems.push(item)
-    else if (type === 0x8 || type === 0x9 || type === 0xa) unresolvedItems += 1
+    else if (
+      (type === 0x8 && getIconUrl('weapon', Math.floor((gaItems.itemIds.get(entry.handle) ?? 0) / 100) * 100)) ||
+      type === 0x9 ||
+      type === 0xa
+    ) unresolvedItems += 1
   }
 
   const equippedSpells = readEquippedSpells(view, inventoryLayout.endOffset, slotEnd)
@@ -377,13 +376,23 @@ function parseCharacter(
   markEquipped(armor, armorHandles, 'armor')
   markEquipped(talismans, talismanHandles, 'talisman')
 
-  const equippedStruct = findEquippedItemsStruct(view, inventoryLayout.endOffset, slotEnd)
-  const greatRuneRaw = equippedStruct === null ? EMPTY_ITEM : readUint32(view, equippedStruct + 0x54, slotEnd)
-  const greatRuneId = greatRuneRaw & 0x0fffffff
-  const greatRune = isEmpty(greatRuneRaw) ? null : names.goods[String(greatRuneId)] ?? null
-  const moonOfNokstellaEquipped = equippedTalismans.some((item) => item?.name === 'Moon of Nokstella')
+  const greatRuneRaw = readUint32(view, playerData + 0x31c, slotEnd)
+  const equippedGreatRuneGoodsId: Record<number, number> = {
+    0x40000053: 191,
+    0x40000054: 192,
+    0x40000055: 193,
+    0x40000056: 194,
+    0x40000057: 196,
+    0x40000058: 195,
+  }
+  const greatRuneGoodsId = equippedGreatRuneGoodsId[greatRuneRaw]
+  const greatRune = greatRuneGoodsId ? names.goods[String(greatRuneGoodsId)] ?? null : null
+  const availableGreatRunes = [...availableGreatRuneIds]
+    .map((id) => names.goods[String(id)])
+    .filter((name): name is string => Boolean(name))
+  const moonOfNokstellaEquipped = equippedTalismans.some((item) => item?.id === 1140)
   const permanentSlots = Math.min(10, 2 + Math.min(8, memoryStones))
-  const moonOwned = talismans.some((item) => item.name === 'Moon of Nokstella')
+  const moonOwned = talismans.some((item) => item.id === 1140)
 
   return {
     slotIndex,
@@ -419,6 +428,8 @@ function parseCharacter(
       talismans: equippedTalismans,
       spells: equippedSpells,
       greatRune,
+      greatRuneActive: view.getUint8(playerData + 0xf7) === 1,
+      availableGreatRunes,
     },
     unresolvedItems,
   }

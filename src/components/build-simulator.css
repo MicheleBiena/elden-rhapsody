@@ -418,11 +418,18 @@
 }
 
 .build-equipped-group dd {
+  display: flex;
   min-width: 0;
+  align-items: center;
+  gap: 8px;
   margin: 0;
-  overflow: hidden;
   color: #e9e3d7;
   font-size: .82rem;
+}
+
+.build-equipped-group dd > span:last-child {
+  min-width: 0;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -497,6 +504,13 @@
   margin-top: 6px;
   color: var(--color-muted);
   font-size: .75rem;
+}
+
+.build-great-rune__available {
+  margin: 15px 0 0;
+  color: #a8a99f;
+  font-size: .76rem;
+  line-height: 1.5;
 }
 
 .build-inventory-header {
@@ -623,9 +637,48 @@
   font-size: .78rem;
 }
 
-.build-inventory-section li > span:first-child {
+.build-item-main {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.build-item-main > span:last-child {
   display: grid;
+  min-width: 0;
   gap: 2px;
+}
+
+.build-item-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(213, 201, 173, .12);
+  border-radius: 7px;
+  background: radial-gradient(circle, rgba(199, 170, 112, .12), rgba(8, 9, 7, .52));
+}
+
+.build-item-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.build-item-icon svg {
+  width: 18px;
+  height: 18px;
+  color: #9e947d;
+}
+
+.build-equipped-group .build-item-icon {
+  width: 30px;
+  height: 30px;
+  flex-basis: 30px;
 }
 
 .build-inventory-section li small {

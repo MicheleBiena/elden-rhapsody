@@ -41,6 +41,25 @@ function displayItem(item: BuildItem | null): string {
     : item.name
 }
 
+function ItemIcon({ item }: { item: BuildItem }) {
+  const [failed, setFailed] = useState(false)
+  const FallbackIcon = item.category === 'weapon'
+    ? Swords
+    : item.category === 'armor'
+      ? Shield
+      : item.category === 'talisman'
+        ? Gem
+        : Sparkles
+
+  return (
+    <span className="build-item-icon" aria-hidden="true">
+      {item.iconUrl && !failed
+        ? <img src={item.iconUrl} alt="" loading="lazy" decoding="async" onError={() => setFailed(true)} />
+        : <FallbackIcon />}
+    </span>
+  )
+}
+
 function EquippedList({
   title,
   items,
@@ -57,7 +76,9 @@ function EquippedList({
         {items.map((item, index) => (
           <div key={`${title}-${labels[index]}`}>
             <dt>{labels[index]}</dt>
-            <dd className={item ? undefined : 'is-empty'}>{displayItem(item)}</dd>
+            <dd className={item ? undefined : 'is-empty'}>
+              {item ? <><ItemIcon item={item} /><span>{displayItem(item)}</span></> : '—'}
+            </dd>
           </div>
         ))}
       </dl>
@@ -87,9 +108,12 @@ function InventorySection({
         <ul>
           {items.map((item) => (
             <li key={`${item.category}-${item.id}-${item.upgradeLevel ?? 0}`}>
-              <span>
-                {displayItem(item)}
-                {item.spellType && <small>{item.spellType === 'sorcery' ? 'Stregoneria' : 'Incantesimo'}</small>}
+              <span className="build-item-main">
+                <ItemIcon item={item} />
+                <span>
+                  {displayItem(item)}
+                  {item.spellType && <small>{item.spellType === 'sorcery' ? 'Stregoneria' : 'Incantesimo'}</small>}
+                </span>
               </span>
               <span className="build-item-meta">
                 {item.equipped && <em><Check aria-hidden="true" /> Equipaggiato</em>}
@@ -188,7 +212,14 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
               <div><p className="overline">Potere maggiore</p><h2 id="great-rune-title">Runa Maggiore</h2></div>
             </div>
             <strong>{character.equipped.greatRune ?? 'Nessuna Runa Maggiore equipaggiata'}</strong>
-            {character.equipped.greatRune && <span>Runa equipaggiata nel salvataggio</span>}
+            {character.equipped.greatRune && (
+              <span>{character.equipped.greatRuneActive ? 'Potere attivo tramite Arco runico' : 'Equipaggiata, ma il potere non è attivo'}</span>
+            )}
+            <p className="build-great-rune__available">
+              {character.equipped.availableGreatRunes.length
+                ? `Rune attivate disponibili: ${character.equipped.availableGreatRunes.join(', ')}.`
+                : 'Nessuna Runa Maggiore attivata rilevata nell’inventario.'}
+            </p>
           </section>
         </div>
       </div>
