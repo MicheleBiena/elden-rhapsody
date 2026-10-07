@@ -912,7 +912,7 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "A Vasburgo incontriamo un piccolo vaso che ci scambia per cuggino e ci propone di diventare Potentato. Dopo l’attacco ai vasi, l’assoluzione alla Chiesa dei Voti ha salvato la storia dalla chiusura prematura.",
+      "A Vasburgo un piccolo vaso ci chiama cuggino e ci propone di diventare Potentato. Dopo l’attacco ai vasi, l’assoluzione alla Chiesa dei Voti ha salvato la storia dalla chiusura prematura.",
     lastSeen: {
       location: "Vasburgo, Liurnia Lacustre",
       note: "Il piccolo vaso resta nel villaggio e ci invita a tornare a trovarlo.",
@@ -930,16 +930,16 @@ export const quests: QuestEntry[] = [
         text: "Red attacca i vasi di Vasburgo e i superstiti diventano ostili: la storia del villaggio sembra interrompersi.",
       },
       {
+        title: "Assoluzione",
+        text: "Alla Chiesa dei Voti chiediamo l’assoluzione dei peccati per l’attacco ai vasi: la storia di Vasburgo torna aperta.",
+      },
+      {
         title: "Il piccolo cuggino",
-        text: "Un piccolo vaso ci saluta come cuggino e ci chiede se vogliamo diventare il nuovo Potentato. Accettiamo e ci sottopone alla prova delle mani: le nostre non sono abbastanza lisce e scivolose, così rifiuta, ma resta amichevole e ci invita a tornare.",
+        text: "Un piccolo vaso ci accoglie chiamandoci cuggino, un nomignolo affettuoso in stile bro, e ci chiede se vogliamo diventare il nuovo Potentato, termine arcaico per vasaio. Accettiamo e ci sottopone alla prova delle mani: le nostre non sono abbastanza lisce e scivolose, così rifiuta, ma resta amichevole e ci invita a tornare.",
       },
       {
         title: "Fiori e zio Alexander",
         text: "Il vaso ci segnala i fiori rari del villaggio che possiamo raccogliere e ci parla dello zio Alexander, partito per diventare campione. Ci chiede di farci insegnare a combattere da lui se lo incontriamo. Confessa di essere anche lui un vaso guerriero e di voler un giorno lasciare il villaggio.",
-      },
-      {
-        title: "Assoluzione",
-        text: "Alla Chiesa dei Voti chiediamo l’assoluzione dei peccati per l’attacco ai vasi: la quest di Vasburgo torna aperta.",
       },
     ],
     nextStep: {

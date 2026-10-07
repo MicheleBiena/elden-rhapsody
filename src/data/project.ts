@@ -1818,23 +1818,6 @@ const conceptArchive: LoreConcept[] = [
     imageUrl: './concepts/miriel.webp',
     imageAlt: 'Miriel, enorme tartaruga parlante con copricapo da papa nella Chiesa dei Voti',
     imagePosition: '50% 30%',
-    textSections: [
-      {
-        title: 'Presentazione',
-        language: 'en',
-        text: 'You\'re Tarnished, aren\'t you? I welcome you, to the Church of Vows. I am Miriel, steward of this sacred chamber.',
-      },
-      {
-        title: 'Visita',
-        language: 'en',
-        text: 'Oh, was there something you needed? You are free to show yourself around. I would serve as your guide, only my legs aren\'t what they used to be... If you find anything of use, you are free to take it with you. Unless perhaps you are in search of instruction? In which case, I will share all that I know.',
-      },
-      {
-        title: 'Libro di preghiere',
-        language: 'en',
-        text: 'Oh, what have we here? Very well, let us both learn together. Heresy is not native to the world; it is but a contrivance. All things can be conjoined.',
-      },
-    ],
     evidence: ['È una tartaruga parlante di grandi dimensioni.', 'Porta un copricapo simile a quello di un papa.', 'È il custode della Chiesa dei Voti.', 'Offre guida, istruzioni e studio dei libri di preghiere.'],
     questions: ['Da quanto tempo custodisce la chiesa?', 'Quali insegnamenti può trasmettere?', 'Perché una tartaruga ricopre questo ruolo?'],
     tags: ['Miriel', 'pastore dei voti', 'Chiesa dei Voti', 'tartaruga', 'Liurnia'], position: { x: 15, y: 94 },
@@ -1853,18 +1836,6 @@ const conceptArchive: LoreConcept[] = [
     category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
     summary: 'Regina della famiglia reale di Caria e governatrice dell’Accademia di Raya Lucaria, detta Strega della Luna Piena. Dopo l’addio di Radagon stringe un uovo d’ambra.',
     body: 'Rennala è regina e capo della famiglia reale di Caria, oltre che governatrice dell’Accademia di Raya Lucaria. È chiamata la grande e bella Strega della Luna Piena. Il suo cuore si spezzò quando Radagon la lasciò; quando l’Accademia si ribellò alla casa reale, fu rinchiusa nella grande biblioteca. Ora resta sola e culla l’uovo d’ambra donatole da Radagon, dedicandosi alla tetra arte della reincarnazione.',
-    textSections: [
-      {
-        title: 'Racconto di Miriel',
-        language: 'en',
-        text: 'She is Queen, head of the Carian royal family, and governor of the Academy of Raya Lucaria. The great and beautiful Full Moon Witch. Sadly, her heart was broken when Lord Radagon left her. And then, when the academy rebelled against the royals, she was locked away in the grand library.',
-      },
-      {
-        title: 'Uovo d’ambra',
-        language: 'en',
-        text: 'In the end, Lady Rennala was left alone, cradling the amber egg Lord Radagon bequeathed her. Now she devotes herself to it through forbidden rite; the grim art of reincarnation.',
-      },
-    ],
     evidence: ['Guida la famiglia reale di Caria e l’Accademia di Raya Lucaria.', 'È detta Strega della Luna Piena.', 'Fu abbandonata da Radagon.', 'Dopo la ribellione dell’Accademia fu rinchiusa nella biblioteca.', 'Custodisce l’uovo d’ambra di Radagon.'],
     questions: ['Dove si trova ora Rennala?', 'Che cosa contiene l’uovo d’ambra?', 'Perché l’Accademia si ribellò?'],
     tags: ['Rennala', 'Caria', 'Raya Lucaria', 'Luna Piena', 'uovo d’ambra', 'reincarnazione'], position: { x: 62, y: 94 },
@@ -1872,23 +1843,11 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'radagon', name: 'Radagon', eyebrow: 'Campione dai capelli rossi',
     category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
-    summary: 'Campione dai capelli rossi, marito di Rennala e poi secondo marito di Marika come secondo Lord Elden. Si dice nasconda un segreto custodito dalla sua statua.',
-    body: 'Radagon era un grande campione dai fluenti capelli rossi. Giunse con una grande armata dorata e affrontò Rennala in battaglia, poi si pentì e divenne marito della regina di Caria. Quando Godfrey fu scacciato, lasciò Rennala per tornare alla capitale dell’Albero Madre, divenendo secondo marito di Marika e re consorte con il titolo di secondo Lord Elden. Resta il mistero del perché abbia abbandonato Rennala e di come un semplice campione sia stato scelto per il seggio. Si dice nascondesse un segreto, intravisto dallo scultore chiamato a ritrarlo e custodito dalla grande statua.',
-    textSections: [
-      {
-        title: 'Racconto di Miriel',
-        language: 'en',
-        text: 'Lord Radagon was a great champion, possessed of flowing red locks. He came to these lands at the head of a great golden host, when he met Lady Rennala in battle. He soon repented his territorial aggressions though, and became husband to the Carian Queen. However, when Godfrey, first Elden Lord, was hounded from the Lands Between, Radagon left Rennala to return to the Erdtree Capital, becoming Queen Marika\'s second husband and King Consort, taking the title...of second Elden Lord.',
-      },
-      {
-        title: 'Segreto',
-        language: 'en',
-        text: 'You know, it\'s said that Lord Radagon harboured a secret... A famed sculptor of the Erdtree Capital was once summoned to render Lord Radagon\'s likeness in giant stature. When he glimpsed the skeleton in Radagon\'s closet. And as such, it\'s said the great statue harbours his secret too.',
-      },
-    ],
-    evidence: ['Campione dai capelli rossi a capo di un’armata dorata.', 'Sposò Rennala dopo averla affrontata.', 'Lasciò Rennala per sposare Marika.', 'Divenne secondo Lord Elden.', 'Una statua della capitale ne custodirebbe il segreto.'],
-    questions: ['Perché lasciò Rennala?', 'Perché fu scelto come Lord Elden?', 'Qual è il segreto della statua?'],
-    tags: ['Radagon', 'Rennala', 'Marika', 'Lord Elden', 'Godfrey', 'statua', 'segreto'], position: { x: 85, y: 94 },
+    summary: 'Campione dai capelli rossi, marito di Rennala e poi secondo marito di Marika come secondo Elden Lord. Si dice nasconda un segreto custodito dalla sua statua.',
+    body: 'Radagon era un grande campione dai fluenti capelli rossi. Giunse con una grande armata dorata e affrontò Rennala in battaglia, poi si pentì e divenne marito della regina di Caria. Quando Godfrey fu scacciato, lasciò Rennala per tornare alla capitale dell’Albero Madre, divenendo secondo marito di Marika e re consorte con il titolo di secondo Elden Lord. Resta il mistero del perché abbia abbandonato Rennala e di come un semplice campione sia stato scelto per il seggio. Si dice nascondesse un segreto, intravisto dallo scultore chiamato a ritrarlo e custodito dalla grande statua.',
+    evidence: ['Campione dai capelli rossi a capo di un’armata dorata.', 'Sposò Rennala dopo averla affrontata.', 'Lasciò Rennala per sposare Marika.', 'Divenne secondo Elden Lord.', 'Una statua della capitale ne custodirebbe il segreto.'],
+    questions: ['Perché lasciò Rennala?', 'Perché fu scelto come Elden Lord?', 'Qual è il segreto della statua?'],
+    tags: ['Radagon', 'Rennala', 'Marika', 'Elden Lord', 'Godfrey', 'statua', 'segreto'], position: { x: 85, y: 94 },
   },
 ]
 
@@ -2970,7 +2929,7 @@ export const connections: LoreConnection[] = [
   },
   {
     id: 'radagon-marika', from: 'radagon', to: 'regina-marika', label: 'secondo marito',
-    note: 'Dopo Godfrey, Radagon divenne secondo marito di Marika e secondo Lord Elden.', kind: 'traccia',
+    note: 'Dopo Godfrey, Radagon divenne secondo marito di Marika e secondo Elden Lord.', kind: 'traccia',
   },
 ]
 
