@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  BarChart3,
   Check,
   CircleCheckBig,
   CircleGauge,
@@ -17,6 +18,7 @@ import {
   Swords,
   Trash2,
   TrendingUp,
+  WalletCards,
   X,
 } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type ReactNode } from 'react'
@@ -29,7 +31,10 @@ import {
   type ParsedBuildSave,
 } from '../lib/elden-save-reader'
 import {
+  characterStatLabels,
+  getBuildAssessment,
   getEquipLoad,
+  getRequirementFunding,
   getRequirementGaps,
   getScalingFit,
   offensiveStatLabels,
@@ -255,6 +260,55 @@ function itemCategoryLabel(item: BuildItem): string {
   if (item.category === 'armor') return 'Armatura'
   if (item.category === 'talisman') return 'Talismano'
   return item.spellType === 'sorcery' ? 'Stregoneria' : 'Incantesimo'
+}
+
+type InventoryCategory = 'all' | 'weapons' | 'armor' | 'talismans' | 'spells'
+
+interface ItemFilterOption {
+  value: string
+  label: string
+  matches: (item: BuildItem) => boolean
+}
+
+function normalizeFilterText(value: string) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('it')
+}
+
+function includesAny(value: string, terms: string[]) {
+  const normalized = normalizeFilterText(value)
+  return terms.some((term) => normalized.includes(term))
+}
+
+const weaponFilterOptions: ItemFilterOption[] = [
+  { value: 'swords', label: 'Spade e lame', matches: (item) => includesAny(item.name, ['spada', 'spadone', 'claymore', 'katana', 'pugnale', 'lama', 'stocco', 'sciabola', 'fioretto', 'artigli']) },
+  { value: 'axes', label: 'Asce', matches: (item) => includesAny(item.name, ['ascia', 'asce', 'accetta']) },
+  { value: 'hammers', label: 'Martelli e mazze', matches: (item) => includesAny(item.name, ['martello', 'mazza', 'maglio', 'flagello']) },
+  { value: 'polearms', label: 'Lance e armi in asta', matches: (item) => includesAny(item.name, ['lancia', 'alabarda', 'falce', 'forcone']) },
+  { value: 'catalysts', label: 'Bastoni e sigilli', matches: (item) => includesAny(item.name, ['bastone', 'scettro', 'sigillo']) },
+  { value: 'ranged', label: 'Archi e balestre', matches: (item) => includesAny(item.name, ['arco', 'balestra', 'ballista']) },
+  { value: 'shields', label: 'Scudi', matches: (item) => includesAny(item.name, ['scudo']) || item.iconUrl?.includes('/shields/') === true },
+]
+
+const armorFilterOptions: ItemFilterOption[] = [
+  { value: 'head', label: 'Testa', matches: (item) => item.armorSlot === 'head' },
+  { value: 'chest', label: 'Corpo', matches: (item) => item.armorSlot === 'chest' },
+  { value: 'arms', label: 'Braccia', matches: (item) => item.armorSlot === 'arms' },
+  { value: 'legs', label: 'Gambe', matches: (item) => item.armorSlot === 'legs' },
+]
+
+const spellFilterOptions: ItemFilterOption[] = [
+  { value: 'sorceries', label: 'Stregonerie', matches: (item) => item.spellType === 'sorcery' },
+  { value: 'incantations', label: 'Incantesimi', matches: (item) => item.spellType === 'incantation' },
+  { value: 'carian', label: 'Cariane', matches: (item) => includesAny(item.name, ['carian', 'luna piena', 'luna oscura']) },
+  { value: 'glintstone', label: 'Scintipietra', matches: (item) => includesAny(item.name, ['scintipietra', 'stelle della rovina']) },
+  { value: 'gravity', label: 'Gravità', matches: (item) => includesAny(item.name, ['gravita', 'meteor', 'roccia', 'collasso']) },
+  { value: 'fire', label: 'Fuoco', matches: (item) => includesAny(item.name, ['fuoco', 'fiamma', 'combustione']) },
+  { value: 'lightning', label: 'Fulmine', matches: (item) => includesAny(item.name, ['fulmine', 'saetta']) },
+  { value: 'dragon', label: 'Draconiche', matches: (item) => includesAny(item.name, ['drago', 'dracon']) },
+]
+
+function availableFilterOptions(items: BuildItem[], options: ItemFilterOption[]) {
+  return options.filter((option) => items.some(option.matches))
 }
 
 function ItemLoreDialog({
@@ -567,6 +621,7 @@ function ItemAnalysisBadges({ item, stats }: { item: BuildItem; stats: Character
 }
 
 function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; draft: DraftLoadout }) {
+  const [assessmentOpen, setAssessmentOpen] = useState(false)
   const equipment = [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans]
   const checkedItems = [...draft.rightHand, ...draft.leftHand, ...draft.spells]
     .filter((item): item is BuildItem => Boolean(item?.requirements && Object.keys(item.requirements).length))
@@ -575,6 +630,14 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
     return gaps.length ? [{ item, gaps }] : []
   })
   const load = getEquipLoad(equipment, character.stats.endurance)
+  const funding = getRequirementFunding(checkedItems, character.stats, character.level, character.runes)
+  const assessment = getBuildAssessment({
+    stats: character.stats,
+    level: character.level,
+    runes: character.runes,
+    equipment,
+    spells: draft.spells,
+  })
   const weaponFits = [...draft.rightHand, ...draft.leftHand]
     .filter((item): item is BuildItem => Boolean(item))
     .map((item) => ({ item, fit: getScalingFit(item, character.stats) }))
@@ -582,9 +645,20 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
 
   return (
     <section className="build-panel build-analysis" aria-labelledby="build-analysis-title">
-      <div className="build-panel-heading">
-        <CircleGauge aria-hidden="true" />
-        <div><p className="overline">Controllo in tempo reale</p><h2 id="build-analysis-title">Analisi della bozza</h2></div>
+      <div className="build-analysis-heading">
+        <div className="build-panel-heading">
+          <CircleGauge aria-hidden="true" />
+          <div><p className="overline">Controllo in tempo reale</p><h2 id="build-analysis-title">Analisi della bozza</h2></div>
+        </div>
+        <button
+          type="button"
+          className="build-assessment-toggle"
+          aria-expanded={assessmentOpen}
+          aria-controls="build-exhaustive-assessment"
+          onClick={() => setAssessmentOpen((open) => !open)}
+        >
+          <BarChart3 aria-hidden="true" /> {assessmentOpen ? 'Chiudi valutazione' : 'Valutazione esaustiva'}
+        </button>
       </div>
       <div className="build-analysis-grid">
         <article className="build-analysis-card" data-state={requirementIssues.length ? 'warning' : 'success'}>
@@ -599,6 +673,9 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
               ))}
             </ul>
           ) : <p>{checkedItems.length ? `${checkedItems.length} ${checkedItems.length === 1 ? 'elemento controllato' : 'elementi controllati'}.` : 'Inserisci un’arma o una magia per avviare il controllo.'}</p>}
+          {funding.points > 0 && (
+            <p className="build-rune-preview"><WalletCards aria-hidden="true" /> {funding.points} {funding.points === 1 ? 'livello' : 'livelli'} · {funding.totalRunes.toLocaleString('it-IT')} rune totali</p>
+          )}
           <small>La Forza è verificata a una mano; l’eventuale bonus a due mani non è applicato.</small>
         </article>
 
@@ -631,6 +708,56 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
           <small>È una stima di consonanza, non il calcolo del danno finale.</small>
         </article>
       </div>
+      {assessmentOpen && (
+        <div id="build-exhaustive-assessment" className="build-assessment" role="region" aria-label="Valutazione esaustiva della build">
+          <header>
+            <div>
+              <p className="overline">Diagnosi della bozza</p>
+              <h3>Punti forti, criticità e prossimi livelli</h3>
+            </div>
+            <span>Basata sulla build attuale</span>
+          </header>
+          <div className="build-assessment-grid">
+            <article data-kind="strength">
+              <h4><CircleCheckBig aria-hidden="true" /> Punti di forza</h4>
+              <ul>{assessment.strengths.map((entry) => <li key={entry}>{entry}</li>)}</ul>
+            </article>
+            <article data-kind="weakness">
+              <h4><AlertTriangle aria-hidden="true" /> Punti deboli</h4>
+              <ul>{assessment.weaknesses.map((entry) => <li key={entry}>{entry}</li>)}</ul>
+            </article>
+            <article data-kind="growth">
+              <h4><TrendingUp aria-hidden="true" /> Statistiche da far crescere</h4>
+              {assessment.recommendations.length ? (
+                <ul className="build-recommendations">
+                  {assessment.recommendations.map((entry) => (
+                    <li key={entry.stat}>
+                      <strong>{characterStatLabels[entry.stat]} {entry.current} → {entry.target}</strong>
+                      <span>{entry.reason}</span>
+                      <em>{entry.priority === 'alta' ? 'Priorità alta' : 'Prossima soglia'}</em>
+                    </li>
+                  ))}
+                </ul>
+              ) : <p>Nessun investimento urgente rilevato.</p>}
+            </article>
+          </div>
+          <article className="build-rune-plan" data-state={assessment.funding.points ? 'needed' : 'ready'}>
+            <WalletCards aria-hidden="true" />
+            <div>
+              <span>Rune per rispettare i requisiti della bozza</span>
+              {assessment.funding.points ? (
+                <>
+                  <strong>{assessment.funding.runesToFarm.toLocaleString('it-IT')} da farmare</strong>
+                  <small>{assessment.funding.points} {assessment.funding.points === 1 ? 'livello' : 'livelli'} · livello {character.level} → {assessment.funding.targetLevel} · costo {assessment.funding.totalRunes.toLocaleString('it-IT')} · già possedute {character.runes.toLocaleString('it-IT')}</small>
+                </>
+              ) : (
+                <><strong>Nessun livello obbligatorio</strong><small>Gli oggetti e le magie in bozza rispettano già i requisiti letti.</small></>
+              )}
+            </div>
+          </article>
+          <p className="build-assessment-note">Le soglie suggerite seguono il prospetto dei soft cap fornito (per esempio VIG 40/60 e scaling offensivo fino a 80). La valutazione misura compatibilità e direzione della build, non il danno finale.</p>
+        </div>
+      )}
     </section>
   )
 }
@@ -647,6 +774,7 @@ function InventorySection({
   onDragEnd,
   onInspect,
   characterStats,
+  filterOptions = [],
 }: {
   title: string
   items: BuildItem[]
@@ -659,17 +787,31 @@ function InventorySection({
   onDragEnd: () => void
   onInspect: (item: BuildItem) => void
   characterStats: CharacterStats
+  filterOptions?: ItemFilterOption[]
 }) {
+  const [activeFilter, setActiveFilter] = useState('all')
+  const activeOption = filterOptions.find((option) => option.value === activeFilter)
+  const visibleItems = activeOption ? items.filter(activeOption.matches) : items
+
   return (
     <details className="build-inventory-section">
       <summary>
         <span className="build-inventory-section__icon" aria-hidden="true">{icon}</span>
         <strong>{title}</strong>
-        <span>{items.length}</span>
+        <span>{visibleItems.length}</span>
       </summary>
-      {items.length ? (
+      {filterOptions.length > 1 && (
+        <label className="build-section-filter">
+          <span>Filtra {title.toLocaleLowerCase('it')}</span>
+          <select value={activeFilter} onChange={(event) => setActiveFilter(event.target.value)}>
+            <option value="all">Tutti i tipi</option>
+            {filterOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+          </select>
+        </label>
+      )}
+      {visibleItems.length ? (
         <ul>
-          {items.map((item) => (
+          {visibleItems.map((item) => (
             <li key={`${item.category}-${item.id}-${item.upgradeLevel ?? 0}`}>
               <button
                 type="button"
@@ -711,6 +853,7 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
   const draggedItemRef = useRef<BuildItem | null>(null)
   const draggedSourceRef = useRef<DraftTarget | null>(null)
   const [query, setQuery] = useState('')
+  const [inventoryCategory, setInventoryCategory] = useState<InventoryCategory>('all')
   const [inspectedItem, setInspectedItem] = useState<BuildItem | null>(null)
   const [inspectedRune, setInspectedRune] = useState<GreatRuneInfo | null>(null)
   const [description, setDescription] = useState<string | null>(null)
@@ -730,6 +873,11 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     armor: filterItems(character.inventory.armor),
     talismans: filterItems(character.inventory.talismans),
     spells: filterItems(character.inventory.spells),
+  }
+  const sectionFilters = {
+    weapons: availableFilterOptions(character.inventory.weapons, weaponFilterOptions),
+    armor: availableFilterOptions(character.inventory.armor, armorFilterOptions),
+    spells: availableFilterOptions(character.inventory.spells, spellFilterOptions),
   }
   const activeItem = draggedItem ?? selectedItem
   const draftMemorySlots = getDraftMemorySlots(character, draft.talismans)
@@ -996,17 +1144,29 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
             <Swords aria-hidden="true" />
             <div><p className="overline">Disponibile per la build</p><h2 id="inventory-title">Inventario leggibile</h2></div>
           </div>
-          <label className="build-search">
-            <Search aria-hidden="true" />
-            <span className="sr-only">Cerca nell'inventario</span>
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cerca un oggetto…" />
-          </label>
+          <div className="build-inventory-tools">
+            <label className="build-category-filter">
+              <span className="sr-only">Mostra categoria</span>
+              <select value={inventoryCategory} onChange={(event) => setInventoryCategory(event.target.value as InventoryCategory)}>
+                <option value="all">Tutto l’inventario</option>
+                <option value="weapons">Armi</option>
+                <option value="armor">Armature</option>
+                <option value="talismans">Talismani</option>
+                <option value="spells">Magie</option>
+              </select>
+            </label>
+            <label className="build-search">
+              <Search aria-hidden="true" />
+              <span className="sr-only">Cerca nell'inventario</span>
+              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cerca un oggetto…" />
+            </label>
+          </div>
         </div>
         <div className="build-inventory-grid">
-          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
-          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
-          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
-          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
+          {(inventoryCategory === 'all' || inventoryCategory === 'weapons') && <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} filterOptions={sectionFilters.weapons} />}
+          {(inventoryCategory === 'all' || inventoryCategory === 'armor') && <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} filterOptions={sectionFilters.armor} />}
+          {(inventoryCategory === 'all' || inventoryCategory === 'talismans') && <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />}
+          {(inventoryCategory === 'all' || inventoryCategory === 'spells') && <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} filterOptions={sectionFilters.spells} />}
         </div>
         {character.unresolvedItems > 0 && <p className="build-parser-note">{character.unresolvedItems} oggetti non sono ancora riconosciuti dal dizionario di questa versione.</p>}
       </section>

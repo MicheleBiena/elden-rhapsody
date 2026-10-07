@@ -175,9 +175,9 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '16',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 165)
-assert.equal(await page.locator('.thread-layer line').count(), 330)
-assert.equal(await page.locator('.relation-list button').count(), 165)
+assert.equal(await page.locator('.thread-layer g').count(), 168)
+assert.equal(await page.locator('.thread-layer line').count(), 336)
+assert.equal(await page.locator('.relation-list button').count(), 168)
 assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 84)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 9)
 assert.deepEqual(
@@ -271,8 +271,8 @@ assert.match(
     .textContent()) || '',
   /legato all’autorità delle Due Dita/i,
 )
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 10)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 10)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 13)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 13)
 assert.match(await page.locator('.board-live-note').textContent(), /7/)
 assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*7/)
 

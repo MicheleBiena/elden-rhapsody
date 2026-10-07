@@ -1837,7 +1837,7 @@ const conceptArchive: LoreConcept[] = [
     summary: 'Regina della famiglia reale di Caria e governatrice dell’Accademia di Raya Lucaria, detta Strega della Luna Piena. Dopo l’addio di Radagon stringe un uovo d’ambra.',
     body: 'Rennala è regina e capo della famiglia reale di Caria, oltre che governatrice dell’Accademia di Raya Lucaria. È chiamata la grande e bella Strega della Luna Piena. Il suo cuore si spezzò quando Radagon la lasciò; quando l’Accademia si ribellò alla casa reale, fu rinchiusa nella grande biblioteca. Ora resta sola e culla l’uovo d’ambra donatole da Radagon, dedicandosi alla tetra arte della reincarnazione.',
     evidence: ['Guida la famiglia reale di Caria e l’Accademia di Raya Lucaria.', 'È detta Strega della Luna Piena.', 'Fu abbandonata da Radagon.', 'Dopo la ribellione dell’Accademia fu rinchiusa nella biblioteca.', 'Custodisce l’uovo d’ambra di Radagon.'],
-    questions: ['Dove si trova ora Rennala?', 'Che cosa contiene l’uovo d’ambra?', 'Perché l’Accademia si ribellò?'],
+    questions: ['Che cosa permette davvero la tetra arte della reincarnazione?', 'Che cosa contiene l’uovo d’ambra?', 'Perché l’Accademia si ribellò?'],
     tags: ['Rennala', 'Caria', 'Raya Lucaria', 'Luna Piena', 'uovo d’ambra', 'reincarnazione'], position: { x: 62, y: 94 },
   },
   {
@@ -2930,6 +2930,18 @@ export const connections: LoreConnection[] = [
   {
     id: 'radagon-marika', from: 'radagon', to: 'regina-marika', label: 'secondo marito',
     note: 'Dopo Godfrey, Radagon divenne secondo marito di Marika e secondo Elden Lord.', kind: 'traccia',
+  },
+  {
+    id: 'chiesa-voti-rennala', from: 'chiesa-dei-voti', to: 'rennala', label: 'voto con Radagon',
+    note: 'La Chiesa dei Voti ricorda l’unione fra la casata della Luna di Rennala e quella dell’Albero rappresentata da Radagon.', kind: 'traccia',
+  },
+  {
+    id: 'radagon-godfrey', from: 'radagon', to: 'godfrey', label: 'successione',
+    note: 'Dopo la cacciata di Godfrey, Radagon tornò alla capitale e ne occupò il posto come secondo Elden Lord.', kind: 'traccia',
+  },
+  {
+    id: 'rennala-principesse-cariane', from: 'rennala', to: 'principesse-cariane', label: 'stessa casata?',
+    note: 'Rennala guida la famiglia reale di Caria e la tecnica cita principesse cariane; il titolo condiviso suggerisce una relazione, ma non ne conosciamo ancora identità e parentela.', kind: 'ipotesi',
   },
 ]
 

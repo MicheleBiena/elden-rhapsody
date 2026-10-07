@@ -69,6 +69,19 @@ equipaggiati. Le armi ricevono inoltre una valutazione colorata — accompagnata
 da un’etichetta testuale — della consonanza tra scaling e attributi attuali. Questa
 valutazione è orientativa e non sostituisce un calcolo completo del danno finale.
 
+Il comando **Valutazione esaustiva** apre, soltanto quando serve, un riepilogo di
+punti forti, criticità e attributi da far crescere. I target usano le soglie del
+prospetto dei soft cap fornito per la run e danno priorità ai requisiti mancanti;
+subito sotto viene calcolato il costo cumulativo di ogni livello necessario e la
+quota ancora da farmare, sottraendo le rune già possedute. Il costo per passare dal
+livello `L` a `L + 1` segue la formula di gioco documentata dalla comunità:
+`floor((max(0, (L - 11) × 0,02) + 0,1) × (L + 81)² + 1)`.
+
+L’inventario offre un filtro generale per categoria e filtri contestuali più brevi:
+tipi principali per armi, parti del corpo per armature, stregonerie/incantesimi e
+alcune famiglie riconoscibili per le magie. Le opzioni senza risultati non vengono
+mostrate, così la lista dei filtri non diventa più grande dell’inventario utile.
+
 ### Analisi
 
 La raccolta dedicata alle traduzioni e agli articoli di approfondimento resta
@@ -152,6 +165,8 @@ fissati a una revisione precisa e distribuiti con licenza GPL-3.0. Pesi, requisi
 slot delle magie, coefficienti grezzi di scaling e modificatori del carico provengono
 dagli stessi parametri di gioco documentati da SaveForge e vengono salvati in
 `src/data/build/item-stats.json` per funzionare senza chiamate a una wiki.
+La formula del costo per livello è stata verificata anche contro
+[un’implementazione open source con esempi](https://github.com/tavvfiq/elden-rim-leveling-system/blob/master/leveling_curve.md).
 
 Per rigenerare localizzazione, descrizioni e riferimenti alle miniature dopo aver
 estratto i file `*Name.fmg.xml` e `*Caption.fmg.xml` con WitchyBND:

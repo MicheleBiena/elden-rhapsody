@@ -380,6 +380,40 @@
     linear-gradient(145deg, rgba(48, 49, 40, .76), rgba(27, 28, 23, .86));
 }
 
+.build-analysis-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.build-assessment-toggle {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(199, 170, 112, .42);
+  border-radius: var(--radius-sm);
+  color: #efe3c8;
+  background: linear-gradient(145deg, rgba(199, 170, 112, .16), rgba(70, 63, 44, .12));
+  font: 700 .72rem/1.2 inherit;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease-out), background 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+
+.build-assessment-toggle:hover {
+  border-color: rgba(222, 196, 137, .7);
+  background: rgba(199, 170, 112, .22);
+  transform: translateY(-1px);
+}
+
+.build-assessment-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
 .build-analysis-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
@@ -453,6 +487,19 @@
   color: #aaa99f;
   font-size: .7rem;
   line-height: 1.5;
+}
+
+.build-analysis-card .build-rune-preview {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #dfc985;
+  font-weight: 700;
+}
+
+.build-rune-preview svg {
+  width: 15px;
+  height: 15px;
 }
 
 .build-analysis-card small {
@@ -531,6 +578,159 @@
 .build-analysis-badge[data-tone='fair'] { color: #c99c69; }
 .build-analysis-badge[data-tone='poor'],
 .build-analysis-badge[data-tone='invalid'] { color: #d48372; }
+
+.build-assessment {
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px solid rgba(199, 170, 112, .2);
+  border-radius: var(--radius-md);
+  background: rgba(8, 9, 7, .38);
+}
+
+.build-assessment > header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.build-assessment h3,
+.build-assessment h4 {
+  margin: 0;
+  color: #eee3ca;
+  font-family: 'Newsreader', Georgia, serif;
+}
+
+.build-assessment h3 {
+  font-size: 1.25rem;
+}
+
+.build-assessment > header > span {
+  color: var(--color-muted);
+  font-size: .65rem;
+}
+
+.build-assessment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.build-assessment-grid > article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(213, 201, 173, .11);
+  border-radius: var(--radius-sm);
+  background: rgba(15, 16, 13, .55);
+}
+
+.build-assessment-grid > article[data-kind='strength'] { border-top-color: rgba(143, 183, 111, .65); }
+.build-assessment-grid > article[data-kind='weakness'] { border-top-color: rgba(211, 126, 94, .7); }
+.build-assessment-grid > article[data-kind='growth'] { border-top-color: rgba(207, 179, 108, .7); }
+
+.build-assessment-grid h4 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .95rem;
+}
+
+.build-assessment-grid h4 svg {
+  width: 17px;
+  height: 17px;
+  color: var(--color-gold);
+}
+
+.build-assessment-grid ul {
+  display: grid;
+  gap: 9px;
+  margin: 12px 0 0;
+  padding-left: 16px;
+  color: #c9c4b8;
+  font-size: .7rem;
+  line-height: 1.48;
+}
+
+.build-assessment-grid p {
+  margin: 12px 0 0;
+  color: #aaa99f;
+  font-size: .7rem;
+}
+
+.build-recommendations {
+  padding: 0 !important;
+  list-style: none;
+}
+
+.build-recommendations li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 8px;
+}
+
+.build-recommendations strong {
+  color: #f1dfad;
+  font-size: .74rem;
+}
+
+.build-recommendations span {
+  grid-column: 1 / -1;
+}
+
+.build-recommendations em {
+  grid-column: 2;
+  grid-row: 1;
+  color: #c3a967;
+  font-size: .57rem;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.build-rune-plan {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 10px;
+  padding: 13px 14px;
+  border: 1px solid rgba(199, 170, 112, .2);
+  border-radius: var(--radius-sm);
+  background: rgba(91, 71, 34, .1);
+}
+
+.build-rune-plan[data-state='needed'] { border-color: rgba(213, 160, 76, .42); }
+.build-rune-plan[data-state='ready'] { border-color: rgba(132, 164, 104, .32); }
+
+.build-rune-plan > svg {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  color: #d7b96b;
+}
+
+.build-rune-plan div {
+  display: grid;
+  gap: 2px;
+}
+
+.build-rune-plan span,
+.build-rune-plan small {
+  color: var(--color-muted);
+  font-size: .65rem;
+}
+
+.build-rune-plan strong {
+  color: #f1e2bd;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1rem;
+}
+
+.build-assessment-note {
+  margin: 12px 2px 0;
+  color: #929289;
+  font-size: .62rem;
+  line-height: 1.5;
+}
 
 .build-two-column {
   display: grid;
@@ -1008,6 +1208,36 @@
   gap: 20px;
 }
 
+.build-inventory-tools {
+  display: flex;
+  width: min(100%, 530px);
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.build-category-filter,
+.build-section-filter {
+  position: relative;
+}
+
+.build-category-filter select,
+.build-section-filter select {
+  min-height: 44px;
+  border: 1px solid rgba(213, 201, 173, .22);
+  border-radius: var(--radius-md);
+  outline: 0;
+  color: #e8deca;
+  background: #171812;
+  font: 600 .7rem/1.2 inherit;
+  cursor: pointer;
+}
+
+.build-category-filter select {
+  max-width: 170px;
+  padding: 0 10px;
+}
+
 .build-search {
   display: flex;
   width: min(100%, 320px);
@@ -1095,6 +1325,25 @@
   color: #cfc5b0;
   background: rgba(199, 170, 112, .1);
   font-size: .72rem;
+}
+
+.build-section-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 14px;
+  border-top: 1px solid rgba(213, 201, 173, .08);
+}
+
+.build-section-filter > span {
+  color: var(--color-muted);
+  font-size: .62rem;
+}
+
+.build-section-filter select {
+  min-height: 38px;
+  padding: 0 9px;
 }
 
 .build-inventory-section__icon svg {
@@ -1480,8 +1729,24 @@
 
   .build-resource-strip,
   .build-side-panels,
-  .build-inventory-grid {
+  .build-inventory-grid,
+  .build-assessment-grid {
     grid-template-columns: 1fr;
+  }
+
+  .build-analysis-heading,
+  .build-assessment > header,
+  .build-inventory-header,
+  .build-inventory-tools {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .build-assessment-toggle,
+  .build-inventory-tools,
+  .build-category-filter select {
+    width: 100%;
+    max-width: none;
   }
 
   .build-paper-doll__stage {
@@ -1556,11 +1821,16 @@
   .build-visual-slot,
   .build-rune-choice,
   .build-load-meter span,
+  .build-assessment-toggle,
   .build-draft-reset,
   .build-item-info,
   .build-item-dialog,
   .build-item-dialog__close {
     transition: none;
     animation: none;
+  }
+
+  .build-assessment-toggle {
+    transform: none;
   }
 }
