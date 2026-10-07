@@ -1,5 +1,7 @@
 import {
+  AlertTriangle,
   Check,
+  CircleCheckBig,
   CircleGauge,
   FileUp,
   Gem,
@@ -9,10 +11,12 @@ import {
   PersonStanding,
   RefreshCcw,
   Search,
+  Scale,
   Shield,
   Sparkles,
   Swords,
   Trash2,
+  TrendingUp,
   X,
 } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type ReactNode } from 'react'
@@ -21,8 +25,16 @@ import {
   type ArmorSlot,
   type BuildCharacter,
   type BuildItem,
+  type CharacterStats,
   type ParsedBuildSave,
 } from '../lib/elden-save-reader'
+import {
+  getEquipLoad,
+  getRequirementGaps,
+  getScalingFit,
+  offensiveStatLabels,
+  type EquipLoadClass,
+} from '../lib/build-analysis'
 import './build-simulator.css'
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024
@@ -44,6 +56,58 @@ const armorSlots: Array<{ label: string; type: ArmorSlot }> = [
   { label: 'Braccia', type: 'arms' },
   { label: 'Gambe', type: 'legs' },
 ]
+
+const runeIconBaseUrl = 'https://raw.githubusercontent.com/oisis/EldenRing-SaveForge/ee1042d7a5bd933f91e6f8a0162e0e0237a1c4c5/frontend/public/items/key_items/'
+
+interface GreatRuneInfo {
+  name: string
+  iconUrl: string
+  effect: string
+  description: string
+}
+
+const greatRuneCatalog: GreatRuneInfo[] = [
+  {
+    name: 'Runa maggiore di Godrick',
+    iconUrl: `${runeIconBaseUrl}godricks_great_rune.png`,
+    effect: 'Aumenta tutti gli attributi.',
+    description: 'È l’anello di ancoraggio che occupa il centro dell’Anello ancestrale. La sua storia riconduce a Godfrey, primo Lord ancestrale, e alla stirpe aurea nata dalla sua discendenza.',
+  },
+  {
+    name: 'Runa maggiore di Radahn',
+    iconUrl: `${runeIconBaseUrl}radahns_great_rune.png`,
+    effect: 'Aumenta PV, PA e stamina massimi.',
+    description: 'Radahn nacque da Rennala e Radagon e divenne semidio dopo l’unione di Radagon con la regina Marika. La runa arde ancora, opponendosi all’avanzata della marcescenza scarlatta.',
+  },
+  {
+    name: 'Runa maggiore di Morgott',
+    iconUrl: `${runeIconBaseUrl}morgotts_great_rune.png`,
+    effect: 'Aumenta notevolmente i PV massimi.',
+    description: 'L’anello che ne costituisce la base testimonia insieme la nascita del Re Presagio nella stirpe aurea e il suo ruolo di autentico signore di Leyndell.',
+  },
+  {
+    name: 'Runa maggiore di Rykard',
+    iconUrl: `${runeIconBaseUrl}rykards_great_rune.png`,
+    effect: 'Ripristina PV quando si sconfiggono i nemici.',
+    description: 'Rykard era uno dei figli di Rennala e Radagon. Scelse però di offrirsi al serpente blasfemo, consegnandogli insieme il proprio corpo e questa Runa Maggiore.',
+  },
+  {
+    name: 'Runa maggiore di Mohg',
+    iconUrl: `${runeIconBaseUrl}mohgs_great_rune.png`,
+    effect: 'Conferisce ai fantasmi evocati la benedizione del sangue.',
+    description: 'Mohg e Morgott sono gemelli, e le loro rune si somigliano per natura. Quella di Mohg è però intrisa di sangue maledetto e del legame con l’abisso in cui nacque.',
+  },
+  {
+    name: 'Runa maggiore di Malenia',
+    iconUrl: `${runeIconBaseUrl}malenias_great_rune.png`,
+    effect: 'Permette di recuperare parte dei PV attaccando subito dopo aver subito danni, ma riduce la cura delle ampolle cremisi.',
+    description: 'La runa è ormai segnata dalla marcescenza, ma conserva lo spirito di resistenza di Malenia, figlia di Marika e Radagon. Avrebbe dovuto essere la più sacra di tutte.',
+  },
+]
+
+function getGreatRuneInfo(name: string): GreatRuneInfo | null {
+  return greatRuneCatalog.find((rune) => rune.name === name) ?? null
+}
 
 type DraftSlotKind = 'rightHand' | 'leftHand' | 'armor' | 'talisman' | 'spell'
 
@@ -262,6 +326,64 @@ function ItemLoreDialog({
   )
 }
 
+function GreatRuneDialog({ rune, onClose }: { rune: GreatRuneInfo | null; onClose: () => void }) {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const titleId = useId()
+  const descriptionId = useId()
+  const [imageFailed, setImageFailed] = useState(false)
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (rune && !dialog.open) dialog.showModal()
+    if (!rune && dialog.open) dialog.close()
+  }, [rune])
+
+  useEffect(() => setImageFailed(false), [rune?.name])
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className="build-item-dialog build-rune-dialog"
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      onCancel={(event) => {
+        event.preventDefault()
+        onClose()
+      }}
+      onClose={onClose}
+    >
+      {rune && (
+        <div className="build-item-dialog__content">
+          <button type="button" className="build-item-dialog__close" aria-label="Chiudi descrizione" onClick={onClose} autoFocus>
+            <X aria-hidden="true" />
+          </button>
+          <div className="build-item-dialog__art build-rune-dialog__art">
+            {!imageFailed
+              ? <img src={rune.iconUrl} alt={`Simbolo di ${rune.name}`} decoding="async" onError={() => setImageFailed(true)} />
+              : <Gem aria-hidden="true" />}
+          </div>
+          <article className="build-item-dialog__copy">
+            <p className="overline">Runa Maggiore · Effetto e storia</p>
+            <h2 id={titleId}>{rune.name}</h2>
+            <div id={descriptionId} className="build-item-dialog__description build-rune-dialog__description">
+              <strong>{rune.effect}</strong>
+              <p>{rune.description}</p>
+            </div>
+          </article>
+        </div>
+      )}
+    </dialog>
+  )
+}
+
+function GreatRuneIcon({ rune }: { rune: GreatRuneInfo }) {
+  const [failed, setFailed] = useState(false)
+  return failed
+    ? <Gem aria-hidden="true" />
+    : <img src={rune.iconUrl} alt="" decoding="async" onError={() => setFailed(true)} />
+}
+
 interface VisualSlotProps {
   item: BuildItem | null
   target: DraftTarget
@@ -416,6 +538,103 @@ function SpellSlotGrid({ items, ...slotProps }: { items: Array<BuildItem | null>
   )
 }
 
+const equipLoadLabels: Record<EquipLoadClass, string> = {
+  light: 'Carico leggero',
+  medium: 'Carico medio',
+  heavy: 'Carico pesante',
+  overloaded: 'Sovraccarico',
+}
+
+function ItemAnalysisBadges({ item, stats }: { item: BuildItem; stats: CharacterStats }) {
+  const gaps = getRequirementGaps(item, stats)
+  const fit = getScalingFit(item, stats)
+  if (!gaps.length && !fit) return null
+
+  return (
+    <span className="build-item-analysis">
+      {gaps.length > 0 && (
+        <span className="build-analysis-badge" data-tone="invalid" title={gaps.map((gap) => `${offensiveStatLabels[gap.stat]} ${gap.current}/${gap.required}`).join(' · ')}>
+          <AlertTriangle aria-hidden="true" /> Requisiti
+        </span>
+      )}
+      {fit && (
+        <span className="build-analysis-badge" data-tone={fit.tone} title="Stima basata sugli attributi attuali e sui coefficienti di scaling">
+          <TrendingUp aria-hidden="true" /> {fit.label}
+        </span>
+      )}
+    </span>
+  )
+}
+
+function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; draft: DraftLoadout }) {
+  const equipment = [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans]
+  const checkedItems = [...draft.rightHand, ...draft.leftHand, ...draft.spells]
+    .filter((item): item is BuildItem => Boolean(item?.requirements && Object.keys(item.requirements).length))
+  const requirementIssues = checkedItems.flatMap((item) => {
+    const gaps = getRequirementGaps(item, character.stats)
+    return gaps.length ? [{ item, gaps }] : []
+  })
+  const load = getEquipLoad(equipment, character.stats.endurance)
+  const weaponFits = [...draft.rightHand, ...draft.leftHand]
+    .filter((item): item is BuildItem => Boolean(item))
+    .map((item) => ({ item, fit: getScalingFit(item, character.stats) }))
+    .filter((entry): entry is { item: BuildItem; fit: NonNullable<ReturnType<typeof getScalingFit>> } => Boolean(entry.fit))
+
+  return (
+    <section className="build-panel build-analysis" aria-labelledby="build-analysis-title">
+      <div className="build-panel-heading">
+        <CircleGauge aria-hidden="true" />
+        <div><p className="overline">Controllo in tempo reale</p><h2 id="build-analysis-title">Analisi della bozza</h2></div>
+      </div>
+      <div className="build-analysis-grid">
+        <article className="build-analysis-card" data-state={requirementIssues.length ? 'warning' : 'success'}>
+          <div className="build-analysis-card__heading">
+            {requirementIssues.length ? <AlertTriangle aria-hidden="true" /> : <CircleCheckBig aria-hidden="true" />}
+            <div><span>Requisiti base</span><strong>{requirementIssues.length ? `${requirementIssues.length} incompatibilità` : 'Tutto compatibile'}</strong></div>
+          </div>
+          {requirementIssues.length ? (
+            <ul>
+              {requirementIssues.slice(0, 4).map(({ item, gaps }, index) => (
+                <li key={`${itemKey(item)}-${index}`}><strong>{displayItem(item)}</strong><span>{gaps.map((gap) => `${offensiveStatLabels[gap.stat]} ${gap.current}/${gap.required}`).join(' · ')}</span></li>
+              ))}
+            </ul>
+          ) : <p>{checkedItems.length ? `${checkedItems.length} ${checkedItems.length === 1 ? 'elemento controllato' : 'elementi controllati'}.` : 'Inserisci un’arma o una magia per avviare il controllo.'}</p>}
+          <small>La Forza è verificata a una mano; l’eventuale bonus a due mani non è applicato.</small>
+        </article>
+
+        <article className="build-analysis-card" data-state={load.loadClass === 'overloaded' ? 'warning' : 'neutral'}>
+          <div className="build-analysis-card__heading">
+            <Scale aria-hidden="true" />
+            <div><span>Peso equipaggiato</span><strong>{load.current.toFixed(1)} / {load.maximum.toFixed(1)}</strong></div>
+          </div>
+          <div className="build-load-meter" role="meter" aria-label="Percentuale del carico equipaggiamento" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.min(100, Math.round(load.percentage))}>
+            <span data-load={load.loadClass} style={{ width: `${Math.min(100, load.percentage)}%` }} />
+          </div>
+          <p><strong>{equipLoadLabels[load.loadClass]}</strong> · {load.percentage.toFixed(1)}%</p>
+          <small>{load.enduranceBonus || load.equipLoadRate
+            ? `Bonus equipaggiati inclusi${load.enduranceBonus ? `: Vigore +${load.enduranceBonus}` : ''}${load.equipLoadRate ? ` · carico +${Math.round(load.equipLoadRate * 100)}%` : ''}.`
+            : 'Capacità calcolata dal Vigore attuale.'}</small>
+        </article>
+
+        <article className="build-analysis-card" data-state="neutral">
+          <div className="build-analysis-card__heading">
+            <TrendingUp aria-hidden="true" />
+            <div><span>Affinità statistiche</span><strong>{weaponFits.length ? `${weaponFits.length} armi valutate` : 'In attesa'}</strong></div>
+          </div>
+          {weaponFits.length ? (
+            <ul className="build-fit-list">
+              {weaponFits.map(({ item, fit }, index) => (
+                <li key={`${itemKey(item)}-${index}`}><strong>{displayItem(item)}</strong><span className="build-analysis-badge" data-tone={fit.tone}>{fit.label}</span></li>
+              ))}
+            </ul>
+          ) : <p>Inserisci un’arma nella bozza per confrontarne lo scaling.</p>}
+          <small>È una stima di consonanza, non il calcolo del danno finale.</small>
+        </article>
+      </div>
+    </section>
+  )
+}
+
 function InventorySection({
   title,
   items,
@@ -427,6 +646,7 @@ function InventorySection({
   onDragStart,
   onDragEnd,
   onInspect,
+  characterStats,
 }: {
   title: string
   items: BuildItem[]
@@ -438,6 +658,7 @@ function InventorySection({
   onDragStart: (item: BuildItem) => void
   onDragEnd: () => void
   onInspect: (item: BuildItem) => void
+  characterStats: CharacterStats
 }) {
   return (
     <details className="build-inventory-section">
@@ -473,6 +694,7 @@ function InventorySection({
               <span className="build-item-meta">
                 {equippedKeys.has(itemKey(item)) && <em><Check aria-hidden="true" /> Equipaggiato</em>}
                 {item.quantity > 1 && <small>×{item.quantity}</small>}
+                <ItemAnalysisBadges item={item} stats={characterStats} />
                 <ItemInfoButton item={item} onInspect={onInspect} />
               </span>
             </li>
@@ -490,6 +712,7 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
   const draggedSourceRef = useRef<DraftTarget | null>(null)
   const [query, setQuery] = useState('')
   const [inspectedItem, setInspectedItem] = useState<BuildItem | null>(null)
+  const [inspectedRune, setInspectedRune] = useState<GreatRuneInfo | null>(null)
   const [description, setDescription] = useState<string | null>(null)
   const [descriptionLoading, setDescriptionLoading] = useState(false)
   const [draft, setDraft] = useState<DraftLoadout>(() => buildSessionCache.drafts.get(character.slotIndex) ?? createDraftLoadout(character))
@@ -681,6 +904,8 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
         </dl>
       </section>
 
+      <BuildAnalysisPanel character={character} draft={draft} />
+
       <div className="build-two-column">
         <section className="build-panel" aria-labelledby="equipment-title">
           <div className="build-equipment-header">
@@ -730,10 +955,35 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
                 : 'Nessuna Runa Maggiore attivata rilevata nell’inventario.'}
             </p>
             <div className="build-great-rune__options" role="group" aria-label="Scegli la Runa Maggiore della build">
-              <button type="button" className={!draft.greatRune ? 'is-selected' : undefined} aria-pressed={!draft.greatRune} onClick={() => equipGreatRune(null)}>Nessuna</button>
-              {greatRuneOptions.map((greatRune) => (
-                <button key={greatRune} type="button" className={draft.greatRune === greatRune ? 'is-selected' : undefined} aria-pressed={draft.greatRune === greatRune} onClick={() => equipGreatRune(greatRune)}>{greatRune}</button>
-              ))}
+              <div className="build-rune-choice-wrap">
+                <button type="button" className={`build-rune-choice${!draft.greatRune ? ' is-selected' : ''}`} aria-pressed={!draft.greatRune} aria-label="Nessuna Runa Maggiore" title="Nessuna" onClick={() => equipGreatRune(null)}>
+                  <X aria-hidden="true" />
+                  <span>Nessuna</span>
+                </button>
+              </div>
+              {greatRuneOptions.map((greatRune) => {
+                const rune = getGreatRuneInfo(greatRune)
+                return (
+                  <div className="build-rune-choice-wrap" key={greatRune}>
+                    <button
+                      type="button"
+                      className={`build-rune-choice${draft.greatRune === greatRune ? ' is-selected' : ''}`}
+                      aria-pressed={draft.greatRune === greatRune}
+                      aria-label={`Equipaggia ${greatRune}`}
+                      title={greatRune}
+                      onClick={() => equipGreatRune(greatRune)}
+                    >
+                      {rune ? <GreatRuneIcon rune={rune} /> : <Gem aria-hidden="true" />}
+                      <span>{greatRune.replace('Runa maggiore di ', '')}</span>
+                    </button>
+                    {rune && (
+                      <button type="button" className="build-item-info build-rune-info" aria-label={`Apri la descrizione di ${greatRune}`} title="Apri descrizione" onClick={() => setInspectedRune(rune)}>
+                        <Info aria-hidden="true" />
+                      </button>
+                    )}
+                  </div>
+                )
+              })}
             </div>
             <small className="build-great-rune__note">Scelta valida solo per questa bozza.</small>
           </section>
@@ -753,10 +1003,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
           </label>
         </div>
         <div className="build-inventory-grid">
-          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
-          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
-          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
-          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} />
+          <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
+          <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
+          <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
+          <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />
         </div>
         {character.unresolvedItems > 0 && <p className="build-parser-note">{character.unresolvedItems} oggetti non sono ancora riconosciuti dal dizionario di questa versione.</p>}
       </section>
@@ -766,6 +1016,7 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
         loading={descriptionLoading}
         onClose={() => setInspectedItem(null)}
       />
+      <GreatRuneDialog rune={inspectedRune} onClose={() => setInspectedRune(null)} />
     </div>
   )
 }

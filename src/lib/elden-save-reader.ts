@@ -1,4 +1,5 @@
 import itemNames from '../data/build/item-names.json'
+import itemStats from '../data/build/item-stats.json'
 
 const SLOT_COUNT = 10
 const HEADER_SIZE = 0x300
@@ -11,6 +12,9 @@ const EMPTY_ITEM = 0xffffffff
 
 type ItemCategory = 'weapon' | 'armor' | 'talisman' | 'spell'
 export type ArmorSlot = 'head' | 'chest' | 'arms' | 'legs'
+export type OffensiveStat = 'strength' | 'dexterity' | 'intelligence' | 'faith' | 'arcane'
+export type ItemRequirements = Partial<Record<OffensiveStat, number>>
+export type ItemScaling = Partial<Record<OffensiveStat, number>>
 
 interface NameDatabase {
   weapons: Record<string, string>
@@ -28,7 +32,24 @@ interface NameDatabase {
   }
 }
 
+interface ItemAnalysisData {
+  weight?: number
+  requirements?: ItemRequirements
+  scaling?: ItemScaling
+  memorySlots?: number
+  enduranceBonus?: number
+  equipLoadRate?: number
+}
+
+interface ItemStatsDatabase {
+  weapons: Record<string, ItemAnalysisData>
+  armor: Record<string, ItemAnalysisData>
+  talismans: Record<string, ItemAnalysisData>
+  spells: Record<string, ItemAnalysisData>
+}
+
 const names = itemNames as NameDatabase
+const stats = itemStats as ItemStatsDatabase
 
 export interface CharacterStats {
   vigor: number
@@ -51,6 +72,12 @@ export interface BuildItem {
   upgradeLevel?: number
   spellType?: 'sorcery' | 'incantation'
   armorSlot?: ArmorSlot
+  weight?: number
+  requirements?: ItemRequirements
+  scaling?: ItemScaling
+  memorySlots?: number
+  enduranceBonus?: number
+  equipLoadRate?: number
 }
 
 export interface EquippedBuild {
@@ -214,6 +241,17 @@ function getArmorSlot(id: number): ArmorSlot | undefined {
   return undefined
 }
 
+function withItemStats(item: BuildItem): BuildItem {
+  const group = item.category === 'weapon'
+    ? stats.weapons
+    : item.category === 'armor'
+      ? stats.armor
+      : item.category === 'talisman'
+        ? stats.talismans
+        : stats.spells
+  return { ...item, ...group[String(item.id)] }
+}
+
 function resolveSpell(id: number, quantity = 1, equipped = false): BuildItem | null {
   const spellType = names.spellTypes[String(id)]
   const name = names.goods[String(id)]
@@ -223,7 +261,7 @@ function resolveSpell(id: number, quantity = 1, equipped = false): BuildItem | n
       ? names.icons.incantations[String(id)]
       : undefined
   return spellType && name
-    ? {
+    ? withItemStats({
         id,
         name,
         category: 'spell',
@@ -231,7 +269,7 @@ function resolveSpell(id: number, quantity = 1, equipped = false): BuildItem | n
         equipped,
         spellType,
         iconUrl: iconPath ? `${names.icons.baseUrl}${iconPath}` : undefined,
-      }
+      })
     : null
 }
 
@@ -254,7 +292,7 @@ function resolveHandle(
     const name = names.weapons[String(baseId)]
     const iconUrl = getIconUrl('weapon', baseId)
     return name && iconUrl
-      ? { id: baseId, name, category, quantity, equipped, upgradeLevel, iconUrl }
+      ? withItemStats({ id: baseId, name, category, quantity, equipped, upgradeLevel, iconUrl })
       : null
   }
 
@@ -263,7 +301,7 @@ function resolveHandle(
     if (itemId === undefined) return null
     const baseId = (itemId ^ 0x10000000) >>> 0
     const name = names.armor[String(baseId)]
-    return name ? {
+    return name ? withItemStats({
       id: baseId,
       name,
       category,
@@ -271,13 +309,13 @@ function resolveHandle(
       equipped,
       iconUrl: getIconUrl('armor', baseId),
       armorSlot: getArmorSlot(baseId),
-    } : null
+    }) : null
   }
 
   if (category === 'talisman' && type === 0xa) {
     const baseId = handle & 0x0fffffff
     const name = names.talismans[String(baseId)]
-    return name ? { id: baseId, name, category, quantity, equipped, iconUrl: getIconUrl('talisman', baseId) } : null
+    return name ? withItemStats({ id: baseId, name, category, quantity, equipped, iconUrl: getIconUrl('talisman', baseId) }) : null
   }
 
   if (category === 'spell' && type === 0xb) {

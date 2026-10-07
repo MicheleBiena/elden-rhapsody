@@ -57,12 +57,17 @@ le magie usano una griglia compatta di icone generata dal totale degli slot memo
 Ogni quadrato occupato conserva il pulsante `i` per aprire immagine e descrizione;
 gli oggetti possono essere spostati tra slot compatibili o rimossi dalla bozza.
 Equipaggiare o rimuovere la Luna di Nokstella aggiorna subito anche i due slot bonus.
-Le Rune Maggiori attivate possono essere scelte nella bozza. Salvataggio, personaggio
+Le Rune Maggiori attivate possono essere scelte da una griglia di simboli quadrati;
+ogni runa ha una scheda con immagine grande, effetto e descrizione narrativa.
+Salvataggio, personaggio
 selezionato e modifiche della build restano in memoria passando tra le schede del sito,
 ma vengono dimenticati ricaricando la pagina.
 
-I prossimi calcoli previsti sono il controllo dei requisiti base degli oggetti, il
-peso trasportabile e una valutazione colorata dello scaling rispetto alle statistiche.
+L’analisi della bozza controlla i requisiti di armi e magie, calcola peso corrente,
+carico massimo e classe di rotolata includendo i bonus permanenti degli oggetti
+equipaggiati. Le armi ricevono inoltre una valutazione colorata — accompagnata sempre
+da un’etichetta testuale — della consonanza tra scaling e attributi attuali. Questa
+valutazione è orientativa e non sostituisce un calcolo completo del danno finale.
 
 ### Analisi
 
@@ -143,7 +148,10 @@ con la documentazione comunitaria di
 [EldenRing-SaveForge](https://github.com/oisis/EldenRing-SaveForge/blob/main/docs/sl2-binary-format-spec.md).
 I nomi italiani sono estratti dai file FMG dell'installazione locale del gioco;
 le miniature vengono caricate, con fallback locale, dagli asset di SaveForge
-fissati a una revisione precisa e distribuiti con licenza GPL-3.0.
+fissati a una revisione precisa e distribuiti con licenza GPL-3.0. Pesi, requisiti,
+slot delle magie, coefficienti grezzi di scaling e modificatori del carico provengono
+dagli stessi parametri di gioco documentati da SaveForge e vengono salvati in
+`src/data/build/item-stats.json` per funzionare senza chiamate a una wiki.
 
 Per rigenerare localizzazione, descrizioni e riferimenti alle miniature dopo aver
 estratto i file `*Name.fmg.xml` e `*Caption.fmg.xml` con WitchyBND:
@@ -155,3 +163,9 @@ node scripts/enrich-er-build-data.mjs src/data/build/item-names.json <cartella-f
 Usare `-` al posto della cartella FMG per aggiornare soltanto i riferimenti alle
 miniature; usare `-` al posto della cartella SaveForge per aggiornare soltanto
 localizzazione e descrizioni.
+
+Per rigenerare i dati numerici della build da una copia locale di SaveForge:
+
+```bash
+node scripts/extract-er-build-stats.mjs src/data/build/item-names.json <weapon_stats_generated.go> <descriptions.go> <equip_load_modifiers.go> src/data/build/item-stats.json
+```
