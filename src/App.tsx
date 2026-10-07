@@ -1,82 +1,115 @@
-import { BookOpen, EyeOff, GitBranch, Languages, LockKeyhole, Swords } from 'lucide-react'
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { ConceptBoard } from './components/ConceptBoard'
-import { Questbook } from './components/Questbook'
-import { TranslationArchive } from './components/TranslationArchive'
-import { isTranslationArchiveReleased } from './data/project'
+import {
+  BookOpen,
+  EyeOff,
+  GitBranch,
+  Languages,
+  LockKeyhole,
+  Swords,
+} from "lucide-react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { ConceptBoard } from "./components/ConceptBoard";
+import { Questbook } from "./components/Questbook";
+import { TranslationArchive } from "./components/TranslationArchive";
+import { isTranslationArchiveReleased } from "./data/project";
 
 const BuildSimulator = lazy(() =>
-  import('./components/BuildSimulator').then((module) => ({ default: module.BuildSimulator })),
-)
+  import("./components/BuildSimulator").then((module) => ({
+    default: module.BuildSimulator,
+  })),
+);
 
-type TabId = 'board' | 'questbook' | 'build' | 'translations'
+type TabId = "board" | "questbook" | "build" | "translations";
 
 interface RouteState {
-  tab: TabId
-  detail?: string
+  tab: TabId;
+  detail?: string;
 }
 
 const tabs = [
-  { id: 'board', label: 'Lavagna', caption: 'Indizi e legami', icon: GitBranch },
-  { id: 'questbook', label: 'Questbook', caption: 'Diario delle quest', icon: BookOpen },
-  { id: 'build', label: 'SPOILER NON APRIRE', caption: undefined, icon: Swords },
   {
-    id: 'translations',
-    label: 'Analisi',
-    caption: isTranslationArchiveReleased ? 'Traduzioni e fonti' : 'Solo post-run',
+    id: "board",
+    label: "Lavagna",
+    caption: "Indizi e legami",
+    icon: GitBranch,
+  },
+  {
+    id: "questbook",
+    label: "Questbook",
+    caption: "Diario delle quest",
+    icon: BookOpen,
+  },
+  {
+    id: "build",
+    label: "Build Maker",
+    caption: "Valutazione Equipaggiamento",
+    icon: Swords,
+  },
+  {
+    id: "translations",
+    label: "Analisi",
+    caption: isTranslationArchiveReleased
+      ? "Traduzioni e fonti"
+      : "Solo post-run",
     icon: isTranslationArchiveReleased ? Languages : LockKeyhole,
     ariaLabel: isTranslationArchiveReleased
-      ? 'Analisi, traduzioni e fonti'
-      : 'Analisi, disponibili solo dopo la conclusione della run',
+      ? "Analisi, traduzioni e fonti"
+      : "Analisi, disponibili solo dopo la conclusione della run",
   },
-] as const
+] as const;
 
 function readRoute(): RouteState {
-  const parts = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean)
-  const candidate = parts[0]
-  const tab: TabId = candidate === 'map'
-    ? 'build'
-    : candidate === 'build' || candidate === 'translations' || candidate === 'board' || candidate === 'questbook'
-      ? candidate
-      : 'board'
-  return { tab, detail: parts[1] }
+  const parts = window.location.hash
+    .replace(/^#\/?/, "")
+    .split("/")
+    .filter(Boolean);
+  const candidate = parts[0];
+  const tab: TabId =
+    candidate === "map"
+      ? "build"
+      : candidate === "build" ||
+          candidate === "translations" ||
+          candidate === "board" ||
+          candidate === "questbook"
+        ? candidate
+        : "board";
+  return { tab, detail: parts[1] };
 }
 
 export default function App() {
-  const [route, setRoute] = useState<RouteState>(() => readRoute())
-  const mainRef = useRef<HTMLElement>(null)
-  const previousTab = useRef(route.tab)
+  const [route, setRoute] = useState<RouteState>(() => readRoute());
+  const mainRef = useRef<HTMLElement>(null);
+  const previousTab = useRef(route.tab);
 
   useEffect(() => {
     if (!window.location.hash) {
-      window.history.replaceState(null, '', '#/board')
+      window.history.replaceState(null, "", "#/board");
     }
 
     const handleHashChange = () => {
-      const nextRoute = readRoute()
-      setRoute(nextRoute)
+      const nextRoute = readRoute();
+      setRoute(nextRoute);
 
       if (nextRoute.tab !== previousTab.current) {
-        previousTab.current = nextRoute.tab
-        window.requestAnimationFrame(() => mainRef.current?.focus())
+        previousTab.current = nextRoute.tab;
+        window.requestAnimationFrame(() => mainRef.current?.focus());
       }
-    }
+    };
 
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
-  }, [])
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   const openConcept = (conceptId: string) => {
-    setRoute({ tab: 'board', detail: conceptId })
-    window.location.hash = `/board/${conceptId}`
-  }
+    setRoute({ tab: "board", detail: conceptId });
+    window.location.hash = `/board/${conceptId}`;
+  };
 
   const closeConcept = () => {
     if (readRoute().detail) {
-      setRoute({ tab: 'board' })
-      window.location.hash = '/board'
+      setRoute({ tab: "board" });
+      window.location.hash = "/board";
     }
-  }
+  };
 
   return (
     <div className="app-shell">
@@ -85,7 +118,11 @@ export default function App() {
       </a>
 
       <header className="site-header">
-        <a className="brand" href="#/board" aria-label="Elden Rhapsody, lavagna principale">
+        <a
+          className="brand"
+          href="#/board"
+          aria-label="Elden Rhapsody, lavagna principale"
+        >
           <span className="brand-mark" aria-hidden="true">
             <span />
           </span>
@@ -97,15 +134,15 @@ export default function App() {
 
         <nav className="tab-navigation" aria-label="Sezioni principali">
           {tabs.map((tab) => {
-            const Icon = tab.icon
-            const active = route.tab === tab.id
+            const Icon = tab.icon;
+            const active = route.tab === tab.id;
             return (
               <a
                 key={tab.id}
                 href={`#/${tab.id}`}
-                className={active ? 'nav-tab is-active' : 'nav-tab'}
-                aria-current={active ? 'page' : undefined}
-                aria-label={'ariaLabel' in tab ? tab.ariaLabel : undefined}
+                className={active ? "nav-tab is-active" : "nav-tab"}
+                aria-current={active ? "page" : undefined}
+                aria-label={"ariaLabel" in tab ? tab.ariaLabel : undefined}
               >
                 <Icon aria-hidden="true" />
                 <span>
@@ -113,7 +150,7 @@ export default function App() {
                   {tab.caption && <small>{tab.caption}</small>}
                 </span>
               </a>
-            )
+            );
           })}
         </nav>
 
@@ -121,50 +158,54 @@ export default function App() {
           className="blind-badge"
           title={
             isTranslationArchiveReleased
-              ? 'La sezione Analisi è stata aperta dopo la conclusione della run'
-              : 'La sezione Analisi resta sigillata fino alla conclusione della run'
+              ? "La sezione Analisi è stata aperta dopo la conclusione della run"
+              : "La sezione Analisi resta sigillata fino alla conclusione della run"
           }
           aria-label={
             isTranslationArchiveReleased
-              ? 'Controllo spoiler: archivio post-run aperto'
-              : 'Controllo spoiler: analisi sigillate'
+              ? "Controllo spoiler: archivio post-run aperto"
+              : "Controllo spoiler: analisi sigillate"
           }
         >
           <EyeOff aria-hidden="true" />
           <span>
             <strong>Controllo spoiler</strong>
             <small>
-              {isTranslationArchiveReleased ? 'Archivio post-run aperto' : 'Analisi sigillate'}
+              {isTranslationArchiveReleased
+                ? "Archivio post-run aperto"
+                : "Analisi sigillate"}
             </small>
           </span>
         </div>
       </header>
 
       <main id="main-content" ref={mainRef} tabIndex={-1}>
-        {route.tab === 'board' && (
+        {route.tab === "board" && (
           <ConceptBoard
             activeConceptId={route.detail}
             onOpenConcept={openConcept}
             onCloseConcept={closeConcept}
           />
         )}
-        {route.tab === 'questbook' && <Questbook activeQuestId={route.detail} />}
-        {route.tab === 'build' && (
+        {route.tab === "questbook" && (
+          <Questbook activeQuestId={route.detail} />
+        )}
+        {route.tab === "build" && (
           <Suspense fallback={<p className="page">Apro l’officina…</p>}>
             <BuildSimulator />
           </Suspense>
         )}
-        {route.tab === 'translations' && (
+        {route.tab === "translations" && (
           <TranslationArchive onOpenConcept={openConcept} />
         )}
       </main>
 
       <footer className="site-footer">
         <p>
-          Fan project non ufficiale · Elden Ring e i relativi marchi appartengono ai
-          rispettivi titolari.
+          Fan project non ufficiale · Elden Ring e i relativi marchi
+          appartengono ai rispettivi titolari.
         </p>
       </footer>
     </div>
-  )
+  );
 }
