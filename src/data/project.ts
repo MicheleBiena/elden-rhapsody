@@ -1810,11 +1810,92 @@ const conceptArchive: LoreConcept[] = [
     questions: ['È una divinità?', 'Qual è il suo rapporto con Marika e l’Elden Ring?', 'La Grazia esprime direttamente la sua volontà?'],
     tags: ['Volontà Superiore', 'Due Dita', 'Enia', 'Grazia', 'Ordine Aureo'], position: { x: 70, y: 97 },
   },
+  {
+    id: 'miriel', name: 'Miriel', eyebrow: 'Pastore dei voti',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Enorme tartaruga parlante con copricapo da papa, custode della Chiesa dei Voti in Liurnia. Accoglie i Senzaluce e offre guida e insegnamenti.',
+    body: 'Miriel si presenta come pastore dei voti e custode della Chiesa dei Voti. È una tartaruga enorme e parlante, con un copricapo che ricorda quello di un papa. Dice di non potersi muovere molto e invita a visitare liberamente la chiesa, offrendo istruzioni e conoscenza. Se riceve un libro di preghiere accetta di studiarlo insieme a noi.',
+    imageUrl: './concepts/miriel.webp',
+    imageAlt: 'Miriel, enorme tartaruga parlante con copricapo da papa nella Chiesa dei Voti',
+    imagePosition: '50% 30%',
+    textSections: [
+      {
+        title: 'Presentazione',
+        language: 'en',
+        text: 'You\'re Tarnished, aren\'t you? I welcome you, to the Church of Vows. I am Miriel, steward of this sacred chamber.',
+      },
+      {
+        title: 'Visita',
+        language: 'en',
+        text: 'Oh, was there something you needed? You are free to show yourself around. I would serve as your guide, only my legs aren\'t what they used to be... If you find anything of use, you are free to take it with you. Unless perhaps you are in search of instruction? In which case, I will share all that I know.',
+      },
+      {
+        title: 'Libro di preghiere',
+        language: 'en',
+        text: 'Oh, what have we here? Very well, let us both learn together. Heresy is not native to the world; it is but a contrivance. All things can be conjoined.',
+      },
+    ],
+    evidence: ['È una tartaruga parlante di grandi dimensioni.', 'Porta un copricapo simile a quello di un papa.', 'È il custode della Chiesa dei Voti.', 'Offre guida, istruzioni e studio dei libri di preghiere.'],
+    questions: ['Da quanto tempo custodisce la chiesa?', 'Quali insegnamenti può trasmettere?', 'Perché una tartaruga ricopre questo ruolo?'],
+    tags: ['Miriel', 'pastore dei voti', 'Chiesa dei Voti', 'tartaruga', 'Liurnia'], position: { x: 15, y: 94 },
+  },
+  {
+    id: 'chiesa-dei-voti', name: 'Chiesa dei Voti', eyebrow: 'Unione di Albero e Luna',
+    category: 'Luogo', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Chiesa in Liurnia dove le casate dell’Albero Madre e della Luna si unirono. Conserva i monumenti di entrambe e concede l’assoluzione dei peccati.',
+    body: 'La Chiesa dei Voti è il luogo dove le grandi casate dell’Albero Madre e della Luna si unirono. Per questo conserva in vista i monumenti di entrambe: l’Albero Madre della capitale e l’Accademia di Raya Lucaria. Miriel ne è il custode. Qui è possibile chiedere l’assoluzione dei peccati.',
+    evidence: ['Unisce le casate dell’Albero Madre e della Luna.', 'Mostra i monumenti dell’Albero Madre e dell’Accademia.', 'Miriel la custodisce.', 'Concede l’assoluzione dei peccati.'],
+    questions: ['Quale voto unì le due casate?', 'Come avviene l’assoluzione?', 'Chi ha costruito la chiesa?'],
+    tags: ['Chiesa dei Voti', 'Liurnia', 'Albero Madre', 'Raya Lucaria', 'assoluzione'], position: { x: 38, y: 94 },
+  },
+  {
+    id: 'rennala', name: 'Rennala', eyebrow: 'Regina della Luna Piena',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Regina della famiglia reale di Caria e governatrice dell’Accademia di Raya Lucaria, detta Strega della Luna Piena. Dopo l’addio di Radagon stringe un uovo d’ambra.',
+    body: 'Rennala è regina e capo della famiglia reale di Caria, oltre che governatrice dell’Accademia di Raya Lucaria. È chiamata la grande e bella Strega della Luna Piena. Il suo cuore si spezzò quando Radagon la lasciò; quando l’Accademia si ribellò alla casa reale, fu rinchiusa nella grande biblioteca. Ora resta sola e culla l’uovo d’ambra donatole da Radagon, dedicandosi alla tetra arte della reincarnazione.',
+    textSections: [
+      {
+        title: 'Racconto di Miriel',
+        language: 'en',
+        text: 'She is Queen, head of the Carian royal family, and governor of the Academy of Raya Lucaria. The great and beautiful Full Moon Witch. Sadly, her heart was broken when Lord Radagon left her. And then, when the academy rebelled against the royals, she was locked away in the grand library.',
+      },
+      {
+        title: 'Uovo d’ambra',
+        language: 'en',
+        text: 'In the end, Lady Rennala was left alone, cradling the amber egg Lord Radagon bequeathed her. Now she devotes herself to it through forbidden rite; the grim art of reincarnation.',
+      },
+    ],
+    evidence: ['Guida la famiglia reale di Caria e l’Accademia di Raya Lucaria.', 'È detta Strega della Luna Piena.', 'Fu abbandonata da Radagon.', 'Dopo la ribellione dell’Accademia fu rinchiusa nella biblioteca.', 'Custodisce l’uovo d’ambra di Radagon.'],
+    questions: ['Dove si trova ora Rennala?', 'Che cosa contiene l’uovo d’ambra?', 'Perché l’Accademia si ribellò?'],
+    tags: ['Rennala', 'Caria', 'Raya Lucaria', 'Luna Piena', 'uovo d’ambra', 'reincarnazione'], position: { x: 62, y: 94 },
+  },
+  {
+    id: 'radagon', name: 'Radagon', eyebrow: 'Campione dai capelli rossi',
+    category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
+    summary: 'Campione dai capelli rossi, marito di Rennala e poi secondo marito di Marika come secondo Lord Elden. Si dice nasconda un segreto custodito dalla sua statua.',
+    body: 'Radagon era un grande campione dai fluenti capelli rossi. Giunse con una grande armata dorata e affrontò Rennala in battaglia, poi si pentì e divenne marito della regina di Caria. Quando Godfrey fu scacciato, lasciò Rennala per tornare alla capitale dell’Albero Madre, divenendo secondo marito di Marika e re consorte con il titolo di secondo Lord Elden. Resta il mistero del perché abbia abbandonato Rennala e di come un semplice campione sia stato scelto per il seggio. Si dice nascondesse un segreto, intravisto dallo scultore chiamato a ritrarlo e custodito dalla grande statua.',
+    textSections: [
+      {
+        title: 'Racconto di Miriel',
+        language: 'en',
+        text: 'Lord Radagon was a great champion, possessed of flowing red locks. He came to these lands at the head of a great golden host, when he met Lady Rennala in battle. He soon repented his territorial aggressions though, and became husband to the Carian Queen. However, when Godfrey, first Elden Lord, was hounded from the Lands Between, Radagon left Rennala to return to the Erdtree Capital, becoming Queen Marika\'s second husband and King Consort, taking the title...of second Elden Lord.',
+      },
+      {
+        title: 'Segreto',
+        language: 'en',
+        text: 'You know, it\'s said that Lord Radagon harboured a secret... A famed sculptor of the Erdtree Capital was once summoned to render Lord Radagon\'s likeness in giant stature. When he glimpsed the skeleton in Radagon\'s closet. And as such, it\'s said the great statue harbours his secret too.',
+      },
+    ],
+    evidence: ['Campione dai capelli rossi a capo di un’armata dorata.', 'Sposò Rennala dopo averla affrontata.', 'Lasciò Rennala per sposare Marika.', 'Divenne secondo Lord Elden.', 'Una statua della capitale ne custodirebbe il segreto.'],
+    questions: ['Perché lasciò Rennala?', 'Perché fu scelto come Lord Elden?', 'Qual è il segreto della statua?'],
+    tags: ['Radagon', 'Rennala', 'Marika', 'Lord Elden', 'Godfrey', 'statua', 'segreto'], position: { x: 85, y: 94 },
+  },
 ]
 
 // Dal 23 settembre: identikit sulla lavagna, azioni e avanzamenti nel Questbook.
 const currentEpisodeConceptIds = new Set<string>([
   'fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica',
+  'miriel', 'chiesa-dei-voti', 'rennala', 'radagon',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([])
 
@@ -2866,6 +2947,30 @@ export const connections: LoreConnection[] = [
     label: 'simbolo sul coperchio',
     note: 'Sul coperchio di Alexander è inciso il simbolo dell’Albero Madre; non sappiamo ancora che cosa indichi.',
     kind: 'ipotesi',
+  },
+  {
+    id: 'miriel-chiesa-dei-voti', from: 'miriel', to: 'chiesa-dei-voti', label: 'custode',
+    note: 'Miriel è il pastore e custode della Chiesa dei Voti.', kind: 'traccia',
+  },
+  {
+    id: 'chiesa-voti-accademia', from: 'chiesa-dei-voti', to: 'accademia-raya-lucaria', label: 'monumento della Luna',
+    note: 'La chiesa conserva in vista il monumento dell’Accademia di Raya Lucaria, per l’unione con la casata della Luna.', kind: 'traccia',
+  },
+  {
+    id: 'chiesa-voti-albero', from: 'chiesa-dei-voti', to: 'albero-madre', label: 'monumento dell’Albero',
+    note: 'La chiesa conserva in vista il monumento dell’Albero Madre della capitale, per l’unione con la sua casata.', kind: 'traccia',
+  },
+  {
+    id: 'rennala-radagon', from: 'rennala', to: 'radagon', label: 'voto spezzato',
+    note: 'Radagon fu marito di Rennala e poi la lasciò per Marika; Rennala ne custodisce l’uovo d’ambra.', kind: 'traccia',
+  },
+  {
+    id: 'rennala-accademia', from: 'rennala', to: 'accademia-raya-lucaria', label: 'governatrice',
+    note: 'Rennala è governatrice dell’Accademia di Raya Lucaria, da cui fu poi isolata dopo la ribellione.', kind: 'traccia',
+  },
+  {
+    id: 'radagon-marika', from: 'radagon', to: 'regina-marika', label: 'secondo marito',
+    note: 'Dopo Godfrey, Radagon divenne secondo marito di Marika e secondo Lord Elden.', kind: 'traccia',
   },
 ]
 

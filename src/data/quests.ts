@@ -909,12 +909,16 @@ export const quests: QuestEntry[] = [
     title: "EHI CUGGI",
     npc: "Vasi di Vasburgo",
     region: "Liurnia Lacustre",
-    status: "fallita",
+    status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "La possibile quest di Vasburgo si è interrotta prima di iniziare: Red ha attaccato i vasi pacifici del villaggio. La ricostruzione completa resta rinviata alla fine della run.",
+      "A Vasburgo incontriamo un piccolo vaso che ci scambia per cuggino e ci propone di diventare Potentato. Dopo l’attacco ai vasi, l’assoluzione alla Chiesa dei Voti ha salvato la storia dalla chiusura prematura.",
     lastSeen: {
       location: "Vasburgo, Liurnia Lacustre",
-      note: "I vasi del villaggio sono diventati ostili dopo l’attacco.",
+      note: "Il piccolo vaso resta nel villaggio e ci invita a tornare a trovarlo.",
+    },
+    destination: {
+      location: "Non ancora nota",
     },
     steps: [
       {
@@ -922,15 +926,31 @@ export const quests: QuestEntry[] = [
         text: "Raggiungiamo un villaggio abitato da vasi pacifici, che non mostrano ostilità al nostro arrivo.",
       },
       {
-        title: "La quest interrotta",
-        text: "Red attacca i vasi di Vasburgo e la possibile storia del villaggio termina prematuramente. Non aggiungiamo dettagli futuri per evitare spoiler.",
+        title: "L’attacco ai vasi",
+        text: "Red attacca i vasi di Vasburgo e i superstiti diventano ostili: la storia del villaggio sembra interrompersi.",
+      },
+      {
+        title: "Il piccolo cuggino",
+        text: "Un piccolo vaso ci saluta come cuggino e ci chiede se vogliamo diventare il nuovo Potentato. Accettiamo e ci sottopone alla prova delle mani: le nostre non sono abbastanza lisce e scivolose, così rifiuta, ma resta amichevole e ci invita a tornare.",
+      },
+      {
+        title: "Fiori e zio Alexander",
+        text: "Il vaso ci segnala i fiori rari del villaggio che possiamo raccogliere e ci parla dello zio Alexander, partito per diventare campione. Ci chiede di farci insegnare a combattere da lui se lo incontriamo. Confessa di essere anche lui un vaso guerriero e di voler un giorno lasciare il villaggio.",
+      },
+      {
+        title: "Assoluzione",
+        text: "Alla Chiesa dei Voti chiediamo l’assoluzione dei peccati per l’attacco ai vasi: la quest di Vasburgo torna aperta.",
       },
     ],
+    nextStep: {
+      text: "Trovare qualcuno con mani più lisce e adatte a diventare Potentato. Non abbiamo ancora un nome o un luogo da seguire.",
+      hypothetical: true,
+    },
     portrait: {
       imageUrl: "./concepts/vasburgo-vaso.webp",
       imageAlt: "Un piccolo vaso senziente seduto fra i fiori di Vasburgo",
       imagePosition: "30% 46%",
     },
-    linkedConceptIds: ["liurnia-lacustre"],
+    linkedConceptIds: ["liurnia-lacustre", "chiesa-dei-voti", "miriel", "alexander-vaso-guerriero"],
   },
 ];

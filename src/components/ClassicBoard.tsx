@@ -52,6 +52,10 @@ const currentEpisodeLayoutConceptIds = new Set([
   'fiume-ainsel',
   'soldato-draconico-nokstella',
   'bestia-meteoritica',
+  'miriel',
+  'chiesa-dei-voti',
+  'rennala',
+  'radagon',
 ])
 const episodeLayoutConceptIds = new Set([
   'nepheli-loux',
@@ -432,6 +436,10 @@ const boardConceptOrder = [
   'guerra-civile-liurnia',
   'progenie-innestata',
   'nepheli-loux',
+  'miriel',
+  'chiesa-dei-voti',
+  'rennala',
+  'radagon',
 ] as const
 
 const orderedConcepts = boardConceptOrder

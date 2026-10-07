@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 89)
+assert.equal(await page.locator('.concept-card').count(), 93)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -133,6 +133,10 @@ assert.deepEqual(
     'Guerra civile di Liurnia',
     'Progenie innestata',
     'Nepheli Loux',
+    'Miriel',
+    'Chiesa dei Voti',
+    'Rennala',
+    'Radagon',
   ],
 )
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
@@ -171,11 +175,11 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '16',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 159)
-assert.equal(await page.locator('.thread-layer line').count(), 318)
-assert.equal(await page.locator('.relation-list button').count(), 159)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 83)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 6)
+assert.equal(await page.locator('.thread-layer g').count(), 165)
+assert.equal(await page.locator('.thread-layer line').count(), 330)
+assert.equal(await page.locator('.relation-list button').count(), 165)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 84)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 9)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -185,6 +189,9 @@ assert.deepEqual(
     'Profezia della Leggidita',
     'Marchio del Centipede',
     'Principesse cariane',
+    'Chiesa dei Voti',
+    'Rennala',
+    'Radagon',
   ],
 )
 await page.locator('.concept-card img').evaluateAll((images) => {
@@ -207,10 +214,10 @@ assert.deepEqual(
   [],
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*3/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*44/)
-assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*13/)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*47/)
+assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*14/)
 assert.equal(await page.locator('.concept-card.is-read').count(), 86)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 3)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 7)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -264,10 +271,10 @@ assert.match(
     .textContent()) || '',
   /legato all’autorità delle Due Dita/i,
 )
-assert.equal(await page.locator('.thread-layer g.is-new').count(), 4)
-assert.equal(await page.locator('.relation-list button.is-new').count(), 4)
-assert.match(await page.locator('.board-live-note').textContent(), /3/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*3/)
+assert.equal(await page.locator('.thread-layer g.is-new').count(), 10)
+assert.equal(await page.locator('.relation-list button.is-new').count(), 10)
+assert.match(await page.locator('.board-live-note').textContent(), /7/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*7/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -527,7 +534,7 @@ assert.equal(
   await migratedBoard.evaluate(() =>
     Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v14') || '{}')).length,
   ),
-  89,
+  93,
 )
 await migratedBoard.close()
 
