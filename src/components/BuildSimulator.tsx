@@ -5,12 +5,14 @@ import {
   Gem,
   Info,
   LockKeyhole,
+  Move,
   PersonStanding,
   RefreshCcw,
   Search,
   Shield,
   Sparkles,
   Swords,
+  Trash2,
   X,
 } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type ReactNode } from 'react'
@@ -58,6 +60,21 @@ interface DraftLoadout {
   armor: Array<BuildItem | null>
   talismans: Array<BuildItem | null>
   spells: Array<BuildItem | null>
+  greatRune: string | null
+}
+
+const buildSessionCache: {
+  save: ParsedBuildSave | null
+  selectedSlot: number | null
+  fileName: string
+  status: string
+  drafts: Map<number, DraftLoadout>
+} = {
+  save: null,
+  selectedSlot: null,
+  fileName: '',
+  status: '',
+  drafts: new Map(),
 }
 
 function itemKey(item: BuildItem): string {
@@ -87,7 +104,46 @@ function createDraftLoadout(character: BuildCharacter): DraftLoadout {
     armor: [...character.equipped.armor],
     talismans: character.equipped.talismans.slice(0, character.talismanSlots),
     spells: createSpellSlots(character.equipped.spells, character.memorySlots),
+    greatRune: character.equipped.greatRune,
   }
+}
+
+function cloneDraftLoadout(draft: DraftLoadout): DraftLoadout {
+  return {
+    rightHand: [...draft.rightHand],
+    leftHand: [...draft.leftHand],
+    armor: [...draft.armor],
+    talismans: [...draft.talismans],
+    spells: [...draft.spells],
+    greatRune: draft.greatRune,
+  }
+}
+
+function isSameTarget(first: DraftTarget | null, second: DraftTarget): boolean {
+  return Boolean(first && first.kind === second.kind && first.index === second.index)
+}
+
+function getDraftItem(draft: DraftLoadout, target: DraftTarget): BuildItem | null {
+  if (target.kind === 'rightHand') return draft.rightHand[target.index]
+  if (target.kind === 'leftHand') return draft.leftHand[target.index]
+  if (target.kind === 'armor') return draft.armor[target.index]
+  if (target.kind === 'talisman') return draft.talismans[target.index]
+  return draft.spells[target.index]
+}
+
+function setDraftItem(draft: DraftLoadout, target: DraftTarget, item: BuildItem | null) {
+  if (target.kind === 'rightHand') draft.rightHand[target.index] = item
+  else if (target.kind === 'leftHand') draft.leftHand[target.index] = item
+  else if (target.kind === 'armor') draft.armor[target.index] = item
+  else if (target.kind === 'talisman') draft.talismans[target.index] = item
+  else draft.spells[target.index] = item
+}
+
+function syncDraftMemorySlots(character: BuildCharacter, draft: DraftLoadout): number {
+  const total = getDraftMemorySlots(character, draft.talismans)
+  const removed = draft.spells.slice(total).filter(Boolean).length
+  draft.spells = Array.from({ length: total }, (_, index) => draft.spells[index] ?? null)
+  return removed
 }
 
 function displayItem(item: BuildItem | null): string {
@@ -213,8 +269,12 @@ interface VisualSlotProps {
   placeholder: ReactNode
   className?: string
   activeItem: BuildItem | null
+  selectedTarget: DraftTarget | null
   onEquip: (item: BuildItem, target: DraftTarget) => void
-  canDropItem: (target: DraftTarget) => boolean
+  onSelectItem: (item: BuildItem, target: DraftTarget) => void
+  onDragStart: (item: BuildItem, source: DraftTarget) => void
+  onDragEnd: () => void
+  getDropEffect: (target: DraftTarget) => 'copy' | 'move' | 'none'
   onDropItem: (target: DraftTarget) => void
   onInspect: (item: BuildItem) => void
 }
@@ -226,24 +286,42 @@ function VisualSlot({
   placeholder,
   className = '',
   activeItem,
+  selectedTarget,
   onEquip,
-  canDropItem,
+  onSelectItem,
+  onDragStart,
+  onDragEnd,
+  getDropEffect,
   onDropItem,
   onInspect,
 }: VisualSlotProps) {
   const compatibilityClass = activeItem ? (canEquip(activeItem, target) ? ' is-compatible' : ' is-incompatible') : ''
+  const isSelected = isSameTarget(selectedTarget, target)
   return (
     <div className={`build-visual-slot-wrap ${className}`.trim()}>
       <button
         type="button"
-        className={`build-visual-slot${item ? ' has-item' : ' is-empty'}${compatibilityClass}`}
+        className={`build-visual-slot${item ? ' has-item' : ' is-empty'}${compatibilityClass}${isSelected ? ' is-selected' : ''}`}
         data-equip-target={`${target.kind}-${target.index}`}
-        aria-label={`${target.label}: ${item ? displayItem(item) : 'vuoto'}${activeItem ? `. Inserisci ${displayItem(activeItem)}` : ''}`}
+        draggable={Boolean(item)}
+        aria-pressed={item ? isSelected : undefined}
+        aria-label={`${target.label}: ${item ? displayItem(item) : 'vuoto'}${activeItem && !isSelected ? `. Inserisci ${displayItem(activeItem)}` : item ? '. Seleziona per spostare o rimuovere' : ''}`}
         title={item ? displayItem(item) : `${target.label}: vuoto`}
-        onClick={() => activeItem && onEquip(activeItem, target)}
+        onClick={() => {
+          if (item && isSelected) onSelectItem(item, target)
+          else if (activeItem) onEquip(activeItem, target)
+          else if (item) onSelectItem(item, target)
+        }}
+        onDragStart={(event) => {
+          if (!item) return
+          event.dataTransfer.effectAllowed = 'move'
+          event.dataTransfer.setData('text/plain', itemKey(item))
+          onDragStart(item, target)
+        }}
+        onDragEnd={onDragEnd}
         onDragOver={(event) => {
           event.preventDefault()
-          event.dataTransfer.dropEffect = canDropItem(target) ? 'copy' : 'none'
+          event.dataTransfer.dropEffect = getDropEffect(target)
         }}
         onDrop={(event) => {
           event.preventDefault()
@@ -259,7 +337,7 @@ function VisualSlot({
   )
 }
 
-type InteractiveSlotProps = Pick<VisualSlotProps, 'activeItem' | 'onEquip' | 'canDropItem' | 'onDropItem' | 'onInspect'>
+type InteractiveSlotProps = Pick<VisualSlotProps, 'activeItem' | 'selectedTarget' | 'onEquip' | 'onSelectItem' | 'onDragStart' | 'onDragEnd' | 'getDropEffect' | 'onDropItem' | 'onInspect'>
 
 function EquipmentPaperDoll({ draft, ...slotProps }: { draft: DraftLoadout } & InteractiveSlotProps) {
   return (
@@ -409,12 +487,14 @@ function InventorySection({
 
 function CharacterDashboard({ character }: { character: BuildCharacter }) {
   const draggedItemRef = useRef<BuildItem | null>(null)
+  const draggedSourceRef = useRef<DraftTarget | null>(null)
   const [query, setQuery] = useState('')
   const [inspectedItem, setInspectedItem] = useState<BuildItem | null>(null)
   const [description, setDescription] = useState<string | null>(null)
   const [descriptionLoading, setDescriptionLoading] = useState(false)
-  const [draft, setDraft] = useState<DraftLoadout>(() => createDraftLoadout(character))
+  const [draft, setDraft] = useState<DraftLoadout>(() => buildSessionCache.drafts.get(character.slotIndex) ?? createDraftLoadout(character))
   const [selectedItem, setSelectedItem] = useState<BuildItem | null>(null)
+  const [selectedTarget, setSelectedTarget] = useState<DraftTarget | null>(null)
   const [draggedItem, setDraggedItem] = useState<BuildItem | null>(null)
   const [draftStatus, setDraftStatus] = useState('')
   const normalizedQuery = query.trim().toLocaleLowerCase('it')
@@ -431,63 +511,67 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
   const activeItem = draggedItem ?? selectedItem
   const draftMemorySlots = getDraftMemorySlots(character, draft.talismans)
   const draftMoonOfNokstellaEquipped = draft.talismans.some((item) => item?.id === 1140)
+  const selectedDraftItem = selectedTarget ? getDraftItem(draft, selectedTarget) : null
+  const greatRuneOptions = [...new Set([
+    ...character.equipped.availableGreatRunes,
+    ...(character.equipped.greatRune ? [character.equipped.greatRune] : []),
+  ])]
   const equippedKeys = useMemo(() => new Set(
     [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans, ...draft.spells]
       .filter((item): item is BuildItem => item !== null)
       .map(itemKey),
   ), [draft])
 
-  const equipItem = (item: BuildItem, target: DraftTarget) => {
+  const clearInteraction = () => {
+    setSelectedItem(null)
+    setSelectedTarget(null)
+    setDraggedItem(null)
+    draggedItemRef.current = null
+    draggedSourceRef.current = null
+  }
+
+  const placeItem = (item: BuildItem, target: DraftTarget, source: DraftTarget | null) => {
     if (!canEquip(item, target)) {
       setDraftStatus(`${displayItem(item)} non può essere inserito in ${target.label}.`)
       return
     }
 
-    const equippedItem = { ...item, quantity: 1, equipped: true }
-    let removedSpellCount = 0
-    if (target.kind === 'talisman') {
-      const nextTalismans = [...draft.talismans]
-      nextTalismans[target.index] = equippedItem
-      const nextTotal = getDraftMemorySlots(character, nextTalismans)
-      removedSpellCount = draft.spells.slice(nextTotal).filter(Boolean).length
+    if (source && isSameTarget(source, target)) {
+      clearInteraction()
+      setDraftStatus('Selezione annullata.')
+      return
     }
-    setDraft((current) => {
-      const next: DraftLoadout = {
-        rightHand: [...current.rightHand],
-        leftHand: [...current.leftHand],
-        armor: [...current.armor],
-        talismans: [...current.talismans],
-        spells: [...current.spells],
-      }
-      if (target.kind === 'rightHand') next.rightHand[target.index] = equippedItem
-      else if (target.kind === 'leftHand') next.leftHand[target.index] = equippedItem
-      else if (target.kind === 'armor') next.armor[target.index] = equippedItem
-      else if (target.kind === 'talisman') {
-        next.talismans[target.index] = equippedItem
-        const total = getDraftMemorySlots(character, next.talismans)
-        next.spells = Array.from({ length: total }, (_, index) => next.spells[index] ?? null)
-      } else next.spells[target.index] = equippedItem
-      return next
-    })
-    setDraftStatus(`${displayItem(item)} inserito in ${target.label}.${removedSpellCount ? ` ${removedSpellCount} ${removedSpellCount === 1 ? 'magia rimossa' : 'magie rimosse'} perché gli slot memoria sono diminuiti.` : ''}`)
-    setSelectedItem(null)
-    setDraggedItem(null)
-    draggedItemRef.current = null
+
+    const equippedItem = { ...item, quantity: 1, equipped: true }
+    const next = cloneDraftLoadout(draft)
+    if (source) setDraftItem(next, source, null)
+    setDraftItem(next, target, equippedItem)
+    const removedSpellCount = syncDraftMemorySlots(character, next)
+    setDraft(next)
+    clearInteraction()
+    setDraftStatus(`${displayItem(item)} ${source ? 'spostato' : 'inserito'} in ${target.label}.${removedSpellCount ? ` ${removedSpellCount} ${removedSpellCount === 1 ? 'magia rimossa' : 'magie rimosse'} perché gli slot memoria sono diminuiti.` : ''}`)
   }
 
-  const beginDragging = (item: BuildItem) => {
+  const equipItem = (item: BuildItem, target: DraftTarget) => {
+    const source = selectedTarget && selectedItem && itemKey(selectedItem) === itemKey(item) ? selectedTarget : null
+    placeItem(item, target, source)
+  }
+
+  const beginDragging = (item: BuildItem, source: DraftTarget | null = null) => {
     draggedItemRef.current = item
+    draggedSourceRef.current = source
     setDraggedItem(item)
   }
 
   const endDragging = () => {
     draggedItemRef.current = null
+    draggedSourceRef.current = null
     setDraggedItem(null)
   }
 
   const dropItem = (target: DraftTarget) => {
     const item = draggedItemRef.current
-    if (item) equipItem(item, target)
+    if (item) placeItem(item, target, draggedSourceRef.current)
   }
 
   const canDropItem = (target: DraftTarget) => {
@@ -495,19 +579,51 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     return Boolean(item && canEquip(item, target))
   }
 
+  const getDropEffect = (target: DraftTarget): 'copy' | 'move' | 'none' => {
+    if (!canDropItem(target)) return 'none'
+    return draggedSourceRef.current ? 'move' : 'copy'
+  }
+
   const selectItem = (item: BuildItem) => {
-    const isAlreadySelected = selectedItem && itemKey(selectedItem) === itemKey(item)
+    const isAlreadySelected = !selectedTarget && selectedItem && itemKey(selectedItem) === itemKey(item)
     setSelectedItem(isAlreadySelected ? null : item)
+    setSelectedTarget(null)
     setDraftStatus(isAlreadySelected ? 'Selezione annullata.' : `${displayItem(item)} selezionato: scegli uno slot compatibile.`)
+  }
+
+  const selectDraftItem = (item: BuildItem, target: DraftTarget) => {
+    const isAlreadySelected = isSameTarget(selectedTarget, target)
+    setSelectedItem(isAlreadySelected ? null : item)
+    setSelectedTarget(isAlreadySelected ? null : target)
+    setDraftStatus(isAlreadySelected ? 'Selezione annullata.' : `${displayItem(item)} selezionato: scegli uno slot compatibile oppure rimuovilo.`)
+  }
+
+  const removeSelectedItem = () => {
+    if (!selectedTarget) return
+    const item = getDraftItem(draft, selectedTarget)
+    if (!item) return
+    const next = cloneDraftLoadout(draft)
+    setDraftItem(next, selectedTarget, null)
+    const removedSpellCount = syncDraftMemorySlots(character, next)
+    setDraft(next)
+    clearInteraction()
+    setDraftStatus(`${displayItem(item)} rimosso dalla build.${removedSpellCount ? ` ${removedSpellCount} ${removedSpellCount === 1 ? 'magia rimossa' : 'magie rimosse'} perché gli slot memoria sono diminuiti.` : ''}`)
+  }
+
+  const equipGreatRune = (greatRune: string | null) => {
+    setDraft((current) => ({ ...current, greatRune }))
+    setDraftStatus(greatRune ? `${greatRune} equipaggiata nella bozza.` : 'Runa Maggiore rimossa dalla bozza.')
   }
 
   const resetDraft = () => {
     setDraft(createDraftLoadout(character))
-    setSelectedItem(null)
-    setDraggedItem(null)
-    draggedItemRef.current = null
+    clearInteraction()
     setDraftStatus('Equipaggiamento ripristinato dai dati del salvataggio.')
   }
+
+  useEffect(() => {
+    buildSessionCache.drafts.set(character.slotIndex, draft)
+  }, [character.slotIndex, draft])
 
   useEffect(() => {
     if (!inspectedItem) {
@@ -574,9 +690,15 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
             </div>
             <button type="button" className="build-draft-reset" onClick={resetDraft}><RefreshCcw aria-hidden="true" /> Ripristina save</button>
           </div>
-          <p className="build-draft-help">Trascina un oggetto dall’inventario, oppure selezionalo e scegli uno slot compatibile. La bozza non modifica il salvataggio.</p>
+          <p className="build-draft-help">Trascina o seleziona gli oggetti per inserirli e spostarli. Seleziona uno slot occupato per poterlo svuotare. La bozza non modifica il salvataggio.</p>
           <p className={`build-draft-status${draftStatus.includes('non può') ? ' is-error' : ''}`} role="status" aria-live="polite">{draftStatus}</p>
-          <EquipmentPaperDoll draft={draft} activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
+          {selectedTarget && selectedDraftItem && (
+            <div className="build-selection-actions">
+              <span><Move aria-hidden="true" /> {displayItem(selectedDraftItem)}</span>
+              <button type="button" onClick={removeSelectedItem}><Trash2 aria-hidden="true" /> Rimuovi dalla build</button>
+            </div>
+          )}
+          <EquipmentPaperDoll draft={draft} activeItem={activeItem} selectedTarget={selectedTarget} onEquip={equipItem} onSelectItem={selectDraftItem} onDragStart={beginDragging} onDragEnd={endDragging} getDropEffect={getDropEffect} onDropItem={dropItem} onInspect={setInspectedItem} />
         </section>
 
         <div className="build-side-panels">
@@ -588,7 +710,7 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
             <div className="build-memory-count"><strong>{draftMemorySlots}</strong><span>slot nella bozza</span></div>
             <p>{character.memoryStones} Pietre della Memoria rilevate · trascina qui stregonerie e incantesimi, oppure selezionali dall’inventario.</p>
             {draftMoonOfNokstellaEquipped && <span className="build-equipped-pill"><Check aria-hidden="true" /> Luna di Nokstella equipaggiata (+2)</span>}
-            <SpellSlotGrid items={draft.spells} activeItem={activeItem} onEquip={equipItem} canDropItem={canDropItem} onDropItem={dropItem} onInspect={setInspectedItem} />
+            <SpellSlotGrid items={draft.spells} activeItem={activeItem} selectedTarget={selectedTarget} onEquip={equipItem} onSelectItem={selectDraftItem} onDragStart={beginDragging} onDragEnd={endDragging} getDropEffect={getDropEffect} onDropItem={dropItem} onInspect={setInspectedItem} />
           </section>
 
           <section className="build-panel build-great-rune" aria-labelledby="great-rune-title">
@@ -596,15 +718,24 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
               <Gem aria-hidden="true" />
               <div><p className="overline">Potere maggiore</p><h2 id="great-rune-title">Runa Maggiore</h2></div>
             </div>
-            <strong>{character.equipped.greatRune ?? 'Nessuna Runa Maggiore equipaggiata'}</strong>
-            {character.equipped.greatRune && (
-              <span>{character.equipped.greatRuneActive ? 'Potere attivo tramite Arco runico' : 'Equipaggiata, ma il potere non è attivo'}</span>
+            <strong>{draft.greatRune ?? 'Nessuna Runa Maggiore equipaggiata'}</strong>
+            {draft.greatRune && (
+              <span>{draft.greatRune === character.equipped.greatRune
+                ? (character.equipped.greatRuneActive ? 'Potere attivo tramite Arco runico' : 'Equipaggiata, ma il potere non è attivo')
+                : 'Equipaggiata nella bozza, potere non attivo'}</span>
             )}
             <p className="build-great-rune__available">
               {character.equipped.availableGreatRunes.length
                 ? `Rune attivate disponibili: ${character.equipped.availableGreatRunes.join(', ')}.`
                 : 'Nessuna Runa Maggiore attivata rilevata nell’inventario.'}
             </p>
+            <div className="build-great-rune__options" role="group" aria-label="Scegli la Runa Maggiore della build">
+              <button type="button" className={!draft.greatRune ? 'is-selected' : undefined} aria-pressed={!draft.greatRune} onClick={() => equipGreatRune(null)}>Nessuna</button>
+              {greatRuneOptions.map((greatRune) => (
+                <button key={greatRune} type="button" className={draft.greatRune === greatRune ? 'is-selected' : undefined} aria-pressed={draft.greatRune === greatRune} onClick={() => equipGreatRune(greatRune)}>{greatRune}</button>
+              ))}
+            </div>
+            <small className="build-great-rune__note">Scelta valida solo per questa bozza.</small>
           </section>
         </div>
       </div>
@@ -641,10 +772,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
 
 export function BuildSimulator() {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [save, setSave] = useState<ParsedBuildSave | null>(null)
-  const [selectedSlot, setSelectedSlot] = useState<number | null>(null)
-  const [fileName, setFileName] = useState('')
-  const [status, setStatus] = useState('')
+  const [save, setSave] = useState<ParsedBuildSave | null>(buildSessionCache.save)
+  const [selectedSlot, setSelectedSlot] = useState<number | null>(buildSessionCache.selectedSlot)
+  const [fileName, setFileName] = useState(buildSessionCache.fileName)
+  const [status, setStatus] = useState(buildSessionCache.status)
   const [error, setError] = useState('')
   const [isDragging, setIsDragging] = useState(false)
 
@@ -659,6 +790,11 @@ export function BuildSimulator() {
     setStatus('Lettura del salvataggio in corso…')
     setSave(null)
     setSelectedSlot(null)
+    buildSessionCache.save = null
+    buildSessionCache.selectedSlot = null
+    buildSessionCache.fileName = ''
+    buildSessionCache.status = ''
+    buildSessionCache.drafts.clear()
 
     try {
       if (!file.name.toLocaleLowerCase().endsWith('.sl2')) throw new Error('Seleziona un file con estensione .sl2.')
@@ -667,10 +803,19 @@ export function BuildSimulator() {
       setFileName(file.name)
       setSave(parsed)
       setSelectedSlot(parsed.characters[0].slotIndex)
-      setStatus(`${parsed.characters.length} personaggi leggibili trovati in ${file.name}.`)
+      const nextStatus = `${parsed.characters.length} personaggi leggibili trovati in ${file.name}.`
+      setStatus(nextStatus)
+      buildSessionCache.save = parsed
+      buildSessionCache.selectedSlot = parsed.characters[0].slotIndex
+      buildSessionCache.fileName = file.name
+      buildSessionCache.status = nextStatus
     } catch (reason) {
       setFileName('')
       setStatus('')
+      buildSessionCache.save = null
+      buildSessionCache.selectedSlot = null
+      buildSessionCache.fileName = ''
+      buildSessionCache.status = ''
       setError(reason instanceof Error ? reason.message : 'Non è stato possibile leggere il salvataggio.')
     } finally {
       if (inputRef.current) inputRef.current.value = ''
@@ -733,7 +878,10 @@ export function BuildSimulator() {
                 key={character.slotIndex}
                 className={selectedSlot === character.slotIndex ? 'is-selected' : undefined}
                 aria-pressed={selectedSlot === character.slotIndex}
-                onClick={() => setSelectedSlot(character.slotIndex)}
+                onClick={() => {
+                  setSelectedSlot(character.slotIndex)
+                  buildSessionCache.selectedSlot = character.slotIndex
+                }}
               >
                 <span>Slot {character.slotIndex + 1}</span>
                 <strong>{character.name}</strong>

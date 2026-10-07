@@ -55,7 +55,14 @@ funzione resta interamente in memoria e non scrive mai sul file `.sl2`.
 L'equipaggiamento è disposto in quadrati attorno alla sagoma del personaggio, mentre
 le magie usano una griglia compatta di icone generata dal totale degli slot memoria.
 Ogni quadrato occupato conserva il pulsante `i` per aprire immagine e descrizione;
-equipaggiare o rimuovere la Luna di Nokstella aggiorna subito anche i due slot bonus.
+gli oggetti possono essere spostati tra slot compatibili o rimossi dalla bozza.
+Equipaggiare o rimuovere la Luna di Nokstella aggiorna subito anche i due slot bonus.
+Le Rune Maggiori attivate possono essere scelte nella bozza. Salvataggio, personaggio
+selezionato e modifiche della build restano in memoria passando tra le schede del sito,
+ma vengono dimenticati ricaricando la pagina.
+
+I prossimi calcoli previsti sono il controllo dei requisiti base degli oggetti, il
+peso trasportabile e una valutazione colorata dello scaling rispetto alle statistiche.
 
 ### Analisi
 
