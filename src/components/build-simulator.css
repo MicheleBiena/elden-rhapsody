@@ -437,6 +437,10 @@
   border-color: rgba(190, 113, 82, .46);
 }
 
+.build-analysis-card[data-state='conditional'] {
+  border-color: rgba(210, 170, 75, .5);
+}
+
 .build-analysis-card__heading {
   display: flex;
   align-items: center;
@@ -456,6 +460,10 @@
 
 .build-analysis-card[data-state='warning'] .build-analysis-card__heading > svg {
   color: #d99070;
+}
+
+.build-analysis-card[data-state='conditional'] .build-analysis-card__heading > svg {
+  color: #d8b45f;
 }
 
 .build-analysis-card__heading div {
@@ -576,8 +584,64 @@
 .build-analysis-badge[data-tone='excellent'] { color: #a9c78e; }
 .build-analysis-badge[data-tone='good'] { color: #c5bb76; }
 .build-analysis-badge[data-tone='fair'] { color: #c99c69; }
+.build-analysis-badge[data-tone='boosted'] { color: #9fc38e; }
+.build-analysis-badge[data-tone='conditional'] { color: #dfbb67; }
 .build-analysis-badge[data-tone='poor'],
 .build-analysis-badge[data-tone='invalid'] { color: #d48372; }
+
+.build-analysis-card li > span[data-support='talisman'],
+.build-analysis-card li > span[data-support='godrick-active'] {
+  color: #a9c78e;
+}
+
+.build-analysis-card li > span[data-support='godrick-conditional'] {
+  color: #dfbb67;
+}
+
+.build-requirement-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 11px 13px;
+  border: 1px solid rgba(213, 201, 173, .15);
+  border-radius: var(--radius-sm);
+  color: #c9c4b8;
+  background: rgba(10, 11, 9, .38);
+}
+
+.build-requirement-notice[data-kind='talisman'],
+.build-requirement-notice[data-kind='active'] {
+  border-color: rgba(132, 164, 104, .32);
+}
+
+.build-requirement-notice[data-kind='conditional'] {
+  border-color: rgba(210, 170, 75, .42);
+  background: rgba(115, 83, 24, .1);
+}
+
+.build-requirement-notice > svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  color: var(--color-gold);
+}
+
+.build-requirement-notice p {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  font-size: .69rem;
+  line-height: 1.45;
+}
+
+.build-requirement-notice strong {
+  color: #e8ddc5;
+}
+
+.build-requirement-notice span {
+  color: #aaa99f;
+}
 
 .build-assessment {
   margin-top: 16px;

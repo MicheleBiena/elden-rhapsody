@@ -59,6 +59,98 @@ export const characterStatLabels: Record<CharacterStat, string> = {
   arcane: 'ARC',
 }
 
+const characterStats = Object.keys(characterStatLabels) as CharacterStat[]
+
+const talismanStatBonusCatalog: Record<number, Partial<CharacterStats>> = {
+  1050: { vigor: 3, endurance: 3, strength: 3, dexterity: 3 },
+  1051: { vigor: 5, endurance: 5, strength: 5, dexterity: 5 },
+  1060: { strength: 5 },
+  1070: { dexterity: 5 },
+  1080: { intelligence: 5 },
+  1090: { faith: 5 },
+  1220: { mind: 3, intelligence: 3, faith: 3, arcane: 3 },
+  1221: { mind: 5, intelligence: 5, faith: 5, arcane: 5 },
+  1250: { dexterity: 5 },
+}
+
+export interface StatBonusSource {
+  item: BuildItem
+  bonuses: Partial<CharacterStats>
+}
+
+export interface RequirementContext {
+  baseStats: CharacterStats
+  talismanStats: CharacterStats
+  projectedStats: CharacterStats
+  talismanSources: StatBonusSource[]
+  godrickSelected: boolean
+  godrickActive: boolean
+}
+
+export type RequirementSupport = 'base' | 'talisman' | 'godrick-active' | 'godrick-conditional' | 'unmet'
+
+export interface RequirementEvaluation {
+  support: RequirementSupport
+  gaps: RequirementGap[]
+  baseGaps: RequirementGap[]
+  stats: CharacterStats
+}
+
+function addStatBonuses(stats: CharacterStats, bonuses: Partial<CharacterStats>): CharacterStats {
+  return Object.fromEntries(characterStats.map((stat) => [
+    stat,
+    Math.min(99, stats[stat] + (bonuses[stat] ?? 0)),
+  ])) as unknown as CharacterStats
+}
+
+export function getRequirementContext(
+  stats: CharacterStats,
+  talismans: Array<BuildItem | null>,
+  greatRune: string | null,
+  godrickActive = false,
+): RequirementContext {
+  const talismanSources = talismans
+    .filter((item): item is BuildItem => Boolean(item && talismanStatBonusCatalog[item.id]))
+    .map((item) => ({ item, bonuses: talismanStatBonusCatalog[item.id] }))
+  const talismanBonuses = talismanSources.reduce<Partial<CharacterStats>>((total, source) => {
+    characterStats.forEach((stat) => {
+      const bonus = source.bonuses[stat] ?? 0
+      if (bonus) total[stat] = (total[stat] ?? 0) + bonus
+    })
+    return total
+  }, {})
+  const talismanStats = addStatBonuses(stats, talismanBonuses)
+  const godrickSelected = greatRune === 'Runa maggiore di Godrick'
+  const godrickBonuses = godrickSelected
+    ? Object.fromEntries(characterStats.map((stat) => [stat, 5])) as unknown as CharacterStats
+    : {}
+  const projectedStats = addStatBonuses(talismanStats, godrickBonuses)
+  return { baseStats: stats, talismanStats, projectedStats, talismanSources, godrickSelected, godrickActive }
+}
+
+export function evaluateRequirements(item: BuildItem, context: RequirementContext): RequirementEvaluation {
+  const baseGaps = getRequirementGaps(item, context.baseStats)
+  if (!baseGaps.length) return { support: 'base', gaps: [], baseGaps, stats: context.baseStats }
+
+  const talismanGaps = getRequirementGaps(item, context.talismanStats)
+  if (!talismanGaps.length) return { support: 'talisman', gaps: [], baseGaps, stats: context.talismanStats }
+
+  if (context.godrickSelected) {
+    const projectedGaps = getRequirementGaps(item, context.projectedStats)
+    if (!projectedGaps.length) {
+      return {
+        support: context.godrickActive ? 'godrick-active' : 'godrick-conditional',
+        gaps: [],
+        baseGaps,
+        stats: context.projectedStats,
+      }
+    }
+    return { support: 'unmet', gaps: talismanGaps, baseGaps, stats: context.talismanStats }
+  }
+
+  return { support: 'unmet', gaps: talismanGaps, baseGaps, stats: context.talismanStats }
+}
+
 /** Soglie riportate nel riferimento fornito per la pianificazione della build. */
 export const statSoftCaps: Record<CharacterStat, number[]> = {
   vigor: [40, 60],
@@ -101,6 +193,9 @@ export interface BuildAssessmentInput {
   runes: number
   equipment: Array<BuildItem | null>
   spells: Array<BuildItem | null>
+  talismans?: Array<BuildItem | null>
+  greatRune?: string | null
+  greatRuneActive?: boolean
 }
 
 export function getRequirementGaps(item: BuildItem, stats: CharacterStats): RequirementGap[] {
@@ -224,21 +319,28 @@ export function getBuildAssessment({
   runes,
   equipment,
   spells,
+  talismans = [],
+  greatRune = null,
+  greatRuneActive = false,
 }: BuildAssessmentInput): BuildAssessment {
   const equipped = equipment.filter((item): item is BuildItem => Boolean(item))
   const equippedWeapons = equipped.filter((item) => item.category === 'weapon')
   const memorizedSpells = spells.filter((item): item is BuildItem => Boolean(item))
   const checkedItems = [...equippedWeapons, ...memorizedSpells]
-  const funding = getRequirementFunding(checkedItems, stats, level, runes)
+  const requirementContext = getRequirementContext(stats, talismans, greatRune, greatRuneActive)
+  const requirementChecks = checkedItems.map((item) => evaluateRequirements(item, requirementContext))
+  const unmetItems = checkedItems.filter((_, index) => requirementChecks[index].support === 'unmet')
+  const funding = getRequirementFunding(unmetItems, requirementContext.talismanStats, level, runes)
   const load = getEquipLoad(equipment, stats.endurance)
   const fits = equippedWeapons
-    .map((item) => getScalingFit(item, stats))
+    .map((item) => getScalingFit(item, evaluateRequirements(item, requirementContext).stats))
     .filter((fit): fit is ScalingFit => Boolean(fit))
   const strengths: string[] = []
   const weaknesses: string[] = []
   const recommendations: BuildRecommendation[] = []
 
-  if (checkedItems.length && funding.points === 0) strengths.push('Tutti i requisiti delle armi e magie in bozza sono rispettati.')
+  if (checkedItems.length && requirementChecks.every((check) => check.support !== 'unmet' && check.support !== 'godrick-conditional')) strengths.push('Tutti i requisiti delle armi e magie in bozza sono rispettati.')
+  if (requirementChecks.some((check) => check.support === 'talisman')) strengths.push('I talismani equipaggiati coprono alcuni requisiti mancanti nelle statistiche base.')
   if (load.loadClass === 'light') strengths.push(`Carico leggero (${load.percentage.toFixed(1)}%): schivate molto agili.`)
   if (load.loadClass === 'medium') strengths.push(`Carico medio controllato (${load.percentage.toFixed(1)}%): buona libertà di equipaggiamento.`)
   if (fits.some((fit) => fit.tone === 'excellent')) strengths.push('Almeno un’arma sfrutta molto bene gli attributi attuali.')
@@ -249,13 +351,16 @@ export function getBuildAssessment({
     strengths.push(`${memorizedSpells.length} ${memorizedSpells.length === 1 ? 'magia armonizzata' : 'magie armonizzate'}${sorceries && incantations ? ', con repertorio misto' : sorceries ? ', orientate alla stregoneria' : ', orientate agli incantesimi'}.`)
   }
 
+  const godrickDependencies = requirementChecks.filter((check) => check.support === 'godrick-conditional').length
+  if (godrickDependencies) weaknesses.push(`${godrickDependencies} ${godrickDependencies === 1 ? 'elemento dipende' : 'elementi dipendono'} dall’attivazione della Runa di Godrick.`)
   if (funding.points > 0) {
     const deficits = (Object.entries(funding.targets) as Array<[OffensiveStat, number]>)
-      .map(([stat, target]) => `${offensiveStatLabels[stat]} ${stats[stat]}/${target}`)
+      .map(([stat, target]) => `${offensiveStatLabels[stat]} ${requirementContext.talismanStats[stat]}/${target}`)
       .join(' · ')
     weaknesses.push(`Requisiti non raggiunti: ${deficits}.`)
     ;(Object.entries(funding.targets) as Array<[OffensiveStat, number]>).forEach(([stat, target]) => {
-      pushRecommendation(recommendations, stats, stat, target, 'Sblocca gli elementi già inseriti nella bozza.', 'alta')
+      const missingLevels = Math.max(0, target - requirementContext.talismanStats[stat])
+      pushRecommendation(recommendations, stats, stat, stats[stat] + missingLevels, 'Sblocca gli elementi già inseriti mantenendo i bonus della bozza.', 'alta')
     })
   }
   if (load.loadClass === 'heavy') weaknesses.push(`Carico pesante (${load.percentage.toFixed(1)}%): la schivata perde efficacia.`)

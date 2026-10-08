@@ -69,6 +69,14 @@ equipaggiati. Le armi ricevono inoltre una valutazione colorata — accompagnata
 da un’etichetta testuale — della consonanza tra scaling e attributi attuali. Questa
 valutazione è orientativa e non sostituisce un calcolo completo del danno finale.
 
+Il controllo dei requisiti include i bonus agli attributi dei sigilli di Radagon
+e Marika, dei cimeli del Flagello celeste, della portatrice di protesi,
+dell’astrologa e delle Due Dita, oltre alla Protesi di Millicent. Una compatibilità
+ottenuta con questi talismani è indicata esplicitamente. La Runa maggiore di Godrick
+è invece trattata come condizionale: il suo +5 viene mostrato come sufficiente solo
+se la runa selezionata viene attivata con un Arco runico; quando il bonus non risulta
+attivo nel save, l’interfaccia avverte che arma o magia tornerebbe inutilizzabile.
+
 Il comando **Valutazione esaustiva** apre, soltanto quando serve, un riepilogo di
 punti forti, criticità e attributi da far crescere. I target usano le soglie del
 prospetto dei soft cap fornito per la run e danno priorità ai requisiti mancanti;

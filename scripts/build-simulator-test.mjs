@@ -49,7 +49,7 @@ function writeCharacter(slot, name, level, stats, withBuildItems = false) {
     saveBuffer.writeUInt32LE(0x40000053, playerData + 0x31c)
 
     const inventory = playerData + 0x3a4
-    const entries = [...inventoryHandles, 0xa0000474, 0xb00000bf, 0xb00000c0, 0xb0000fa0, 0xb0000fa1]
+    const entries = [...inventoryHandles, 0xa0000438, 0xa0000474, 0xb00000bf, 0xb00000c0, 0xb0000fa0, 0xb0000fa1]
     saveBuffer.writeUInt32LE(entries.length, inventory)
     entries.forEach((handle, index) => {
       saveBuffer.writeUInt32LE(handle, inventory + 4 + index * 12)
@@ -225,6 +225,7 @@ try {
   await equippedSpellDialog.waitFor({ state: 'hidden' })
   await weapons.getByRole('button', { name: 'Seleziona Claymore per equipaggiarlo' }).dragTo(secondSpellSlot)
   assert.doesNotMatch(await secondSpellSlot.textContent(), /Claymore/)
+  await greatRuneOptions.getByRole('button', { name: 'Equipaggia Runa maggiore di Radahn', exact: true }).click()
   await greatShard.click()
   await secondSpellSlot.click()
   assert.match(await secondSpellSlot.textContent(), /Scheggia di scintipietra maggiore/)
@@ -240,6 +241,13 @@ try {
   assert.match(await assessment.textContent(), /INT 12 → 16/i)
   assert.match(await assessment.textContent(), /135\.250 da farmare/i)
   assert.match(await assessment.textContent(), /livello 77 → 81/i)
+  await godrickRune.click()
+  assert.match(await buildAnalysis.textContent(), /1 compatibilità condizionata/i)
+  assert.match(await buildAnalysis.textContent(), /Solo con Runa di Godrick attiva/i)
+  assert.match(await buildAnalysis.textContent(), /Quando l’effetto termina, tornano non soddisfatti/i)
+  assert.match(await spells.textContent(), /Con Runa attiva/i)
+  assert.doesNotMatch(await buildAnalysis.textContent(), /135\.250 da farmare/i)
+  assert.match(await assessment.textContent(), /Nessun livello obbligatorio con Godrick/i)
   const thirdSpellSlot = page.locator('[data-equip-target="spell-2"]')
   await secondSpellSlot.dragTo(thirdSpellSlot, { sourcePosition: { x: 18, y: 56 }, targetPosition: { x: 30, y: 30 } })
   assert.match(await thirdSpellSlot.textContent(), /Scheggia di scintipietra maggiore/)
@@ -252,6 +260,15 @@ try {
   assert.equal(await page.locator('[data-equip-target^="spell-"]').count(), 2)
   assert.match(await firstSpellSlot.textContent(), /Slot vuoto/)
   assert.match(await secondSpellSlot.textContent(), /Slot vuoto/)
+  await talismans.getByRole('button', { name: "Seleziona Cimelio dell'astrologa per equipaggiarlo" }).click()
+  await talismanSlot.click()
+  await greatShard.click()
+  await firstSpellSlot.click()
+  assert.match(await buildAnalysis.textContent(), /Compatibile con bonus/i)
+  assert.match(await buildAnalysis.textContent(), /Cimelio dell'astrologa: INT \+5/i)
+  assert.match(await spells.textContent(), /Con talismano/i)
+  assert.doesNotMatch(await buildAnalysis.textContent(), /Serve attivare la Runa di Godrick/i)
+  await page.getByRole('button', { name: /Ripristina save/i }).click()
   await page.setViewportSize({ width: 1440, height: 1000 })
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:map-markers-v2')), savedMarkers)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))

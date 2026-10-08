@@ -32,13 +32,15 @@ import {
 } from '../lib/elden-save-reader'
 import {
   characterStatLabels,
+  evaluateRequirements,
   getBuildAssessment,
   getEquipLoad,
+  getRequirementContext,
   getRequirementFunding,
-  getRequirementGaps,
   getScalingFit,
   offensiveStatLabels,
   type EquipLoadClass,
+  type RequirementContext,
 } from '../lib/build-analysis'
 import './build-simulator.css'
 
@@ -599,16 +601,48 @@ const equipLoadLabels: Record<EquipLoadClass, string> = {
   overloaded: 'Sovraccarico',
 }
 
-function ItemAnalysisBadges({ item, stats }: { item: BuildItem; stats: CharacterStats }) {
-  const gaps = getRequirementGaps(item, stats)
-  const fit = getScalingFit(item, stats)
-  if (!gaps.length && !fit) return null
+function relevantTalismanNames(context: RequirementContext, item: BuildItem) {
+  const requiredStats = new Set(Object.keys(item.requirements ?? {}))
+  return context.talismanSources
+    .filter((source) => Object.keys(source.bonuses).some((stat) => requiredStats.has(stat)))
+    .map((source) => source.item.name)
+}
+
+function formatBonusSource(context: RequirementContext) {
+  return context.talismanSources.map((source) => {
+    const bonuses = Object.entries(source.bonuses)
+      .map(([stat, value]) => `${characterStatLabels[stat as keyof CharacterStats]} +${value}`)
+      .join(' · ')
+    return `${source.item.name}: ${bonuses}`
+  }).join('; ')
+}
+
+function ItemAnalysisBadges({ item, context }: { item: BuildItem; context: RequirementContext }) {
+  const requirement = evaluateRequirements(item, context)
+  const fit = getScalingFit(item, requirement.stats)
+  const talismanNames = relevantTalismanNames(context, item)
+  if (requirement.support === 'base' && !fit) return null
 
   return (
     <span className="build-item-analysis">
-      {gaps.length > 0 && (
-        <span className="build-analysis-badge" data-tone="invalid" title={gaps.map((gap) => `${offensiveStatLabels[gap.stat]} ${gap.current}/${gap.required}`).join(' · ')}>
+      {requirement.support === 'unmet' && (
+        <span className="build-analysis-badge" data-tone="invalid" title={requirement.gaps.map((gap) => `${offensiveStatLabels[gap.stat]} ${gap.current}/${gap.required}`).join(' · ')}>
           <AlertTriangle aria-hidden="true" /> Requisiti
+        </span>
+      )}
+      {requirement.support === 'talisman' && (
+        <span className="build-analysis-badge" data-tone="boosted" title={`Requisiti coperti da ${talismanNames.join(', ')}`}>
+          <Gem aria-hidden="true" /> Con talismano
+        </span>
+      )}
+      {requirement.support === 'godrick-active' && (
+        <span className="build-analysis-badge" data-tone="boosted" title="Requisiti coperti dal bonus +5 della Runa di Godrick attiva">
+          <Gem aria-hidden="true" /> Godrick attiva
+        </span>
+      )}
+      {requirement.support === 'godrick-conditional' && (
+        <span className="build-analysis-badge" data-tone="conditional" title="Utilizzabile soltanto attivando la Runa di Godrick con un Arco runico">
+          <AlertTriangle aria-hidden="true" /> Con Runa attiva
         </span>
       )}
       {fit && (
@@ -625,22 +659,30 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
   const equipment = [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans]
   const checkedItems = [...draft.rightHand, ...draft.leftHand, ...draft.spells]
     .filter((item): item is BuildItem => Boolean(item?.requirements && Object.keys(item.requirements).length))
-  const requirementIssues = checkedItems.flatMap((item) => {
-    const gaps = getRequirementGaps(item, character.stats)
-    return gaps.length ? [{ item, gaps }] : []
-  })
+  const godrickActive = draft.greatRune === 'Runa maggiore di Godrick'
+    && character.equipped.greatRune === draft.greatRune
+    && character.equipped.greatRuneActive
+  const requirementContext = getRequirementContext(character.stats, draft.talismans, draft.greatRune, godrickActive)
+  const requirementChecks = checkedItems.map((item) => ({ item, evaluation: evaluateRequirements(item, requirementContext) }))
+  const requirementIssues = requirementChecks.filter(({ evaluation }) => evaluation.support === 'unmet')
+  const conditionalRequirements = requirementChecks.filter(({ evaluation }) => evaluation.support === 'godrick-conditional')
+  const assistedRequirements = requirementChecks.filter(({ evaluation }) => evaluation.support !== 'base' && evaluation.support !== 'unmet')
+  const requirementRows = [...requirementIssues, ...assistedRequirements].slice(0, 4)
   const load = getEquipLoad(equipment, character.stats.endurance)
-  const funding = getRequirementFunding(checkedItems, character.stats, character.level, character.runes)
+  const funding = getRequirementFunding(requirementIssues.map(({ item }) => item), requirementContext.talismanStats, character.level, character.runes)
   const assessment = getBuildAssessment({
     stats: character.stats,
     level: character.level,
     runes: character.runes,
     equipment,
     spells: draft.spells,
+    talismans: draft.talismans,
+    greatRune: draft.greatRune,
+    greatRuneActive: godrickActive,
   })
   const weaponFits = [...draft.rightHand, ...draft.leftHand]
     .filter((item): item is BuildItem => Boolean(item))
-    .map((item) => ({ item, fit: getScalingFit(item, character.stats) }))
+    .map((item) => ({ item, fit: getScalingFit(item, evaluateRequirements(item, requirementContext).stats) }))
     .filter((entry): entry is { item: BuildItem; fit: NonNullable<ReturnType<typeof getScalingFit>> } => Boolean(entry.fit))
 
   return (
@@ -661,16 +703,31 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
         </button>
       </div>
       <div className="build-analysis-grid">
-        <article className="build-analysis-card" data-state={requirementIssues.length ? 'warning' : 'success'}>
+        <article className="build-analysis-card" data-state={requirementIssues.length ? 'warning' : conditionalRequirements.length ? 'conditional' : 'success'}>
           <div className="build-analysis-card__heading">
-            {requirementIssues.length ? <AlertTriangle aria-hidden="true" /> : <CircleCheckBig aria-hidden="true" />}
-            <div><span>Requisiti base</span><strong>{requirementIssues.length ? `${requirementIssues.length} incompatibilità` : 'Tutto compatibile'}</strong></div>
+            {requirementIssues.length || conditionalRequirements.length ? <AlertTriangle aria-hidden="true" /> : <CircleCheckBig aria-hidden="true" />}
+            <div>
+              <span>Requisiti effettivi</span>
+              <strong>{requirementIssues.length
+                ? `${requirementIssues.length} incompatibilità`
+                : conditionalRequirements.length
+                  ? `${conditionalRequirements.length} ${conditionalRequirements.length === 1 ? 'compatibilità condizionata' : 'compatibilità condizionate'}`
+                  : assistedRequirements.length ? 'Compatibile con bonus' : 'Tutto compatibile'}</strong>
+            </div>
           </div>
-          {requirementIssues.length ? (
+          {requirementRows.length ? (
             <ul>
-              {requirementIssues.slice(0, 4).map(({ item, gaps }, index) => (
-                <li key={`${itemKey(item)}-${index}`}><strong>{displayItem(item)}</strong><span>{gaps.map((gap) => `${offensiveStatLabels[gap.stat]} ${gap.current}/${gap.required}`).join(' · ')}</span></li>
-              ))}
+              {requirementRows.map(({ item, evaluation }, index) => {
+                const talismans = relevantTalismanNames(requirementContext, item)
+                const detail = evaluation.support === 'unmet'
+                  ? evaluation.gaps.map((gap) => `${offensiveStatLabels[gap.stat]} ${gap.current}/${gap.required}`).join(' · ')
+                  : evaluation.support === 'talisman'
+                    ? `Valido con ${talismans.join(', ')}`
+                    : evaluation.support === 'godrick-active'
+                      ? 'Valido con Runa di Godrick attiva'
+                      : 'Solo con Runa di Godrick attiva'
+                return <li key={`${itemKey(item)}-${index}`}><strong>{displayItem(item)}</strong><span data-support={evaluation.support}>{detail}</span></li>
+              })}
             </ul>
           ) : <p>{checkedItems.length ? `${checkedItems.length} ${checkedItems.length === 1 ? 'elemento controllato' : 'elementi controllati'}.` : 'Inserisci un’arma o una magia per avviare il controllo.'}</p>}
           {funding.points > 0 && (
@@ -708,6 +765,24 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
           <small>È una stima di consonanza, non il calcolo del danno finale.</small>
         </article>
       </div>
+      {requirementContext.talismanSources.length > 0 && (
+        <div className="build-requirement-notice" data-kind="talisman" role="note">
+          <Gem aria-hidden="true" />
+          <p><strong>Bonus attributi dei talismani inclusi</strong><span>{formatBonusSource(requirementContext)}.</span></p>
+        </div>
+      )}
+      {conditionalRequirements.length > 0 && (
+        <div className="build-requirement-notice" data-kind="conditional" role="note">
+          <AlertTriangle aria-hidden="true" />
+          <p><strong>Serve attivare la Runa di Godrick</strong><span>Questi requisiti risultano validi solo con il bonus +5 a tutti gli attributi dopo aver usato un Arco runico. Quando l’effetto termina, tornano non soddisfatti.</span></p>
+        </div>
+      )}
+      {godrickActive && requirementChecks.some(({ evaluation }) => evaluation.support === 'godrick-active') && (
+        <div className="build-requirement-notice" data-kind="active" role="note">
+          <CircleCheckBig aria-hidden="true" />
+          <p><strong>Bonus di Godrick rilevato come attivo</strong><span>Il controllo include +5 a tutti gli attributi letto dal salvataggio.</span></p>
+        </div>
+      )}
       {assessmentOpen && (
         <div id="build-exhaustive-assessment" className="build-assessment" role="region" aria-label="Valutazione esaustiva della build">
           <header>
@@ -750,6 +825,8 @@ function BuildAnalysisPanel({ character, draft }: { character: BuildCharacter; d
                   <strong>{assessment.funding.runesToFarm.toLocaleString('it-IT')} da farmare</strong>
                   <small>{assessment.funding.points} {assessment.funding.points === 1 ? 'livello' : 'livelli'} · livello {character.level} → {assessment.funding.targetLevel} · costo {assessment.funding.totalRunes.toLocaleString('it-IT')} · già possedute {character.runes.toLocaleString('it-IT')}</small>
                 </>
+              ) : conditionalRequirements.length ? (
+                <><strong>Nessun livello obbligatorio con Godrick</strong><small>Il costo resta zero soltanto mantenendo attivo il bonus della Runa con un Arco runico.</small></>
               ) : (
                 <><strong>Nessun livello obbligatorio</strong><small>Gli oggetti e le magie in bozza rispettano già i requisiti letti.</small></>
               )}
@@ -773,7 +850,7 @@ function InventorySection({
   onDragStart,
   onDragEnd,
   onInspect,
-  characterStats,
+  requirementContext,
   filterOptions = [],
 }: {
   title: string
@@ -786,7 +863,7 @@ function InventorySection({
   onDragStart: (item: BuildItem) => void
   onDragEnd: () => void
   onInspect: (item: BuildItem) => void
-  characterStats: CharacterStats
+  requirementContext: RequirementContext
   filterOptions?: ItemFilterOption[]
 }) {
   const [activeFilter, setActiveFilter] = useState('all')
@@ -836,7 +913,7 @@ function InventorySection({
               <span className="build-item-meta">
                 {equippedKeys.has(itemKey(item)) && <em><Check aria-hidden="true" /> Equipaggiato</em>}
                 {item.quantity > 1 && <small>×{item.quantity}</small>}
-                <ItemAnalysisBadges item={item} stats={characterStats} />
+                <ItemAnalysisBadges item={item} context={requirementContext} />
                 <ItemInfoButton item={item} onInspect={onInspect} />
               </span>
             </li>
@@ -887,6 +964,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
     ...character.equipped.availableGreatRunes,
     ...(character.equipped.greatRune ? [character.equipped.greatRune] : []),
   ])]
+  const draftGodrickActive = draft.greatRune === 'Runa maggiore di Godrick'
+    && character.equipped.greatRune === draft.greatRune
+    && character.equipped.greatRuneActive
+  const inventoryRequirementContext = getRequirementContext(character.stats, draft.talismans, draft.greatRune, draftGodrickActive)
   const equippedKeys = useMemo(() => new Set(
     [...draft.rightHand, ...draft.leftHand, ...draft.armor, ...draft.talismans, ...draft.spells]
       .filter((item): item is BuildItem => item !== null)
@@ -1163,10 +1244,10 @@ function CharacterDashboard({ character }: { character: BuildCharacter }) {
           </div>
         </div>
         <div className="build-inventory-grid">
-          {(inventoryCategory === 'all' || inventoryCategory === 'weapons') && <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} filterOptions={sectionFilters.weapons} />}
-          {(inventoryCategory === 'all' || inventoryCategory === 'armor') && <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} filterOptions={sectionFilters.armor} />}
-          {(inventoryCategory === 'all' || inventoryCategory === 'talismans') && <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} />}
-          {(inventoryCategory === 'all' || inventoryCategory === 'spells') && <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} characterStats={character.stats} filterOptions={sectionFilters.spells} />}
+          {(inventoryCategory === 'all' || inventoryCategory === 'weapons') && <InventorySection title="Armi" items={filtered.weapons} icon={<Swords />} emptyLabel="Nessuna arma corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} requirementContext={inventoryRequirementContext} filterOptions={sectionFilters.weapons} />}
+          {(inventoryCategory === 'all' || inventoryCategory === 'armor') && <InventorySection title="Armature" items={filtered.armor} icon={<Shield />} emptyLabel="Nessuna armatura corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} requirementContext={inventoryRequirementContext} filterOptions={sectionFilters.armor} />}
+          {(inventoryCategory === 'all' || inventoryCategory === 'talismans') && <InventorySection title="Talismani" items={filtered.talismans} icon={<Gem />} emptyLabel="Nessun talismano corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} requirementContext={inventoryRequirementContext} />}
+          {(inventoryCategory === 'all' || inventoryCategory === 'spells') && <InventorySection title="Magie equipaggiabili" items={filtered.spells} icon={<Sparkles />} emptyLabel="Nessuna magia corrispondente." selectedItem={selectedItem} equippedKeys={equippedKeys} onSelect={selectItem} onDragStart={beginDragging} onDragEnd={endDragging} onInspect={setInspectedItem} requirementContext={inventoryRequirementContext} filterOptions={sectionFilters.spells} />}
         </div>
         {character.unresolvedItems > 0 && <p className="build-parser-note">{character.unresolvedItems} oggetti non sono ancora riconosciuti dal dizionario di questa versione.</p>}
       </section>
