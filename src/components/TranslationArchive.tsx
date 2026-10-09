@@ -6,6 +6,7 @@ import {
   CalendarDays,
   Clock3,
   ExternalLink,
+  KeyRound,
   Languages,
   Link2,
   LockKeyhole,
@@ -13,12 +14,19 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import type { FormEvent } from 'react'
 import {
   concepts,
   isTranslationArchiveReleased,
   translationAuthorProfileUrl,
   translationPosts,
 } from '../data/project'
+import {
+  isArchiveUnlocked,
+  lockArchive,
+  setArchiveUnlocked,
+  verifyArchiveAnswer,
+} from '../lib/archive-gate'
 import { isSafeContentUrl } from '../lib/urls'
 
 interface TranslationArchiveProps {
@@ -26,14 +34,52 @@ interface TranslationArchiveProps {
 }
 
 export function TranslationArchive({ onOpenConcept }: TranslationArchiveProps) {
-  if (!isTranslationArchiveReleased) {
-    return <LockedArchive />
+  const [unlocked, setUnlocked] = useState(() => isArchiveUnlocked())
+
+  if (isTranslationArchiveReleased || unlocked) {
+    return (
+      <ReleasedArchive
+        onOpenConcept={onOpenConcept}
+        onLock={
+          !isTranslationArchiveReleased
+            ? () => {
+                lockArchive()
+                setUnlocked(false)
+              }
+            : undefined
+        }
+      />
+    )
   }
 
-  return <ReleasedArchive onOpenConcept={onOpenConcept} />
+  return (
+    <LockedArchive
+      onUnlock={() => {
+        setArchiveUnlocked()
+        setUnlocked(true)
+      }}
+    />
+  )
 }
 
-function LockedArchive() {
+function LockedArchive({ onUnlock }: { onUnlock: () => void }) {
+  const [answer, setAnswer] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [checking, setChecking] = useState(false)
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault()
+    if (checking) return
+    setChecking(true)
+    setError(null)
+    const ok = await verifyArchiveAnswer(answer)
+    setChecking(false)
+    if (ok) {
+      onUnlock()
+    } else {
+      setError('Risposta errata. Riprova quando vuoi.')
+    }
+  }
   return (
     <section className="page page--translations" aria-labelledby="translations-title">
       <header className="page-heading translation-heading">
@@ -61,12 +107,53 @@ function LockedArchive() {
         </div>
         <div className="post-run-gate__content">
           <p className="overline">Sezione sigillata · spoiler finali</p>
-          <h2 id="post-run-gate-title">Si apre soltanto a run conclusa</h2>
+          <h2 id="post-run-gate-title">Una domanda per entrare</h2>
           <p id="post-run-gate-description">
-            Per proteggere la scoperta in diretta, titoli, sintesi, fonti e collegamenti
-            restano nascosti fino all’annuncio pubblico del finale. Non è prevista
-            un’anteprima durante la run.
+            Per proteggere la scoperta in diretta, titoli, sintesi, fonti e
+            collegamenti restano nascosti. Chi conosce la risposta può aprire
+            l’archivio.
           </p>
+
+          <form className="gate-form" onSubmit={handleSubmit}>
+            <label className="gate-form__label" htmlFor="archive-answer">
+              Radagon è…?
+            </label>
+            <div className="gate-form__row">
+              <input
+                id="archive-answer"
+                name="archive-answer"
+                type="text"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                value={answer}
+                onChange={(event) => setAnswer(event.target.value)}
+                placeholder="Scrivi la risposta"
+                aria-describedby={
+                  error ? 'archive-answer-error' : 'post-run-gate-description'
+                }
+                aria-invalid={error ? true : undefined}
+              />
+              <button
+                type="submit"
+                className="gate-form__submit"
+                disabled={checking || answer.trim().length === 0}
+              >
+                <KeyRound aria-hidden="true" />
+                {checking ? 'Verifico…' : 'Sblocca'}
+              </button>
+            </div>
+            {error && (
+              <p
+                id="archive-answer-error"
+                className="gate-form__error"
+                role="alert"
+              >
+                {error}
+              </p>
+            )}
+          </form>
 
           <div className="post-run-gate__facts" aria-label="Stato dell’archivio">
             <span>
@@ -89,7 +176,10 @@ function LockedArchive() {
   )
 }
 
-function ReleasedArchive({ onOpenConcept }: TranslationArchiveProps) {
+function ReleasedArchive({
+  onOpenConcept,
+  onLock,
+}: TranslationArchiveProps & { onLock?: () => void }) {
   const [query, setQuery] = useState('')
 
   const filteredPosts = useMemo(() => {
@@ -127,9 +217,21 @@ function ReleasedArchive({ onOpenConcept }: TranslationArchiveProps) {
       <div className="post-run-status">
         <ShieldCheck aria-hidden="true" />
         <div>
-          <strong>Archivio post-run aperto</strong>
-          <span>Questi contenuti sono stati pubblicati solo dopo la conclusione della run.</span>
+          <strong>
+            {onLock ? 'Archivio sbloccato con la risposta' : 'Archivio post-run aperto'}
+          </strong>
+          <span>
+            {onLock
+              ? 'Accesso riservato: i contenuti restano spoiler per la blind run.'
+              : 'Questi contenuti sono stati pubblicati solo dopo la conclusione della run.'}
+          </span>
         </div>
+        {onLock && (
+          <button type="button" className="post-run-lock" onClick={onLock}>
+            <LockKeyhole aria-hidden="true" />
+            Blocca di nuovo
+          </button>
+        )}
       </div>
 
       <div className="archive-toolbar">

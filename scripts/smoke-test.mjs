@@ -470,11 +470,18 @@ assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= inne
 await page.locator('a[href="#/translations"]').click()
 await page.waitForURL(/#\/translations$/)
 await page.locator('.post-run-gate, .post-run-status').first().waitFor()
-const postRunGate = page.getByRole('heading', { name: 'Si apre soltanto a run conclusa' })
+const postRunGate = page.getByRole('heading', { name: 'Una domanda per entrare' })
 if ((await postRunGate.count()) > 0) {
   await postRunGate.waitFor()
   assert.equal(await page.getByText('Il segreto di Radagon (ITA)', { exact: true }).count(), 0)
   assert.equal(await page.getByRole('link', { name: /analisi originale/i }).count(), 0)
+  assert.ok((await page.getByLabel(/Radagon è/i).count()) > 0)
+  assert.equal(await page.locator('#archive-answer[maxlength]').count(), 0)
+  assert.equal(await page.locator('#archive-answer[minlength]').count(), 0)
+  await page.getByLabel(/Radagon è/i).fill('risposta sbagliata')
+  await page.getByRole('button', { name: /Sblocca/i }).click()
+  await page.getByRole('alert').waitFor()
+  assert.equal(await page.getByText('Il segreto di Radagon (ITA)', { exact: true }).count(), 0)
   assert.match(
     (await page.locator('a[href="#/translations"]').getAttribute('aria-label')) || '',
     /solo dopo la conclusione della run/i,
