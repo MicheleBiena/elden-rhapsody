@@ -185,8 +185,8 @@ await assertBoardZonesSpanCanvas(page)
 assert.equal(await page.locator('.thread-layer g').count(), 183)
 assert.equal(await page.locator('.thread-layer line').count(), 366)
 assert.equal(await page.locator('.relation-list button').count(), 183)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 88)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 10)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 89)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 9)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -199,7 +199,6 @@ assert.deepEqual(
     'Principesse cariane',
     'Chiesa dei Voti',
     'Rennala',
-    'Ranni, Principessa Lunare',
   ],
 )
 await page.locator('.concept-card img').evaluateAll((images) => {
