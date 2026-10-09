@@ -870,8 +870,8 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'da-leggere',
     summary:
       'Dopo la morte di Irina, Edgar perde il senno e ci assale in una capanna di Liurnia; porta con sé un’Uva di Shabriri.',
-    body: 'Edgar guidava Castel Morne per nomina di Godrick. Dopo la morte di Irina lo ritroviamo in una capanna di Liurnia, circondato da cadaveri e assetato di sangue. Attacca anche noi e, una volta sconfitto, lascia un’Uva di Shabriri. La presenza dell’uva avvicina il suo crollo alla Frenesia, ma non prova ancora che ne fosse afflitto.',
-    bodyHighlights: ['Dopo la morte di Irina lo ritroviamo in una capanna di Liurnia, circondato da cadaveri e assetato di sangue. Attacca anche noi e, una volta sconfitto, lascia un’Uva di Shabriri. La presenza dell’uva avvicina il suo crollo alla Frenesia, ma non prova ancora che ne fosse afflitto.'],
+    body: 'Edgar guidava Castel Morne per nomina di Godrick. Dopo la morte di Irina lo ritroviamo in una capanna di Liurnia, circondato da cadaveri e assetato di sangue. Attacca anche noi: lo uccidiamo e sul suo corpo troviamo un’Uva di Shabriri. La presenza dell’uva avvicina il suo crollo alla Frenesia, ma non prova ancora che ne fosse afflitto.',
+    bodyHighlights: ['Dopo la morte di Irina lo ritroviamo in una capanna di Liurnia, circondato da cadaveri e assetato di sangue. Attacca anche noi: lo uccidiamo e sul suo corpo troviamo un’Uva di Shabriri. La presenza dell’uva avvicina il suo crollo alla Frenesia, ma non prova ancora che ne fosse afflitto.'],
     imageUrl: './concepts/edgar-vendicatore.webp',
     imagePosition: '50% 28%',
     imageAlt: 'Edgar il Vendicatore affronta il Senzaluce presso una capanna di Liurnia',
@@ -882,7 +882,7 @@ const conceptArchive: LoreConcept[] = [
       'Riceve la lettera di Irina e ci dona un ramoscello.',
       'Rimane nella fortezza per senso del dovere.',
       'A Liurnia ci assale presso una capanna piena di cadaveri.',
-      'Alla sconfitta lascia un’Uva di Shabriri.',
+      'Muore nello scontro e sul suo corpo troviamo un’Uva di Shabriri.',
     ],
     questions: [
       'L’Uva di Shabriri indica che la Frenesia lo ha contagiato?',
@@ -1927,7 +1927,7 @@ const conceptArchive: LoreConcept[] = [
     state: 'da-verificare',
     liveReadStatus: 'da-leggere',
     summary: 'Figlia di Rennala e Radagon, sorella di Radahn e Rykard; Rogier la indica come artefice della Notte dei Neri Coltelli.',
-    body: 'Rogier ricava il nome di Ranni dall’impronta del rito conservata nel Grafopugnale Nero e la ritiene l’artefice della congiura. La presenta come figlia della regina Rennala e di Radagon, sorella di Radahn e del pretore Rykard. Non viene vista da molto tempo; Rogier sospetta che possa essere tornata alla dimora reale cariana a nord dell’Accademia. Se la sua ricostruzione è corretta, Ranni dovrebbe portare sulla carne un marchio maledetto della Morte Fatidica. Questa scheda resta distinta da Renna: non abbiamo ancora elementi osservati che identifichino le due figure.',
+    body: 'Rogier ricava il nome di Ranni dall’impronta del rito conservata nel Grafopugnale Nero e la ritiene l’artefice della congiura. La presenta come figlia della regina Rennala e di Radagon, sorella di Radahn e del pretore Rykard. Non viene vista da molto tempo; Rogier sospetta che possa essere tornata alla dimora reale cariana a nord dell’Accademia. Se la sua ricostruzione è corretta, Ranni dovrebbe portare sulla carne un marchio maledetto della Morte Fatidica.',
     textSections: [{
       title: 'Pista di Rogier',
       text: 'Cercare Ranni presso la dimora reale cariana a nord di Raya Lucaria e verificare se sul suo corpo esiste il marchio maledetto.',

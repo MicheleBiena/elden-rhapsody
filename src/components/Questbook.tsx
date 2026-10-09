@@ -8,7 +8,7 @@ import type { QuestImage, QuestStatus } from '../types'
 import '../questbook.css'
 
 const statusLabels: Record<QuestStatus, string> = {
-  'in-corso': 'In corso', pista: 'Pista da verificare', conclusa: 'Conclusa', fallita: 'Fallita',
+  'in-corso': 'In corso', pista: 'Pista da verificare', conclusa: 'Terminata', fallita: 'Fallita',
 }
 const filters = [
   { id: 'tutte', label: 'Tutte', icon: BookOpen },

@@ -122,12 +122,12 @@ try {
   await page.mouse.up()
   const moved = await card.boundingBox()
   assert.ok(Math.abs(moved.x - before.x - 42) < 2 && Math.abs(moved.y - before.y - 32) < 2, 'Card does not preserve grab offset')
-  const savedPositions = await page.evaluate(() => localStorage.getItem('elden-rhapsody:dossier-positions-v1'))
+  const savedPositions = await page.evaluate(() => localStorage.getItem('elden-rhapsody:dossier-positions-v2'))
   await page.reload({ waitUntil: 'domcontentloaded' })
-  assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:dossier-positions-v1')), savedPositions)
+  assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:dossier-positions-v2')), savedPositions)
   await handle.focus()
   await page.keyboard.press('ArrowRight')
-  assert.notEqual(await page.evaluate(() => localStorage.getItem('elden-rhapsody:dossier-positions-v1')), savedPositions)
+  assert.notEqual(await page.evaluate(() => localStorage.getItem('elden-rhapsody:dossier-positions-v2')), savedPositions)
 
   const previousZoom = await page.locator('.dossier-zoom output').textContent()
   await page.getByRole('button', { name: 'Aumenta zoom', exact: true }).click()
@@ -172,6 +172,7 @@ try {
     await page.waitForURL(new RegExp(`#/board/${id}$`))
     await page.waitForFunction(({ expected, total }) => document.querySelector('.dossier-stepper')?.textContent.includes(`Live ${expected} di ${total}`), { expected: index + 1, total: liveNotes.length })
     assert.match(await page.locator('.dossier-detail-meta').textContent(), new RegExp(kind))
+    if (id === 'ranni-principessa-lunare') assert.doesNotMatch(await page.locator('.dossier-detail').textContent(), /\bRenna\b/)
     if (index < liveNotes.length - 1) await page.getByRole('button', { name: 'Appunto successivo', exact: true }).click()
   }
   await page.getByRole('button', { name: 'Esci dalla lettura live', exact: true }).click()
@@ -254,12 +255,31 @@ try {
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v10')), v10Positions)
   await page.getByRole('button', { name: 'Chiudi il fascicolo', exact: true }).click()
   await page.getByRole('button', { name: 'Fascicoli', exact: true }).click()
+  await page.setViewportSize({ width: 1440, height: 1080 })
+  await page.evaluate(() => {
+    localStorage.setItem('elden-rhapsody:dossier-group', JSON.stringify('ordine-spezzato'))
+    localStorage.setItem('elden-rhapsody:dossier-positions-v1', JSON.stringify({
+      'elden-ring': { x: 440, y: 358 },
+      'regina-marika': { x: 440, y: 358 },
+    }))
+    localStorage.removeItem('elden-rhapsody:dossier-positions-v2')
+  })
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await page.waitForFunction(() => localStorage.getItem('elden-rhapsody:dossier-positions-v2') !== null)
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('elden-rhapsody:dossier-positions-v2'))), {})
+  const repairedCards = await page.locator('.dossier-note').evaluateAll(elements => elements.map(element => {
+    const rect = element.getBoundingClientRect()
+    return { id: element.dataset.conceptId, x: rect.x, y: rect.y, right: rect.right, bottom: rect.bottom }
+  }))
+  for (let a = 0; a < repairedCards.length; a++) for (let b = a + 1; b < repairedCards.length; b++) {
+    assert.equal(repairedCards[a].x < repairedCards[b].right && repairedCards[a].right > repairedCards[b].x && repairedCards[a].y < repairedCards[b].bottom && repairedCards[a].bottom > repairedCards[b].y, false, `Migrated cards overlap: ${repairedCards[a].id}, ${repairedCards[b].id}`)
+  }
   await page.goto(`${baseUrl}#/board/non-esiste`, { waitUntil: 'domcontentloaded' })
   await page.getByRole('heading', { name: 'Scheda non trovata', exact: true }).waitFor()
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 98 cards, 18 unread, Black Knives, Ranni, masks, genealogy, Maliketh, previous Ainsel notes, groups, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 98 cards, 18 unread, Black Knives, spoiler-safe Ranni, masks, genealogy, Maliketh, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }

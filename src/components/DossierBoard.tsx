@@ -13,6 +13,8 @@ const sceneWidth = 880
 const cardHeight = 262
 const cardWidth = 208
 const stateLabels = { osservato: 'Osservato in live', ipotesi: 'Ipotesi', 'da-verificare': 'Da verificare' }
+const positionStorageKey = 'elden-rhapsody:dossier-positions-v2'
+const previousPositionStorageKey = 'elden-rhapsody:dossier-positions-v1'
 const orderedConcepts = boardGroups.flatMap(group => group.conceptIds.map(id => concepts.find(item => item.id === id)!))
 const unreadConcepts = orderedConcepts.filter(item => item.liveReadStatus === 'da-leggere')
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
@@ -37,9 +39,35 @@ function sceneLayout(ids: string[]) {
   }
 }
 
+function migrateDossierPositions() {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(previousPositionStorageKey) || '{}') as Record<string, BoardPosition>
+    const migrated: Record<string, BoardPosition> = {}
+    for (const group of boardGroups) {
+      const layout = sceneLayout(group.conceptIds)
+      const points = group.conceptIds.map(id => {
+        const saved = parsed[id]
+        return saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)
+          ? { x: clamp(saved.x, 122, sceneWidth - 122), y: clamp(saved.y, 156, layout.height - 156) }
+          : layout.positions[id]
+      })
+      const overlaps = points.some((point, index) => points.slice(index + 1).some(other =>
+        Math.abs(point.x - other.x) < cardWidth + 20 && Math.abs(point.y - other.y) < cardHeight + 20,
+      ))
+      if (overlaps) continue
+      group.conceptIds.forEach((id, index) => {
+        if (parsed[id]) migrated[id] = points[index]
+      })
+    }
+    return migrated
+  } catch {
+    return {}
+  }
+}
+
 export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }: ConceptBoardProps) {
   const [groupId, setGroupId] = usePersistentState('elden-rhapsody:dossier-group', defaultBoardGroup.id)
-  const [positions, setPositions] = usePersistentState<Record<string, BoardPosition>>('elden-rhapsody:dossier-positions-v1', {})
+  const [positions, setPositions] = usePersistentState<Record<string, BoardPosition>>(positionStorageKey, migrateDossierPositions)
   const [query, setQuery] = useState('')
   const [onlyUnread, setOnlyUnread] = useState(false)
   const [focusedWires, setFocusedWires] = useState(true)

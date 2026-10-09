@@ -649,10 +649,10 @@ export const quests: QuestEntry[] = [
     status: "conclusa",
     updateKind: "aggiornata",
     summary:
-      "Dopo la morte di Irina, Edgar perde il senno e diventa un vendicatore assetato di sangue. Lo sconfiggiamo in una capanna di Liurnia.",
+      "Dopo la morte di Irina, Edgar perde il senno e diventa un vendicatore assetato di sangue. Lo uccidiamo in una capanna di Liurnia.",
     lastSeen: {
       location: "Capanna del Vendicatore, Liurnia",
-      note: "Edgar ci attacca e viene sconfitto. La storia di padre e figlia è conclusa.",
+      note: "Edgar ci attacca e muore nello scontro. La storia di padre e figlia è terminata.",
     },
     steps: [
       {
@@ -673,7 +673,7 @@ export const quests: QuestEntry[] = [
       },
       {
         title: "Edgar il Vendicatore",
-        text: "Ritroviamo Edgar presso una capanna di Liurnia, circondato dai corpi delle persone che ha ucciso. Ha perso il senno, ci assale e viene sconfitto.",
+        text: "Ritroviamo Edgar presso una capanna di Liurnia, circondato dai corpi delle persone che ha ucciso. Ha perso il senno, ci assale e lo uccidiamo nello scontro.",
       },
       {
         title: "L’Uva di Shabriri",
