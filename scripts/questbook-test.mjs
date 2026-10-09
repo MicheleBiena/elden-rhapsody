@@ -15,13 +15,13 @@ try {
   assert.equal(await page.locator('a[href="#/questbook"].nav-tab').getAttribute('aria-current'), 'page')
   await page.getByRole('heading', { name: 'I offer you an accord', exact: true }).waitFor()
   assert.deepEqual(await page.locator('.quest-index-link').evaluateAll(links => links.map(link => link.dataset.questId)), [
-    'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'roderika',
+    'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'fia', 'roderika',
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops', 'rya', 'ehi-cuggi',
   ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['ehi-cuggi'])
-  assert.deepEqual(await page.locator('.quest-index-link.is-nuova').evaluateAll(links => links.map(link => link.dataset.questId)), [])
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 1)
-  assert.equal(await page.locator('.quest-index-update--nuova').count(), 0)
+  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['varre', 'rogier', 'edgar-irina', 'ehi-cuggi'])
+  assert.deepEqual(await page.locator('.quest-index-link.is-nuova').evaluateAll(links => links.map(link => link.dataset.questId)), ['fia'])
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 4)
+  assert.equal(await page.locator('.quest-index-update--nuova').count(), 1)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /21 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /abbastanza Rune Maggiori.*Leyndell/i)
@@ -89,10 +89,11 @@ try {
   assert.equal(await page.locator('.quest-index-link').count(), 1)
   await page.locator('[data-quest-id="varre"]').click()
   await page.getByRole('heading', { name: 'La Maschera Bianca', exact: true }).waitFor()
-  assert.match(await page.locator('.quest-whereabouts').textContent(), /Primo Passo/)
+  assert.match(await page.locator('.quest-whereabouts').textContent(), /Chiesa della Rosa.*Liurnia/i)
   assert.match(await page.locator('.quest-history').textContent(), /Godrick sconfitto/)
   assert.match(await page.locator('.quest-history').textContent(), /Udienza dalle Due Dita/)
-  assert.match(await page.locator('.quest-next-step').textContent(), /Chiesa della Rosa.*Liurnia/i)
+  assert.match(await page.locator('.quest-history').textContent(), /scombussolate.*Disgregazione/is)
+  assert.match(await page.locator('.quest-next-step').textContent(), /tre duelli online/i)
   assert.equal(await page.locator('.quest-status').textContent(), 'In corso', 'Initial task completed does not conclude the whole quest')
   assert.equal(await page.locator('.quest-lore-links a').count(), 3)
   assert.equal(await page.locator('.quest-targets').count(), 0, 'The target tracker belongs only to The Big Boys')
@@ -110,13 +111,14 @@ try {
     { id: 'alexander', title: 'Amico Vaso', lastSeen: 'Miniera fra Sepolcride e Caelid', destination: 'Ingresso della miniera sul lato di Caelid', step: /Dietro una porta chiusa/, links: 1, image: true },
     { id: 'sellen', title: 'Maestra di stelle', lastSeen: 'Sepolcride centrale', destination: 'Non ancora nota', step: /seconda figura identica a Sellen/, links: 1, image: true },
     { id: 'blaidd', title: 'Berserk', lastSeen: 'Galera eterna del limiere alacre', destination: 'Un fabbro gigante a nord', step: /Darriwil/, links: 2, image: true },
-    { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Marchio del Centipede/, links: 8, image: true },
+    { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Tavola Rotonda', destination: 'Dimora reale cariana, a nord di Raya Lucaria', step: /Grafopugnale Nero.*Principessa Lunare Ranni/is, links: 9, image: true },
+    { id: 'fia', title: 'Con la morte in seno', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Grafopugnali.*Ramoscello sacrificale/is, links: 4, image: true },
     { id: 'roderika', title: 'Crisalidi', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Spirit Tuner/, links: 4, image: true, status: 'Conclusa' },
     { id: 'renna', title: 'La luna nera', lastSeen: 'Chiesa di Elleh', destination: 'Non ancora nota', step: /strega Renna/, links: 1, image: true },
     { id: 'd', title: 'La doppia faccia', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /uccidiamo il marinaio/, links: 3, image: true },
     { id: 'kenneth', title: 'Successione', lastSeen: 'Forte Haight', destination: 'Non ancora nota', step: /degno erede/, links: 1, image: true },
     { id: 'gurranq', title: 'Consumare la morte', lastSeen: 'Santuario Ferino, Dracotumulo', destination: 'Santuario Ferino', step: /occhio per trovare le radici mortali.*Sigillo artiglio.*piaga delle radici/is, links: 5, image: true },
-    { id: 'edgar-irina', title: 'Insurrezione', lastSeen: 'Ponte dei Sacrifici', destination: 'Non ancora nota', step: /Irina morta/, links: 3, image: true },
+    { id: 'edgar-irina', title: 'Insurrezione', lastSeen: 'Capanna del Vendicatore, Liurnia', destination: 'Non ancora nota', step: /Irina morta.*Edgar il Vendicatore.*Uva di Shabriri/is, links: 5, image: true, gallery: 2, status: 'Conclusa' },
     { id: 'nepheli', title: 'Via col vento', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Gideon.*padre adottivo/s, links: 6, image: true },
     { id: 'diallos', title: 'Vocazione', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Lanya/, links: 1, image: true },
     { id: 'patches', title: 'Con amici come questi', lastSeen: 'Grotta di Acquafosca', destination: 'Non ancora nota', step: /trappola di trasferimento/i, links: 1, image: true },
@@ -140,10 +142,10 @@ try {
     }
     assert.equal(await page.locator('.quest-status').textContent(), quest.status || 'In corso')
     if (['alexander', 'sellen', 'kenneth', 'nepheli'].includes(quest.id)) assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
-    if (['roderika', 'renna', 'd', 'edgar-irina', 'patches', 'yura'].includes(quest.id)) {
+    if (['fia', 'roderika', 'renna', 'd', 'edgar-irina', 'patches', 'yura'].includes(quest.id)) {
       assert.equal(await page.locator('.quest-next-step').count(), 0, 'No invented follow-up for an unknown destination')
     }
-    if (quest.id === 'rogier') assert.match(await page.locator('.quest-next-step').textContent(), /morbo mortale.*Runa della Morte.*Marchio del Centipede/i)
+    if (quest.id === 'rogier') assert.match(await page.locator('.quest-next-step').textContent(), /dimora reale cariana.*Ranni.*marchio maledetto/i)
     if (quest.id === 'd') assert.match(await page.locator('.quest-history').textContent(), /raggiunto e incontrato/)
     if (quest.id === 'gurranq') assert.match(await page.locator('.quest-next-step').textContent(), /radici mortali/)
     if (quest.id === 'diallos') assert.match(await page.locator('.quest-next-step').textContent(), /Trovare Lanya/)
@@ -152,21 +154,22 @@ try {
     if (quest.id === 'rya') assert.match(await page.locator('.quest-next-step').textContent(), /ladro.*medaglione/i)
     if (quest.id === 'ehi-cuggi') assert.match(await page.locator('.quest-next-step').textContent(), /mani.*Potentato|Potentato/i)
     if (quest.id === 'edgar-irina') {
-      assert.match(await page.locator('.quest-summary').textContent(), /storia di Irina è conclusa/)
-      assert.match(await page.locator('.quest-history').textContent(), /Edgar dice che vendicherà sua figlia/)
+      assert.match(await page.locator('.quest-summary').textContent(), /Edgar perde il senno.*sconfiggiamo/is)
+      assert.match(await page.locator('.quest-history').textContent(), /capanna.*corpi.*Uva di Shabriri/is)
     }
   }
   await page.getByRole('button', { name: 'Chiuse', exact: true }).click()
-  assert.equal(await page.locator('.quest-index-link').count(), 1)
+  assert.equal(await page.locator('.quest-index-link').count(), 2)
   assert.equal(await page.locator('[data-quest-id="roderika"]').count(), 1)
+  assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 1)
   assert.equal(await page.locator('[data-quest-id="ehi-cuggi"]').count(), 0, 'EHI CUGGI was absolved and reopened')
-  assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 0, 'Irina’s ending must not archive Edgar’s ongoing story')
   await page.getByRole('button', { name: 'In corso', exact: true }).click()
   assert.equal(await page.locator('.quest-index-link').count(), 21)
-  assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 1)
+  assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 0)
+  await page.getByRole('button', { name: 'Chiuse', exact: true }).click()
   await page.locator('[data-quest-id="edgar-irina"]').click()
   await page.getByRole('heading', { name: 'Insurrezione', exact: true }).waitFor()
-  await page.locator('.quest-gallery img').evaluate(image => image.decode())
+  await page.locator('.quest-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Ingrandisci: Irina al nostro primo incontro' }).click()
   await page.locator('.quest-photo-dialog[open]').waitFor()
   await page.keyboard.press('Escape')
@@ -189,8 +192,8 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 1)
-  assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 4)
+  assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 1)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
   await page.goto(`${baseUrl}#/questbook/big-boys`, { waitUntil: 'networkidle' })
@@ -214,7 +217,7 @@ try {
   await page.locator('a.nav-tab[href="#/build"]').click()
   await page.locator('.build-lab').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '7 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '18 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -309,7 +312,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: twenty-one active quests, one complete, EHI CUGGI reopened as aggiornata, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
+  console.log('Questbook passed: twenty-one active quests, two complete, Fia added, Rogier, Varré and Edgar updated, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()

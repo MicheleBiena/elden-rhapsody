@@ -1,10 +1,10 @@
 import { concepts } from './project'
 
 export const boardGroups = [
-  { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'runa-della-morte', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato', 'torri-divine'] },
+  { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'assassine-neri-coltelli', 'runa-della-morte', 'maliketh-lama-nera', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'albero-genealogico-aureo', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato', 'torri-divine'] },
   { id: 'senzaluce', label: 'Senzaluce', conceptIds: ['senzaluce', 'frenesia', 'grazia', 'vergini-delle-dita', 'melina', 'hoarah-loux', 'goldmask', 'mangiasterco', 'varre', 'strega-sconosciuta'] },
   { id: 'primi-incontri', label: 'Primi incontri', conceptIds: ['mercante-kale', 'patches', 'yura', 'kenneth-haight', 'medaglione-dectus', 'mezzolupo', 'boc', 'roderika', 'galere-eterne'] },
-  { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'scintipietra', 'sellen', 'rennala', 'radagon', 'principesse-cariane', 'cavalieri-cariani', 'guerra-civile-liurnia'] },
+  { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'maschere-scintipietra', 'scintipietra', 'sellen', 'rennala', 'ranni-principessa-lunare', 'radagon', 'principesse-cariane', 'cavalieri-cariani', 'guerra-civile-liurnia'] },
   { id: 'liurnia-lacustre', label: 'Liurnia Lacustre', conceptIds: ['liurnia-lacustre', 'chiesa-dei-voti', 'miriel', 'hyetta', 'thops', 'rya', 'incubi-di-red'] },
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
   { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'draghi-antichi', 'statue-chiese-marika'] },

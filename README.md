@@ -23,6 +23,11 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
+L’aggiornamento corrente conserva le sette note di Ainsel e Liurnia non ancora
+lette e aggiunge la pista dei Neri Coltelli: maschere di scintipietra, Ranni,
+Maliketh e un albero genealogico provvisorio portano il totale a 98 schede, di
+cui 18 da leggere.
+
 ### Questbook
 
 Il Questbook è il diario della partita. Per ogni incarico registra soltanto i
@@ -32,6 +37,8 @@ dichiaratamente tali.
 
 La pagina **The Big Boys** raccoglie i portatori di Rune Maggiori conosciuti e
 permette di depennare quelli sconfitti. Lo stato resta nel browser del visitatore.
+Il diario contiene 23 quest: 21 in corso e due concluse. Le novità correnti sono
+«Con la morte in seno» di Fia e gli avanzamenti di Rogier, Varré ed Edgar.
 
 ### Build Lab
 

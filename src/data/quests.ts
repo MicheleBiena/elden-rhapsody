@@ -181,16 +181,18 @@ export const quests: QuestEntry[] = [
     id: "varre",
     title: "La Maschera Bianca",
     npc: "Varré",
-    region: "Sepolcride",
+    region: "Liurnia Lacustre",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Abbiamo seguito l’indicazione di Varré: Godrick è sconfitto e abbiamo ottenuto udienza dalle Due Dita.",
+      "Alla Chiesa della Rosa, Varré mette in dubbio le Due Dita e ci consegna dita sanguinanti per partecipare a tre duelli online.",
 
     lastSeen: {
-      location: "Primo Passo",
+      location: "Chiesa della Rosa, Liurnia",
+      note: "Sostiene che le Due Dita siano scombussolate dalla Disgregazione e ostili ai Senzaluce.",
     },
     nextStep: {
-      text: "Chiesa della Rosa (Liurnia)",
+      text: "Usare le dita sanguinanti e partecipare a tre duelli online.",
       hypothetical: false,
     },
     steps: [
@@ -208,7 +210,15 @@ export const quests: QuestEntry[] = [
       },
       {
         title: "Verso Liurnia",
-        text: "Varré ci consiglia di raggiungerlo alla Chiesa della Rosa a Liurnia (Nord)",
+        text: "Varré ci consiglia di raggiungerlo alla Chiesa della Rosa a Liurnia (Nord).",
+      },
+      {
+        title: "La Chiesa della Rosa",
+        text: "Ritroviamo Varré alla Chiesa della Rosa. Non si fida delle Due Dita: le considera scombussolate dalla Disgregazione e sostiene che odino noi Senzaluce.",
+      },
+      {
+        title: "Le dita sanguinanti",
+        text: "Varré ci consegna dita sanguinanti e ci chiede di partecipare a tre duelli online.",
       },
     ],
     portrait: {
@@ -366,11 +376,16 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Rogier studia il morbo mortale e la Notte dei Neri Coltelli. Dopo il contatto con il cadavere sotto Grantempesta, lo ritroviamo infermo alla Tavola Rotonda.",
+      "Rogier ha esaminato il Grafopugnale Nero e identifica Ranni come artefice del rito. Ora cerca il suo marchio maledetto della Morte Fatidica.",
     lastSeen: {
       location: "Tavola Rotonda",
       note: "È seduto e mostra sul corpo tracce evidenti del morbo mortale.",
+    },
+    destination: {
+      location: "Dimora reale cariana, a nord di Raya Lucaria",
+      note: "Rogier sospetta che Ranni possa essere tornata nella casa in cui nacque.",
     },
     steps: [
       {
@@ -397,9 +412,25 @@ export const quests: QuestEntry[] = [
         title: "Il Marchio del Centipede",
         text: "D ha scoperto il Marchio del Centipede, antico simbolo del marchio maledetto. Rogier vorrebbe parlare con chi lo troverà e usarlo per formare un’alleanza, purché non abbia intenzioni malvagie.",
       },
+      {
+        title: "L’Assassina dei Neri Coltelli",
+        text: "Con l’aiuto di D affrontiamo un’Assassina dei Neri Coltelli e otteniamo il Grafopugnale Nero, impronta del rito compiuto sulle lame della congiura.",
+      },
+      {
+        title: "Il nome nell’impronta",
+        text: "Consegniamo il Grafopugnale a Rogier. Dopo averlo esaminato ce lo restituisce e identifica la Principessa Lunare Ranni come la persona che officiò il rito.",
+      },
+      {
+        title: "Il marchio di Ranni",
+        text: "Rogier ci chiede di procurarci il marchio maledetto della Morte Fatidica che Ranni dovrebbe portare sulla carne. Indica come pista la dimora reale cariana a nord dell’Accademia.",
+      },
+      {
+        title: "Salvare chi vive nella morte",
+        text: "Rogier chiarisce il proprio scopo: Coloro che vivono nella morte non hanno commesso colpe, ma hanno toccato una falla nell’Ordine. Cerca il marchio per provare a salvarli.",
+      },
     ],
     nextStep: {
-      text: "Cercare altre informazioni sul morbo mortale, sulla Runa della Morte e sul Marchio del Centipede.",
+      text: "Raggiungere la dimora reale cariana a nord dell’Accademia, trovare Ranni e cercare il suo marchio maledetto.",
       hypothetical: false,
     },
     portrait: {
@@ -408,7 +439,41 @@ export const quests: QuestEntry[] = [
         "Rogier con il cappello da stregone nella chiesa di Grantempesta",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["rogier", "margit", "principesse-cariane", "morbo-mortale", "marchio-centipede", "notte-neri-coltelli", "runa-della-morte", "d-cacciatore"],
+    linkedConceptIds: ["rogier", "ranni-principessa-lunare", "assassine-neri-coltelli", "morbo-mortale", "marchio-centipede", "notte-neri-coltelli", "runa-della-morte", "coloro-che-vivono-nella-morte", "d-cacciatore"],
+  },
+  {
+    id: "fia",
+    title: "Con la morte in seno",
+    npc: "Fia, Compagna di Morte",
+    region: "Tavola Rotonda",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary:
+      "Fia conosce la ricerca di Rogier sui Neri Coltelli, ci affida l’indizio del Grafopugnale e ci ringrazia dopo averlo aiutato.",
+    lastSeen: {
+      location: "Tavola Rotonda",
+      note: "Continua a riceverci nella propria stanza.",
+    },
+    steps: [
+      {
+        title: "Le impronte dei Neri Coltelli",
+        text: "Fia ci parla dei Grafopugnali che nascondono la verità della congiura. Ricorda che Rogier ne parlava piangendo quando giaceva con lei.",
+      },
+      {
+        title: "L’indizio del Grafopugnale",
+        text: "Fia ha saputo da un’altra persona dove cercare un’impronta. Non vuole consegnare la pista direttamente a Rogier, infermo alla Tavola Rotonda, e la affida a noi.",
+      },
+      {
+        title: "Rogier aiutato",
+        text: "Dopo che abbiamo consegnato il Grafopugnale a Rogier, Fia ci ringrazia per avergli dato nuova forza e ci dona un Ramoscello sacrificale.",
+      },
+    ],
+    portrait: {
+      imageUrl: "./concepts/fia-tavola-rotonda.png",
+      imageAlt: "Fia seduta nella propria stanza alla Tavola Rotonda",
+      imagePosition: "50% 20%",
+    },
+    linkedConceptIds: ["fia", "rogier", "assassine-neri-coltelli", "notte-neri-coltelli"],
   },
   {
     id: "roderika",
@@ -580,13 +645,14 @@ export const quests: QuestEntry[] = [
     id: "edgar-irina",
     title: "Insurrezione",
     npc: "Edgar e Irina",
-    region: "Penisola del Pianto",
-    status: "in-corso",
+    region: "Penisola del Pianto e Liurnia",
+    status: "conclusa",
+    updateKind: "aggiornata",
     summary:
-      "La storia di Irina è conclusa con la sua morte. Quella di Edgar prosegue: al Ponte dei Sacrifici promette di vendicare sua figlia.",
+      "Dopo la morte di Irina, Edgar perde il senno e diventa un vendicatore assetato di sangue. Lo sconfiggiamo in una capanna di Liurnia.",
     lastSeen: {
-      location: "Ponte dei Sacrifici",
-      note: "Edgar vuole vendicare sua figlia; la sua storia è ancora in corso. Solo quella di Irina è conclusa.",
+      location: "Capanna del Vendicatore, Liurnia",
+      note: "Edgar ci attacca e viene sconfitto. La storia di padre e figlia è conclusa.",
     },
     steps: [
       {
@@ -605,11 +671,19 @@ export const quests: QuestEntry[] = [
         title: "La promessa di Edgar",
         text: "Al Ponte dei Sacrifici, Edgar dice che vendicherà sua figlia. La sua storia resta aperta; non sappiamo ancora dove si dirigerà.",
       },
+      {
+        title: "Edgar il Vendicatore",
+        text: "Ritroviamo Edgar presso una capanna di Liurnia, circondato dai corpi delle persone che ha ucciso. Ha perso il senno, ci assale e viene sconfitto.",
+      },
+      {
+        title: "L’Uva di Shabriri",
+        text: "Edgar lascia un’Uva di Shabriri. Il legame con la Frenesia è plausibile, ma resta un’ipotesi.",
+      },
     ],
     portrait: {
-      imageUrl: "./concepts/edgar.png",
-      imageAlt: "Edgar il castellano in armatura sulle mura di Castel Morne",
-      imagePosition: "50% 10%",
+      imageUrl: "./concepts/edgar-vendicatore.webp",
+      imageAlt: "Edgar il Vendicatore combatte presso una capanna di Liurnia",
+      imagePosition: "50% 28%",
     },
     gallery: [
       {
@@ -617,8 +691,13 @@ export const quests: QuestEntry[] = [
         imageAlt: "Irina seduta presso il Ponte dei Sacrifici",
         caption: "Irina al nostro primo incontro",
       },
+      {
+        imageUrl: "./concepts/edgar.png",
+        imageAlt: "Edgar il castellano in armatura sulle mura di Castel Morne",
+        caption: "Edgar prima della morte di Irina",
+      },
     ],
-    linkedConceptIds: ["edgar-castellano", "irina", "castel-morne"],
+    linkedConceptIds: ["edgar-castellano", "irina", "castel-morne", "frenesia", "hyetta"],
   },
   {
     id: "nepheli",

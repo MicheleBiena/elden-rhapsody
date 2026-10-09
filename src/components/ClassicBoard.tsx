@@ -34,7 +34,15 @@ const previousEpisodeBoardHeight = 12000
 const currentBoardHeight = 12500
 const latestEpisodeBoardHeight = 14000
 const newestEpisodeBoardHeight = 15500
-const boardHeight = 17000
+const previousFullBoardHeight = 17000
+const boardHeight = 19000
+const newEpisodeLayoutConceptIds = new Set([
+  'assassine-neri-coltelli',
+  'maschere-scintipietra',
+  'ranni-principessa-lunare',
+  'albero-genealogico-aureo',
+  'maliketh-lama-nera',
+])
 const latestEpisodeLayoutConceptIds = new Set([
   'profezia-leggidita',
   'draghi-antichi',
@@ -145,7 +153,8 @@ const defaultPositions = Object.fromEntries(
   concepts.map((concept) => {
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
-    if (currentEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (newEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (currentEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousFullBoardHeight / boardHeight) }]
     if (newestEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (newestEpisodeBoardHeight / boardHeight) }]
     if (latestEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (latestEpisodeBoardHeight / boardHeight) }]
     if (episodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (currentBoardHeight / boardHeight) }]
@@ -197,6 +206,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const previousFullSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v14')
+    if (previousFullSaved) {
+      return migrateBoardPositions(
+        JSON.parse(previousFullSaved) as Record<string, BoardPosition>,
+        previousFullBoardHeight,
+        true,
+      )
+    }
+
     const newestEpisodeSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v13')
     if (newestEpisodeSaved) {
       return migrateBoardPositions(
@@ -350,13 +368,16 @@ const boardConceptOrder = [
   'elden-ring',
   'regina-marika',
   'notte-neri-coltelli',
+  'assassine-neri-coltelli',
   'runa-della-morte',
+  'maliketh-lama-nera',
   'radici-mortali',
   'albero-madre',
   'godfrey',
   'serosh',
   'guerra-shattering',
   'semidei',
+  'albero-genealogico-aureo',
   'miquella',
   'malenia-la-recisa',
   'radahn',
@@ -388,6 +409,7 @@ const boardConceptOrder = [
   'galere-eterne',
   'liurnia-lacustre',
   'accademia-raya-lucaria',
+  'maschere-scintipietra',
   'thops',
   'rya',
   'incubi-di-red',
@@ -439,6 +461,7 @@ const boardConceptOrder = [
   'miriel',
   'chiesa-dei-voti',
   'rennala',
+  'ranni-principessa-lunare',
   'radagon',
 ] as const
 
@@ -532,7 +555,8 @@ const boardZones = [
   { id: 'grantempesta-nuovi-indizi', label: 'Grantempesta e nuovi indizi', note: '', top: 90 * currentBoardHeight / boardHeight, height: 10 * currentBoardHeight / boardHeight },
   { id: 'liurnia-antichi-poteri', label: 'Liurnia, fuoco e antiche stirpi', note: '', top: 90 * latestEpisodeBoardHeight / boardHeight, height: 10 * latestEpisodeBoardHeight / boardHeight },
   { id: 'liurnia-guerra-morte', label: 'Liurnia in guerra e morte diffusa', note: '', top: 91 * newestEpisodeBoardHeight / boardHeight, height: 9 * newestEpisodeBoardHeight / boardHeight },
-  { id: 'ainsel-nokstella', label: 'Ainsel e Nokstella', note: '', top: 91, height: 9 },
+  { id: 'ainsel-nokstella', label: 'Ainsel e Nokstella', note: '', top: 91 * previousFullBoardHeight / boardHeight, height: 9 * previousFullBoardHeight / boardHeight },
+  { id: 'congiura-parentele', label: 'Congiura e parentele', note: '', top: 91, height: 9 },
 ]
 
 interface ConceptBoardProps {
@@ -553,7 +577,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v14',
+    'elden-rhapsody:board-positions-v15',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
