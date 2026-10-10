@@ -185,14 +185,14 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Alla Chiesa della Rosa, Varré mette in dubbio le Due Dita e ci consegna dita sanguinanti per partecipare a tre duelli online.",
+      "Dopo tre invasioni e la prova del sangue di vergine, Varré ci consacra come Dito Sanguinante di Mohg e ci affida una medaglia per ottenere udienza.",
 
     lastSeen: {
       location: "Chiesa della Rosa, Liurnia",
-      note: "Sostiene che le Due Dita siano scombussolate dalla Disgregazione e ostili ai Senzaluce.",
+      note: "Qui completa la nostra iniziazione al servizio della dinastia Mohgwyn.",
     },
     nextStep: {
-      text: "Usare le dita sanguinanti e partecipare a tre duelli online.",
+      text: "Usare la Medaglia del Cavaliere Purosangue quando vorremo ottenere udienza da Mohg.",
       hypothetical: false,
     },
     steps: [
@@ -220,13 +220,41 @@ export const quests: QuestEntry[] = [
         title: "Le dita sanguinanti",
         text: "Varré ci consegna dita sanguinanti e ci chiede di partecipare a tre duelli online.",
       },
+      {
+        title: "Tre invasioni",
+        text: "Usiamo le dita ricevute e invadiamo altri mondi tre volte. Varré interpreta la prova come dimostrazione del nostro gusto per il sangue nobile.",
+      },
+      {
+        title: "La prova del sangue di vergine",
+        text: "Accettiamo di essere consacrati al servizio di Mohg. Varré ci consegna un drappo da impregnare con il sangue di una vergine e glielo riportiamo dopo aver completato la prova.",
+      },
+      {
+        title: "Dito Sanguinante",
+        text: "Offriamo il dito a Varré e sopportiamo il rito. Riceviamo il Dito Sanguinante permanente e diventiamo formalmente cavalieri della futura dinastia Mohgwyn.",
+      },
+      {
+        title: "Udienza da Mohg",
+        text: "Varré ci dona la Medaglia del Cavaliere Purosangue, capace di condurci da Mohg. Ci chiede di attendere perché il Lord del Sangue dorme ancora accanto alla Divinità.",
+      },
     ],
     portrait: {
       imageUrl: "./concepts/varre.webp",
       imageAlt: "Varré con la sua maschera bianca",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["varre", "godrick-innestato", "due-dita"],
+    gallery: [
+      {
+        imageUrl: "./concepts/dito-sanguinante.webp",
+        imageAlt: "Un dito pallido dal lungo artiglio intriso di sangue",
+        caption: "Dito Sanguinante",
+      },
+      {
+        imageUrl: "./concepts/medaglia-sangue-puro.webp",
+        imageAlt: "Medaglia dorata dei Cavalieri Purosangue ornata di rosso",
+        caption: "Medaglia del Cavaliere Purosangue",
+      },
+    ],
+    linkedConceptIds: ["varre", "godrick-innestato", "due-dita", "lord-del-sangue"],
   },
   {
     id: "boc",
@@ -339,15 +367,18 @@ export const quests: QuestEntry[] = [
     id: "blaidd",
     title: "Berserk",
     npc: "Blaidd il Mezzolupo",
-    region: "Sepolcride",
+    region: "Liurnia",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Abbiamo aiutato Blaidd contro Darriwil. La prossima indicazione ci porta da un fabbro gigante a nord.",
+      "Seguendo l’indicazione di Blaidd abbiamo incontrato Iji, fabbro dei reali cariani, che ci avverte della trappola ancora attiva presso il maniero.",
     lastSeen: {
-      location: "Galera eterna del limiere alacre",
+      location: "Strada per il Maniero Cariano, Liurnia",
+      note: "Qui incontriamo Iji, l’alleato indicato da Blaidd.",
     },
     destination: {
-      location: "Un fabbro gigante a nord",
+      location: "Maniero Cariano, Liurnia nord-occidentale",
+      note: "Iji sconsiglia di avvicinarsi: una trappola incantata respinse i Cavalieri del Cuculo e protegge ancora la dimora.",
     },
     steps: [
       {
@@ -358,9 +389,17 @@ export const quests: QuestEntry[] = [
         title: "L’indicazione del fabbro",
         text: "Dopo Darriwil, Blaidd ci indirizza verso un fabbro gigante a nord.",
       },
+      {
+        title: "Iji",
+        text: "Incontriamo Iji, antico fabbro della famiglia reale cariana e alleato di Blaidd. Saputo chi ci manda, ci permette di accedere a nuovi beni.",
+      },
+      {
+        title: "Il pericolo del Maniero Cariano",
+        text: "Iji racconta che i Cavalieri del Cuculo avanzarono fino al maniero dopo la rottura fra Accademia e reali cariani. Furono respinti da una trappola incantata ancora attiva.",
+      },
     ],
     nextStep: {
-      text: "Cercare il fabbro gigante a nord indicato da Blaidd.",
+      text: "Esplorare la strada verso il Maniero Cariano tenendo conto dell’avvertimento di Iji.",
       hypothetical: false,
     },
     portrait: {
@@ -368,7 +407,7 @@ export const quests: QuestEntry[] = [
       imageAlt: "Blaidd il Mezzolupo in armatura con una grande spada",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["mezzolupo", "galere-eterne"],
+    linkedConceptIds: ["mezzolupo", "galere-eterne", "iji", "guerra-civile-liurnia", "ranni-principessa-lunare"],
   },
   {
     id: "rogier",
@@ -376,7 +415,6 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Rogier ha esaminato il Grafopugnale Nero e identifica Ranni come artefice del rito. Ora cerca il suo marchio maledetto della Morte Fatidica.",
     lastSeen: {
@@ -447,7 +485,6 @@ export const quests: QuestEntry[] = [
     npc: "Fia, Compagna di Morte",
     region: "Tavola Rotonda",
     status: "in-corso",
-    updateKind: "nuova",
     summary:
       "Fia conosce la ricerca di Rogier sui Neri Coltelli, ci affida l’indizio del Grafopugnale e ci ringrazia dopo averlo aiutato.",
     lastSeen: {
@@ -647,7 +684,6 @@ export const quests: QuestEntry[] = [
     npc: "Edgar e Irina",
     region: "Penisola del Pianto e Liurnia",
     status: "conclusa",
-    updateKind: "aggiornata",
     summary:
       "Dopo la morte di Irina, Edgar perde il senno e diventa un vendicatore assetato di sangue. Lo uccidiamo in una capanna di Liurnia.",
     lastSeen: {
@@ -952,15 +988,16 @@ export const quests: QuestEntry[] = [
     npc: "Rya l’esploratrice",
     region: "Liurnia Lacustre",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Rya, esploratrice dalla postura curva incontrata nel centro di Liurnia, ci chiede di recuperare un medaglione che le è stato rubato.",
+      "Recuperato il medaglione, Rya rivela di servire Lady Tanith e ci invita ufficialmente a Villa Vulcano sull’Altopiano di Altus.",
     lastSeen: {
       location: "Centro di Liurnia Lacustre",
-      note: "Attende non lontano dal luogo in cui si trova il ladro.",
+      note: "Ci consegna l’invito di Villa Vulcano e spera di incontrarci di nuovo.",
     },
     destination: {
-      location: "Poco distante da Rya",
-      note: "Il ladro del medaglione dovrebbe trovarsi nelle vicinanze.",
+      location: "Altopiano di Altus",
+      note: "Rya indica il Grande Montacarichi di Dectus oppure il vecchio tunnel scavato nella rupe a nord di Liurnia.",
     },
     steps: [
       {
@@ -971,9 +1008,21 @@ export const quests: QuestEntry[] = [
         title: "Il medaglione rubato",
         text: "Rya racconta che qualcuno le ha sottratto un medaglione e ci chiede di recuperarlo. Il responsabile dovrebbe trovarsi poco distante.",
       },
+      {
+        title: "Il Mercante di gamberi",
+        text: "Troviamo il ladro presso una baracca di Liurnia e recuperiamo il medaglione, decorato con il ritratto di una donna dall’aspetto dignitoso proveniente da un paese straniero.",
+      },
+      {
+        title: "L’invito di Villa Vulcano",
+        text: "Restituiamo il medaglione. Rya rivela di servire Lady Tanith di Villa Vulcano e, giudicandoci adatti alla sua famiglia di campioni, ci consegna un invito ufficiale.",
+      },
+      {
+        title: "Due vie verso Altus",
+        text: "Rya ci invita a raggiungere l’Altopiano di Altus. Oltre al Grande Montacarichi di Dectus, segnala un vecchio tunnel che attraversa la rupe alla base della valle.",
+      },
     ],
     nextStep: {
-      text: "Trovare il ladro nelle vicinanze e recuperare il medaglione di Rya.",
+      text: "Raggiungere l’Altopiano di Altus attraverso il tunnel a nord di Liurnia oppure completando il Medaglione di Dectus, quindi cercare Rya e Villa Vulcano.",
       hypothetical: false,
     },
     portrait: {
@@ -981,7 +1030,14 @@ export const quests: QuestEntry[] = [
       imageAlt: "Rya in abito verde, con pelle chiarissima e postura curva",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["rya", "liurnia-lacustre"],
+    gallery: [
+      {
+        imageUrl: "./concepts/mercante-gamberi.webp",
+        imageAlt: "Il mercante di gamberi accovacciato accanto a una grande pentola a Liurnia",
+        caption: "Il ladro del medaglione",
+      },
+    ],
+    linkedConceptIds: ["rya", "liurnia-lacustre", "mercante-gamberi", "medaglione-dectus"],
   },
   {
     id: "ehi-cuggi",
@@ -989,7 +1045,6 @@ export const quests: QuestEntry[] = [
     npc: "Vasi di Vasburgo",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "A Vasburgo un piccolo vaso ci chiama cuggino e ci propone di diventare Potentato. Dopo l’attacco ai vasi, l’assoluzione alla Chiesa dei Voti ha salvato la storia dalla chiusura prematura.",
     lastSeen: {

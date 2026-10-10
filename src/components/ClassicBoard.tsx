@@ -35,7 +35,12 @@ const currentBoardHeight = 12500
 const latestEpisodeBoardHeight = 14000
 const newestEpisodeBoardHeight = 15500
 const previousFullBoardHeight = 17000
-const boardHeight = 19000
+const lastFullBoardHeight = 19000
+const boardHeight = 21000
+const freshEpisodeLayoutConceptIds = new Set([
+  'mercante-gamberi',
+  'iji',
+])
 const newEpisodeLayoutConceptIds = new Set([
   'assassine-neri-coltelli',
   'maschere-scintipietra',
@@ -153,7 +158,8 @@ const defaultPositions = Object.fromEntries(
   concepts.map((concept) => {
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
-    if (newEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (freshEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (newEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (lastFullBoardHeight / boardHeight) }]
     if (currentEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousFullBoardHeight / boardHeight) }]
     if (newestEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (newestEpisodeBoardHeight / boardHeight) }]
     if (latestEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (latestEpisodeBoardHeight / boardHeight) }]
@@ -206,6 +212,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const lastFullSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v15')
+    if (lastFullSaved) {
+      return migrateBoardPositions(
+        JSON.parse(lastFullSaved) as Record<string, BoardPosition>,
+        lastFullBoardHeight,
+        true,
+      )
+    }
+
     const previousFullSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v14')
     if (previousFullSaved) {
       return migrateBoardPositions(
@@ -463,6 +478,8 @@ const boardConceptOrder = [
   'rennala',
   'ranni-principessa-lunare',
   'radagon',
+  'mercante-gamberi',
+  'iji',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -556,7 +573,8 @@ const boardZones = [
   { id: 'liurnia-antichi-poteri', label: 'Liurnia, fuoco e antiche stirpi', note: '', top: 90 * latestEpisodeBoardHeight / boardHeight, height: 10 * latestEpisodeBoardHeight / boardHeight },
   { id: 'liurnia-guerra-morte', label: 'Liurnia in guerra e morte diffusa', note: '', top: 91 * newestEpisodeBoardHeight / boardHeight, height: 9 * newestEpisodeBoardHeight / boardHeight },
   { id: 'ainsel-nokstella', label: 'Ainsel e Nokstella', note: '', top: 91 * previousFullBoardHeight / boardHeight, height: 9 * previousFullBoardHeight / boardHeight },
-  { id: 'congiura-parentele', label: 'Congiura e parentele', note: '', top: 91, height: 9 },
+  { id: 'congiura-parentele', label: 'Congiura e parentele', note: '', top: 91 * lastFullBoardHeight / boardHeight, height: 9 * lastFullBoardHeight / boardHeight },
+  { id: 'sangue-strade-liurnia', label: 'Sangue e strade di Liurnia', note: '', top: 91, height: 9 },
 ]
 
 interface ConceptBoardProps {
@@ -577,7 +595,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v15',
+    'elden-rhapsody:board-positions-v16',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()

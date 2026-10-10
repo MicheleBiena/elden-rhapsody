@@ -30,10 +30,7 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'gia-letto',
     summary:
       'Congiura in cui un frammento della Runa della Morte fu impresso nelle lame delle Assassine dei Neri Coltelli e Godwyn fu il primo semidio a morire.',
-    body: 'Lo story trailer mostra il furto della Runa della Morte e l’assassinio di Godwyn l’Aureo, indicato come il primo semidio a essere ucciso. Rogier colloca la congiura nell’Età dell’Oro dell’Albero Madre, molto prima dello Shattering: la morte di Godwyn fu il catalizzatore che condusse alla distruzione dell’Elden Ring e alla guerra. Dopo la congiura comparvero in tutto l’Interregno le radici mortali, diffondendo la Morte come una piaga. Il Grafopugnale Nero conferma che un rito impresse il frammento rubato nelle lame delle assassine; dall’esame dell’impronta Rogier ricava il nome della Principessa Lunare Ranni come artefice della congiura.',
-    bodyHighlights: [
-      'Il Grafopugnale Nero conferma che un rito impresse il frammento rubato nelle lame delle assassine; dall’esame dell’impronta Rogier ricava il nome della Principessa Lunare Ranni come artefice della congiura.',
-    ],
+    body: 'Lo story trailer mostra il furto della Runa della Morte e l’assassinio di Godwyn l’Aureo, primo semidio a essere ucciso. Rogier colloca la congiura nell’Età dell’Oro dell’Albero Madre, prima dello Shattering, e considera quella morte il catalizzatore della distruzione dell’Elden Ring e della guerra. In seguito le radici mortali diffusero la Morte come una piaga. Per esecutrici e rito vedi Assassine dei Neri Coltelli; per l’attribuzione emersa dal Grafopugnale vedi Ranni e Stregone Rogier.',
     imageUrl: './concepts/notte-neri-coltelli.webp',
     imageAlt: 'Godwyn l’Aureo circondato dagli assassini durante la Notte dei Neri Coltelli',
     evidence: [
@@ -559,8 +556,7 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary: 'Compagna di Morte che raccoglie la forza dei campioni; conosce l’ossessione di Rogier per i Neri Coltelli e ci affida una pista.',
-    body: 'Fia conferma di essere una Compagna di Morte. Giace con potenti cavalieri per prelevare parte della loro forza e trasferirla alle spoglie di un lord defunto con cui dovrà giacere. Abbracciandoci ci concede la Benedizione del Baldacchino. Conosce inoltre l’interesse di Rogier per le impronte dei Neri Coltelli: racconta che lui ne parlava piangendo e ci consegna un indizio sul luogo in cui cercarne una. Dopo averlo aiutato, ci ringrazia con un Ramoscello sacrificale.',
-    bodyHighlights: ['Conosce inoltre l’interesse di Rogier per le impronte dei Neri Coltelli: racconta che lui ne parlava piangendo e ci consegna un indizio sul luogo in cui cercarne una. Dopo averlo aiutato, ci ringrazia con un Ramoscello sacrificale.'],
+    body: 'Fia conferma di essere una Compagna di Morte. Giace con potenti cavalieri per prelevare parte della loro forza e trasferirla alle spoglie di un lord defunto con cui dovrà giacere. Abbracciandoci ci concede la Benedizione del Baldacchino. Ci affida inoltre l’indizio che conduce al Grafopugnale Nero e, dopo aver aiutato Rogier, ci ringrazia con un Ramoscello sacrificale. Per la ricerca condivisa sulla congiura vedi Stregone Rogier.',
     imageUrl: './concepts/fia-tavola-rotonda.png',
     imageAlt: 'Fia seduta nella propria stanza alla Tavola Rotonda',
     evidence: [
@@ -615,22 +611,32 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'varre',
     name: 'Varré',
-    eyebrow: 'Primo incontro',
+    eyebrow: 'Dito Sanguinante di Mohg',
     category: 'Personaggio',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Primo personaggio incontrato: ci indica Grantempesta e ironizza sul fatto che siamo senza vergine.',
-    body: 'Varré ci accoglie appena arrivati in Sepolcride. Ci consiglia di seguire la Grazia verso il Castello di Grantempesta e sottolinea, con ironia, che siamo un Senzaluce senza vergine.',
+      'Ci ha iniziati al servizio di Mohg: siamo Dita Sanguinanti e possediamo una medaglia che concede udienza al Lord del Sangue.',
+    body: 'Dopo averci accolto al Primo Passo, Varré mette in dubbio le Due Dita e ci consegna strumenti per invadere altri mondi. Compiute tre invasioni, accettiamo l’iniziazione: impregniamo di sangue di vergine il drappo ricevuto e gli offriamo il dito. Il rito doloroso ci rende un Dito Sanguinante al servizio di Mohg e della futura dinastia Mohgwyn. Varré ci dona infine la Medaglia del Cavaliere Purosangue, capace di concedere udienza a Mohg, ma insiste che il momento non sia ancora giunto.',
+    bodyHighlights: ['Dopo averci accolto al Primo Passo, Varré mette in dubbio le Due Dita e ci consegna strumenti per invadere altri mondi. Compiute tre invasioni, accettiamo l’iniziazione: impregniamo di sangue di vergine il drappo ricevuto e gli offriamo il dito. Il rito doloroso ci rende un Dito Sanguinante al servizio di Mohg e della futura dinastia Mohgwyn. Varré ci dona infine la Medaglia del Cavaliere Purosangue, capace di concedere udienza a Mohg, ma insiste che il momento non sia ancora giunto.'],
     imageUrl: './concepts/varre.webp',
     imageAlt: 'Varré dal volto bianco in piedi nei pressi di Sepolcride',
+    gallery: [
+      { imageUrl: './concepts/dito-sanguinante.webp', imageAlt: 'Un dito pallido dal lungo artiglio intriso di sangue', caption: 'Dito Sanguinante · sigillo dell’iniziazione' },
+      { imageUrl: './concepts/medaglia-sangue-puro.webp', imageAlt: 'Medaglia dorata dei Cavalieri Purosangue ornata di rosso', caption: 'Medaglia del Cavaliere Purosangue · udienza da Mohg' },
+    ],
+    textSections: [
+      { title: 'Dito Sanguinante', text: 'Permette invasioni senza consumarsi. Il sangue nell’unghia continua a pulsare di un dolore che Varré presenta come legame con Mohg.', highlighted: true },
+      { title: 'Medaglia del Cavaliere Purosangue', text: 'Prova dell’appartenenza alla nuova dinastia Mohgwyn. Può concedere udienza a Mohg, che per ora dorme accanto alla Divinità.', highlighted: true },
+    ],
     evidence: [
       'È il primo personaggio non giocante che incontriamo.',
-      'Ci consiglia di raggiungere Grantempesta.',
-      'Nota che siamo senza vergine.',
+      'Ci fa compiere tre invasioni e una prova con sangue di vergine.',
+      'Il rito ci rende formalmente Dita Sanguinanti.',
+      'La medaglia ricevuta può condurci al cospetto di Mohg.',
     ],
-    questions: ['Perché si interessa al nostro viaggio?', 'Quanto possiamo fidarci dei suoi consigli?'],
-    tags: ['Varré', 'Grantempesta', 'senza vergine'],
+    questions: ['Chi è la Divinità accanto a cui dorme Mohg?', 'Quando dovrebbe cominciare la dinastia Mohgwyn?'],
+    tags: ['Varré', 'Dita Sanguinanti', 'Mohg', 'Mohgwyn', 'Medaglia del Cavaliere Purosangue'],
     position: { x: 38, y: 76 },
   },
   {
@@ -756,10 +762,10 @@ const conceptArchive: LoreConcept[] = [
     category: 'Personaggio',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Mezzolupo incontrato nel Tetrobosco, sulle tracce del traditore Darriwil.',
-    body: 'Kalé ci ha insegnato il segnale con cui attirare la sua attenzione. Blaidd ci chiede di eliminare Darriwil: per lui la reclusione nella Galera Eterna non costituisce vera giustizia per il tradimento. Dopo lo scontro ci indirizza verso Raya Lucaria, dove un fabbro gigante suo alleato potrebbe aiutarci. Il nome gallese “Blaidd” significa “lupo” e si pronuncia /blai̯ð/ (“BLY-th”).',
+    summary: 'Mezzolupo che ci ha aiutati contro Darriwil e ci ha presentati al fabbro cariano Iji.',
+    body: 'Kalé ci insegna il segnale per richiamare Blaidd, impegnato nella caccia al traditore Darriwil. Dopo lo scontro ci manda dal suo alleato Iji, un enorme fabbro che un tempo serviva la famiglia reale cariana. Per i dettagli sul maniero e sulla trappola che lo protegge, vedi la nota Iji. Il nome gallese “Blaidd” significa “lupo” e si pronuncia /blai̯ð/ (“BLY-th”).',
     bodyHighlights: [
-      'Blaidd ci chiede di eliminare Darriwil: per lui la reclusione nella Galera Eterna non costituisce vera giustizia per il tradimento. Dopo lo scontro ci indirizza verso Raya Lucaria, dove un fabbro gigante suo alleato potrebbe aiutarci. Il nome gallese “Blaidd” significa “lupo” e si pronuncia /blai̯ð/ (“BLY-th”).',
+      'Dopo lo scontro ci manda dal suo alleato Iji, un enorme fabbro che un tempo serviva la famiglia reale cariana.',
     ],
     imageUrl: './concepts/mezzolupo.jpg',
     imageAlt: 'Il Mezzolupo in armatura, con una grande spada sulle spalle',
@@ -767,10 +773,10 @@ const conceptArchive: LoreConcept[] = [
     evidence: [
       'Kalé ci ha insegnato un segnale per richiamarlo.',
       'Caccia Darriwil, che considera un traditore.',
-      'Conosce un fabbro gigante lungo la strada per Raya Lucaria.',
+      'Il fabbro gigante indicato è Iji, già al servizio della famiglia reale cariana.',
     ],
-    questions: ['Chi ha tradito Darriwil?', 'Chi è il fabbro gigante alleato di Blaidd?'],
-    tags: ['Blaidd', 'Mezzolupo', 'Tetrobosco', 'Kalé', 'Darriwil', 'Raya Lucaria'],
+    questions: ['Chi ha tradito Darriwil?', 'Qual è il legame di Blaidd con la famiglia reale cariana?'],
+    tags: ['Blaidd', 'Mezzolupo', 'Tetrobosco', 'Kalé', 'Darriwil', 'Iji', 'Caria'],
     position: { x: 75, y: 95 },
   },
   {
@@ -1344,22 +1350,24 @@ const conceptArchive: LoreConcept[] = [
   },
   {
     id: 'lord-del-sangue',
-    name: 'Lord del Sangue',
-    eyebrow: 'Culto e giuramento di sangue',
+    name: 'Mohg, Lord del Sangue',
+    eyebrow: 'Signore della dinastia Mohgwyn',
     category: 'Tema',
     state: 'da-verificare',
     liveReadStatus: 'da-leggere',
-    summary: 'Figura ancora ignota venerata attraverso rose di sangue e un giuramento che trasforma il sangue del guerriero in un’arma.',
-    body: 'Le Rose di Sangue sono particolarmente amate dai servitori del Lord del Sangue, che ne proclamano il regno inevitabile. La Cenere di Guerra Fendente Sanguinario viene invece descritta come una tecnica del Giuramento di Sangue concessa dal Lord: ricopre la lama con il sangue di chi la usa e libera un ampio fendente. Conosciamo quindi un culto e un potere, ma non ancora l’identità del suo signore.',
+    summary: 'Mohg guida il culto del sangue e prepara una nuova dinastia, Mohgwyn; Varré ci ha accolti formalmente fra i suoi cavalieri.',
+    body: 'Il Lord del Sangue ha ora un nome: Mohg. Varré lo chiama luminare e vuole fondare con lui la dinastia Mohgwyn, sostenuta da forza, visione e amore. Mohg dormirebbe ancora accanto a una non meglio identificata Divinità; per questo Varré ci ordina di attendere prima di usare la medaglia che concede udienza. Rose di Sangue e Fendente Sanguinario restano gli indizi materiali del suo culto. Per il rito d’ingresso e gli oggetti ricevuti vedi Varré.',
+    bodyHighlights: ['Il Lord del Sangue ha ora un nome: Mohg. Varré lo chiama luminare e vuole fondare con lui la dinastia Mohgwyn, sostenuta da forza, visione e amore. Mohg dormirebbe ancora accanto a una non meglio identificata Divinità; per questo Varré ci ordina di attendere prima di usare la medaglia che concede udienza.'],
     imageUrl: './concepts/rosa-sangue.png',
     imageAlt: 'Una rosa rossa intrisa di sangue, offerta al Lord del Sangue',
     evidence: [
       'I suoi servitori prediligono le Rose di Sangue.',
-      'Il culto proclama inevitabile il suo regno.',
+      'Varré lo identifica come Mohg e prepara la dinastia Mohgwyn.',
+      'Dormirebbe accanto a una Divinità non ancora identificata.',
       'Concede una tecnica del Giuramento di Sangue che usa il sangue del guerriero.',
     ],
-    questions: ['Chi è il Lord del Sangue?', 'Che cosa promette il Giuramento di Sangue?', 'Perché i suoi seguaci attendono un regno inevitabile?'],
-    tags: ['Lord del Sangue', 'sangue', 'Rose di Sangue', 'Giuramento di Sangue', 'Fendente Sanguinario'],
+    questions: ['Chi è la Divinità?', 'Perché Mohg dorme?', 'Quando dovrebbe cominciare la dinastia Mohgwyn?'],
+    tags: ['Mohg', 'Lord del Sangue', 'Mohgwyn', 'Varré', 'sangue', 'Rose di Sangue', 'Giuramento di Sangue'],
     position: { x: 10, y: 79 },
   },
   {
@@ -1612,8 +1620,7 @@ const conceptArchive: LoreConcept[] = [
     id: 'rogier', name: 'Stregone Rogier', eyebrow: 'Insegnante a Grantempesta',
     category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
     summary: 'Studioso della congiura dei Neri Coltelli: dal Grafopugnale ricava il nome di Ranni e cerca il suo marchio maledetto.',
-    body: 'Rogier insegna stregonerie e studia la congiura dei Neri Coltelli per comprendere come il mondo sia diventato distorto. Sotto Grantempesta entra in contatto con un cadavere deforme e resta segnato dal morbo mortale. Esamina il Grafopugnale Nero grazie alla parte del corpo già soffusa di Morte e conclude che il rito fu officiato dalla Principessa Lunare Ranni. Ora cerca il marchio maledetto della Morte Fatidica che dovrebbe trovarsi sulla sua carne. Non vuole usarlo contro Coloro che vivono nella morte: ritiene che non abbiano commesso colpe e che siano vittime di una falla nell’Ordine.',
-    bodyHighlights: ['Esamina il Grafopugnale Nero grazie alla parte del corpo già soffusa di Morte e conclude che il rito fu officiato dalla Principessa Lunare Ranni. Ora cerca il marchio maledetto della Morte Fatidica che dovrebbe trovarsi sulla sua carne. Non vuole usarlo contro Coloro che vivono nella morte: ritiene che non abbiano commesso colpe e che siano vittime di una falla nell’Ordine.'],
+    body: 'Rogier insegna stregonerie e studia la congiura dei Neri Coltelli per comprendere come il mondo sia diventato distorto. Sotto Grantempesta entra in contatto con un cadavere deforme e resta segnato dal morbo mortale. Esaminando il Grafopugnale ricava il nome di Ranni: per identità e parentele vedi Ranni, Principessa Lunare; per rito e arma vedi Assassine dei Neri Coltelli. Cerca ora il marchio maledetto che la principessa dovrebbe portare sulla carne. Vuole usarlo per salvare Coloro che vivono nella morte, che considera vittime innocenti di una falla nell’Ordine.',
     imageUrl: './concepts/rogier.png', imageAlt: 'Rogier con un cappello a tesa larga e abiti da stregone', imagePosition: '50% 20%',
     evidence: ['Studia la Notte dei Neri Coltelli.', 'Il contatto con la reliquia sotto Grantempesta lo ha lasciato infermo.', 'Nel Grafopugnale legge il nome di Ranni.', 'Vuole salvare Coloro che vivono nella morte, non sterminarli.'],
     questions: ['Dove si trova il marchio maledetto di Ranni?', 'Che cosa rivelerebbe l’intera impronta?', 'La falla nell’Ordine può essere corretta?'],
@@ -1784,12 +1791,13 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'rya', name: 'Rya', eyebrow: 'Esploratrice dalla postura insolita',
     category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
-    summary: 'Giovane esploratrice incontrata a Liurnia, dalla pelle chiarissima e dalla schiena marcatamente curva.',
-    body: 'Rya si presenta come un’esploratrice. Ha pelle molto chiara, una postura fortemente ingobbita e abiti elaborati. Per ora non sappiamo da dove venga né per chi stia esplorando Liurnia.',
+    summary: 'Esploratrice al servizio di Lady Tanith: recuperato il medaglione, ci invita a unirci alla famiglia di Villa Vulcano.',
+    body: 'Recuperiamo dal Mercante di gamberi il medaglione rubato a Rya, ornato con il ritratto di una donna dall’aspetto dignitoso proveniente da un paese straniero. Rya rivela allora di servire Lady Tanith di Villa Vulcano e ci consegna un invito ufficiale. Dovremo raggiungere l’Altopiano di Altus: oltre al Grande Montacarichi di Dectus, indica un vecchio tunnel scavato nella rupe alla base della valle. Per il ladro e il medaglione vedi Mercante di gamberi.',
+    bodyHighlights: ['Recuperiamo dal Mercante di gamberi il medaglione rubato a Rya. Rya rivela allora di servire Lady Tanith di Villa Vulcano e ci consegna un invito ufficiale. Dovremo raggiungere l’Altopiano di Altus: oltre al Grande Montacarichi di Dectus, indica un vecchio tunnel scavato nella rupe alla base della valle.'],
     imageUrl: './concepts/rya.png', imageAlt: 'Rya in abito verde, con pelle chiarissima e postura curva', imagePosition: '50% 20%',
-    evidence: ['Si presenta come esploratrice.', 'È stata incontrata nel centro di Liurnia.', 'Ha una postura curva molto riconoscibile.'],
-    questions: ['Per chi lavora Rya?', 'La sua postura rivela qualcosa sulla sua natura?', 'Da dove proviene?'],
-    tags: ['Rya', 'esploratrice', 'Liurnia Lacustre', 'medaglione rubato'], position: { x: 80, y: 96 },
+    evidence: ['Serve Lady Tanith di Villa Vulcano.', 'Ci consegna un invito dopo la restituzione del medaglione.', 'Indica il Grande Montacarichi e il tunnel nella rupe come vie verso Altus.'],
+    questions: ['Che cosa chiederà la famiglia di Villa Vulcano?', 'Chi rappresenta la donna sul medaglione?', 'Qual è la vera natura di Rya?'],
+    tags: ['Rya', 'Lady Tanith', 'Villa Vulcano', 'Altopiano di Altus', 'medaglione rubato'], position: { x: 80, y: 96 },
   },
   {
     id: 'guerra-civile-liurnia',
@@ -1935,13 +1943,14 @@ const conceptArchive: LoreConcept[] = [
     state: 'da-verificare',
     liveReadStatus: 'da-leggere',
     summary: 'Figlia di Rennala e Radagon, sorella di Radahn e Rykard; Rogier la indica come artefice della Notte dei Neri Coltelli.',
-    body: 'Rogier ricava il nome di Ranni dall’impronta del rito conservata nel Grafopugnale Nero e la ritiene l’artefice della congiura. La presenta come figlia della regina Rennala e di Radagon, sorella di Radahn e del pretore Rykard. Non viene vista da molto tempo; Rogier sospetta che possa essere tornata alla dimora reale cariana a nord dell’Accademia. Se la sua ricostruzione è corretta, Ranni dovrebbe portare sulla carne un marchio maledetto della Morte Fatidica.',
+    body: 'Rogier ricava il nome di Ranni dall’impronta del rito conservata nel Grafopugnale Nero e la ritiene l’artefice della congiura. È figlia di Rennala e Radagon e sorella di Radahn e Rykard; per l’albero completo vedi Albero genealogico aureo. Non viene vista da molto tempo e potrebbe essere tornata alla dimora reale cariana a nord dell’Accademia. Il Sigillo di filigrana cariano custodito da Iji la definisce l’ultima principessa della Luna rimasta. Se la ricostruzione di Rogier è corretta, dovrebbe portare sulla carne un marchio maledetto della Morte Fatidica.',
+    bodyHighlights: ['Il Sigillo di filigrana cariano custodito da Iji la definisce l’ultima principessa della Luna rimasta.'],
     textSections: [{
       title: 'Pista di Rogier',
       text: 'Cercare Ranni presso la dimora reale cariana a nord di Raya Lucaria e verificare se sul suo corpo esiste il marchio maledetto.',
       highlighted: true,
     }],
-    evidence: ['Rogier legge il nome di Ranni nel Grafopugnale.', 'È figlia di Rennala e Radagon.', 'È sorella di Radahn e Rykard.', 'La sua antica dimora si trova a nord dell’Accademia.'],
+    evidence: ['Rogier legge il nome di Ranni nel Grafopugnale.', 'È figlia di Rennala e Radagon.', 'È sorella di Radahn e Rykard.', 'La sua antica dimora si trova a nord dell’Accademia.', 'Il Sigillo di filigrana cariano la chiama ultima principessa della Luna rimasta.'],
     questions: ['Ranni officiò davvero il rito?', 'Dove si trova ora?', 'Porta il marchio maledetto sulla carne?', 'Qual era il suo movente?'],
     imageUrl: './concepts/ranni-principessa-lunare.webp',
     imagePosition: '50% 35%',
@@ -1970,6 +1979,36 @@ const conceptArchive: LoreConcept[] = [
     position: { x: 70, y: 96 },
   },
   {
+    id: 'mercante-gamberi',
+    name: 'Mercante di gamberi',
+    eyebrow: 'Ladro del medaglione di Rya',
+    category: 'Personaggio',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Mercante di Liurnia che aveva sottratto a Rya un medaglione per lei molto importante.',
+    body: 'Troviamo il ladro indicato da Rya: un uomo che commercia gamberi presso una baracca di Liurnia. Da lui recuperiamo il medaglione della giovane. Il gioiello reca il rilievo di una donna dall’aspetto dignitoso, proveniente da un paese straniero, ma non sappiamo ancora chi rappresenti. Per la restituzione e l’invito ricevuto in cambio vedi Rya.',
+    imageUrl: './concepts/mercante-gamberi.webp',
+    imageAlt: 'Il mercante di gamberi accovacciato accanto a una grande pentola a Liurnia',
+    evidence: ['È il ladro indicato da Rya.', 'Commercia gamberi presso una baracca di Liurnia.', 'Il medaglione reca il ritratto di una donna straniera.'],
+    questions: ['Chi rappresenta la donna sul medaglione?', 'Perché il gioiello è tanto importante per Rya?'],
+    tags: ['Mercante di gamberi', 'Rya', 'medaglione', 'Liurnia'],
+    position: { x: 30, y: 96 },
+  },
+  {
+    id: 'iji',
+    name: 'Iji',
+    eyebrow: 'Fabbro della famiglia reale cariana',
+    category: 'Personaggio',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Fabbro gigante, alleato di Blaidd e antico servitore dei reali cariani, che sorveglia la strada verso il loro maniero.',
+    body: 'Blaidd ci presenta a Iji, un fabbro gigante che un tempo serviva la famiglia reale cariana. Iji ci mette in guardia dal vicino Maniero Cariano: quando l’Accademia si rivolse contro i reali, i Cavalieri del Cuculo devastarono la zona e avanzarono verso la dimora, ma i cariani respinsero l’assalto con una trappola incantata ancora attiva. Per il conflitto più ampio vedi Guerra civile di Liurnia. Fra i beni custoditi da Iji compare il Sigillo di filigrana cariano, che definisce Ranni l’ultima principessa della Luna rimasta.',
+    evidence: ['È un fabbro gigante già al servizio della famiglia reale cariana.', 'È un alleato fidato di Blaidd.', 'Conosce la trappola incantata che protegge il Maniero Cariano.', 'Custodisce il Sigillo di filigrana cariano.'],
+    questions: ['Quale incarico svolgeva presso i reali cariani?', 'Perché continua a sorvegliare la strada?', 'Che cosa si trova oltre la trappola del maniero?'],
+    tags: ['Iji', 'Blaidd', 'Caria', 'Maniero Cariano', 'Ranni', 'Sigillo di filigrana cariano'],
+    position: { x: 70, y: 96 },
+  },
+  {
     id: 'maliketh-lama-nera',
     name: 'Maliketh, la Lama Nera',
     eyebrow: 'Custode derubato della Morte',
@@ -1987,18 +2026,13 @@ const conceptArchive: LoreConcept[] = [
   },
 ]
 
-// Dal 23 settembre: identikit sulla lavagna, azioni e avanzamenti nel Questbook.
+// Ultima live letta: soltanto i contenuti di questo episodio restano da leggere.
 const currentEpisodeConceptIds = new Set<string>([
-  'fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica',
-  'miriel', 'chiesa-dei-voti', 'rennala', 'radagon',
-  'maschere-scintipietra', 'assassine-neri-coltelli', 'ranni-principessa-lunare',
-  'albero-genealogico-aureo', 'maliketh-lama-nera',
-  'accademia-raya-lucaria', 'notte-neri-coltelli', 'runa-della-morte',
-  'fia', 'rogier', 'edgar-castellano',
+  'varre', 'lord-del-sangue', 'rya', 'mercante-gamberi',
+  'mezzolupo', 'iji', 'ranni-principessa-lunare',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
-  'accademia-raya-lucaria', 'notte-neri-coltelli', 'runa-della-morte',
-  'fia', 'rogier', 'edgar-castellano',
+  'varre', 'lord-del-sangue', 'rya', 'mezzolupo', 'ranni-principessa-lunare',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -3145,6 +3179,34 @@ export const connections: LoreConnection[] = [
   {
     id: 'edgar-frenesia', from: 'edgar-castellano', to: 'frenesia', label: 'Uva di Shabriri',
     note: 'Edgar lascia un’Uva di Shabriri dopo essere impazzito; il coinvolgimento della Frenesia è plausibile ma non confermato.', kind: 'ipotesi',
+  },
+  {
+    id: 'varre-mohg', from: 'varre', to: 'lord-del-sangue', label: 'iniziazione al sangue',
+    note: 'Varré ci consacra come Dito Sanguinante al servizio di Mohg e della futura dinastia Mohgwyn.', kind: 'traccia',
+  },
+  {
+    id: 'varre-due-dita', from: 'varre', to: 'due-dita', label: 'lealtà rinnegata',
+    note: 'Varré presenta l’iniziazione come un modo per sottrarsi all’influenza delle Due Dita.', kind: 'traccia',
+  },
+  {
+    id: 'rya-mercante-gamberi', from: 'rya', to: 'mercante-gamberi', label: 'medaglione recuperato',
+    note: 'Il mercante aveva sottratto a Rya il medaglione che le restituiamo prima di ricevere l’invito di Villa Vulcano.', kind: 'traccia',
+  },
+  {
+    id: 'rya-dectus', from: 'rya', to: 'medaglione-dectus', label: 'due vie verso Altus',
+    note: 'Rya indica il Grande Montacarichi di Dectus e il vecchio tunnel nella rupe come percorsi alternativi verso l’Altopiano di Altus.', kind: 'traccia',
+  },
+  {
+    id: 'blaidd-iji', from: 'mezzolupo', to: 'iji', label: 'alleati',
+    note: 'Blaidd ci manda da Iji e il fabbro riconosce nel gesto una rara prova della sua fiducia.', kind: 'traccia',
+  },
+  {
+    id: 'iji-ranni', from: 'iji', to: 'ranni-principessa-lunare', label: 'ultima principessa della Luna',
+    note: 'Il Sigillo di filigrana cariano custodito da Iji identifica Ranni come l’ultima principessa della Luna rimasta.', kind: 'traccia',
+  },
+  {
+    id: 'iji-guerra-liurnia', from: 'iji', to: 'guerra-civile-liurnia', label: 'testimone del contrattacco cariano',
+    note: 'Iji racconta l’avanzata dei Cavalieri del Cuculo e la trappola con cui i cariani difesero il maniero.', kind: 'traccia',
   },
 ]
 

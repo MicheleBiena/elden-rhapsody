@@ -23,10 +23,11 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
-L’aggiornamento corrente conserva le sette note di Ainsel e Liurnia non ancora
-lette e aggiunge la pista dei Neri Coltelli: maschere di scintipietra, Ranni,
-Maliketh e un albero genealogico provvisorio portano il totale a 98 schede, di
-cui 18 da leggere.
+L’aggiornamento corrente riparte dopo la lettura completa della lavagna. Le sette
+novità riguardano l’iniziazione di Varré alla dinastia Mohgwyn, l’invito di Rya a
+Villa Vulcano e l’incontro con Iji sulla strada del Maniero Cariano. Il totale è
+di 100 schede: 93 già lette e sette da leggere. Quando un fatto è già spiegato in
+un’altra nota, il testo rimanda a quella scheda invece di duplicarlo.
 
 ### Questbook
 
@@ -38,7 +39,7 @@ dichiaratamente tali.
 La pagina **The Big Boys** raccoglie i portatori di Rune Maggiori conosciuti e
 permette di depennare quelli sconfitti. Lo stato resta nel browser del visitatore.
 Il diario contiene 23 quest: 21 in corso e due concluse. Le novità correnti sono
-«Con la morte in seno» di Fia e gli avanzamenti di Rogier, Varré ed Edgar.
+gli avanzamenti di Varré, Blaidd e Rya.
 
 ### Build Lab
 

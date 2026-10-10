@@ -18,10 +18,10 @@ try {
     'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'fia', 'roderika',
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops', 'rya', 'ehi-cuggi',
   ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['varre', 'rogier', 'edgar-irina', 'ehi-cuggi'])
-  assert.deepEqual(await page.locator('.quest-index-link.is-nuova').evaluateAll(links => links.map(link => link.dataset.questId)), ['fia'])
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 4)
-  assert.equal(await page.locator('.quest-index-update--nuova').count(), 1)
+  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['varre', 'blaidd', 'rya'])
+  assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 3)
+  assert.equal(await page.locator('.quest-index-update--nuova').count(), 0)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /21 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /abbastanza Rune Maggiori.*Leyndell/i)
@@ -93,9 +93,11 @@ try {
   assert.match(await page.locator('.quest-history').textContent(), /Godrick sconfitto/)
   assert.match(await page.locator('.quest-history').textContent(), /Udienza dalle Due Dita/)
   assert.match(await page.locator('.quest-history').textContent(), /scombussolate.*Disgregazione/is)
-  assert.match(await page.locator('.quest-next-step').textContent(), /tre duelli online/i)
+  assert.match(await page.locator('.quest-next-step').textContent(), /Medaglia del Cavaliere Purosangue.*udienza da Mohg/i)
   assert.equal(await page.locator('.quest-status').textContent(), 'In corso', 'Initial task completed does not conclude the whole quest')
-  assert.equal(await page.locator('.quest-lore-links a').count(), 3)
+  assert.equal(await page.locator('.quest-lore-links a').count(), 4)
+  assert.equal(await page.locator('.quest-gallery img').count(), 2)
+  assert.match(await page.locator('.quest-history').textContent(), /Tre invasioni.*sangue di vergine.*Dito Sanguinante.*udienza da Mohg/is)
   assert.equal(await page.locator('.quest-targets').count(), 0, 'The target tracker belongs only to The Big Boys')
   await page.locator('.quest-portrait img').evaluate(image => image.decode())
   await page.getByRole('searchbox').fill('')
@@ -110,7 +112,7 @@ try {
   const newQuests = [
     { id: 'alexander', title: 'Amico Vaso', lastSeen: 'Miniera fra Sepolcride e Caelid', destination: 'Ingresso della miniera sul lato di Caelid', step: /Dietro una porta chiusa/, links: 1, image: true },
     { id: 'sellen', title: 'Maestra di stelle', lastSeen: 'Sepolcride centrale', destination: 'Non ancora nota', step: /seconda figura identica a Sellen/, links: 1, image: true },
-    { id: 'blaidd', title: 'Berserk', lastSeen: 'Galera eterna del limiere alacre', destination: 'Un fabbro gigante a nord', step: /Darriwil/, links: 2, image: true },
+    { id: 'blaidd', title: 'Berserk', lastSeen: 'Strada per il Maniero Cariano, Liurnia', destination: 'Maniero Cariano, Liurnia nord-occidentale', step: /Darriwil.*Iji.*trappola incantata/is, links: 5, image: true },
     { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Tavola Rotonda', destination: 'Dimora reale cariana, a nord di Raya Lucaria', step: /Grafopugnale Nero.*Principessa Lunare Ranni/is, links: 9, image: true },
     { id: 'fia', title: 'Con la morte in seno', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Grafopugnali.*Ramoscello sacrificale/is, links: 4, image: true },
     { id: 'roderika', title: 'Crisalidi', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Spirit Tuner/, links: 4, image: true, status: 'Terminata' },
@@ -125,7 +127,7 @@ try {
     { id: 'yura', title: 'Il cacciatore solitario', lastSeen: 'Costa di Acquafosca', destination: 'Non ancora nota', step: /Nerijus.*Dita Sanguinanti/is, links: 1, image: true },
     { id: 'hyetta', title: 'Grant Us Eyes', lastSeen: 'Rovine Purificate, Liurnia Lacustre', destination: 'Non ancora nota', step: /bulbi oculari.*Rovine Purificate/is, links: 3, image: true, gallery: 2 },
     { id: 'thops', title: 'Un maestro senza allievo', lastSeen: 'Chiesa di Irith, Liurnia Lacustre', destination: 'Accademia di Raya Lucaria', step: /dieci rune.*sigillò.*Chiave di scintipietra/is, links: 4, image: true },
-    { id: 'rya', title: 'Family’s complicated', lastSeen: 'Centro di Liurnia Lacustre', destination: 'Poco distante da Rya', step: /postura.*medaglione/is, links: 2, image: true },
+    { id: 'rya', title: 'Family’s complicated', lastSeen: 'Centro di Liurnia Lacustre', destination: 'Altopiano di Altus', step: /medaglione.*Mercante di gamberi.*Villa Vulcano.*Due vie verso Altus/is, links: 4, image: true, gallery: 1 },
     { id: 'ehi-cuggi', title: 'EHI CUGGI', lastSeen: 'Vasburgo, Liurnia Lacustre', destination: 'Non ancora nota', step: /Potentato.*assoluzione|assoluzione/is, links: 4, image: true },
   ]
   for (const quest of newQuests) {
@@ -151,7 +153,7 @@ try {
     if (quest.id === 'diallos') assert.match(await page.locator('.quest-next-step').textContent(), /Trovare Lanya/)
     if (quest.id === 'hyetta') assert.match(await page.locator('.quest-next-step').textContent(), /Uve di Shabriri/)
     if (quest.id === 'thops') assert.match(await page.locator('.quest-next-step').textContent(), /seconda Chiave di scintipietra/)
-    if (quest.id === 'rya') assert.match(await page.locator('.quest-next-step').textContent(), /ladro.*medaglione/i)
+    if (quest.id === 'rya') assert.match(await page.locator('.quest-next-step').textContent(), /tunnel.*Medaglione di Dectus.*Villa Vulcano/i)
     if (quest.id === 'ehi-cuggi') assert.match(await page.locator('.quest-next-step').textContent(), /mani.*Potentato|Potentato/i)
     if (quest.id === 'edgar-irina') {
       assert.match(await page.locator('.quest-summary').textContent(), /Edgar perde il senno.*uccidiamo/is)
@@ -192,8 +194,8 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 4)
-  assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 1)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 3)
+  assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
   await page.goto(`${baseUrl}#/questbook/big-boys`, { waitUntil: 'networkidle' })
@@ -217,7 +219,7 @@ try {
   await page.locator('a.nav-tab[href="#/build"]').click()
   await page.locator('.build-lab').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '18 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '7 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -312,7 +314,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: twenty-one active quests, two complete, Fia added, Rogier, Varré and Edgar updated, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
+  console.log('Questbook passed: twenty-one active quests, two complete, Varré, Blaidd and Rya updated, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()
