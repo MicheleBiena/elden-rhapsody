@@ -16,6 +16,8 @@ try {
   await page.getByRole('button', { name: 'Apri Iji', exact: true }).click()
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Nuova/)
   assert.match(await page.locator('.dossier-detail').textContent(), /Maniero Cariano.*trappola incantata.*ultima principessa della Luna/is)
+  assert.equal(await page.locator('.dossier-detail-scroll > img.concept-image').count(), 1)
+  await page.locator('.dossier-detail-scroll > img.concept-image').evaluate(image => image.decode())
   assert.equal(await page.locator('.concept-dialog[open]').count(), 0)
   assert.doesNotMatch(await page.locator('body').innerText(), /una fortezza, due doveri|un castello in rivolta\. una lettera|Ogni legame, una scoperta|La trama nascosta/i)
   await page.locator('.dossier-note img').evaluateAll(images => images.forEach(image => { image.loading = 'eager' }))
@@ -54,7 +56,7 @@ try {
 
   await groupButtons.nth(2).click()
   assert.equal(await page.locator('.dossier-note').count(), 9)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 0)
   await page.getByRole('button', { name: 'Apri Patches', exact: true }).click()
   assert.doesNotMatch(await page.locator('.dossier-detail-meta').textContent(), /Nuova|Aggiornata/)
   assert.match(await page.locator('.dossier-detail').textContent(), /mercante.*ingann/is)
@@ -66,7 +68,7 @@ try {
   await page.getByRole('button', { name: 'Apri Blaidd il Mezzolupo', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Darriwil.*vera giustizia/is)
   assert.match(await page.locator('.dossier-detail').textContent(), /\/blai̯ð\/.*BLY-th/is)
-  assert.ok(await page.locator('.live-update-highlight').count() > 0)
+  assert.equal(await page.locator('.live-update-highlight').count(), 0)
   await page.screenshot({ path: 'artifacts/dossiers-new-notes.png', fullPage: true })
 
   await groupButtons.nth(3).click()
@@ -86,11 +88,11 @@ try {
   assert.match(await page.locator('.dossier-detail').textContent(), /bulbo oculare.*luce lontana/is)
   await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri Thops', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /neutralità.*Chiave di scintipietra.*maschere di pietra/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /sigillò i cancelli.*pietra ottusa.*maschere/is)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
   await page.locator('.dossier-detail-scroll > img.concept-image').evaluate(image => image.decode())
   await page.getByRole('button', { name: 'Apri Rya', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /Lady Tanith.*Villa Vulcano.*Altopiano di Altus/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Lady Tanith.*Villa Vulcano.*medaglione/is)
   await page.getByRole('button', { name: 'Apri Mercante di gamberi', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /medaglione.*donna.*paese straniero/is)
 
@@ -152,14 +154,13 @@ try {
 
   const liveNotes = [
     ['varre', 'Aggiornata'],
-    ['mezzolupo', 'Aggiornata'],
     ['ranni-principessa-lunare', 'Aggiornata'],
     ['iji', 'Nuova'],
     ['rya', 'Aggiornata'],
     ['mercante-gamberi', 'Nuova'],
     ['lord-del-sangue', 'Aggiornata'],
   ]
-  await page.getByRole('button', { name: '7 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '6 da leggere', exact: true }).click()
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
@@ -274,7 +275,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 100 cards, 7 unread, Varré, Rya, Iji, Mohg, spoiler-safe references, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 100 cards, 6 unread, Varré, Rya, Iji, Mohg, spoiler-safe references, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }

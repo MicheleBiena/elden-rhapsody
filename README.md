@@ -23,11 +23,12 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
-L’aggiornamento corrente riparte dopo la lettura completa della lavagna. Le sette
-novità riguardano l’iniziazione di Varré alla dinastia Mohgwyn, l’invito di Rya a
-Villa Vulcano e l’incontro con Iji sulla strada del Maniero Cariano. Il totale è
-di 100 schede: 93 già lette e sette da leggere. Quando un fatto è già spiegato in
-un’altra nota, il testo rimanda a quella scheda invece di duplicarlo.
+L’aggiornamento corrente riparte dopo la lettura completa della lavagna. Le sei
+novità riguardano la dinastia Mohgwyn, Rya e Villa Vulcano, Iji, Ranni e la casa
+reale cariana. Il totale è di 100 schede: 94 già lette e sei da leggere. Tutte le
+note sono state rilette e condensate: la lavagna conserva identità, lore e ipotesi,
+mentre azioni compiute, posizioni e prossimi passi restano nel Questbook. Quando
+un fatto è già spiegato altrove, il testo rimanda a quella scheda.
 
 ### Questbook
 

@@ -189,8 +189,8 @@ await assertBoardZonesSpanCanvas(page)
 assert.equal(await page.locator('.thread-layer g').count(), 190)
 assert.equal(await page.locator('.thread-layer line').count(), 380)
 assert.equal(await page.locator('.relation-list button').count(), 190)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 93)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 7)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 94)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 6)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -200,7 +200,6 @@ assert.deepEqual(
     'Marchio del Centipede',
     'Principesse cariane',
     'Rennala',
-    'Iji',
   ],
 )
 await page.locator('.concept-card img').evaluateAll((images) => {
@@ -225,8 +224,8 @@ assert.deepEqual(
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*3/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*52/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*14/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 93)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 7)
+assert.equal(await page.locator('.concept-card.is-read').count(), 94)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 6)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -296,10 +295,10 @@ assert.match(
     .locator('.concept-card.is-unread')
     .filter({ has: page.getByRole('heading', { name: 'Varré', exact: true }) })
     .textContent()) || '',
-  /Dita Sanguinanti/i,
+  /dinastia Mohgwyn/i,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /7/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*7/)
+assert.match(await page.locator('.board-live-note').textContent(), /6/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*6/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
