@@ -20,9 +20,10 @@ import {
 import { concepts, connections } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
-import type { BoardPosition, ConceptCategory, LoreConcept } from '../types'
+import type { BoardPosition, ConceptCategory, LoreConcept, QuestImage } from '../types'
 import { ConceptImage } from './ConceptImage'
 import { HighlightedText } from './HighlightedText'
+import { ImageLightbox } from './ImageLightbox'
 
 const legacyBoardHeight = 3600
 const previousBoardHeight = 4400
@@ -1097,6 +1098,10 @@ function ConceptDialog({
   onClose,
   onOpenConcept,
 }: ConceptDialogProps) {
+  const [photo, setPhoto] = useState<QuestImage>()
+
+  useEffect(() => setPhoto(undefined), [concept?.id])
+
   if (!concept) {
     return <dialog ref={dialogRef} className="concept-dialog" onClose={onClose} />
   }
@@ -1106,6 +1111,7 @@ function ConceptDialog({
   )
 
   return (
+    <>
     <dialog
       ref={dialogRef}
       className="concept-dialog"
@@ -1124,7 +1130,17 @@ function ConceptDialog({
         >
           <X aria-hidden="true" />
         </button>
-        <ConceptImage concept={concept} large />
+        {isSafeContentUrl(concept.imageUrl) ? <button
+          type="button"
+          className="image-open-button dialog-image-open"
+          aria-label={`Ingrandisci: ${concept.imageAlt || concept.name}`}
+          onClick={() => setPhoto({
+            imageUrl: concept.imageUrl!,
+            imageAlt: concept.imageAlt || `Immagine collegata a ${concept.name}`,
+            imagePosition: concept.imagePosition,
+            caption: concept.name,
+          })}
+        ><ConceptImage concept={concept} large /><span className="image-open-button__icon"><Expand aria-hidden="true" /></span></button> : <ConceptImage concept={concept} large />}
         <div className="dialog-content">
           <div className="dialog-kicker">
             <span>{concept.eyebrow}</span>
@@ -1175,15 +1191,18 @@ function ConceptDialog({
                 .filter((item) => isSafeContentUrl(item.imageUrl))
                 .map((item) => (
                   <figure key={`${item.imageUrl}-${item.caption}`}>
-                    <img
-                      src={item.imageUrl}
-                      alt={item.imageAlt}
-                      width="720"
-                      height="480"
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                    />
+                    <button type="button" className="image-open-button concept-gallery-open" aria-label={`Ingrandisci: ${item.caption || item.imageAlt}`} onClick={() => setPhoto(item)}>
+                      <img
+                        src={item.imageUrl}
+                        alt={item.imageAlt}
+                        width="720"
+                        height="480"
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                      />
+                      <span className="image-open-button__icon"><Expand aria-hidden="true" /></span>
+                    </button>
                     <figcaption>{item.caption}</figcaption>
                   </figure>
                 ))}
@@ -1243,5 +1262,7 @@ function ConceptDialog({
         </div>
       </div>
     </dialog>
+    {photo && <ImageLightbox image={photo} onClose={() => setPhoto(undefined)} />}
+    </>
   )
 }

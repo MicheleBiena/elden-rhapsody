@@ -1,10 +1,11 @@
-import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, CheckCheck, Compass, Expand, Feather, MapPin, RotateCcw, Search, Signpost, Skull, Swords, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, CheckCheck, Compass, Expand, Feather, MapPin, RotateCcw, Search, Signpost, Skull, Swords } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { quests } from '../data/quests'
 import { concepts } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
 import type { QuestImage, QuestStatus } from '../types'
+import { ImageLightbox } from './ImageLightbox'
 import '../questbook.css'
 
 const statusLabels: Record<QuestStatus, string> = {
@@ -25,29 +26,6 @@ function JournalImage({ photo, eager = false }: { photo: QuestImage; eager?: boo
   return !failed && isSafeContentUrl(photo.imageUrl)
     ? <img src={photo.imageUrl} alt={photo.imageAlt} style={{ objectPosition: photo.imagePosition || '50% 50%' }} width={640} height={480} loading={eager ? 'eager' : 'lazy'} decoding="async" onError={() => setFailed(true)} />
     : <span className="quest-image-fallback" role="img" aria-label="Immagine non disponibile"><Feather aria-hidden="true" /><span>Immagine non disponibile</span></span>
-}
-
-function PhotoViewer({ photo, onClose }: { photo: QuestImage; onClose: () => void }) {
-  const dialogRef = useRef<HTMLDialogElement>(null)
-  useEffect(() => {
-    const dialog = dialogRef.current
-    dialog?.showModal()
-    const overflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = overflow; dialog?.close() }
-  }, [])
-  return <dialog className="quest-photo-dialog" ref={dialogRef} aria-labelledby="quest-photo-caption" onClose={event => {
-    // Ignore a queued close from StrictMode's effect cleanup if already reopened.
-    if (!event.currentTarget.open) onClose()
-  }} onClick={event => {
-    if (event.target !== event.currentTarget) return
-    const rect = event.currentTarget.getBoundingClientRect()
-    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close()
-  }}>
-    <button type="button" className="quest-photo-close" aria-label="Chiudi immagine" onClick={() => dialogRef.current?.close()}><X aria-hidden="true" /></button>
-    <JournalImage photo={photo} />
-    <p id="quest-photo-caption">{photo.caption || photo.imageAlt}</p>
-  </dialog>
 }
 
 export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
@@ -216,6 +194,6 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
         </article>
       </div>
     </div>
-    {photo && <PhotoViewer photo={photo} onClose={() => setPhoto(undefined)} />}
+    {photo && <ImageLightbox image={photo} className="quest-photo-dialog" onClose={() => setPhoto(undefined)} />}
   </section>
 }

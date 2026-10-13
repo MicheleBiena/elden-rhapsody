@@ -1,13 +1,14 @@
-import { ArrowLeft, ArrowRight, BookOpen, Check, ExternalLink, Grip, Minus, Plus, RotateCcw, Search, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, Check, Expand, ExternalLink, Grip, Minus, Plus, RotateCcw, Search, X } from 'lucide-react'
 import { type CSSProperties, type KeyboardEvent, type PointerEvent, useEffect, useRef, useState } from 'react'
 import { boardGroups, defaultBoardGroup, groupForConcept } from '../data/boardGroups'
 import { concepts, connections } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
-import type { BoardPosition, LoreConcept } from '../types'
+import type { BoardPosition, LoreConcept, QuestImage } from '../types'
 import type { ConceptBoardProps } from './ConceptBoard'
 import { ConceptImage } from './ConceptImage'
 import { HighlightedText } from './HighlightedText'
+import { ImageLightbox } from './ImageLightbox'
 
 const sceneWidth = 880
 const cardHeight = 262
@@ -74,6 +75,7 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
   const [liveMode, setLiveMode] = useState(false)
   const [zoom, setZoom] = useState(1)
   const [draggingId, setDraggingId] = useState<string>()
+  const [photo, setPhoto] = useState<QuestImage>()
   const viewportRef = useRef<HTMLDivElement>(null)
   const railRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
@@ -281,14 +283,24 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
           }}><ArrowLeft aria-hidden="true" />Torna agli appunti</button>
           <div className="dossier-detail-scroll" ref={detailScrollRef}>
             {invalidRoute ? <div className="dossier-detail"><h2 id="dossier-detail-title">Scheda non trovata</h2><button className="dossier-control" type="button" onClick={onCloseConcept}>Torna al fascicolo</button></div> : <>
-              <ConceptImage concept={selectedConcept} large />
+              {isSafeContentUrl(selectedConcept.imageUrl) ? <button
+                type="button"
+                className="image-open-button dossier-image-open"
+                aria-label={`Ingrandisci: ${selectedConcept.imageAlt || selectedConcept.name}`}
+                onClick={() => setPhoto({
+                  imageUrl: selectedConcept.imageUrl!,
+                  imageAlt: selectedConcept.imageAlt || `Immagine collegata a ${selectedConcept.name}`,
+                  imagePosition: selectedConcept.imagePosition,
+                  caption: selectedConcept.name,
+                })}
+              ><ConceptImage concept={selectedConcept} large /><span className="image-open-button__icon"><Expand aria-hidden="true" /></span></button> : <ConceptImage concept={selectedConcept} large />}
               <div className="dossier-detail">
                 <div className="dossier-detail-meta"><span>{selectedConcept.category}</span><span className={selectedConcept.liveReadStatus === 'da-leggere' ? 'is-unread' : ''}>{selectedConcept.liveReadStatus === 'da-leggere' ? <BookOpen aria-hidden="true" /> : <Check aria-hidden="true" />}{readLabel(selectedConcept)}</span></div>
                 <h2 id="dossier-detail-title" ref={headingRef} tabIndex={-1}>{selectedConcept.name}</h2>
                 <p className="dossier-state">{selectedConcept.id === 'elden-ring' ? 'Punto di partenza del gioco' : stateLabels[selectedConcept.state]}</p>
                 <p className="dossier-summary">{selectedConcept.summary}</p>
                 <p><HighlightedText text={selectedConcept.body} highlights={selectedConcept.liveUpdateKind === 'aggiornata' ? selectedConcept.bodyHighlights : undefined} /></p>
-                {selectedConcept.gallery?.filter(item => isSafeContentUrl(item.imageUrl)).map(item => <figure className="dossier-gallery" key={item.imageUrl}><img src={item.imageUrl} alt={item.imageAlt} loading="lazy" decoding="async" referrerPolicy="no-referrer" /><figcaption>{item.caption}</figcaption></figure>)}
+                {selectedConcept.gallery?.filter(item => isSafeContentUrl(item.imageUrl)).map(item => <figure className="dossier-gallery" key={item.imageUrl}><button type="button" className="image-open-button dossier-gallery-open" aria-label={`Ingrandisci: ${item.caption || item.imageAlt}`} onClick={() => setPhoto(item)}><img src={item.imageUrl} alt={item.imageAlt} loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span className="image-open-button__icon"><Expand aria-hidden="true" /></span></button><figcaption>{item.caption}</figcaption></figure>)}
                 {selectedConcept.textSections?.map(section => {
                   const isCurrentUpdate = selectedConcept.liveUpdateKind === 'aggiornata' && section.highlighted
                   return <section className={`dossier-text-section${isCurrentUpdate ? ' is-highlighted' : ''}`} key={section.title}>{isCurrentUpdate && <span className="live-update-section-label">Aggiunto ora</span>}<h3>{section.title}</h3><p lang={section.language}>{section.text}</p></section>
@@ -308,6 +320,7 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
           <div className="dossier-stepper"><div><span aria-live="polite">{liveMode ? 'Live' : 'Appunto'} {sequenceIndex + 1} di {sequence.length}</span>{liveMode && <button type="button" onClick={() => setLiveMode(false)}><X aria-hidden="true" />Esci dalla lettura live</button>}</div><div><button type="button" aria-label="Appunto precedente" disabled={sequenceIndex <= 0} onClick={() => openConcept(sequence[sequenceIndex - 1].id, liveMode)}><ArrowLeft aria-hidden="true" /></button><button type="button" aria-label="Appunto successivo" disabled={sequenceIndex < 0 || sequenceIndex >= sequence.length - 1} onClick={() => openConcept(sequence[sequenceIndex + 1].id, liveMode)}><ArrowRight aria-hidden="true" /></button></div></div>
         </aside>
       </div>
+      {photo && <ImageLightbox image={photo} onClose={() => setPhoto(undefined)} />}
     </section>
   )
 }

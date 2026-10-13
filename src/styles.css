@@ -1483,6 +1483,123 @@ main:focus-visible {
   );
 }
 
+.image-open-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  color: #fff8e7;
+  background: #171813;
+  cursor: zoom-in;
+}
+
+.image-open-button::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: rgba(8, 9, 7, 0);
+  pointer-events: none;
+  transition: background-color 180ms var(--ease-out);
+}
+
+.image-open-button:hover::after {
+  background: rgba(8, 9, 7, 0.12);
+}
+
+.image-open-button__icon {
+  position: absolute;
+  z-index: 1;
+  right: 12px;
+  bottom: 12px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(233, 223, 199, 0.42);
+  border-radius: 50%;
+  background: rgba(22, 23, 18, 0.86);
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+}
+
+.image-open-button__icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.image-lightbox {
+  width: auto;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 1px solid rgba(226, 202, 145, 0.42);
+  border-radius: var(--radius-sm);
+  color: #eee4cd;
+  background: #11120e;
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.8);
+  cursor: zoom-out;
+  animation: image-lightbox-enter 180ms var(--ease-out);
+}
+
+.image-lightbox::backdrop {
+  background: rgba(8, 9, 7, 0.82);
+  backdrop-filter: blur(7px) saturate(0.65);
+}
+
+.image-lightbox__image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: calc(100vw - 26px);
+  max-height: calc(100dvh - 94px);
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.image-lightbox > p {
+  max-width: min(900px, calc(100vw - 72px));
+  margin: 0;
+  padding: 14px 64px 16px 18px;
+  color: #eee4cd;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.image-lightbox__close {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(233, 223, 199, 0.46);
+  border-radius: 50%;
+  color: #fff8e7;
+  background: rgba(22, 23, 18, 0.9);
+  box-shadow: var(--shadow-md);
+}
+
+.image-lightbox__close:hover {
+  background: var(--color-red);
+}
+
+.image-lightbox__close svg {
+  width: 21px;
+  height: 21px;
+}
+
+@keyframes image-lightbox-enter {
+  from { opacity: 0; transform: scale(0.985); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 .concept-dialog {
   width: min(980px, calc(100% - 32px));
   max-height: min(850px, calc(100dvh - 32px));
@@ -1552,6 +1669,22 @@ main:focus-visible {
 .concept-image--large.concept-image--placeholder svg {
   width: 42px;
   height: 42px;
+}
+
+.dialog-image-open {
+  position: sticky;
+  top: 0;
+  height: 100%;
+  min-height: 590px;
+  border-right: 1px solid rgba(55, 42, 25, 0.32);
+}
+
+.dialog-image-open > .concept-image--large {
+  position: static;
+  width: 100%;
+  height: 100%;
+  min-height: 590px;
+  border: 0;
 }
 
 .dialog-content {
@@ -1693,6 +1826,10 @@ main:focus-visible {
   height: auto;
   max-height: 430px;
   object-fit: cover;
+}
+
+.concept-gallery-open {
+  background: #e3d5b8;
 }
 
 .concept-gallery figcaption {
@@ -3800,6 +3937,20 @@ main:focus-visible {
     border-bottom: 1px solid rgba(55, 42, 25, 0.32);
   }
 
+  .dialog-image-open {
+    position: static;
+    height: min(42vh, 360px);
+    min-height: 250px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(55, 42, 25, 0.32);
+  }
+
+  .dialog-image-open > .concept-image--large {
+    height: 100%;
+    min-height: 250px;
+    border: 0;
+  }
+
   .featured-analysis {
     grid-template-columns: 1fr;
   }
@@ -3938,6 +4089,22 @@ main:focus-visible {
   .concept-dialog {
     width: calc(100% - 16px);
     max-height: calc(100dvh - 16px);
+  }
+
+  .image-lightbox {
+    max-width: calc(100vw - 12px);
+    max-height: calc(100dvh - 12px);
+  }
+
+  .image-lightbox__image {
+    max-width: calc(100vw - 14px);
+    max-height: calc(100dvh - 82px);
+  }
+
+  .image-lightbox > p {
+    max-width: calc(100vw - 36px);
+    padding: 12px 58px 14px 14px;
+    font-size: 0.78rem;
   }
 
   .dialog-sheet {

@@ -17,6 +17,8 @@ non è comparsa durante la run, qui non dovrebbe esserci.
 La sezione principale organizza gli appunti come una raccolta di dossier su una
 lavagna di sughero. Personaggi, luoghi, eventi e temi hanno una scheda propria;
 i fili mostrano i rapporti osservati e separano i fatti dalle ipotesi.
+Le immagini principali e quelle nelle gallerie si possono aprire a pieno schermo
+con un click; un secondo click o `Esc` riporta alla scheda.
 
 Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 **Aggiornata**. In questo modo, prima di una live, si può leggere soltanto ciò che
