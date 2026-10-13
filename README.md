@@ -23,12 +23,12 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
-L’aggiornamento corrente riparte dopo la lettura completa della lavagna. Le sei
-novità riguardano la dinastia Mohgwyn, Rya e Villa Vulcano, Iji, Ranni e la casa
-reale cariana. Il totale è di 100 schede: 94 già lette e sei da leggere. Tutte le
-note sono state rilette e condensate: la lavagna conserva identità, lore e ipotesi,
-mentre azioni compiute, posizioni e prossimi passi restano nel Questbook. Quando
-un fatto è già spiegato altrove, il testo rimanda a quella scheda.
+Le sei novità precedenti non sono ancora state lette. A queste si aggiungono
+Soldati Marionetta, gli studi gravitazionali di Radahn, l’Epitome di Karolos e la
+Corrente Primeva: il totale è di 102 schede, 92 già lette e dieci da leggere. Le
+note mantengono una separazione netta: identità, lore e ipotesi sulla lavagna;
+azioni compiute, posizioni e prossimi passi nel Questbook. Quando un fatto è già
+spiegato altrove, il testo rimanda alla scheda dedicata.
 
 ### Questbook
 

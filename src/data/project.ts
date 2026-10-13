@@ -149,10 +149,9 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'gia-letto',
     summary:
       'Generale conquistatore delle stelle, semidio capace di rivaleggiare in potenza con Malenia.',
-    body: 'Prende parte alla Guerra dello Shattering e affronta Malenia in uno scontro fra rivali di forza comparabile. Kenneth Haight sostiene che Godrick si nascose da Radahn nel castello. Da giovane studiò le tecniche gravitazionali presso un Signore d’Alabastro dalla pelle di pietra.',
+    body: 'Prende parte alla Guerra dello Shattering e affronta Malenia in uno scontro fra rivali di forza comparabile. Kenneth Haight sostiene che Godrick si nascose da lui. Da giovane studiò le tecniche gravitazionali presso un Signore d’Alabastro dalla pelle di pietra: Pozzo gravitazionale condensa quella forza e attira verso l’incantatore chi viene colpito.',
     bodyHighlights: [
-      'Kenneth Haight sostiene che Godrick si nascose da Radahn nel castello.',
-      'Da giovane studiò le tecniche gravitazionali presso un Signore d’Alabastro dalla pelle di pietra.',
+      'Da giovane studiò le tecniche gravitazionali presso un Signore d’Alabastro dalla pelle di pietra: Pozzo gravitazionale condensa quella forza e attira verso l’incantatore chi viene colpito.',
     ],
     imageUrl: './concepts/radahn.webp',
     imageAlt: 'Il generale Radahn in armatura sotto un cielo rosso',
@@ -1013,6 +1012,26 @@ const conceptArchive: LoreConcept[] = [
     position: { x: 38, y: 87 },
   },
   {
+    id: 'soldati-marionetta',
+    name: 'Soldati Marionetta',
+    eyebrow: 'Servitori costruiti per uno stregone',
+    category: 'Personaggio',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary: 'Automi a quattro braccia creati per servire uno stregone, fragili e inclini ad attaccare senza preavviso.',
+    body: 'Le loro ceneri evocano due arcieri, ciascuno armato con una coppia di archi. Sono marionette prossime a cadere a pezzi, indisciplinate e imprevedibili. La descrizione conferma soltanto che furono create per servire uno stregone: resta da capire se il creatore fosse legato a Raya Lucaria e ai suoi alleati del Cuculo oppure alla casa reale cariana.',
+    imageUrl: './concepts/soldati-marionetta.webp',
+    imageAlt: 'Un Soldato Marionetta a quattro braccia impugna più spade',
+    evidence: [
+      'Furono creati per servire uno stregone.',
+      'Le ceneri evocano due arcieri dotati di due archi ciascuno.',
+      'Sono descritti come fragili, indisciplinati e inclini ad attaccare senza preavviso.',
+    ],
+    questions: ['Chi li costruì?', 'Servivano l’Accademia, i Cavalieri del Cuculo o i cariani?'],
+    tags: ['Soldati Marionetta', 'stregoni', 'Raya Lucaria', 'Cavalieri del Cuculo', 'Caria'],
+    position: { x: 30, y: 95 },
+  },
+  {
     id: 'maschere-scintipietra',
     name: 'Maschere di scintipietra',
     eyebrow: 'Volti delle scuole magiche',
@@ -1020,18 +1039,58 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary: 'Maschere assegnate agli studiosi meritevoli; forme diverse sembrano rappresentare differenti scuole di stregoneria.',
-    body: 'Sellen porta una maschera di pietra e le note dell’Accademia affermano che senza questo riconoscimento la carriera magica termina presto. Alcuni spiriti indossano invece la maschera dell’Epitome dei Bisavi. La sua scuola studia sia la Cometa di scintipietra sia lo Scoppio cristalliano: due tecniche differenti che suggeriscono una formazione flessibile, non una singola specializzazione.',
+    body: 'Le maschere di pietra distinguono studiosi e scuole dell’Accademia. L’Epitome dei Bisavi unisce Cometa di scintipietra e Scoppio cristalliano. I comuni maghi di Karolos usano soprattutto Ciottolo di scintipietra; pochi padroneggiano Cometa, massima stregoneria della loro Epitome. Una pergamena riserva Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona, mentre altri stregoni combinano magia e spada.',
+    bodyHighlights: [
+      'I comuni maghi di Karolos usano soprattutto Ciottolo di scintipietra; pochi padroneggiano Cometa, massima stregoneria della loro Epitome.',
+      'Una pergamena riserva Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona, mentre altri stregoni combinano magia e spada.',
+    ],
     imageUrl: './concepts/sellen.png',
     imageAlt: 'La maschera di scintipietra indossata dalla Strega Sellen',
+    gallery: [
+      { imageUrl: './concepts/mago-karolos.webp', imageAlt: 'Un mago dell’Epitome di Karolos con corona di pietra e bastone', caption: 'Epitome di Karolos · stregonerie di scintipietra' },
+      { imageUrl: './concepts/mago-spada.webp', imageAlt: 'Uno stregone di scintipietra armato di spada', caption: 'Stregone armato · magia e arma bianca' },
+    ],
+    textSections: [
+      {
+        title: 'Epitome dei Bisavi',
+        text: 'Gli spiriti che la portano praticano la Cometa di scintipietra e lo Scoppio cristalliano. La combinazione indica padronanza di tecniche diverse.',
+      },
+      {
+        title: 'Epitome di Karolos',
+        text: 'Cometa è la sua stregoneria maggiore e solo pochissimi stregoni riescono a padroneggiarla. La Pergamena dell’Epitome insegna Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona di pietra.',
+        highlighted: true,
+      },
+    ],
+    evidence: ['L’Accademia assegna le maschere agli studenti meritevoli.', 'Senza maschera la carriera nella stregoneria termina presto.', 'L’Epitome dei Bisavi è legata a Cometa di scintipietra e Scoppio cristalliano.', 'Cometa è la massima stregoneria dell’Epitome di Karolos.', 'La Pergamena dell’Epitome tramanda Scheggia di cometa e Pioggia di stelle.'],
+    questions: ['Quale scuola rappresenta la maschera di Sellen?', 'Quante Epitomi esistono?', 'Chi erano i Bisavi celebrati dalla maschera?'],
+    tags: ['maschere di scintipietra', 'Sellen', 'Epitome dei Bisavi', 'Epitome di Karolos', 'Cometa', 'Scheggia di cometa', 'Pioggia di stelle'],
+    position: { x: 30, y: 96 },
+  },
+  {
+    id: 'corrente-primeva',
+    name: 'Corrente Primeva',
+    eyebrow: 'Tradizione proibita della scintipietra',
+    category: 'Tema',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Scuola proibita che fonde insieme più stregoni per trasformarli in semi di stelle.',
+    body: 'Il Talismano della scuola di pietra definisce la Corrente Primeva una tradizione proibita e un incubo per l’Accademia. I suoi seguaci raccolgono e fondono stregoni in ammassi di volti, trattando la creazione di “semi di stelle” come ricerca scientifica. Il talismano, capace di potenziare le stregonerie, era nascosto dietro un muro illusorio.',
+    imageUrl: './concepts/talismano-scuola-pietra.png',
+    imageAlt: 'Icona del Talismano della scuola di pietra, un ammasso di volti e cristalli',
+    gallery: [{
+      imageUrl: './concepts/ammasso-scolpito.webp',
+      imageAlt: 'Un ammasso sferico formato dai volti fusi di numerosi stregoni',
+      caption: 'Seme di stelle · fusione fisica di più stregoni',
+    }],
     textSections: [{
-      title: 'Epitome dei Bisavi',
-      text: 'Gli spiriti che la portano praticano la Cometa di scintipietra e lo Scoppio cristalliano. La combinazione indica padronanza di tecniche diverse.',
+      title: 'Talismano della scuola di pietra',
+      text: 'Raffigura una scuola di stregoni incisi, incubo dell’Accademia. Per chi segue la Corrente Primeva, fondere gli stregoni in semi di stelle è soltanto un altro percorso di ricerca scientifica.',
       highlighted: true,
     }],
-    evidence: ['L’Accademia assegna le maschere agli studenti meritevoli.', 'Senza maschera la carriera nella stregoneria termina presto.', 'L’Epitome dei Bisavi è legata a Cometa di scintipietra e Scoppio cristalliano.'],
-    questions: ['Quale scuola rappresenta la maschera di Sellen?', 'Ogni forma corrisponde a una corrente di studio?', 'Chi erano i Bisavi celebrati dalla maschera?'],
-    tags: ['maschere di scintipietra', 'Sellen', 'Epitome dei Bisavi', 'Cometa di scintipietra', 'Scoppio cristalliano'],
-    position: { x: 30, y: 96 },
+    evidence: ['È una tradizione proibita della stregoneria di scintipietra.', 'L’Accademia considera queste scuole un incubo.', 'Gli stregoni vengono raccolti e fusi in semi di stelle.', 'Il relativo talismano aumenta la potenza delle stregonerie.'],
+    questions: ['Che cosa sono davvero i semi di stelle?', 'Chi pratica ancora la Corrente Primeva?', 'Perché l’Accademia la teme?'],
+    tags: ['Corrente Primeva', 'scintipietra', 'Talismano della scuola di pietra', 'semi di stelle', 'Accademia'],
+    position: { x: 70, y: 95 },
   },
   {
     id: 'scintipietra',
@@ -1998,10 +2057,12 @@ const conceptArchive: LoreConcept[] = [
 // Ultima live letta: soltanto i contenuti di questo episodio restano da leggere.
 const currentEpisodeConceptIds = new Set<string>([
   'varre', 'lord-del-sangue', 'rya', 'mercante-gamberi',
-  'iji', 'ranni-principessa-lunare',
+  'iji', 'ranni-principessa-lunare', 'radahn', 'soldati-marionetta',
+  'maschere-scintipietra', 'corrente-primeva',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
   'varre', 'lord-del-sangue', 'rya', 'ranni-principessa-lunare',
+  'radahn', 'maschere-scintipietra',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -3010,7 +3071,7 @@ export const connections: LoreConnection[] = [
     from: 'radahn',
     to: 'scintipietra',
     label: 'stregoneria gravitazionale',
-    note: 'Una stregoneria di scintipietra ricorda che il giovane Radahn studiò le forze gravitazionali presso un Signore d’Alabastro.',
+    note: 'Pozzo gravitazionale ricorda che il giovane Radahn studiò le forze gravitazionali presso un Signore d’Alabastro.',
     kind: 'traccia',
   },
   {
@@ -3176,6 +3237,18 @@ export const connections: LoreConnection[] = [
   {
     id: 'iji-guerra-liurnia', from: 'iji', to: 'guerra-civile-liurnia', label: 'testimone del contrattacco cariano',
     note: 'Iji racconta l’avanzata dei Cavalieri del Cuculo e la trappola con cui i cariani difesero il maniero.', kind: 'traccia',
+  },
+  {
+    id: 'marionette-accademia', from: 'soldati-marionetta', to: 'accademia-raya-lucaria', label: 'creatore incerto',
+    note: 'Le marionette furono create per uno stregone; l’appartenenza del loro artefice all’Accademia o alla casa cariana resta da verificare.', kind: 'ipotesi',
+  },
+  {
+    id: 'corrente-accademia', from: 'corrente-primeva', to: 'accademia-raya-lucaria', label: 'tradizione proibita',
+    note: 'La Corrente Primeva è una tradizione proibita che l’Accademia considera un incubo.', kind: 'traccia',
+  },
+  {
+    id: 'corrente-maschere', from: 'corrente-primeva', to: 'maschere-scintipietra', label: 'scuole di stregoneria',
+    note: 'Epitomi riconosciute e Corrente Primeva mostrano percorsi diversi, ufficiali o proibiti, nello studio della scintipietra.', kind: 'traccia',
   },
 ]
 
