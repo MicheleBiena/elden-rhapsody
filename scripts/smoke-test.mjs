@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 102)
+assert.equal(await page.locator('.concept-card').count(), 103)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -88,6 +88,7 @@ assert.deepEqual(
     'Galere Eterne',
     'Liurnia Lacustre',
     'Accademia di Raya Lucaria',
+    'Ritratti di Raya Lucaria',
     'Maschere di scintipietra',
     'Thops',
     'Rya',
@@ -190,10 +191,10 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '19',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 193)
-assert.equal(await page.locator('.thread-layer line').count(), 386)
-assert.equal(await page.locator('.relation-list button').count(), 193)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 96)
+assert.equal(await page.locator('.thread-layer g').count(), 196)
+assert.equal(await page.locator('.thread-layer line').count(), 392)
+assert.equal(await page.locator('.relation-list button').count(), 196)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 97)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 6)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
@@ -229,7 +230,7 @@ assert.match(await page.locator('.board-legend').textContent(), /Evento\s*3/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*53/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*14/)
 assert.equal(await page.locator('.concept-card.is-read').count(), 92)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 10)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 11)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -313,8 +314,8 @@ assert.match(
   (await page.locator('.concept-card.is-unread').filter({ hasText: 'Maschere di scintipietra' }).textContent()) || '',
   /scuole/i,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /10/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*10/)
+assert.match(await page.locator('.board-live-note').textContent(), /11/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*11/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -558,6 +559,7 @@ await zoomedDesktop.close()
 
 const migratedBoard = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await migratedBoard.addInitScript(() => {
+  localStorage.removeItem('elden-rhapsody:board-positions-v18')
   localStorage.removeItem('elden-rhapsody:board-positions-v17')
   localStorage.removeItem('elden-rhapsody:board-positions-v16')
   localStorage.removeItem('elden-rhapsody:board-positions-v15')
@@ -582,17 +584,18 @@ const migratedPosition = await migratedBoard.locator('.concept-card').first().ev
 }))
 assert.equal(migratedPosition.left, 51)
 assert.ok(Math.abs(migratedPosition.top - (52 * 8000 / 23000)) < 0.01)
-await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v17'))
+await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v18'))
 assert.equal(
   await migratedBoard.evaluate(() =>
-    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v17') || '{}')).length,
+    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v18') || '{}')).length,
   ),
-  102,
+  103,
 )
 await migratedBoard.close()
 
 const currentMigration = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await currentMigration.addInitScript(() => {
+  localStorage.removeItem('elden-rhapsody:board-positions-v18')
   localStorage.removeItem('elden-rhapsody:board-positions-v17')
   localStorage.removeItem('elden-rhapsody:board-positions-v16')
   localStorage.removeItem('elden-rhapsody:board-positions-v15')
@@ -618,15 +621,15 @@ assert.equal(
   await currentMigration.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v13')),
   JSON.stringify({ irina: { x: 42, y: 61 } }),
 )
-await currentMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v17'))
+await currentMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v18'))
 await currentMigration.close()
 
 const previousBoardMigration = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await previousBoardMigration.addInitScript(() => {
-  localStorage.removeItem('elden-rhapsody:board-positions-v17')
+  localStorage.removeItem('elden-rhapsody:board-positions-v18')
   localStorage.setItem('elden-rhapsody:board-view', JSON.stringify('classic'))
   localStorage.setItem(
-    'elden-rhapsody:board-positions-v16',
+    'elden-rhapsody:board-positions-v17',
     JSON.stringify({ iji: { x: 44, y: 92 } }),
   )
 })
@@ -636,12 +639,12 @@ const previousBoardPosition = await previousBoardMigration.locator('.concept-car
   top: Number.parseFloat(card.style.top),
 }))
 assert.equal(previousBoardPosition.left, 44)
-assert.ok(Math.abs(previousBoardPosition.top - (92 * 21000 / 23000)) < 0.01)
+assert.ok(Math.abs(previousBoardPosition.top - 92) < 0.01)
 assert.equal(
-  await previousBoardMigration.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v16')),
+  await previousBoardMigration.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v17')),
   JSON.stringify({ iji: { x: 44, y: 92 } }),
 )
-await previousBoardMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v17'))
+await previousBoardMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v18'))
 await previousBoardMigration.close()
 
 const mobile = await browser.newPage({ viewport: { width: 375, height: 812 } })

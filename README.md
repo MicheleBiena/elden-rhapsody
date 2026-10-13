@@ -24,8 +24,9 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
 Le sei novità precedenti non sono ancora state lette. A queste si aggiungono
-Soldati Marionetta, gli studi gravitazionali di Radahn, l’Epitome di Karolos e la
-Corrente Primeva: il totale è di 102 schede, 92 già lette e dieci da leggere. Le
+Soldati Marionetta, gli studi gravitazionali di Radahn, l’Epitome di Karolos, la
+Corrente Primeva e l’indagine sui ritratti di Raya Lucaria: il totale è di 103
+schede, 92 già lette e undici da leggere. Le
 note mantengono una separazione netta: identità, lore e ipotesi sulla lavagna;
 azioni compiute, posizioni e prossimi passi nel Questbook. Quando un fatto è già
 spiegato altrove, il testo rimanda alla scheda dedicata.

@@ -41,6 +41,7 @@ const boardHeight = 23000
 const freshEpisodeLayoutConceptIds = new Set([
   'soldati-marionetta',
   'corrente-primeva',
+  'ritratti-raya-lucaria',
 ])
 const lastEpisodeLayoutConceptIds = new Set([
   'mercante-gamberi',
@@ -218,6 +219,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const latestBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v17')
+    if (latestBoardSaved) {
+      return migrateBoardPositions(
+        JSON.parse(latestBoardSaved) as Record<string, BoardPosition>,
+        boardHeight,
+        true,
+      )
+    }
+
     const previousBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v16')
     if (previousBoardSaved) {
       return migrateBoardPositions(
@@ -439,6 +449,7 @@ const boardConceptOrder = [
   'galere-eterne',
   'liurnia-lacustre',
   'accademia-raya-lucaria',
+  'ritratti-raya-lucaria',
   'maschere-scintipietra',
   'thops',
   'rya',
@@ -613,7 +624,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v17',
+    'elden-rhapsody:board-positions-v18',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()

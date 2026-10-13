@@ -1032,6 +1032,43 @@ const conceptArchive: LoreConcept[] = [
     position: { x: 30, y: 95 },
   },
   {
+    id: 'ritratti-raya-lucaria',
+    name: 'Ritratti di Raya Lucaria',
+    eyebrow: 'Volti custoditi dall’Accademia',
+    category: 'Indizio',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary: 'I quadri dei saloni accademici sembrano conservare i volti di reggenti, stregoni e possibili esponenti delle diverse Epitomi.',
+    body: 'Nei saloni principali di Raya Lucaria, Red ha osservato da vicino i grandi ritratti e le maschere di pietra appese alle pareti, provando a confrontarne volti, abiti e simboli con quanto già incontrato. Il quadro sulla scalinata centrale potrebbe raffigurare Rennala: la figura ha un aspetto regale, una possibile corona e un bastone molto particolare. Altri dipinti mostrano donne legate alla scintipietra e studiosi i cui lineamenti ricordano le maschere esposte sopra di loro. Sono somiglianze promettenti, non ancora identificazioni certe; per le scuole già riconosciute vedi Maschere di scintipietra.',
+    imageUrl: './concepts/ritratti-raya-lucaria-rennala.webp',
+    imageAlt: 'Grande ritratto sulla scalinata centrale di Raya Lucaria, annotato come possibile raffigurazione di Rennala',
+    gallery: [
+      {
+        imageUrl: './concepts/ritratti-raya-lucaria-donne.webp',
+        imageAlt: 'Due ritratti femminili di Raya Lucaria confrontati con figure e simboli già osservati',
+        caption: 'Figure femminili · affinità con la scintipietra e le vesti accademiche',
+      },
+      {
+        imageUrl: './concepts/ritratti-raya-lucaria-maschere.webp',
+        imageAlt: 'Ritratti di stregoni confrontati con le maschere di pietra appese nelle sale',
+        caption: 'Studiosi e maschere · possibili corrispondenze tra volti ed Epitomi',
+      },
+    ],
+    evidence: [
+      'I saloni principali espongono numerosi ritratti di figure accademiche.',
+      'Diverse maschere di pietra sono appese sopra o vicino ai dipinti.',
+      'Alcuni volti dipinti somigliano alle maschere già associate alle Epitomi.',
+      'Il grande ritratto della scalinata mostra una figura regale con un bastone insolito.',
+    ],
+    questions: [
+      'Il ritratto della scalinata raffigura davvero Rennala?',
+      'Le maschere riproducono i fondatori delle diverse Epitomi?',
+      'Chi sono le donne ritratte nei saloni dell’Accademia?',
+    ],
+    tags: ['Raya Lucaria', 'ritratti', 'Rennala', 'maschere di scintipietra', 'Epitomi', 'scintipietra'],
+    position: { x: 90, y: 95 },
+  },
+  {
     id: 'maschere-scintipietra',
     name: 'Maschere di scintipietra',
     eyebrow: 'Volti delle scuole magiche',
@@ -2058,7 +2095,7 @@ const conceptArchive: LoreConcept[] = [
 const currentEpisodeConceptIds = new Set<string>([
   'varre', 'lord-del-sangue', 'rya', 'mercante-gamberi',
   'iji', 'ranni-principessa-lunare', 'radahn', 'soldati-marionetta',
-  'maschere-scintipietra', 'corrente-primeva',
+  'maschere-scintipietra', 'corrente-primeva', 'ritratti-raya-lucaria',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
   'varre', 'lord-del-sangue', 'rya', 'ranni-principessa-lunare',
@@ -3249,6 +3286,18 @@ export const connections: LoreConnection[] = [
   {
     id: 'corrente-maschere', from: 'corrente-primeva', to: 'maschere-scintipietra', label: 'scuole di stregoneria',
     note: 'Epitomi riconosciute e Corrente Primeva mostrano percorsi diversi, ufficiali o proibiti, nello studio della scintipietra.', kind: 'traccia',
+  },
+  {
+    id: 'ritratti-accademia', from: 'ritratti-raya-lucaria', to: 'accademia-raya-lucaria', label: 'esposti nei saloni',
+    note: 'I ritratti e le maschere sono esposti nei principali saloni di Raya Lucaria.', kind: 'traccia',
+  },
+  {
+    id: 'ritratti-maschere', from: 'ritratti-raya-lucaria', to: 'maschere-scintipietra', label: 'somiglianze nei volti',
+    note: 'Alcuni studiosi dipinti ricordano le maschere di pietra appese nelle stesse sale; potrebbero rappresentare figure legate alle Epitomi.', kind: 'ipotesi',
+  },
+  {
+    id: 'ritratto-rennala', from: 'ritratti-raya-lucaria', to: 'rennala', label: 'possibile raffigurazione',
+    note: 'La figura regale dipinta sulla scalinata centrale potrebbe essere Rennala, ma l’identificazione resta da confermare.', kind: 'ipotesi',
   },
 ]
 
