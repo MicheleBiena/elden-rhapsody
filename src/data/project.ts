@@ -2016,7 +2016,7 @@ const conceptArchive: LoreConcept[] = [
       },
     ],
     evidence: ['Guida la famiglia reale di Caria e l’Accademia di Raya Lucaria.', 'È detta Strega della Luna Piena.', 'Fu abbandonata da Radagon.', 'Dopo la ribellione dell’Accademia fu rinchiusa nella biblioteca.', 'Custodisce l’uovo d’ambra di Radagon.', 'I reincarnati escono malformati dalle culle, senza gambe funzionanti.', 'Cantano ninnananne per alleviare i dolori.', 'La seconda fase è uno spirito proiettato da un’evocazione di Ranni.', 'Le evocazioni osservate sono lupi, cavaliere limiere, gigante e drago.'],
-    questions: ['Che cosa permette davvero la tetra arte della reincarnazione?', 'Lupi, limiere e gigante richiamano Blaidd, Darriwil e Iji: quale quest segue lo stesso schema?', 'Perché l’Accademia si ribellò?'],
+    questions: ['Che cosa permette davvero la tetra arte della reincarnazione?', 'Lupi, cavaliere limiere e gigante è uno schema già visto in quale quest?', 'Perché l’Accademia si ribellò?'],
     tags: ['Rennala', 'Caria', 'Raya Lucaria', 'Luna Piena', 'uovo d’ambra', 'reincarnazione', 'Ranni', 'Plenilunio', 'Scettro regale cariano'], position: { x: 62, y: 94 },
   },
   {
