@@ -85,6 +85,7 @@ export const quests: QuestEntry[] = [
     npc: "Araldi delle Rune Maggiori",
     region: "Interregno",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
       "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
     lastSeen: {
@@ -107,6 +108,10 @@ export const quests: QuestEntry[] = [
       {
         title: "La Torre Divina di Sepolcride",
         text: "Raggiungiamo la sommità della Torre Divina di Sepolcride e riattiviamo il potere della Runa Maggiore di Godrick davanti a Due Dita avvizzite.",
+      },
+      {
+        title: "Rennala affrontata",
+        text: "Affrontiamo Rennala nella biblioteca di Raya Lucaria: cade a terra stringendo l'uovo d'ambra e la seconda fase mostra la sua versione spiritica al pieno potere.",
       },
     ],
     nextStep: {
@@ -167,12 +172,18 @@ export const quests: QuestEntry[] = [
         location: "Accademia di Raya Lucaria, Liurnia",
         description:
           "Governa l’Accademia, ma non è una semidea. La sua Runa Maggiore dimora nell’uovo d’ambra donatole da Radagon, che la lasciò per diventare secondo marito di Marika e Re Consorte.",
+        image: {
+          imageUrl: "./concepts/rennala.webp",
+          imageAlt: "Rennala spiritica al pieno potere davanti alla luna piena",
+        },
+        linkedConceptId: "rennala",
       },
     ],
     linkedConceptIds: [
       "gideon-ofnir",
       "godrick-innestato",
       "radahn",
+      "rennala",
       "leyndell",
       "torri-divine",
     ],

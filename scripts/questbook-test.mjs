@@ -18,9 +18,9 @@ try {
     'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'fia', 'roderika',
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops', 'rya', 'ehi-cuggi',
   ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['varre', 'blaidd', 'rya'])
+  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['big-boys', 'varre', 'blaidd', 'rya'])
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 3)
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 4)
   assert.equal(await page.locator('.quest-index-update--nuova').count(), 0)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /21 in corso/)
@@ -48,13 +48,14 @@ try {
   await page.locator('[data-quest-id="big-boys"]').click()
   await page.getByRole('heading', { name: 'The Big Boys', exact: true }).waitFor()
   assert.match(await page.locator('.quest-history').textContent(), /Torre Divina di Sepolcride.*Runa Maggiore di Godrick/is)
-  assert.equal(await page.locator('.quest-lore-links a').count(), 5)
+  assert.match(await page.locator('.quest-history').textContent(), /Rennala affrontata.*biblioteca.*spiritica/is)
+  assert.equal(await page.locator('.quest-lore-links a').count(), 6)
   assert.equal(await page.locator('.quest-target').count(), 5)
   assert.deepEqual(await page.locator('.quest-target h4').allTextContents(), [
     'Godrick l’Innestato', 'Generale Radahn', 'Pretore Rykard', 'Morgott, il Benedetto dalla Grazia', 'Rennala',
   ])
-  assert.equal(await page.locator('.quest-target img').count(), 2, 'Only already-seen targets may reveal an image')
-  for (const id of ['rykard', 'morgott', 'rennala']) {
+  assert.equal(await page.locator('.quest-target img').count(), 3, 'Only already-seen targets may reveal an image')
+  for (const id of ['rykard', 'morgott']) {
     assert.equal(await page.locator(`[data-target-id="${id}"] .quest-target-image`).count(), 0, `${id} must remain visually undisclosed`)
   }
   assert.equal(await page.locator('.quest-target.is-defeated').count(), 1)
@@ -194,7 +195,7 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 3)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 4)
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
@@ -219,7 +220,7 @@ try {
   await page.locator('a.nav-tab[href="#/build"]').click()
   await page.locator('.build-lab').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '11 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '13 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -314,7 +315,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: twenty-one active quests, two complete, Varré, Blaidd and Rya updated, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
+  console.log('Questbook passed: twenty-one active quests, two complete, Big Boys, Varré, Blaidd and Rya updated, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()

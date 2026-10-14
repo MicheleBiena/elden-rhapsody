@@ -1038,34 +1038,31 @@ const conceptArchive: LoreConcept[] = [
     category: 'Indizio',
     state: 'da-verificare',
     liveReadStatus: 'da-leggere',
-    summary: 'I quadri dei saloni accademici sembrano conservare i volti di reggenti, stregoni e possibili esponenti delle diverse Epitomi.',
-    body: 'Nei saloni principali di Raya Lucaria, Red ha osservato da vicino i grandi ritratti e le maschere di pietra appese alle pareti, provando a confrontarne volti, abiti e simboli con quanto già incontrato. Il quadro sulla scalinata centrale potrebbe raffigurare Rennala: la figura ha un aspetto regale, una possibile corona e un bastone molto particolare. Altri dipinti mostrano donne legate alla scintipietra e studiosi i cui lineamenti ricordano le maschere esposte sopra di loro. Sono somiglianze promettenti, non ancora identificazioni certe; per le scuole già riconosciute vedi Maschere di scintipietra.',
-    imageUrl: './concepts/ritratti-raya-lucaria-rennala.webp',
-    imageAlt: 'Grande ritratto sulla scalinata centrale di Raya Lucaria, annotato come possibile raffigurazione di Rennala',
+    summary: 'I quadri dei saloni accademici confrontano volti dipinti e maschere di pietra, con possibili legami alle Epitomi.',
+    body: 'Rimosso il grande ritratto della scalinata, già ricondotto a Rennala e ora trattato nella sua scheda. Restano due confronti: una parete con quattro ritratti maschili e tre maschere di pietra sopra di essi, e un ritratto femminile con scintipietra verde. Le annotazioni propongono Karolos/Azur, Olivinus/Lusat, uno spadaccino di Lazuli simile agli stregoni armati e una figura doppia dei Bisavi senza maschera doppia; la donna condivide pietra e abiti con l’unica stregona incontrata finora. Sono ipotesi di lavoro, non identificazioni; per le scuole vedi Maschere di scintipietra.',
+    bodyHighlights: ['Rimosso il grande ritratto della scalinata, già ricondotto a Rennala e ora trattato nella sua scheda.', 'Le annotazioni propongono Karolos/Azur, Olivinus/Lusat, uno spadaccino di Lazuli simile agli stregoni armati e una figura doppia dei Bisavi senza maschera doppia; la donna condivide pietra e abiti con l’unica stregona incontrata finora.'],
+    imageUrl: './concepts/ritratti-raya-lucaria-maschere.webp',
+    imageAlt: 'Quattro ritratti maschili di Raya Lucaria con tre maschere di pietra sopra, annotati come Karolos, Olivinus, Lazuli e Bisavi',
     gallery: [
       {
         imageUrl: './concepts/ritratti-raya-lucaria-donne.webp',
-        imageAlt: 'Due ritratti femminili di Raya Lucaria confrontati con figure e simboli già osservati',
-        caption: 'Figure femminili · affinità con la scintipietra e le vesti accademiche',
-      },
-      {
-        imageUrl: './concepts/ritratti-raya-lucaria-maschere.webp',
-        imageAlt: 'Ritratti di stregoni confrontati con le maschere di pietra appese nelle sale',
-        caption: 'Studiosi e maschere · possibili corrispondenze tra volti ed Epitomi',
+        imageAlt: 'Ritratto femminile di Raya Lucaria confrontato con la stregona dalla scintipietra verde',
+        caption: 'Figura femminile · stessa scintipietra della stregona incontrata',
       },
     ],
     evidence: [
       'I saloni principali espongono numerosi ritratti di figure accademiche.',
-      'Diverse maschere di pietra sono appese sopra o vicino ai dipinti.',
-      'Alcuni volti dipinti somigliano alle maschere già associate alle Epitomi.',
-      'Il grande ritratto della scalinata mostra una figura regale con un bastone insolito.',
+      'Tre maschere di pietra sono appese sopra quattro ritratti maschili.',
+      'Le annotazioni collegano i ritratti a Karolos, Olivinus, Lazuli e Bisavi.',
+      'Il ritratto femminile mostra una scintipietra verde come quella della stregona incontrata.',
+      'Il ritratto della scalinata è stato tolto dall’analisi perché già ricondotto a Rennala.',
     ],
     questions: [
-      'Il ritratto della scalinata raffigura davvero Rennala?',
+      'I ritratti maschili rappresentano Karolos, Olivinus, Lazuli e i Bisavi?',
       'Le maschere riproducono i fondatori delle diverse Epitomi?',
-      'Chi sono le donne ritratte nei saloni dell’Accademia?',
+      'Chi è la donna con la scintipietra verde?',
     ],
-    tags: ['Raya Lucaria', 'ritratti', 'Rennala', 'maschere di scintipietra', 'Epitomi', 'scintipietra'],
+    tags: ['Raya Lucaria', 'ritratti', 'maschere di scintipietra', 'Epitomi', 'scintipietra'],
     position: { x: 90, y: 95 },
   },
   {
@@ -1076,16 +1073,19 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary: 'Maschere assegnate agli studiosi meritevoli; forme diverse sembrano rappresentare differenti scuole di stregoneria.',
-    body: 'Le maschere di pietra distinguono studiosi e scuole dell’Accademia. L’Epitome dei Bisavi unisce Cometa di scintipietra e Scoppio cristalliano. I comuni maghi di Karolos usano soprattutto Ciottolo di scintipietra; pochi padroneggiano Cometa, massima stregoneria della loro Epitome. Una pergamena riserva Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona, mentre altri stregoni combinano magia e spada.',
+    body: 'Le maschere di pietra distinguono studiosi e scuole dell’Accademia. La corona di Olivinus indica la stirpe di Lusat, specializzata in meteore; quella di Karolos la stirpe di Azur, specializzata in comete. L’Epitome dei Bisavi unisce Cometa di scintipietra e Scoppio cristalliano. I comuni maghi di Karolos usano soprattutto Ciottolo di scintipietra; pochi padroneggiano Cometa, massima stregoneria della loro Epitome. Una pergamena riserva Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona, mentre altri stregoni combinano magia e spada. Per i volti dipinti confrontati con queste maschere vedi Ritratti di Raya Lucaria.',
     bodyHighlights: [
       'I comuni maghi di Karolos usano soprattutto Ciottolo di scintipietra; pochi padroneggiano Cometa, massima stregoneria della loro Epitome.',
       'Una pergamena riserva Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona, mentre altri stregoni combinano magia e spada.',
+      'La corona di Olivinus indica la stirpe di Lusat, specializzata in meteore; quella di Karolos la stirpe di Azur, specializzata in comete.',
     ],
     imageUrl: './concepts/sellen.png',
     imageAlt: 'La maschera di scintipietra indossata dalla Strega Sellen',
     gallery: [
       { imageUrl: './concepts/mago-karolos.webp', imageAlt: 'Un mago dell’Epitome di Karolos con corona di pietra e bastone', caption: 'Epitome di Karolos · stregonerie di scintipietra' },
       { imageUrl: './concepts/mago-spada.webp', imageAlt: 'Uno stregone di scintipietra armato di spada', caption: 'Stregone armato · magia e arma bianca' },
+      { imageUrl: './concepts/maschera-olivinus.webp', imageAlt: 'Corona di pietra dell’Epitome di Olivinus con scintipietra verde', caption: 'Olivinus · stirpe di Lusat, studio delle meteore' },
+      { imageUrl: './concepts/maschera-karolos.webp', imageAlt: 'Corona di pietra dell’Epitome di Karolos con scintipietra azzurra', caption: 'Karolos · stirpe di Azur, studio delle comete' },
     ],
     textSections: [
       {
@@ -1093,14 +1093,19 @@ const conceptArchive: LoreConcept[] = [
         text: 'Gli spiriti che la portano praticano la Cometa di scintipietra e lo Scoppio cristalliano. La combinazione indica padronanza di tecniche diverse.',
       },
       {
+        title: 'Epitome di Olivinus',
+        text: 'La stirpe discende da Lusat e si specializza nello studio delle meteore; la corona incastona una scintipietra verde.',
+        highlighted: true,
+      },
+      {
         title: 'Epitome di Karolos',
-        text: 'Cometa è la sua stregoneria maggiore e solo pochissimi stregoni riescono a padroneggiarla. La Pergamena dell’Epitome insegna Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona di pietra.',
+        text: 'La stirpe discende da Azur e si specializza nelle comete. Cometa è la sua stregoneria maggiore e solo pochissimi stregoni riescono a padroneggiarla. La Pergamena dell’Epitome insegna Scheggia di cometa e Pioggia di stelle agli studiosi degni della corona di pietra.',
         highlighted: true,
       },
     ],
-    evidence: ['L’Accademia assegna le maschere agli studenti meritevoli.', 'Senza maschera la carriera nella stregoneria termina presto.', 'L’Epitome dei Bisavi è legata a Cometa di scintipietra e Scoppio cristalliano.', 'Cometa è la massima stregoneria dell’Epitome di Karolos.', 'La Pergamena dell’Epitome tramanda Scheggia di cometa e Pioggia di stelle.'],
+    evidence: ['L’Accademia assegna le maschere agli studenti meritevoli.', 'Senza maschera la carriera nella stregoneria termina presto.', 'L’Epitome dei Bisavi è legata a Cometa di scintipietra e Scoppio cristalliano.', 'Olivinus discende da Lusat e studia le meteore.', 'Karolos discende da Azur e studia le comete.', 'Cometa è la massima stregoneria dell’Epitome di Karolos.', 'La Pergamena dell’Epitome tramanda Scheggia di cometa e Pioggia di stelle.'],
     questions: ['Quale scuola rappresenta la maschera di Sellen?', 'Quante Epitomi esistono?', 'Chi erano i Bisavi celebrati dalla maschera?'],
-    tags: ['maschere di scintipietra', 'Sellen', 'Epitome dei Bisavi', 'Epitome di Karolos', 'Cometa', 'Scheggia di cometa', 'Pioggia di stelle'],
+    tags: ['maschere di scintipietra', 'Sellen', 'Epitome dei Bisavi', 'Epitome di Karolos', 'Epitome di Olivinus', 'Lusat', 'Azur', 'Cometa', 'meteore'],
     position: { x: 30, y: 96 },
   },
   {
@@ -1826,13 +1831,20 @@ const conceptArchive: LoreConcept[] = [
     id: 'cavalieri-cariani', name: 'Cavalieri cariani', eyebrow: 'Meno di venti contro i campioni d’oro',
     category: 'Tema', state: 'osservato', liveReadStatus: 'da-leggere',
     summary: 'Meno di venti cavalieri della casa reale cariana, capaci di usare spade catalizzatrici ed evocazioni spiritiche contro la legione del Cuculo.',
-    body: 'Le loro spade dritte sono incastonate con scintipietra azzurra e possono fungere da catalizzatori per abilità da battaglia stregonesche. Erano meno di venti, ma questo potere permise loro di affrontare alla pari persino i campioni d’oro. Le tracce della guerra civile di Liurnia li mostrano contrapposti alla legione del Cuculo schierata dall’Accademia; per compensare l’inferiorità numerica ricorrevano anche a evocazioni spiritiche.',
-    bodyHighlights: ['Le tracce della guerra civile di Liurnia li mostrano contrapposti alla legione del Cuculo schierata dall’Accademia; per compensare l’inferiorità numerica ricorrevano anche a evocazioni spiritiche.'],
+    body: 'Le loro spade dritte sono incastonate con scintipietra azzurra e possono fungere da catalizzatori per abilità da battaglia stregonesche. Lo scudo cariano a goccia, incastonato di scintipietra blu, eccelle contro magia e sacro. Erano meno di venti, ma questo potere permise loro di affrontare alla pari persino i campioni d’oro. Le tracce della guerra civile di Liurnia li mostrano contrapposti alla legione del Cuculo schierata dall’Accademia; per compensare l’inferiorità numerica ricorrevano anche a evocazioni spiritiche.',
+    bodyHighlights: ['Le tracce della guerra civile di Liurnia li mostrano contrapposti alla legione del Cuculo schierata dall’Accademia; per compensare l’inferiorità numerica ricorrevano anche a evocazioni spiritiche.', 'Lo scudo cariano a goccia, incastonato di scintipietra blu, eccelle contro magia e sacro.'],
     imageUrl: './concepts/elmo-cavaliere-cariano.png',
     imageAlt: 'Elmo argentato di un Cavaliere cariano, decorato con una cresta azzurra',
     gallery: [{ imageUrl: './concepts/spadone-cariano.png', imageAlt: 'Una grande lama magica azzurra evocata da una tecnica cariana', caption: 'Spadone cariano · stregoneria della casa reale' }],
-    evidence: ['Sono giurati alla casa reale cariana.', 'Le spade incastonate di scintipietra fungono da catalizzatori.', 'Erano meno di venti.', 'Potevano competere con i campioni d’oro.', 'Combatterono i Guerrieri del Cuculo servendosi anche di evocazioni spiritiche.'],
-    questions: ['Perché la casa reale e l’Accademia entrarono in guerra?', 'Chi erano i campioni d’oro?', 'Principesse e cavalieri servivano la stessa corte?'],
+    textSections: [
+      {
+        title: 'Scudo cariano',
+        text: 'Scudo a goccia con scintipietra blu, portato dai cavalieri al servizio della casa reale. Ipotesi di lettura: la doppia difesa da sacro e magia rifletterebbe due fronti di Caria, contro l’Albero Madre nelle guerre di Liurnia e contro l’Accademia nella guerra civile del Cuculo.',
+        highlighted: true,
+      },
+    ],
+    evidence: ['Sono giurati alla casa reale cariana.', 'Le spade incastonate di scintipietra fungono da catalizzatori.', 'Lo scudo a goccia eccelle contro magia e sacro.', 'Erano meno di venti.', 'Potevano competere con i campioni d’oro.', 'Combatterono i Guerrieri del Cuculo servendosi anche di evocazioni spiritiche.'],
+    questions: ['Perché la casa reale e l’Accademia entrarono in guerra?', 'Chi erano i campioni d’oro?', 'La doppia difesa dello scudo indica davvero due nemici diversi?', 'Principesse e cavalieri servivano la stessa corte?'],
     tags: ['Cavalieri cariani', 'casa reale cariana', 'scintipietra', 'campioni d’oro', 'guerra civile', 'evocazioni spiritiche'], position: { x: 80, y: 90 },
   },
   {
@@ -1979,11 +1991,33 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'rennala', name: 'Rennala', eyebrow: 'Regina della Luna Piena',
     category: 'Personaggio', state: 'osservato', liveReadStatus: 'da-leggere',
-    summary: 'Regina della famiglia reale di Caria e governatrice dell’Accademia di Raya Lucaria, detta Strega della Luna Piena. Dopo l’addio di Radagon stringe un uovo d’ambra.',
-    body: 'Regina di Caria, governatrice di Raya Lucaria e Strega della Luna Piena. Dopo l’abbandono di Radagon e la ribellione dell’Accademia fu rinchiusa nella grande biblioteca. Ora culla l’uovo d’ambra lasciatole dal marito e si dedica alla reincarnazione.',
-    evidence: ['Guida la famiglia reale di Caria e l’Accademia di Raya Lucaria.', 'È detta Strega della Luna Piena.', 'Fu abbandonata da Radagon.', 'Dopo la ribellione dell’Accademia fu rinchiusa nella biblioteca.', 'Custodisce l’uovo d’ambra di Radagon.'],
-    questions: ['Che cosa permette davvero la tetra arte della reincarnazione?', 'Che cosa contiene l’uovo d’ambra?', 'Perché l’Accademia si ribellò?'],
-    tags: ['Rennala', 'Caria', 'Raya Lucaria', 'Luna Piena', 'uovo d’ambra', 'reincarnazione'], position: { x: 62, y: 94 },
+    summary: 'Regina di Caria rinchiusa nella biblioteca di Raya Lucaria: culla l’uovo d’ambra di Radagon e pratica una reincarnazione imperfetta; da sconfitta evoca una sua versione spiritica al pieno potere.',
+    body: 'Regina di Caria, governatrice di Raya Lucaria e Strega della Luna Piena. Dopo l’abbandono di Radagon e la ribellione dell’Accademia resta rinchiusa nella grande biblioteca, persa nei propri pensieri mentre culla l’uovo d’ambra lasciatole dal marito, con la statua dell’ex consorte ancora nella sala. Si dedica alla reincarnazione, ma imperfetta: i reincarnati nascono da culle malformati, senza uso degli arti inferiori, con corpi infantili da neonati, e cantano ninnananne per alleviare i dolori. Ferita a terra, viene difesa da uno spirito evocato da Ranni che proietta una Rennala spiritica al pieno della sua potenza; in questa fase possono comparire lupi, cavaliere limiere, gigante e drago.',
+    bodyHighlights: ['Dopo l’abbandono di Radagon e la ribellione dell’Accademia resta rinchiusa nella grande biblioteca, persa nei propri pensieri mentre culla l’uovo d’ambra lasciatole dal marito, con la statua dell’ex consorte ancora nella sala.', 'Si dedica alla reincarnazione, ma imperfetta: i reincarnati nascono da culle malformati, senza uso degli arti inferiori, con corpi infantili da neonati, e cantano ninnananne per alleviare i dolori.', 'Ferita a terra, viene difesa da uno spirito evocato da Ranni che proietta una Rennala spiritica al pieno della sua potenza; in questa fase possono comparire lupi, cavaliere limiere, gigante e drago.'],
+    imageUrl: './concepts/rennala.webp',
+    imageAlt: 'Rennala spiritica al pieno potere davanti alla luna piena, con lo scettro regale cariano',
+    imagePosition: '50% 30%',
+    externalLinks: [{ label: 'Immagine indicata per Rennala', url: 'https://static.wikia.nocookie.net/eldenring/images/c/c2/Regina_Rennala.png/revision/latest?cb=20220228223501&path-prefix=it' }],
+    textSections: [
+      {
+        title: 'Uovo d’ambra e Runa dei non nati',
+        text: 'L’uovo custodisce la Grande Runa dei semidei non nati, che perfeziona i rinati. I figli rinati da Rennala restano fragili e di breve vita: esseri imperfetti, uno per uno.',
+        highlighted: true,
+      },
+      {
+        title: 'Plenilunio di Rennala',
+        text: 'Stregoneria della regina cariana: incarna una luna piena e la lancia contro i nemici. Dissipa le stregonerie che tocca e riduce temporaneamente la negazione dei danni magici. Rennala incontrò questa luna da giovane e ne stregò poi l’Accademia.',
+        highlighted: true,
+      },
+      {
+        title: 'Scettro regale cariano',
+        text: 'Scettro di Rennala con Glintstone detta Blu di Caria, che potenzia le stregonerie di luna piena. Fra i bastoni di scintipietra è il più fine e richiede altissima intelligenza.',
+        highlighted: true,
+      },
+    ],
+    evidence: ['Guida la famiglia reale di Caria e l’Accademia di Raya Lucaria.', 'È detta Strega della Luna Piena.', 'Fu abbandonata da Radagon.', 'Dopo la ribellione dell’Accademia fu rinchiusa nella biblioteca.', 'Custodisce l’uovo d’ambra di Radagon.', 'I reincarnati escono malformati dalle culle, senza gambe funzionanti.', 'Cantano ninnananne per alleviare i dolori.', 'La seconda fase è uno spirito proiettato da un’evocazione di Ranni.', 'Le evocazioni osservate sono lupi, cavaliere limiere, gigante e drago.'],
+    questions: ['Che cosa permette davvero la tetra arte della reincarnazione?', 'Lupi, limiere e gigante richiamano Blaidd, Darriwil e Iji: quale quest segue lo stesso schema?', 'Perché l’Accademia si ribellò?'],
+    tags: ['Rennala', 'Caria', 'Raya Lucaria', 'Luna Piena', 'uovo d’ambra', 'reincarnazione', 'Ranni', 'Plenilunio', 'Scettro regale cariano'], position: { x: 62, y: 94 },
   },
   {
     id: 'radagon', name: 'Radagon', eyebrow: 'Campione dai capelli rossi',
@@ -2096,10 +2130,11 @@ const currentEpisodeConceptIds = new Set<string>([
   'varre', 'lord-del-sangue', 'rya', 'mercante-gamberi',
   'iji', 'ranni-principessa-lunare', 'radahn', 'soldati-marionetta',
   'maschere-scintipietra', 'corrente-primeva', 'ritratti-raya-lucaria',
+  'rennala', 'cavalieri-cariani',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
   'varre', 'lord-del-sangue', 'rya', 'ranni-principessa-lunare',
-  'radahn', 'maschere-scintipietra',
+  'radahn', 'maschere-scintipietra', 'rennala', 'cavalieri-cariani',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -3292,12 +3327,8 @@ export const connections: LoreConnection[] = [
     note: 'I ritratti e le maschere sono esposti nei principali saloni di Raya Lucaria.', kind: 'traccia',
   },
   {
-    id: 'ritratti-maschere', from: 'ritratti-raya-lucaria', to: 'maschere-scintipietra', label: 'somiglianze nei volti',
-    note: 'Alcuni studiosi dipinti ricordano le maschere di pietra appese nelle stesse sale; potrebbero rappresentare figure legate alle Epitomi.', kind: 'ipotesi',
-  },
-  {
-    id: 'ritratto-rennala', from: 'ritratti-raya-lucaria', to: 'rennala', label: 'possibile raffigurazione',
-    note: 'La figura regale dipinta sulla scalinata centrale potrebbe essere Rennala, ma l’identificazione resta da confermare.', kind: 'ipotesi',
+    id: 'ritratti-maschere', from: 'ritratti-raya-lucaria', to: 'maschere-scintipietra', label: 'volti ed Epitomi',
+    note: 'Le annotazioni accostano i ritratti a Karolos, Olivinus, Lazuli e Bisavi; per le stirpi di Azur e Lusat vedi le maschere.', kind: 'ipotesi',
   },
 ]
 

@@ -191,11 +191,11 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '19',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 196)
-assert.equal(await page.locator('.thread-layer line').count(), 392)
-assert.equal(await page.locator('.relation-list button').count(), 196)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 97)
-assert.equal(await page.locator('.concept-image--placeholder').count(), 6)
+assert.equal(await page.locator('.thread-layer g').count(), 195)
+assert.equal(await page.locator('.thread-layer line').count(), 390)
+assert.equal(await page.locator('.relation-list button').count(), 195)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 98)
+assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
   [
@@ -204,7 +204,6 @@ assert.deepEqual(
     'Profezia della Leggidita',
     'Marchio del Centipede',
     'Principesse cariane',
-    'Rennala',
   ],
 )
 await page.locator('.concept-card img').evaluateAll((images) => {
@@ -229,8 +228,8 @@ assert.deepEqual(
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*3/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*53/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*14/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 92)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 11)
+assert.equal(await page.locator('.concept-card.is-read').count(), 90)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 13)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -314,8 +313,8 @@ assert.match(
   (await page.locator('.concept-card.is-unread').filter({ hasText: 'Maschere di scintipietra' }).textContent()) || '',
   /scuole/i,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /11/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*11/)
+assert.match(await page.locator('.board-live-note').textContent(), /13/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*13/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()

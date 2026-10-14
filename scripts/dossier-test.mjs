@@ -11,7 +11,7 @@ try {
   await page.evaluate(() => document.fonts.ready)
   assert.equal(await page.locator('#dossier-page-title').textContent(), 'Stregoneria')
   assert.equal(await page.locator('.dossier-note').count(), 14)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 6)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 8)
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Accademia di Raya Lucaria')
   await page.getByRole('button', { name: 'Apri Iji', exact: true }).click()
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Nuova/)
@@ -76,27 +76,35 @@ try {
 
   await groupButtons.nth(3).click()
   assert.equal(await page.locator('.dossier-note').count(), 14)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 6)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 8)
   await page.getByRole('button', { name: 'Apri Accademia di Raya Lucaria', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /neutralità.*sigilli.*Chiave di scintipietra/is)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
   await page.getByRole('button', { name: 'Apri Maschere di scintipietra', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Epitome dei Bisavi.*Cometa di scintipietra.*Scoppio cristalliano/is)
   assert.match(await page.locator('.dossier-detail').textContent(), /Epitome di Karolos.*Scheggia di cometa.*Pioggia di stelle/is)
-  assert.equal(await page.locator('.dossier-gallery').count(), 2)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Olivinus.*Lusat.*meteore/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Karolos.*Azur.*comete/is)
+  assert.equal(await page.locator('.dossier-gallery').count(), 4)
   await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri Ritratti di Raya Lucaria', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /saloni principali.*Rennala.*somiglianze.*identificazioni certe/is)
-  assert.equal(await page.locator('.dossier-gallery').count(), 2)
+  assert.match(await page.locator('.dossier-detail').textContent(), /quattro ritratti.*Karolos.*Olivinus.*Lazuli.*Bisavi/is)
+  assert.equal(await page.locator('.dossier-gallery').count(), 1)
   await page.locator('.dossier-detail-scroll img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
-  assert.equal(await page.locator('.dossier-detail-scroll .image-open-button').count(), 3)
-  const portraitLightboxTrigger = page.getByRole('button', { name: 'Ingrandisci: Studiosi e maschere · possibili corrispondenze tra volti ed Epitomi', exact: true })
+  assert.equal(await page.locator('.dossier-detail-scroll .image-open-button').count(), 2)
+  const portraitLightboxTrigger = page.getByRole('button', { name: 'Ingrandisci: Figura femminile · stessa scintipietra della stregona incontrata', exact: true })
   await portraitLightboxTrigger.click()
   await page.locator('.image-lightbox[open]').waitFor()
-  assert.equal(await page.locator('.image-lightbox__image').evaluate(image => image.naturalWidth), 1920)
+  assert.equal(await page.locator('.image-lightbox__image').evaluate(image => image.naturalWidth), 1030)
   await page.locator('.image-lightbox__image').click()
   await page.locator('.image-lightbox').waitFor({ state: 'detached' })
   assert.equal(await page.evaluate(() => document.activeElement.getAttribute('aria-label')), await portraitLightboxTrigger.getAttribute('aria-label'))
+  await page.getByRole('button', { name: 'Apri Rennala', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /uovo d’ambra.*reincarnazione.*imperfe/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Ranni.*spiritica.*pieno.*potenza/is)
+  assert.equal(await page.locator('.dossier-text-section').count(), 3)
+  await page.getByRole('button', { name: 'Apri Cavalieri cariani', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /scudo.*goccia.*magia.*sacro/is)
   await page.getByRole('button', { name: 'Apri Soldati Marionetta', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /creat[ei].*stregone.*Raya Lucaria.*cariana/is)
   await page.getByRole('button', { name: 'Apri Corrente Primeva', exact: true }).click()
@@ -184,13 +192,15 @@ try {
     ['maschere-scintipietra', 'Aggiornata'],
     ['corrente-primeva', 'Nuova'],
     ['soldati-marionetta', 'Nuova'],
+    ['rennala', 'Aggiornata'],
     ['ranni-principessa-lunare', 'Aggiornata'],
     ['iji', 'Nuova'],
+    ['cavalieri-cariani', 'Aggiornata'],
     ['rya', 'Aggiornata'],
     ['mercante-gamberi', 'Nuova'],
     ['lord-del-sangue', 'Aggiornata'],
   ]
-  await page.getByRole('button', { name: '11 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '13 da leggere', exact: true }).click()
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
@@ -218,7 +228,7 @@ try {
   assert.match(await page.locator('.dossier-detail').textContent(), /seconda Sellen/i)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
-  assert.equal(await page.locator('.dossier-note').count(), 6)
+  assert.equal(await page.locator('.dossier-note').count(), 8)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
   assert.equal(await page.locator('.dossier-note').count(), 14)
   await page.getByRole('searchbox').fill('nessun-risultato-inesistente')
@@ -309,7 +319,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 103 cards, 11 unread, including the Raya Lucaria portrait study, spoiler-safe references, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 103 cards, 13 unread, including the Raya Lucaria portrait study, spoiler-safe references, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }
