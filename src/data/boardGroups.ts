@@ -3,16 +3,17 @@ import { concepts } from './project'
 export const boardGroups = [
   { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'assassine-neri-coltelli', 'runa-della-morte', 'maliketh-lama-nera', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'albero-genealogico-aureo', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato', 'torri-divine'] },
   { id: 'senzaluce', label: 'Senzaluce', conceptIds: ['senzaluce', 'frenesia', 'grazia', 'vergini-delle-dita', 'melina', 'hoarah-loux', 'goldmask', 'mangiasterco', 'varre', 'strega-sconosciuta'] },
-  { id: 'primi-incontri', label: 'Primi incontri', conceptIds: ['mercante-kale', 'patches', 'yura', 'kenneth-haight', 'medaglione-dectus', 'mezzolupo', 'boc', 'roderika', 'galere-eterne'] },
-  { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'ritratti-raya-lucaria', 'maschere-scintipietra', 'corrente-primeva', 'soldati-marionetta', 'scintipietra', 'sellen', 'rennala', 'ranni-principessa-lunare', 'iji', 'radagon', 'principesse-cariane', 'cavalieri-cariani', 'guerra-civile-liurnia'] },
-  { id: 'liurnia-lacustre', label: 'Liurnia Lacustre', conceptIds: ['liurnia-lacustre', 'chiesa-dei-voti', 'miriel', 'hyetta', 'thops', 'rya', 'mercante-gamberi', 'incubi-di-red'] },
+  { id: 'primi-incontri', label: 'Sepolcride', conceptIds: ['mercante-kale', 'patches', 'yura', 'kenneth-haight', 'medaglione-dectus', 'mezzolupo', 'boc', 'roderika', 'galere-eterne'] },
+  { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'ritratti-raya-lucaria', 'maschere-scintipietra', 'corrente-primeva', 'cristalliani', 'azur', 'soldati-marionetta', 'scintipietra', 'sellen', 'rennala', 'ranni-principessa-lunare', 'iji', 'radagon', 'principesse-cariane', 'cavalieri-cariani', 'guerra-civile-liurnia'] },
+  { id: 'liurnia-lacustre', label: 'Liurnia Lacustre', conceptIds: ['liurnia-lacustre', 'chiesa-dei-voti', 'miriel', 'cacciatore-globi-cinerei', 'hyetta', 'thops', 'rya', 'mercante-gamberi', 'incubi-di-red'] },
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
   { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'draghi-antichi', 'statue-chiese-marika'] },
-  { id: 'caelid', label: 'Caelid', conceptIds: ['caelid', 'palude-aeonia', 'marcescenza', 'sellia', 'alexander-vaso-guerriero'] },
+  { id: 'caelid', label: 'Caelid e Dracotumulo', conceptIds: ['caelid', 'dracotumulo', 'palude-aeonia', 'marcescenza', 'sellia', 'alexander-vaso-guerriero'] },
   { id: 'siofra-civilta-antiche', label: 'Fiumi e civiltà antiche', conceptIds: ['fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica', 'citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
   { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'radici-mortali', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'lord-del-sangue', 'gurranq'] },
   { id: 'grantempesta', label: 'Grantempesta', conceptIds: ['margit', 'rogier', 'antica-grantempesta', 'progenie-innestata', 'nepheli-loux', 'serosh'] },
+  { id: 'farum-azula', label: 'Farum Azula', conceptIds: ['farum-azula-in-frantumi'] },
 ]
 
 // Newly added concepts remain reachable even before receiving a curated group.

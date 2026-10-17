@@ -25,10 +25,10 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
-Le sei novità precedenti non sono ancora state lette. A queste si aggiungono
-Soldati Marionetta, gli studi gravitazionali di Radahn, l’Epitome di Karolos, la
-Corrente Primeva e l’indagine sui ritratti di Raya Lucaria: il totale è di 103
-schede, 92 già lette e undici da leggere. Le
+L’archivio contiene 108 schede: 98 già lette e dieci da leggere. Sono nuove
+Dracotumulo, Cacciatore di Globi Cinerei, Cristalliani, Azur e Farum Azula in
+Frantumi; Torri Divine, Tavola Rotonda, Radagon, Maschere di scintipietra e Thops
+sono state ampliate. Le
 note mantengono una separazione netta: identità, lore e ipotesi sulla lavagna;
 azioni compiute, posizioni e prossimi passi nel Questbook. Quando un fatto è già
 spiegato altrove, il testo rimanda alla scheda dedicata.
@@ -42,8 +42,9 @@ dichiaratamente tali.
 
 La pagina **The Big Boys** raccoglie i portatori di Rune Maggiori conosciuti e
 permette di depennare quelli sconfitti. Lo stato resta nel browser del visitatore.
-Il diario contiene 23 quest: 21 in corso e due concluse. Le novità correnti sono
-gli avanzamenti di Varré, Blaidd e Rya.
+Il diario contiene 23 quest: 20 in corso e tre concluse. L’unica novità corrente
+è la conclusione della quest di Thops: tornato all’Accademia, ha dato vita a una
+barriera degna di un nuovo conspectus ed è stato ritrovato morto alla sua scrivania.
 
 ### Build Lab
 

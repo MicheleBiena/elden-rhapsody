@@ -85,7 +85,6 @@ export const quests: QuestEntry[] = [
     npc: "Araldi delle Rune Maggiori",
     region: "Interregno",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
     lastSeen: {
@@ -194,7 +193,6 @@ export const quests: QuestEntry[] = [
     npc: "Varré",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Dopo tre invasioni e la prova del sangue di vergine, Varré ci consacra come Dito Sanguinante di Mohg e ci affida una medaglia per ottenere udienza.",
 
@@ -380,7 +378,6 @@ export const quests: QuestEntry[] = [
     npc: "Blaidd il Mezzolupo",
     region: "Liurnia",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Seguendo l’indicazione di Blaidd abbiamo incontrato Iji, fabbro dei reali cariani, che ci avverte della trappola ancora attiva presso il maniero.",
     lastSeen: {
@@ -949,16 +946,13 @@ export const quests: QuestEntry[] = [
     title: "Un maestro senza allievo",
     npc: "Thops",
     region: "Liurnia Lacustre",
-    status: "in-corso",
+    status: "conclusa",
+    updateKind: "aggiornata",
     summary:
-      "Abbiamo trovato una Chiave di scintipietra e possiamo entrare nell’Accademia. Thops rifiuta di privarci di questo onore: ne accetterà soltanto un’altra.",
+      "Consegnata la seconda Chiave di scintipietra, Thops torna a Raya Lucaria e completa una barriera degna di una nuova Epitome. Lo ritroviamo morto alla sua scrivania.",
     lastSeen: {
-      location: "Chiesa di Irith, Liurnia Lacustre",
-      note: "È seduto nella chiesa e insegna alcuni incantesimi di scintipietra.",
-    },
-    destination: {
       location: "Accademia di Raya Lucaria",
-      note: "Per entrarvi occorre una Chiave di scintipietra; Thops spera di riceverne un esemplare aggiuntivo.",
+      note: "Giace senza vita alla sua scrivania, accanto alla stregoneria che ha creato.",
     },
     steps: [
       {
@@ -981,16 +975,27 @@ export const quests: QuestEntry[] = [
         title: "La prima chiave",
         text: "Troviamo una Chiave di scintipietra che ci permette di entrare a Raya Lucaria. Thops rifiuta di prenderla e insiste perché usiamo noi questa occasione; accetterebbe soltanto un secondo esemplare.",
       },
+      {
+        title: "Il ritorno all’Accademia",
+        text: "Gli consegniamo una seconda chiave. In lacrime per la gioia, Thops ci ringrazia e parte finalmente per Raya Lucaria.",
+      },
+      {
+        title: "Una nuova Epitome",
+        text: "Lo ritroviamo morto alla sua scrivania. Prima di morire ha completato la Barriera di Thops, capace di deviare stregonerie e incantesimi: una scoperta che le generazioni future riterranno degna di una nuova Epitome.",
+      },
     ],
-    nextStep: {
-      text: "Esplorare l’Accademia e cercare una seconda Chiave di scintipietra da consegnare a Thops.",
-      hypothetical: false,
-    },
     portrait: {
       imageUrl: "./concepts/thops.jpg",
       imageAlt: "Thops seduto su una panca con le vesti da studioso di scintipietra",
       imagePosition: "50% 34%",
     },
+    gallery: [
+      {
+        imageUrl: "./concepts/barriera-thops.png",
+        imageAlt: "Icona della Barriera di Thops",
+        caption: "Barriera di Thops · la sua eredità accademica",
+      },
+    ],
     linkedConceptIds: ["thops", "accademia-raya-lucaria", "scintipietra", "liurnia-lacustre"],
   },
   {
@@ -999,7 +1004,6 @@ export const quests: QuestEntry[] = [
     npc: "Rya l’esploratrice",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Recuperato il medaglione, Rya rivela di servire Lady Tanith e ci invita ufficialmente a Villa Vulcano sull’Altopiano di Altus.",
     lastSeen: {

@@ -18,12 +18,12 @@ try {
     'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'fia', 'roderika',
     'renna', 'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops', 'rya', 'ehi-cuggi',
   ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['big-boys', 'varre', 'blaidd', 'rya'])
+  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['thops'])
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 4)
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 1)
   assert.equal(await page.locator('.quest-index-update--nuova').count(), 0)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
-  assert.match(await page.locator('.questbook-count').textContent(), /21 in corso/)
+  assert.match(await page.locator('.questbook-count').textContent(), /20 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /abbastanza Rune Maggiori.*Leyndell/i)
   assert.match(await page.locator('.quest-whereabouts').textContent(), /Melina ci aspetta nella capitale/)
   assert.match(await page.locator('.quest-history').textContent(), /Margit scompare in una luce dorata/)
@@ -127,7 +127,7 @@ try {
     { id: 'patches', title: 'Con amici come questi', lastSeen: 'Grotta di Acquafosca', destination: 'Non ancora nota', step: /trappola di trasferimento/i, links: 1, image: true },
     { id: 'yura', title: 'Il cacciatore solitario', lastSeen: 'Costa di Acquafosca', destination: 'Non ancora nota', step: /Nerijus.*Dita Sanguinanti/is, links: 1, image: true },
     { id: 'hyetta', title: 'Grant Us Eyes', lastSeen: 'Rovine Purificate, Liurnia Lacustre', destination: 'Non ancora nota', step: /bulbi oculari.*Rovine Purificate/is, links: 3, image: true, gallery: 2 },
-    { id: 'thops', title: 'Un maestro senza allievo', lastSeen: 'Chiesa di Irith, Liurnia Lacustre', destination: 'Accademia di Raya Lucaria', step: /dieci rune.*sigillò.*Chiave di scintipietra/is, links: 4, image: true },
+    { id: 'thops', title: 'Un maestro senza allievo', lastSeen: 'Accademia di Raya Lucaria', destination: 'Non ancora nota', step: /seconda chiave.*lacrime.*Barriera di Thops.*nuova Epitome/is, links: 4, image: true, gallery: 1, status: 'Terminata' },
     { id: 'rya', title: 'Family’s complicated', lastSeen: 'Centro di Liurnia Lacustre', destination: 'Altopiano di Altus', step: /medaglione.*Mercante di gamberi.*Villa Vulcano.*Due vie verso Altus/is, links: 4, image: true, gallery: 1 },
     { id: 'ehi-cuggi', title: 'EHI CUGGI', lastSeen: 'Vasburgo, Liurnia Lacustre', destination: 'Non ancora nota', step: /Potentato.*assoluzione|assoluzione/is, links: 4, image: true },
   ]
@@ -145,7 +145,7 @@ try {
     }
     assert.equal(await page.locator('.quest-status').textContent(), quest.status || 'In corso')
     if (['alexander', 'sellen', 'kenneth', 'nepheli'].includes(quest.id)) assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
-    if (['fia', 'roderika', 'renna', 'd', 'edgar-irina', 'patches', 'yura'].includes(quest.id)) {
+    if (['fia', 'roderika', 'renna', 'd', 'edgar-irina', 'patches', 'yura', 'thops'].includes(quest.id)) {
       assert.equal(await page.locator('.quest-next-step').count(), 0, 'No invented follow-up for an unknown destination')
     }
     if (quest.id === 'rogier') assert.match(await page.locator('.quest-next-step').textContent(), /dimora reale cariana.*Ranni.*marchio maledetto/i)
@@ -153,7 +153,6 @@ try {
     if (quest.id === 'gurranq') assert.match(await page.locator('.quest-next-step').textContent(), /radici mortali/)
     if (quest.id === 'diallos') assert.match(await page.locator('.quest-next-step').textContent(), /Trovare Lanya/)
     if (quest.id === 'hyetta') assert.match(await page.locator('.quest-next-step').textContent(), /Uve di Shabriri/)
-    if (quest.id === 'thops') assert.match(await page.locator('.quest-next-step').textContent(), /seconda Chiave di scintipietra/)
     if (quest.id === 'rya') assert.match(await page.locator('.quest-next-step').textContent(), /tunnel.*Medaglione di Dectus.*Villa Vulcano/i)
     if (quest.id === 'ehi-cuggi') assert.match(await page.locator('.quest-next-step').textContent(), /mani.*Potentato|Potentato/i)
     if (quest.id === 'edgar-irina') {
@@ -162,12 +161,13 @@ try {
     }
   }
   await page.getByRole('button', { name: 'Chiuse', exact: true }).click()
-  assert.equal(await page.locator('.quest-index-link').count(), 2)
+  assert.equal(await page.locator('.quest-index-link').count(), 3)
   assert.equal(await page.locator('[data-quest-id="roderika"]').count(), 1)
   assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 1)
+  assert.equal(await page.locator('[data-quest-id="thops"]').count(), 1)
   assert.equal(await page.locator('[data-quest-id="ehi-cuggi"]').count(), 0, 'EHI CUGGI was absolved and reopened')
   await page.getByRole('button', { name: 'In corso', exact: true }).click()
-  assert.equal(await page.locator('.quest-index-link').count(), 21)
+  assert.equal(await page.locator('.quest-index-link').count(), 20)
   assert.equal(await page.locator('[data-quest-id="edgar-irina"]').count(), 0)
   await page.getByRole('button', { name: 'Chiuse', exact: true }).click()
   await page.locator('[data-quest-id="edgar-irina"]').click()
@@ -195,7 +195,7 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 4)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 1)
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
@@ -220,7 +220,7 @@ try {
   await page.locator('a.nav-tab[href="#/build"]').click()
   await page.locator('.build-lab').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '13 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '10 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -315,7 +315,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: twenty-one active quests, two complete, Big Boys, Varré, Blaidd and Rya updated, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
+  console.log('Questbook passed: twenty active quests, three complete, Thops updated, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()

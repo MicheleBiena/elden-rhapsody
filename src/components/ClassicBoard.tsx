@@ -38,7 +38,15 @@ const newestEpisodeBoardHeight = 15500
 const previousFullBoardHeight = 17000
 const lastFullBoardHeight = 19000
 const previousBoardCanvasHeight = 21000
-const boardHeight = 23000
+const latestBoardCanvasHeight = 23000
+const boardHeight = 25000
+const currentLiveLayoutConceptIds = new Set([
+  'dracotumulo',
+  'cacciatore-globi-cinerei',
+  'cristalliani',
+  'azur',
+  'farum-azula-in-frantumi',
+])
 const freshEpisodeLayoutConceptIds = new Set([
   'soldati-marionetta',
   'corrente-primeva',
@@ -165,7 +173,8 @@ const defaultPositions = Object.fromEntries(
   concepts.map((concept) => {
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
-    if (freshEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (currentLiveLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (freshEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (latestBoardCanvasHeight / boardHeight) }]
     if (lastEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousBoardCanvasHeight / boardHeight) }]
     if (newEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (lastFullBoardHeight / boardHeight) }]
     if (currentEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousFullBoardHeight / boardHeight) }]
@@ -220,6 +229,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const currentBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v18')
+    if (currentBoardSaved) {
+      return migrateBoardPositions(
+        JSON.parse(currentBoardSaved) as Record<string, BoardPosition>,
+        latestBoardCanvasHeight,
+        true,
+      )
+    }
+
     const latestBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v17')
     if (latestBoardSaved) {
       return migrateBoardPositions(
@@ -424,6 +442,7 @@ const boardConceptOrder = [
   'radahn',
   'godrick-innestato',
   'torri-divine',
+  'dracotumulo',
   'senzaluce',
   'frenesia',
   'grazia',
@@ -452,6 +471,8 @@ const boardConceptOrder = [
   'accademia-raya-lucaria',
   'ritratti-raya-lucaria',
   'maschere-scintipietra',
+  'cristalliani',
+  'azur',
   'thops',
   'rya',
   'incubi-di-red',
@@ -502,6 +523,7 @@ const boardConceptOrder = [
   'nepheli-loux',
   'miriel',
   'chiesa-dei-voti',
+  'cacciatore-globi-cinerei',
   'rennala',
   'ranni-principessa-lunare',
   'radagon',
@@ -509,6 +531,7 @@ const boardConceptOrder = [
   'iji',
   'soldati-marionetta',
   'corrente-primeva',
+  'farum-azula-in-frantumi',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -532,8 +555,8 @@ const previousBoardZones = [
   },
   {
     id: 'primi-incontri',
-    label: 'Primi incontri nel viaggio',
-    note: 'Mercanti, richieste e prigioni incontrate nel viaggio',
+    label: 'Sepolcride',
+    note: 'Mercanti, richieste e prigioni della prima regione',
     top: 27.491,
     height: 4.336,
   },
@@ -604,7 +627,8 @@ const boardZones = [
   { id: 'ainsel-nokstella', label: 'Ainsel e Nokstella', note: '', top: 91 * previousFullBoardHeight / boardHeight, height: 9 * previousFullBoardHeight / boardHeight },
   { id: 'congiura-parentele', label: 'Congiura e parentele', note: '', top: 91 * lastFullBoardHeight / boardHeight, height: 9 * lastFullBoardHeight / boardHeight },
   { id: 'sangue-strade-liurnia', label: 'Sangue e strade di Liurnia', note: '', top: 91 * previousBoardCanvasHeight / boardHeight, height: 9 * previousBoardCanvasHeight / boardHeight },
-  { id: 'nuovi-studi-raya-lucaria', label: 'Nuovi studi di Raya Lucaria', note: '', top: previousBoardCanvasHeight / boardHeight * 100, height: (boardHeight - previousBoardCanvasHeight) / boardHeight * 100 },
+  { id: 'nuovi-studi-raya-lucaria', label: 'Nuovi studi di Raya Lucaria', note: '', top: previousBoardCanvasHeight / boardHeight * 100, height: (latestBoardCanvasHeight - previousBoardCanvasHeight) / boardHeight * 100 },
+  { id: 'mappe-stregoneria-tempeste', label: 'Mappe, stregoneria e tempeste', note: '', top: latestBoardCanvasHeight / boardHeight * 100, height: (boardHeight - latestBoardCanvasHeight) / boardHeight * 100 },
 ]
 
 interface ConceptBoardProps {
@@ -625,7 +649,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v18',
+    'elden-rhapsody:board-positions-v19',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()
