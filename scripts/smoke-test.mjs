@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 108)
+assert.equal(await page.locator('.concept-card').count(), 110)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -72,7 +72,6 @@ assert.deepEqual(
     'Goldmask',
     'Mangiasterco',
     'Varré',
-    'Strega Renna',
     'Due Dita',
     'Volontà Superiore',
     'Profezia della Leggidita',
@@ -130,7 +129,7 @@ assert.deepEqual(
   'Fiume Ainsel',
   'Soldato Draconico di Nokstella',
   'Bestia meteoritica non identificata',
-  'Seguaci ancestrali',
+  'Culto ancestrale',
     'Alexander, Vaso Guerriero',
     'Gurranq, bestia ecclesiastica',
     'L’antica Grantempesta',
@@ -152,10 +151,13 @@ assert.deepEqual(
     'Soldati Marionetta',
     'Corrente Primeva',
     'Farum Azula in Frantumi',
+    '“Ragno-Mani”',
+    'Guardia Reale Loretta',
+    'Seluvis',
   ],
 )
 assert.match(await page.locator('.board-origin-note').textContent(), /Da qui inizia il gioco/)
-assert.equal(await page.locator('.board-zone').count(), 20)
+assert.equal(await page.locator('.board-zone').count(), 21)
 assert.match(await page.locator('.board-zones').textContent(), /Ordine spezzato/)
 assert.match(await page.locator('.board-zones').textContent(), /Chiamata dei Senzaluce/)
 assert.match(await page.locator('.board-zones').textContent(), /Sepolcride/)
@@ -175,6 +177,7 @@ assert.match(await page.locator('.board-zones').textContent(), /Congiura e paren
 assert.match(await page.locator('.board-zones').textContent(), /Sangue e strade di Liurnia/)
 assert.match(await page.locator('.board-zones').textContent(), /Nuovi studi di Raya Lucaria/)
 assert.match(await page.locator('.board-zones').textContent(), /Mappe, stregoneria e tempeste/)
+assert.match(await page.locator('.board-zones').textContent(), /Caria, stelle e spiriti/)
 assert.deepEqual(await page.locator('.board-zone__heading small').allTextContents(), [
   '01',
   '02',
@@ -196,12 +199,13 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '18',
   '19',
   '20',
+  '21',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 204)
-assert.equal(await page.locator('.thread-layer line').count(), 408)
-assert.equal(await page.locator('.relation-list button').count(), 204)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 103)
+assert.equal(await page.locator('.thread-layer g').count(), 212)
+assert.equal(await page.locator('.thread-layer line').count(), 424)
+assert.equal(await page.locator('.relation-list button').count(), 212)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 105)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
@@ -233,10 +237,10 @@ assert.deepEqual(
   [],
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*3/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*56/)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*57/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*16/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 98)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 10)
+assert.equal(await page.locator('.concept-card.is-read').count(), 91)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 19)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -306,12 +310,12 @@ assert.match(
   (await page.locator('.concept-card.is-unread').filter({ hasText: 'Dracotumulo' }).textContent()) || '',
   /draghi.*marcescenza/is,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /10/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*10/)
+assert.match(await page.locator('.board-live-note').textContent(), /19/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*19/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Torri Divine')
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Radahn')
 assert.ok(await page.locator('.live-update-highlight').count() > 0)
 assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 0)
 await page.locator('.dialog-close').click()
@@ -552,11 +556,13 @@ assert.deepEqual(await zoomedDesktop.locator('.board-zone__heading small').allTe
   '18',
   '19',
   '20',
+  '21',
 ])
 await zoomedDesktop.close()
 
 const migratedBoard = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await migratedBoard.addInitScript(() => {
+  localStorage.removeItem('elden-rhapsody:board-positions-v20')
   localStorage.removeItem('elden-rhapsody:board-positions-v19')
   localStorage.removeItem('elden-rhapsody:board-positions-v18')
   localStorage.removeItem('elden-rhapsody:board-positions-v17')
@@ -582,18 +588,19 @@ const migratedPosition = await migratedBoard.locator('.concept-card').first().ev
   top: Number.parseFloat(card.style.top),
 }))
 assert.equal(migratedPosition.left, 51)
-assert.ok(Math.abs(migratedPosition.top - (52 * 8000 / 25000)) < 0.01)
-await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v19'))
+assert.ok(Math.abs(migratedPosition.top - (52 * 8000 / 27000)) < 0.01)
+await migratedBoard.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v20'))
 assert.equal(
   await migratedBoard.evaluate(() =>
-    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v19') || '{}')).length,
+    Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v20') || '{}')).length,
   ),
-  108,
+  110,
 )
 await migratedBoard.close()
 
 const currentMigration = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await currentMigration.addInitScript(() => {
+  localStorage.removeItem('elden-rhapsody:board-positions-v20')
   localStorage.removeItem('elden-rhapsody:board-positions-v19')
   localStorage.removeItem('elden-rhapsody:board-positions-v18')
   localStorage.removeItem('elden-rhapsody:board-positions-v17')
@@ -616,20 +623,20 @@ const preservedPosition = await currentMigration.locator('.concept-card').filter
   top: Number.parseFloat(card.style.top),
 }))
 assert.equal(preservedPosition.left, 42)
-assert.ok(Math.abs(preservedPosition.top - (61 * 15500 / 25000)) < 0.01)
+assert.ok(Math.abs(preservedPosition.top - (61 * 15500 / 27000)) < 0.01)
 assert.equal(
   await currentMigration.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v13')),
   JSON.stringify({ irina: { x: 42, y: 61 } }),
 )
-await currentMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v19'))
+await currentMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v20'))
 await currentMigration.close()
 
 const previousBoardMigration = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 await previousBoardMigration.addInitScript(() => {
-  localStorage.removeItem('elden-rhapsody:board-positions-v19')
+  localStorage.removeItem('elden-rhapsody:board-positions-v20')
   localStorage.setItem('elden-rhapsody:board-view', JSON.stringify('classic'))
   localStorage.setItem(
-    'elden-rhapsody:board-positions-v18',
+    'elden-rhapsody:board-positions-v19',
     JSON.stringify({ iji: { x: 44, y: 92 } }),
   )
 })
@@ -639,12 +646,12 @@ const previousBoardPosition = await previousBoardMigration.locator('.concept-car
   top: Number.parseFloat(card.style.top),
 }))
 assert.equal(previousBoardPosition.left, 44)
-assert.ok(Math.abs(previousBoardPosition.top - (92 * 23000 / 25000)) < 0.01)
+assert.ok(Math.abs(previousBoardPosition.top - (92 * 25000 / 27000)) < 0.01)
 assert.equal(
-  await previousBoardMigration.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v18')),
+  await previousBoardMigration.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v19')),
   JSON.stringify({ iji: { x: 44, y: 92 } }),
 )
-await previousBoardMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v19'))
+await previousBoardMigration.waitForFunction(() => localStorage.getItem('elden-rhapsody:board-positions-v20'))
 await previousBoardMigration.close()
 
 const mobile = await browser.newPage({ viewport: { width: 375, height: 812 } })

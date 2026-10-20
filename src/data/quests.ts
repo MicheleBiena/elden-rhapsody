@@ -374,48 +374,69 @@ export const quests: QuestEntry[] = [
   },
   {
     id: "blaidd",
-    title: "Berserk",
-    npc: "Blaidd il Mezzolupo",
-    region: "Liurnia",
+    title: "Era delle Stelle",
+    npc: "Ranni e i suoi seguaci",
+    region: "Liurnia, Siofra e Caelid",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Seguendo l’indicazione di Blaidd abbiamo incontrato Iji, fabbro dei reali cariani, che ci avverte della trappola ancora attiva presso il maniero.",
+      "Renna è Ranni. Entrati al suo servizio, cerchiamo il tesoro di Nokron; per rimettere in moto le stelle e il suo destino dovremo affrontare Radahn.",
     lastSeen: {
-      location: "Strada per il Maniero Cariano, Liurnia",
-      note: "Qui incontriamo Iji, l’alleato indicato da Blaidd.",
+      location: "Fiume Siofra",
+      note: "Blaidd comprende che Nokron si trova troppo in alto per essere raggiunta direttamente dal fiume.",
     },
     destination: {
-      location: "Maniero Cariano, Liurnia nord-occidentale",
-      note: "Iji sconsiglia di avvicinarsi: una trappola incantata respinse i Cavalieri del Cuculo e protegge ancora la dimora.",
+      location: "Castello Mantorosso, Caelid",
+      note: "Blaidd ci attende al festival di combattimento: il bersaglio è Radahn, colui che tiene ferme le stelle.",
     },
     steps: [
       {
-        title: "Darriwil",
-        text: "Aiutiamo Blaidd ad affrontare Darriwil nella Galera eterna del limiere alacre.",
+        title: "Blaidd e Iji",
+        text: "Dopo aver sconfitto Darriwil insieme a Blaidd, incontriamo Iji, fabbro dei reali cariani e suo alleato.",
       },
       {
-        title: "L’indicazione del fabbro",
-        text: "Dopo Darriwil, Blaidd ci indirizza verso un fabbro gigante a nord.",
+        title: "La vera identità di Renna",
+        text: "Nel Maniero Cariano incontriamo Ranni: è la strega che si era presentata come Renna. Accettiamo di servirla e di cercare il tesoro custodito a Nokron, la Città Eterna.",
       },
       {
-        title: "Iji",
-        text: "Incontriamo Iji, antico fabbro della famiglia reale cariana e alleato di Blaidd. Saputo chi ci manda, ci permette di accedere a nuovi beni.",
+        title: "I tre seguaci",
+        text: "Ranni ci presenta Blaidd, Iji e Seluvis. Blaidd parte per cercare Nokron dal Siofra; Seluvis ci indirizza da Sellen.",
       },
       {
-        title: "Il pericolo del Maniero Cariano",
-        text: "Iji racconta che i Cavalieri del Cuculo avanzarono fino al maniero dopo la rottura fra Accademia e reali cariani. Furono respinti da una trappola incantata ancora attiva.",
+        title: "Nokron fuori portata",
+        text: "Raggiungiamo Blaidd al Siofra. La Città Eterna è visibile, ma troppo in alto: manca ancora un accesso.",
+      },
+      {
+        title: "Il destino fermato",
+        text: "Sellen spiega che le stelle regolano il destino dei reali cariani. Radahn ne ha arrestato il moto: soltanto la sua morte permetterebbe alle stelle e al destino di Ranni di riprendere il corso.",
+      },
+      {
+        title: "Il festival di Radahn",
+        text: "Informato della scoperta, Blaidd parte per Castello Mantorosso, dove un festival di combattimento offre l’occasione di affrontare Radahn.",
       },
     ],
     nextStep: {
-      text: "Esplorare la strada verso il Maniero Cariano tenendo conto dell’avvertimento di Iji.",
+      text: "Raggiungere Blaidd a Castello Mantorosso, partecipare al festival e sconfiggere Radahn.",
       hypothetical: false,
     },
     portrait: {
-      imageUrl: "./concepts/mezzolupo.jpg",
-      imageAlt: "Blaidd il Mezzolupo in armatura con una grande spada",
+      imageUrl: "./concepts/strega-sconosciuta.webp",
+      imageAlt: "Ranni nella sua forma di bambola, sotto un grande cappello",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["mezzolupo", "galere-eterne", "iji", "guerra-civile-liurnia", "ranni-principessa-lunare"],
+    gallery: [
+      {
+        imageUrl: "./concepts/seluvis.webp",
+        imageAlt: "Seluvis con maschera e grande cappello nella propria torre",
+        caption: "Seluvis · stregone cariano al servizio di Ranni",
+      },
+      {
+        imageUrl: "./concepts/maschera-lupo-nero.png",
+        imageAlt: "Maschera nera che riproduce la testa di Blaidd",
+        caption: "Maschera del lupo nero · qualcuno ha imitato Blaidd",
+      },
+    ],
+    linkedConceptIds: ["ranni-principessa-lunare", "mezzolupo", "iji", "seluvis", "sellen", "radahn", "citta-eterna"],
   },
   {
     id: "rogier",
@@ -423,15 +444,16 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Rogier ha esaminato il Grafopugnale Nero e identifica Ranni come artefice del rito. Ora cerca il suo marchio maledetto della Morte Fatidica.",
+      "Ranni ha abbandonato il proprio corpo fisico: il marchio cercato da Rogier deve trovarsi su quella carne. Su suo consiglio siamo entrati al servizio della principessa.",
     lastSeen: {
       location: "Tavola Rotonda",
       note: "È seduto e mostra sul corpo tracce evidenti del morbo mortale.",
     },
     destination: {
-      location: "Dimora reale cariana, a nord di Raya Lucaria",
-      note: "Rogier sospetta che Ranni possa essere tornata nella casa in cui nacque.",
+      location: "Corpo fisico abbandonato di Ranni",
+      note: "Il marchio maledetto non è sulla bambola: occorre rintracciare la carne lasciata dalla principessa.",
     },
     steps: [
       {
@@ -474,9 +496,17 @@ export const quests: QuestEntry[] = [
         title: "Salvare chi vive nella morte",
         text: "Rogier chiarisce il proprio scopo: Coloro che vivono nella morte non hanno commesso colpe, ma hanno toccato una falla nell’Ordine. Cerca il marchio per provare a salvarli.",
       },
+      {
+        title: "Il corpo abbandonato",
+        text: "Ranni rivela di aver lasciato il proprio corpo fisico. Il marchio cercato da Rogier deve trovarsi su quella carne, non sulla bambola che la ospita.",
+      },
+      {
+        title: "Entrare al servizio di Ranni",
+        text: "Rogier ci consiglia di servire Ranni per avvicinarci ai suoi segreti. Seguiamo il suggerimento e accettiamo l’incarico della principessa.",
+      },
     ],
     nextStep: {
-      text: "Raggiungere la dimora reale cariana a nord dell’Accademia, trovare Ranni e cercare il suo marchio maledetto.",
+      text: "Proseguire al servizio di Ranni e cercare il luogo in cui ha lasciato il corpo fisico con il marchio maledetto.",
       hypothetical: false,
     },
     portrait: {
@@ -552,30 +582,6 @@ export const quests: QuestEntry[] = [
       imagePosition: "50% 25%",
     },
     linkedConceptIds: ["roderika", "godrick-innestato", "hewg", "spiriti"],
-  },
-  {
-    id: "renna",
-    title: "La luna nera",
-    npc: "Strega Renna",
-    region: "Sepolcride",
-    status: "in-corso",
-    summary:
-      "Abbiamo incontrato la strega Renna alla Chiesa di Elleh. Non conosciamo la sua prossima destinazione.",
-    lastSeen: {
-      location: "Chiesa di Elleh",
-    },
-    steps: [
-      {
-        title: "Incontro alla Chiesa di Elleh",
-        text: "La strega Renna ci appare alla Chiesa di Elleh: è la sua ultima comparsa annotata.",
-      },
-    ],
-    portrait: {
-      imageUrl: "./concepts/strega-sconosciuta.webp",
-      imageAlt: "La strega Renna con il suo grande cappello",
-      imagePosition: "50% 20%",
-    },
-    linkedConceptIds: ["strega-sconosciuta"],
   },
   {
     id: "d",
@@ -749,8 +755,9 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Nepheli resta alla Tavola Rotonda. Le Ceneri del Re Falco, sovrano dell’antica Grantempesta, potrebbero costituire una pista legata al suo disgusto per il dominio di Godrick.",
+      "Seluvis vuole far bere a Nepheli una pozione. Gideon propone di eliminarla di nascosto e mentire allo stregone, che definisce un molestatore di bambole.",
     lastSeen: {
       location: "Tavola Rotonda",
     },
@@ -775,9 +782,13 @@ export const quests: QuestEntry[] = [
         title: "La pista del Re Falco",
         text: "Troviamo le ceneri dell’antico Re Falco di Grantempesta. Poiché Nepheli condanna Godrick per aver insozzato i venti della fortezza, annotiamo un possibile legame da verificare.",
       },
+      {
+        title: "La pozione di Seluvis",
+        text: "Seluvis ci affida una pozione destinata a Nepheli. Gideon suggerisce di consegnargliela perché possa eliminarla di nascosto, poi riferire a Seluvis che il piano è riuscito. Non sappiamo ancora se voglia soltanto proteggere la figlia adottiva o perseguire un altro scopo.",
+      },
     ],
     nextStep: {
-      text: "Verificare se le Ceneri del Re Falco hanno un significato per Nepheli.",
+      text: "Decidere se affidare la pozione a Gideon per proteggere Nepheli e ingannare Seluvis.",
       hypothetical: true,
     },
     portrait: {
@@ -792,6 +803,7 @@ export const quests: QuestEntry[] = [
       "hoarah-loux",
       "gideon-ofnir",
       "antica-grantempesta",
+      "seluvis",
     ],
   },
   {

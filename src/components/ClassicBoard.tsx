@@ -39,7 +39,13 @@ const previousFullBoardHeight = 17000
 const lastFullBoardHeight = 19000
 const previousBoardCanvasHeight = 21000
 const latestBoardCanvasHeight = 23000
-const boardHeight = 25000
+const currentBoardCanvasHeight = 25000
+const boardHeight = 27000
+const latestLiveLayoutConceptIds = new Set([
+  'ragno-mani',
+  'loretta',
+  'seluvis',
+])
 const currentLiveLayoutConceptIds = new Set([
   'dracotumulo',
   'cacciatore-globi-cinerei',
@@ -173,7 +179,8 @@ const defaultPositions = Object.fromEntries(
   concepts.map((concept) => {
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
-    if (currentLiveLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (latestLiveLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (currentLiveLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (currentBoardCanvasHeight / boardHeight) }]
     if (freshEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (latestBoardCanvasHeight / boardHeight) }]
     if (lastEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousBoardCanvasHeight / boardHeight) }]
     if (newEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (lastFullBoardHeight / boardHeight) }]
@@ -229,6 +236,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const latestBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v19')
+    if (latestBoardSaved) {
+      return migrateBoardPositions(
+        JSON.parse(latestBoardSaved) as Record<string, BoardPosition>,
+        currentBoardCanvasHeight,
+        true,
+      )
+    }
+
     const currentBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v18')
     if (currentBoardSaved) {
       return migrateBoardPositions(
@@ -238,11 +254,11 @@ function getInitialBoardPositions() {
       )
     }
 
-    const latestBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v17')
-    if (latestBoardSaved) {
+    const previousBoardSavedV17 = window.localStorage.getItem('elden-rhapsody:board-positions-v17')
+    if (previousBoardSavedV17) {
       return migrateBoardPositions(
-        JSON.parse(latestBoardSaved) as Record<string, BoardPosition>,
-        boardHeight,
+        JSON.parse(previousBoardSavedV17) as Record<string, BoardPosition>,
+        latestBoardCanvasHeight,
         true,
       )
     }
@@ -452,7 +468,6 @@ const boardConceptOrder = [
   'goldmask',
   'mangiasterco',
   'varre',
-  'strega-sconosciuta',
   'due-dita',
   'volonta-superiore',
   'profezia-leggidita',
@@ -532,6 +547,9 @@ const boardConceptOrder = [
   'soldati-marionetta',
   'corrente-primeva',
   'farum-azula-in-frantumi',
+  'ragno-mani',
+  'loretta',
+  'seluvis',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -628,7 +646,8 @@ const boardZones = [
   { id: 'congiura-parentele', label: 'Congiura e parentele', note: '', top: 91 * lastFullBoardHeight / boardHeight, height: 9 * lastFullBoardHeight / boardHeight },
   { id: 'sangue-strade-liurnia', label: 'Sangue e strade di Liurnia', note: '', top: 91 * previousBoardCanvasHeight / boardHeight, height: 9 * previousBoardCanvasHeight / boardHeight },
   { id: 'nuovi-studi-raya-lucaria', label: 'Nuovi studi di Raya Lucaria', note: '', top: previousBoardCanvasHeight / boardHeight * 100, height: (latestBoardCanvasHeight - previousBoardCanvasHeight) / boardHeight * 100 },
-  { id: 'mappe-stregoneria-tempeste', label: 'Mappe, stregoneria e tempeste', note: '', top: latestBoardCanvasHeight / boardHeight * 100, height: (boardHeight - latestBoardCanvasHeight) / boardHeight * 100 },
+  { id: 'mappe-stregoneria-tempeste', label: 'Mappe, stregoneria e tempeste', note: '', top: latestBoardCanvasHeight / boardHeight * 100, height: (currentBoardCanvasHeight - latestBoardCanvasHeight) / boardHeight * 100 },
+  { id: 'caria-stelle-spiriti', label: 'Caria, stelle e spiriti', note: '', top: currentBoardCanvasHeight / boardHeight * 100, height: (boardHeight - currentBoardCanvasHeight) / boardHeight * 100 },
 ]
 
 interface ConceptBoardProps {
@@ -649,7 +668,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v19',
+    'elden-rhapsody:board-positions-v20',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()

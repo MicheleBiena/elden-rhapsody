@@ -25,10 +25,10 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
-L’archivio contiene 108 schede: 98 già lette e dieci da leggere. Sono nuove
-Dracotumulo, Cacciatore di Globi Cinerei, Cristalliani, Azur e Farum Azula in
-Frantumi; Torri Divine, Tavola Rotonda, Radagon, Maschere di scintipietra e Thops
-sono state ampliate. Le
+L’archivio contiene 110 schede: 91 già lette e 19 da leggere. Alle dieci novità
+precedenti si aggiungono Ragno-Mani, Guardia Reale Loretta e Seluvis; sono state
+ampliate anche le schede su Ranni, Blaidd, Radahn, la guerra civile di Liurnia,
+il culto ancestrale e Santa Trina. Le
 note mantengono una separazione netta: identità, lore e ipotesi sulla lavagna;
 azioni compiute, posizioni e prossimi passi nel Questbook. Quando un fatto è già
 spiegato altrove, il testo rimanda alla scheda dedicata.
@@ -42,9 +42,11 @@ dichiaratamente tali.
 
 La pagina **The Big Boys** raccoglie i portatori di Rune Maggiori conosciuti e
 permette di depennare quelli sconfitti. Lo stato resta nel browser del visitatore.
-Il diario contiene 23 quest: 20 in corso e tre concluse. L’unica novità corrente
-è la conclusione della quest di Thops: tornato all’Accademia, ha dato vita a una
-barriera degna di un nuovo conspectus ed è stato ritrovato morto alla sua scrivania.
+Il diario contiene 22 quest: 19 in corso e tre concluse. “Berserk” e “La luna
+nera” sono confluite nella macro-quest **Era delle Stelle**: Ranni ha rivelato la
+propria identità e il prossimo obiettivo è incontrare Blaidd a Castello Mantorosso.
+Sono aggiornate anche le pagine di Rogier e Nepheli; resta da leggere la conclusione
+della quest di Thops.
 
 ### Build Lab
 
