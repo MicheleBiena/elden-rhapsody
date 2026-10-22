@@ -44,11 +44,11 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 110)
+  assert.equal(allIds.size, 112)
 
   await groupButtons.nth(0).click()
   await page.getByRole('button', { name: 'Apri Radahn', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /Signore d’Alabastro.*stelle.*destino di Ranni/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Signore d’Alabastro.*destriero.*marcescenza.*stelle/is)
   assert.ok(await page.locator('.live-update-highlight').count() > 0)
   await page.getByRole('button', { name: 'Apri Albero Madre', exact: true }).click()
   assert.deepEqual(await page.locator('.dossier-gallery figcaption').allTextContents(), [
@@ -140,6 +140,20 @@ try {
   await page.getByRole('button', { name: 'Apri Mercante di gamberi', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /medaglione.*donna.*paese straniero/is)
 
+  await groupButtons.nth(7).click()
+  assert.equal(await page.locator('.dossier-note').count(), 8)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 5)
+  await page.getByRole('button', { name: 'Apri Festival di Radahn', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /Jerren.*nove campioni.*Dune Gementi.*Nokron/is)
+  assert.equal(await page.locator('.dossier-gallery').count(), 1)
+  await page.locator('.dossier-detail-scroll img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
+  await page.getByRole('button', { name: 'Apri Jerren', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /morte.*guerriero.*Mantorosso/is)
+  await page.getByRole('button', { name: 'Apri Alexander, Vaso Guerriero', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /incrina.*resti.*più forte/is)
+  await page.getByRole('button', { name: 'Apri Palude di Aeonia', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /Malenia.*Radahn.*fioritura/is)
+
   await groupButtons.nth(8).click()
   assert.equal(await page.locator('.dossier-note').count(), 6)
   assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
@@ -196,6 +210,7 @@ try {
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Progenie')
 
   const liveNotes = [
+    ['malenia-la-recisa', 'Aggiornata'],
     ['radahn', 'Aggiornata'],
     ['torri-divine', 'Aggiornata'],
     ['mezzolupo', 'Aggiornata'],
@@ -211,12 +226,16 @@ try {
     ['cacciatore-globi-cinerei', 'Nuova'],
     ['thops', 'Aggiornata'],
     ['dracotumulo', 'Nuova'],
+    ['palude-aeonia', 'Aggiornata'],
+    ['festival-radahn', 'Nuova'],
+    ['jerren', 'Nuova'],
+    ['alexander-vaso-guerriero', 'Aggiornata'],
     ['seguaci-ancestrali', 'Aggiornata'],
     ['tavola-rotonda', 'Aggiornata'],
     ['santa-trina', 'Aggiornata'],
     ['farum-azula-in-frantumi', 'Nuova'],
   ]
-  await page.getByRole('button', { name: '19 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '24 da leggere', exact: true }).click()
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
@@ -273,6 +292,7 @@ try {
 
   const oldPositions = '{"elden-ring":{"x":22,"y":4.8}}'
   await page.evaluate(value => localStorage.setItem('elden-rhapsody:board-positions-v6', value), oldPositions)
+  await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v21'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v20'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v19'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v18'))
@@ -288,12 +308,13 @@ try {
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v8'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v7'))
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 110)
+  assert.equal(await page.locator('.concept-card').count(), 112)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
-  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v20') || '{}')).length === 110)
+  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length === 112)
   const v10Positions = '{"elden-ring":{"x":22,"y":4.8},"godrick-innestato":{"x":40,"y":18}}'
   await page.evaluate(value => {
     localStorage.setItem('elden-rhapsody:board-positions-v10', value)
+    localStorage.removeItem('elden-rhapsody:board-positions-v21')
     localStorage.removeItem('elden-rhapsody:board-positions-v20')
     localStorage.removeItem('elden-rhapsody:board-positions-v19')
     localStorage.removeItem('elden-rhapsody:board-positions-v18')
@@ -306,11 +327,11 @@ try {
     localStorage.removeItem('elden-rhapsody:board-positions-v14')
   }, v10Positions)
   await page.reload({ waitUntil: 'domcontentloaded' })
-  await page.waitForFunction(() => Boolean(localStorage.getItem('elden-rhapsody:board-positions-v20')))
-  const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v20')))
-  assert.ok(Math.abs(migrated['godrick-innestato'].y - 18 * 12000 / 27000) < .0001)
+  await page.waitForFunction(() => Boolean(localStorage.getItem('elden-rhapsody:board-positions-v21')))
+  const migrated = await page.evaluate(() => JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21')))
+  assert.ok(Math.abs(migrated['godrick-innestato'].y - 18 * 12000 / 29000) < .0001)
   assert.equal(migrated['godrick-innestato'].x, 40)
-  assert.ok(Math.abs(migrated['nepheli-loux'].y - 97 * 12500 / 27000) < .0001)
+  assert.ok(Math.abs(migrated['nepheli-loux'].y - 97 * 12500 / 29000) < .0001)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v10')), v10Positions)
   await page.getByRole('button', { name: 'Chiudi il fascicolo', exact: true }).click()
   await page.getByRole('button', { name: 'Fascicoli', exact: true }).click()
@@ -338,7 +359,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 110 cards, 19 unread, including Carian Manor, Ranni, Ancestral Spirit, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 112 cards, 24 unread, including the Radahn Festival, Jerren, Carian Manor, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }

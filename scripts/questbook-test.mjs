@@ -18,9 +18,9 @@ try {
     'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'fia', 'roderika',
     'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops', 'rya', 'ehi-cuggi',
   ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['blaidd', 'rogier', 'nepheli', 'thops'])
+  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['big-boys', 'alexander', 'blaidd', 'rogier', 'nepheli', 'thops'])
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 4)
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 6)
   assert.equal(await page.locator('.quest-index-update--nuova').count(), 0)
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /19 in corso/)
@@ -59,6 +59,7 @@ try {
     assert.equal(await page.locator(`[data-target-id="${id}"] .quest-target-image`).count(), 0, `${id} must remain visually undisclosed`)
   }
   assert.equal(await page.locator('.quest-target.is-defeated').count(), 1)
+  assert.equal(await page.locator('[data-target-id="radahn"] .quest-target-toggle').getAttribute('aria-pressed'), 'false', 'Radahn must remain unmarked until Red chooses it')
   assert.equal(await page.locator('[data-target-id="godrick"]').getAttribute('class'), 'quest-target is-defeated')
   assert.match(await page.locator('[data-target-id="godrick"] img').evaluate(image => getComputedStyle(image).filter), /grayscale\(1\)/)
   const crossGeometry = await page.locator('[data-target-id="godrick"] .quest-target-cross').evaluate(cross => {
@@ -111,9 +112,9 @@ try {
   await page.locator('.quest-portrait img').evaluate(image => image.decode())
 
   const newQuests = [
-    { id: 'alexander', title: 'Amico Vaso', lastSeen: 'Miniera fra Sepolcride e Caelid', destination: 'Ingresso della miniera sul lato di Caelid', step: /Dietro una porta chiusa/, links: 1, image: true },
+    { id: 'alexander', title: 'Amico Vaso', lastSeen: 'Dune Gementi, Caelid', destination: 'Non ancora nota', step: /festival.*incrina.*resti.*Radahn/is, links: 3, image: true },
     { id: 'sellen', title: 'Maestra di stelle', lastSeen: 'Sepolcride centrale', destination: 'Non ancora nota', step: /seconda figura identica a Sellen/, links: 1, image: true },
-    { id: 'blaidd', title: 'Era delle Stelle', lastSeen: 'Fiume Siofra', destination: 'Castello Mantorosso, Caelid', step: /Renna.*Ranni.*Nokron.*Radahn.*stelle/is, links: 7, image: true, gallery: 2 },
+    { id: 'blaidd', title: 'Era delle Stelle', lastSeen: 'Dune Gementi, Caelid', destination: 'Cratere della stella caduta, Sepolcride', step: /Ranni.*Radahn.*festival.*stella.*Nokron/is, links: 6, image: true, gallery: 2 },
     { id: 'rogier', title: 'Beata ignoranza', lastSeen: 'Tavola Rotonda', destination: 'Corpo fisico abbandonato di Ranni', step: /Grafopugnale Nero.*Principessa Lunare Ranni.*corpo abbandonato/is, links: 9, image: true },
     { id: 'fia', title: 'Con la morte in seno', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Grafopugnali.*Ramoscello sacrificale/is, links: 4, image: true },
     { id: 'roderika', title: 'Crisalidi', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Spirit Tuner/, links: 4, image: true, status: 'Terminata' },
@@ -143,11 +144,23 @@ try {
       await page.locator('.quest-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
     }
     assert.equal(await page.locator('.quest-status').textContent(), quest.status || 'In corso')
-    if (['alexander', 'sellen', 'kenneth', 'nepheli'].includes(quest.id)) assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
+    if (['sellen', 'kenneth', 'nepheli'].includes(quest.id)) assert.match(await page.locator('.quest-next-step').textContent(), /Pista da verificare/)
     if (['fia', 'roderika', 'd', 'edgar-irina', 'patches', 'yura', 'thops'].includes(quest.id)) {
       assert.equal(await page.locator('.quest-next-step').count(), 0, 'No invented follow-up for an unknown destination')
     }
-    if (quest.id === 'blaidd') assert.match(await page.locator('.quest-next-step').textContent(), /Castello Mantorosso.*festival.*sconfiggere Radahn/i)
+    if (quest.id === 'alexander') {
+      assert.equal(await page.locator('.quest-next-step').count(), 0)
+      assert.equal(await page.locator('.quest-trainer-copy').count(), 0, 'Trainer advice starts hidden')
+      const trainerButton = page.getByRole('button', { name: /Consiglio di Trainer/ })
+      assert.equal(await trainerButton.getAttribute('aria-expanded'), 'false')
+      assert.ok(await trainerButton.evaluate(button => button.getBoundingClientRect().height >= 44))
+      await trainerButton.click()
+      assert.match(await page.locator('.quest-trainer-copy').textContent(), /sponda est di Liurnia.*Vasburgo/i)
+      assert.equal(await page.getByRole('button', { name: /Nascondi consiglio/ }).getAttribute('aria-expanded'), 'true')
+      await page.getByRole('button', { name: /Nascondi consiglio/ }).click()
+      assert.equal(await page.locator('.quest-trainer-copy').count(), 0)
+    }
+    if (quest.id === 'blaidd') assert.match(await page.locator('.quest-next-step').textContent(), /stella.*caduta.*Blaidd.*Nokron/i)
     if (quest.id === 'rogier') assert.match(await page.locator('.quest-next-step').textContent(), /servizio di Ranni.*corpo fisico.*marchio maledetto/i)
     if (quest.id === 'd') assert.match(await page.locator('.quest-history').textContent(), /raggiunto e incontrato/)
     if (quest.id === 'gurranq') assert.match(await page.locator('.quest-next-step').textContent(), /radici mortali/)
@@ -195,7 +208,7 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 4)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 6)
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
@@ -220,7 +233,7 @@ try {
   await page.locator('a.nav-tab[href="#/build"]').click()
   await page.locator('.build-lab').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '19 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '24 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -315,7 +328,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: nineteen active quests, three complete, four updates, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
+  console.log('Questbook passed: nineteen active quests, three complete, six updates, hidden Trainer advice, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()

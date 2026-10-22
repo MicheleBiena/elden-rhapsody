@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, CheckCheck, Compass, Expand, Feather, MapPin, RotateCcw, Search, Signpost, Skull, Swords } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, CheckCheck, Compass, Expand, Eye, EyeOff, Feather, MapPin, RotateCcw, Search, Signpost, Skull, Swords } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { quests } from '../data/quests'
 import { concepts } from '../data/project'
@@ -37,6 +37,7 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
     { godrick: true },
   )
   const [photo, setPhoto] = useState<QuestImage>()
+  const [revealedTrainerAdvice, setRevealedTrainerAdvice] = useState<Record<string, boolean>>({})
   const headingRef = useRef<HTMLHeadingElement>(null)
   const indexRef = useRef<HTMLElement>(null)
   const previousId = useRef(activeQuestId)
@@ -182,6 +183,23 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
             <section className="quest-history" aria-labelledby="quest-history-title"><h3 id="quest-history-title">Tappe percorse</h3>{selected.steps.length ? <ol>{selected.steps.map((step, index) => <li key={`${selected.id}-${index}`}><span className="quest-step-mark"><Check aria-hidden="true" /><span className="sr-only">Tappa annotata {index + 1}</span></span><div><h4>{step.title}</h4><p>{step.text}</p></div></li>)}</ol> : <p>Nessuna tappa ancora annotata.</p>}</section>
 
             {selected.nextStep && <section className="quest-next-step"><Compass aria-hidden="true" /><div><h3>{selected.nextStep.hypothetical ? 'Pista da verificare' : 'Prossimo passo'}</h3><p>{selected.nextStep.text}</p></div></section>}
+
+            {selected.trainerAdvice && <section className={`quest-trainer-advice${revealedTrainerAdvice[selected.id] ? ' is-revealed' : ''}`}>
+              <button
+                type="button"
+                className="quest-trainer-trigger"
+                aria-expanded={Boolean(revealedTrainerAdvice[selected.id])}
+                aria-controls={`trainer-advice-${selected.id}`}
+                onClick={() => setRevealedTrainerAdvice(current => ({ ...current, [selected.id]: !current[selected.id] }))}
+              >
+                {revealedTrainerAdvice[selected.id] ? <Eye aria-hidden="true" /> : <EyeOff aria-hidden="true" />}
+                <span><strong>{revealedTrainerAdvice[selected.id] ? 'Nascondi consiglio' : 'Consiglio di Trainer'}</strong><small>{revealedTrainerAdvice[selected.id] ? 'Lo spoiler è visibile.' : 'Contiene uno spoiler sul prossimo passo.'}</small></span>
+              </button>
+              {revealedTrainerAdvice[selected.id] && <div className="quest-trainer-copy" id={`trainer-advice-${selected.id}`} role="region" aria-label="Consiglio di Trainer" aria-live="polite">
+                <p className="quest-small-label">Spoiler facoltativo</p>
+                <p>{selected.trainerAdvice}</p>
+              </div>}
+            </section>}
 
             {selected.gallery && selected.gallery.length > 0 && <section className="quest-gallery" aria-labelledby="quest-gallery-title"><h3 id="quest-gallery-title">Immagini e incontri</h3><div>{selected.gallery.map((item, index) => <figure key={`${selected.id}-${index}`}><button type="button" aria-label={`Ingrandisci: ${item.caption || item.imageAlt}`} onClick={() => setPhoto(item)}><JournalImage photo={item} /><Expand aria-hidden="true" /></button>{item.caption && <figcaption>{item.caption}</figcaption>}</figure>)}</div></section>}
 

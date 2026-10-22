@@ -85,6 +85,7 @@ export const quests: QuestEntry[] = [
     npc: "Araldi delle Rune Maggiori",
     region: "Interregno",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
       "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
     lastSeen: {
@@ -140,7 +141,7 @@ export const quests: QuestEntry[] = [
         epithet: "Leone Rosso, flagello delle stelle",
         location: "Caelid",
         description:
-          "Guerriero feroce che combatté Malenia e la sua marcescenza fino a uno stallo. Caelid è ormai sommersa dal marcio scarlatto; Radahn sembra essere ancora lì, ma forse non assomiglia più a com’era un tempo.",
+          "Leone Rosso e conquistatore delle stelle, sopravvissuto allo scontro con Malenia ma divorato dalla marcescenza fino a perdere il senno.",
         image: {
           imageUrl: "./concepts/radahn.webp",
           imageAlt: "Il generale Radahn in armatura rossa",
@@ -303,42 +304,40 @@ export const quests: QuestEntry[] = [
     id: "alexander",
     title: "Amico Vaso",
     npc: "Alexander Iron Fist",
-    region: "Sepolcride",
+    region: "Sepolcride e Caelid",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Alexander è rimasto bloccato dietro una porta chiusa in una miniera fra Sepolcride e Caelid. Potrebbe essere necessario raggiungere l’ingresso sul lato di Caelid.",
+      "Alexander ha combattuto al Festival di Radahn. Incrinato quasi subito, ora raccoglie i resti dei guerrieri caduti per ricostruirsi più forte.",
     lastSeen: {
-      location: "Miniera fra Sepolcride e Caelid",
-      note: "È dietro una porta che non possiamo aprire dal nostro lato.",
-    },
-    destination: {
-      location: "Ingresso della miniera sul lato di Caelid",
-      note: "Possibile percorso per raggiungerlo e aprire il passaggio.",
+      location: "Dune Gementi, Caelid",
+      note: "È rimasto sul campo di battaglia dopo il festival, fra i corpi dei guerrieri.",
     },
     steps: [
       {
-        title: "Un vaso incastrato",
-        text: "Incontriamo Alexander a nord di Sepolcride, bloccato nel terreno, e lo aiutiamo a liberarsi.",
+        title: "Verso Castello Mantorosso",
+        text: "Liberiamo Alexander dal terreno e, più tardi, dalla miniera fra Sepolcride e Caelid. Il Vaso Guerriero prosegue verso il festival di combattimento.",
       },
       {
-        title: "Il festival di combattimento",
-        text: "Alexander ci racconta che la sua destinazione è Castel Mantorosso, dove si terrà un festival di combattimento.",
+        title: "La prova del festival",
+        text: "A Castello Mantorosso Alexander giura di affrontare Radahn senza arretrare, nonostante la fama del semidio lo faccia tremare.",
       },
       {
-        title: "Dietro una porta chiusa",
-        text: "Ritroviamo Alexander bloccato dietro una porta in una miniera fra Sepolcride e Caelid; da questo lato il passaggio non si apre.",
+        title: "Il vaso incrinato",
+        text: "Un solo colpo lo rompe e gli fa perdere le interiora. Alexander ammette di essersi nascosto, ma non rinuncia al proprio viaggio.",
+      },
+      {
+        title: "Resti di guerrieri",
+        text: "Raccoglie nel proprio corpo i resti dei caduti dello Shattering per diventare più forte. Che fra questi ci sia anche Radahn è possibile, ma non confermato.",
       },
     ],
-    nextStep: {
-      text: "Cercare l’altro ingresso della miniera sul lato di Caelid e provare ad aprire il passaggio verso Alexander.",
-      hypothetical: true,
-    },
+    trainerAdvice: "Ritorna sulla sponda est di Liurnia, da dove accedi al villaggio di Vasburgo.",
     portrait: {
       imageUrl: "./concepts/alexander.webp",
       imageAlt: "Alexander, il grande vaso guerriero incastrato nel terreno",
       imagePosition: "50% 45%",
     },
-    linkedConceptIds: ["alexander-vaso-guerriero"],
+    linkedConceptIds: ["alexander-vaso-guerriero", "festival-radahn", "radahn"],
   },
   {
     id: "sellen",
@@ -380,14 +379,14 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Renna è Ranni. Entrati al suo servizio, cerchiamo il tesoro di Nokron; per rimettere in moto le stelle e il suo destino dovremo affrontare Radahn.",
+      "Dopo il Festival di Radahn, le stelle tornano a muoversi e una di esse apre il cammino verso Nokron. Blaidd ci aspetta dove è caduta.",
     lastSeen: {
-      location: "Fiume Siofra",
-      note: "Blaidd comprende che Nokron si trova troppo in alto per essere raggiunta direttamente dal fiume.",
+      location: "Dune Gementi, Caelid",
+      note: "Dopo lo scontro, Blaidd riconosce nella stella cadente la via che cercavamo.",
     },
     destination: {
-      location: "Castello Mantorosso, Caelid",
-      note: "Blaidd ci attende al festival di combattimento: il bersaglio è Radahn, colui che tiene ferme le stelle.",
+      location: "Cratere della stella caduta, Sepolcride",
+      note: "Blaidd propone di ritrovarci nel punto in cui la stella ha colpito la terra e scendere insieme verso Nokron.",
     },
     steps: [
       {
@@ -412,11 +411,15 @@ export const quests: QuestEntry[] = [
       },
       {
         title: "Il festival di Radahn",
-        text: "Informato della scoperta, Blaidd parte per Castello Mantorosso, dove un festival di combattimento offre l’occasione di affrontare Radahn.",
+        text: "A Castello Mantorosso ritroviamo Blaidd fra i campioni radunati. Ci chiede di non morire: il duello serve anche al destino di Ranni.",
+      },
+      {
+        title: "Una stella apre la strada",
+        text: "Sconfitto Radahn, il suo dominio gravitazionale cede. Una stella precipita sulla Sepolcride e Blaidd capisce che il cammino verso Nokron è finalmente aperto.",
       },
     ],
     nextStep: {
-      text: "Raggiungere Blaidd a Castello Mantorosso, partecipare al festival e sconfiggere Radahn.",
+      text: "Raggiungere il punto in cui la stella è caduta e ritrovare Blaidd per scendere verso Nokron.",
       hypothetical: false,
     },
     portrait: {
@@ -426,17 +429,17 @@ export const quests: QuestEntry[] = [
     },
     gallery: [
       {
-        imageUrl: "./concepts/seluvis.webp",
-        imageAlt: "Seluvis con maschera e grande cappello nella propria torre",
-        caption: "Seluvis · stregone cariano al servizio di Ranni",
+        imageUrl: "./concepts/festival-radahn.webp",
+        imageAlt: "Radahn circondato dai campioni del festival nelle Dune Gementi",
+        caption: "Il duello finale del Festival di Radahn · fanart di Aljerek",
       },
       {
-        imageUrl: "./concepts/maschera-lupo-nero.png",
-        imageAlt: "Maschera nera che riproduce la testa di Blaidd",
-        caption: "Maschera del lupo nero · qualcuno ha imitato Blaidd",
+        imageUrl: "./concepts/jerren.png",
+        imageAlt: "Jerren seduto in abiti eccentrici a Castello Mantorosso",
+        caption: "Jerren · araldo del Festival",
       },
     ],
-    linkedConceptIds: ["ranni-principessa-lunare", "mezzolupo", "iji", "seluvis", "sellen", "radahn", "citta-eterna"],
+    linkedConceptIds: ["ranni-principessa-lunare", "mezzolupo", "radahn", "festival-radahn", "jerren", "citta-eterna"],
   },
   {
     id: "rogier",

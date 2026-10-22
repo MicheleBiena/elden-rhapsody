@@ -8,7 +8,7 @@ export const boardGroups = [
   { id: 'liurnia-lacustre', label: 'Liurnia e Maniero Cariano', conceptIds: ['liurnia-lacustre', 'ragno-mani', 'chiesa-dei-voti', 'miriel', 'cacciatore-globi-cinerei', 'hyetta', 'thops', 'rya', 'mercante-gamberi', 'incubi-di-red'] },
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
   { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'draghi-antichi', 'statue-chiese-marika'] },
-  { id: 'caelid', label: 'Caelid e Dracotumulo', conceptIds: ['caelid', 'dracotumulo', 'palude-aeonia', 'marcescenza', 'sellia', 'alexander-vaso-guerriero'] },
+  { id: 'caelid', label: 'Caelid e Dracotumulo', conceptIds: ['caelid', 'dracotumulo', 'palude-aeonia', 'marcescenza', 'sellia', 'festival-radahn', 'jerren', 'alexander-vaso-guerriero'] },
   { id: 'siofra-civilta-antiche', label: 'Fiumi e civiltà antiche', conceptIds: ['fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica', 'citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
   { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'radici-mortali', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'lord-del-sangue', 'gurranq'] },

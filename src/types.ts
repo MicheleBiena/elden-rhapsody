@@ -112,6 +112,8 @@ export interface QuestEntry {
   // Soltanto tappe effettivamente raccontate dall’utente, in ordine cronologico.
   steps: Array<{ title: string; text: string }>
   nextStep?: { text: string; hypothetical?: boolean }
+  // Aiuto esterno facoltativo: resta nascosto finché il lettore non accetta lo spoiler.
+  trainerAdvice?: string
   gallery?: QuestImage[]
   linkedConceptIds?: string[]
   targets?: QuestTarget[]

@@ -40,8 +40,13 @@ const lastFullBoardHeight = 19000
 const previousBoardCanvasHeight = 21000
 const latestBoardCanvasHeight = 23000
 const currentBoardCanvasHeight = 25000
-const boardHeight = 27000
+const previousLiveBoardCanvasHeight = 27000
+const boardHeight = 29000
 const latestLiveLayoutConceptIds = new Set([
+  'festival-radahn',
+  'jerren',
+])
+const previousLiveLayoutConceptIds = new Set([
   'ragno-mani',
   'loretta',
   'seluvis',
@@ -180,6 +185,7 @@ const defaultPositions = Object.fromEntries(
     const override = layoutOverrides[concept.id]
     if (override) return [concept.id, { ...override, y: override.y * (latestBoardHeight / boardHeight) }]
     if (latestLiveLayoutConceptIds.has(concept.id)) return [concept.id, concept.position]
+    if (previousLiveLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousLiveBoardCanvasHeight / boardHeight) }]
     if (currentLiveLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (currentBoardCanvasHeight / boardHeight) }]
     if (freshEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (latestBoardCanvasHeight / boardHeight) }]
     if (lastEpisodeLayoutConceptIds.has(concept.id)) return [concept.id, { ...concept.position, y: concept.position.y * (previousBoardCanvasHeight / boardHeight) }]
@@ -236,6 +242,15 @@ function migrateBoardPositions(
 
 function getInitialBoardPositions() {
   try {
+    const previousLiveBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v20')
+    if (previousLiveBoardSaved) {
+      return migrateBoardPositions(
+        JSON.parse(previousLiveBoardSaved) as Record<string, BoardPosition>,
+        previousLiveBoardCanvasHeight,
+        true,
+      )
+    }
+
     const latestBoardSaved = window.localStorage.getItem('elden-rhapsody:board-positions-v19')
     if (latestBoardSaved) {
       return migrateBoardPositions(
@@ -550,6 +565,8 @@ const boardConceptOrder = [
   'ragno-mani',
   'loretta',
   'seluvis',
+  'festival-radahn',
+  'jerren',
 ] as const
 
 const orderedConcepts = boardConceptOrder
@@ -647,7 +664,8 @@ const boardZones = [
   { id: 'sangue-strade-liurnia', label: 'Sangue e strade di Liurnia', note: '', top: 91 * previousBoardCanvasHeight / boardHeight, height: 9 * previousBoardCanvasHeight / boardHeight },
   { id: 'nuovi-studi-raya-lucaria', label: 'Nuovi studi di Raya Lucaria', note: '', top: previousBoardCanvasHeight / boardHeight * 100, height: (latestBoardCanvasHeight - previousBoardCanvasHeight) / boardHeight * 100 },
   { id: 'mappe-stregoneria-tempeste', label: 'Mappe, stregoneria e tempeste', note: '', top: latestBoardCanvasHeight / boardHeight * 100, height: (currentBoardCanvasHeight - latestBoardCanvasHeight) / boardHeight * 100 },
-  { id: 'caria-stelle-spiriti', label: 'Caria, stelle e spiriti', note: '', top: currentBoardCanvasHeight / boardHeight * 100, height: (boardHeight - currentBoardCanvasHeight) / boardHeight * 100 },
+  { id: 'caria-stelle-spiriti', label: 'Caria, stelle e spiriti', note: '', top: currentBoardCanvasHeight / boardHeight * 100, height: (previousLiveBoardCanvasHeight - currentBoardCanvasHeight) / boardHeight * 100 },
+  { id: 'festival-radahn', label: 'Festival di Radahn', note: '', top: previousLiveBoardCanvasHeight / boardHeight * 100, height: (boardHeight - previousLiveBoardCanvasHeight) / boardHeight * 100 },
 ]
 
 interface ConceptBoardProps {
@@ -668,7 +686,7 @@ export function ClassicBoard({
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
   const [positions, setPositions] = usePersistentState(
-    'elden-rhapsody:board-positions-v20',
+    'elden-rhapsody:board-positions-v21',
     initialPositions,
   )
   const [draggingId, setDraggingId] = useState<string>()

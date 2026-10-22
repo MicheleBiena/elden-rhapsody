@@ -25,10 +25,9 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
-L’archivio contiene 110 schede: 91 già lette e 19 da leggere. Alle dieci novità
-precedenti si aggiungono Ragno-Mani, Guardia Reale Loretta e Seluvis; sono state
-ampliate anche le schede su Ranni, Blaidd, Radahn, la guerra civile di Liurnia,
-il culto ancestrale e Santa Trina. Le
+L’archivio contiene 112 schede: 88 già lette e 24 da leggere. Alle novità ancora
+non lette si aggiungono il Festival di Radahn e Jerren; sono state ampliate anche
+le schede su Radahn, Malenia, la Palude di Aeonia e Alexander. Le
 note mantengono una separazione netta: identità, lore e ipotesi sulla lavagna;
 azioni compiute, posizioni e prossimi passi nel Questbook. Quando un fatto è già
 spiegato altrove, il testo rimanda alla scheda dedicata.
@@ -42,11 +41,13 @@ dichiaratamente tali.
 
 La pagina **The Big Boys** raccoglie i portatori di Rune Maggiori conosciuti e
 permette di depennare quelli sconfitti. Lo stato resta nel browser del visitatore.
-Il diario contiene 22 quest: 19 in corso e tre concluse. “Berserk” e “La luna
-nera” sono confluite nella macro-quest **Era delle Stelle**: Ranni ha rivelato la
-propria identità e il prossimo obiettivo è incontrare Blaidd a Castello Mantorosso.
-Sono aggiornate anche le pagine di Rogier e Nepheli; resta da leggere la conclusione
-della quest di Thops.
+Il diario contiene 22 quest: 19 in corso e tre concluse. In **Era delle Stelle**
+la caduta di Radahn ha rimesso in moto le stelle e aperto un cratere verso Nokron;
+Blaidd ci attende nel punto dell’impatto. Alexander raccoglie invece i resti dei
+caduti nelle Dune Gementi. Quando il gioco non offre una pista, un eventuale
+**Consiglio di Trainer** resta nascosto dietro un comando che avverte chiaramente
+dello spoiler. La pagina **The Big Boys** non depenna Radahn automaticamente: lo
+stato cambia soltanto con la scelta esplicita del lettore.
 
 ### Build Lab
 
