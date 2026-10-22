@@ -794,6 +794,7 @@ export const quests: QuestEntry[] = [
       text: "Decidere se affidare la pozione a Gideon per proteggere Nepheli e ingannare Seluvis.",
       hypothetical: true,
     },
+    trainerAdvice: "Fra le acque di Liurnia, in un cupo anfratto cosparso di impiccagioni.",
     portrait: {
       imageUrl: "./concepts/nepheli.png",
       imageAlt: "Nepheli Loux con abiti da guerriera e una grande ascia",
@@ -830,6 +831,7 @@ export const quests: QuestEntry[] = [
       text: "Trovare Lanya, la serva di Diallos.",
       hypothetical: false,
     },
+    trainerAdvice: "Sui ponti crollati del lago.",
     portrait: {
       imageUrl: "./concepts/diallos.png",
       imageAlt: "Diallos con l’armatura decorata della casata Hoslow",
@@ -900,6 +902,7 @@ export const quests: QuestEntry[] = [
         text: "Dopo lo scontro Yura loda la nostra sopravvivenza e si presenta. Descrive le Dita Sanguinanti come Senzaluce soggiogati da un sangue corrotto: fanatici che cacciano i propri simili e con cui, secondo lui, non è più possibile ragionare.",
       },
     ],
+    trainerAdvice: "Cancelli dell'accademia.",
     portrait: {
       imageUrl: "./concepts/yura.jpg",
       imageAlt: "Yura con il grande cappello di ferro dopo lo scontro con Nerijus",
@@ -937,6 +940,7 @@ export const quests: QuestEntry[] = [
       text: "Trovare altre Uve di Shabriri per Hyetta.",
       hypothetical: false,
     },
+    trainerAdvice: "La chiesa più alta di Liurnia.",
     portrait: {
       imageUrl: "./concepts/hyetta.jpg",
       imageAlt: "Primo piano di Hyetta con gli occhi coperti da una benda",

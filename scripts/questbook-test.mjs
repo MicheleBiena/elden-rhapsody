@@ -131,6 +131,13 @@ try {
     { id: 'rya', title: 'Family’s complicated', lastSeen: 'Centro di Liurnia Lacustre', destination: 'Altopiano di Altus', step: /medaglione.*Mercante di gamberi.*Villa Vulcano.*Due vie verso Altus/is, links: 4, image: true, gallery: 1 },
     { id: 'ehi-cuggi', title: 'EHI CUGGI', lastSeen: 'Vasburgo, Liurnia Lacustre', destination: 'Non ancora nota', step: /Potentato.*assoluzione|assoluzione/is, links: 4, image: true },
   ]
+  const trainerAdviceByQuest = {
+    alexander: /sponda est di Liurnia.*Vasburgo/i,
+    nepheli: /Fra le acque di Liurnia.*cupo anfratto.*impiccagioni/i,
+    diallos: /Sui ponti crollati del lago/i,
+    yura: /Cancelli dell'accademia/i,
+    hyetta: /La chiesa più alta di Liurnia/i,
+  }
   for (const quest of newQuests) {
     await page.locator(`[data-quest-id="${quest.id}"]`).click()
     await page.getByRole('heading', { name: quest.title, exact: true }).waitFor()
@@ -148,14 +155,14 @@ try {
     if (['fia', 'roderika', 'd', 'edgar-irina', 'patches', 'yura', 'thops'].includes(quest.id)) {
       assert.equal(await page.locator('.quest-next-step').count(), 0, 'No invented follow-up for an unknown destination')
     }
-    if (quest.id === 'alexander') {
-      assert.equal(await page.locator('.quest-next-step').count(), 0)
+    if (trainerAdviceByQuest[quest.id]) {
+      if (quest.id === 'alexander') assert.equal(await page.locator('.quest-next-step').count(), 0)
       assert.equal(await page.locator('.quest-trainer-copy').count(), 0, 'Trainer advice starts hidden')
       const trainerButton = page.getByRole('button', { name: /Consiglio di Trainer/ })
       assert.equal(await trainerButton.getAttribute('aria-expanded'), 'false')
       assert.ok(await trainerButton.evaluate(button => button.getBoundingClientRect().height >= 44))
       await trainerButton.click()
-      assert.match(await page.locator('.quest-trainer-copy').textContent(), /sponda est di Liurnia.*Vasburgo/i)
+      assert.match(await page.locator('.quest-trainer-copy').textContent(), trainerAdviceByQuest[quest.id])
       assert.equal(await page.getByRole('button', { name: /Nascondi consiglio/ }).getAttribute('aria-expanded'), 'true')
       await page.getByRole('button', { name: /Nascondi consiglio/ }).click()
       assert.equal(await page.locator('.quest-trainer-copy').count(), 0)

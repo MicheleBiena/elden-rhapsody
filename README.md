@@ -44,8 +44,8 @@ permette di depennare quelli sconfitti. Lo stato resta nel browser del visitator
 Il diario contiene 22 quest: 19 in corso e tre concluse. In **Era delle Stelle**
 la caduta di Radahn ha rimesso in moto le stelle e aperto un cratere verso Nokron;
 Blaidd ci attende nel punto dell’impatto. Alexander raccoglie invece i resti dei
-caduti nelle Dune Gementi. Quando il gioco non offre una pista, un eventuale
-**Consiglio di Trainer** resta nascosto dietro un comando che avverte chiaramente
+caduti nelle Dune Gementi. I **Consigli di Trainer** di Alexander, Nepheli,
+Diallos, Yura e Hyetta restano nascosti dietro un comando che avverte chiaramente
 dello spoiler. La pagina **The Big Boys** non depenna Radahn automaticamente: lo
 stato cambia soltanto con la scelta esplicita del lettore.
 
