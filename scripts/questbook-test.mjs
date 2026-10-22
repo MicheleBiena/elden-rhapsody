@@ -22,6 +22,16 @@ try {
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
   assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 6)
   assert.equal(await page.locator('.quest-index-update--nuova').count(), 0)
+  assert.deepEqual(await page.locator('.quest-index-update--advice').evaluateAll(badges => badges.map(badge => ({
+    id: badge.closest('.quest-index-link')?.dataset.questId,
+    label: badge.textContent,
+  }))), [
+    { id: 'alexander', label: 'CONSIGLI' },
+    { id: 'nepheli', label: 'CONSIGLI' },
+    { id: 'diallos', label: 'CONSIGLI' },
+    { id: 'yura', label: 'CONSIGLI' },
+    { id: 'hyetta', label: 'CONSIGLI' },
+  ])
   assert.equal(await page.getByRole('searchbox', { name: 'Cerca una quest' }).isDisabled(), false)
   assert.match(await page.locator('.questbook-count').textContent(), /19 in corso/)
   assert.match(await page.locator('.quest-next-step').textContent(), /abbastanza Rune Maggiori.*Leyndell/i)
@@ -217,6 +227,7 @@ try {
   await page.locator('.quest-index').waitFor()
   assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 6)
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 0)
+  assert.equal(await page.locator('.quest-index-update--advice').count(), 5)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
   await page.screenshot({ path: 'artifacts/questbook-updates-mobile.png', fullPage: true })
   await page.goto(`${baseUrl}#/questbook/big-boys`, { waitUntil: 'networkidle' })

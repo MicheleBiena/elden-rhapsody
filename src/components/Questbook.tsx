@@ -110,7 +110,7 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
           <div className="quest-index-scroll">
             {visibleQuests.length ? <nav aria-label="Quest annotate"><ol>{visibleQuests.map(quest => <li key={quest.id}>
               <a className={`quest-index-link${selected?.id === quest.id && !invalidRoute ? ' is-selected' : ''}${quest.updateKind ? ` is-${quest.updateKind}` : ''}`} href={`#/questbook/${quest.id}`} data-quest-id={quest.id} aria-current={selected?.id === quest.id && !invalidRoute ? 'page' : undefined}>
-                <Bookmark aria-hidden="true" /><span><strong>{quest.title}</strong><span className="quest-index-meta"><small>{quest.region} · {statusLabels[quest.status]}</small>{quest.updateKind && <span className={`quest-index-update quest-index-update--${quest.updateKind}`}>{quest.updateKind}</span>}</span></span><ArrowRight className="quest-index-arrow" aria-hidden="true" />
+                <Bookmark aria-hidden="true" /><span><strong>{quest.title}</strong><span className="quest-index-meta"><small>{quest.region} · {statusLabels[quest.status]}</small>{quest.updateKind && <span className={`quest-index-update quest-index-update--${quest.updateKind}`}>{quest.updateKind}</span>}{quest.trainerAdvice && <span className="quest-index-update quest-index-update--advice">CONSIGLI</span>}</span></span><ArrowRight className="quest-index-arrow" aria-hidden="true" />
               </a>
             </li>)}</ol></nav> : <div className="quest-index-empty">
               <p>{quests.length ? 'Nessuna quest trovata.' : 'Nessuna voce, per ora.'}</p>
