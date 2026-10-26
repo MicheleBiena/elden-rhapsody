@@ -9,9 +9,9 @@ export const boardGroups = [
   { id: 'castel-morne', label: 'Castel Morne', conceptIds: ['irina', 'castel-morne', 'edgar-castellano', 'progenie', 'progenie-leonina'] },
   { id: 'penisola-capitale-chiese', label: 'Penisola, capitale e chiese', conceptIds: ['chanting-winged-dames', 'leyndell', 'draghi-antichi', 'statue-chiese-marika'] },
   { id: 'caelid', label: 'Caelid e Dracotumulo', conceptIds: ['caelid', 'dracotumulo', 'palude-aeonia', 'marcescenza', 'sellia', 'festival-radahn', 'jerren', 'alexander-vaso-guerriero'] },
-  { id: 'siofra-civilta-antiche', label: 'Fiumi e civiltà antiche', conceptIds: ['fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica', 'citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale'] },
-  { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg'] },
-  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'radici-mortali', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'lord-del-sangue', 'gurranq'] },
+  { id: 'siofra-civilta-antiche', label: 'Fiumi e civiltà antiche', conceptIds: ['fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica', 'citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale', 'lacrime-argento', 'compagnia-falco-caduto', 'tesoro-di-nokron'] },
+  { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg', 'pugnale-rovinato'] },
+  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'radici-mortali', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'lord-del-sangue', 'gurranq', 'lord-della-morte'] },
   { id: 'grantempesta', label: 'Grantempesta', conceptIds: ['margit', 'rogier', 'antica-grantempesta', 'progenie-innestata', 'nepheli-loux', 'serosh'] },
   { id: 'farum-azula', label: 'Farum Azula', conceptIds: ['farum-azula-in-frantumi'] },
 ]

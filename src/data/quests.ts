@@ -85,7 +85,6 @@ export const quests: QuestEntry[] = [
     npc: "Araldi delle Rune Maggiori",
     region: "Interregno",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "I cinque portatori di Rune Maggiori indicati da Gideon. Ottenere abbastanza rune aprirà la strada verso Leyndell.",
     lastSeen: {
@@ -306,7 +305,6 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride e Caelid",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Alexander ha combattuto al Festival di Radahn. Incrinato quasi subito, ora raccoglie i resti dei guerrieri caduti per ricostruirsi più forte.",
     lastSeen: {
@@ -369,24 +367,22 @@ export const quests: QuestEntry[] = [
       imageAlt: "La strega Sellen con la sua maschera di pietra",
       imagePosition: "50% 20%",
     },
+    trainerAdvice:
+      "Un certo festival si è concluso, il movimento delle stelle è ripreso. Parla con l’organizzatore.",
     linkedConceptIds: ["sellen"],
   },
   {
     id: "blaidd",
     title: "Era delle Stelle",
     npc: "Ranni e i suoi seguaci",
-    region: "Liurnia, Siofra e Caelid",
+    region: "Liurnia, Caelid, Limgrave e Nokron",
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Dopo il Festival di Radahn, le stelle tornano a muoversi e una di esse apre il cammino verso Nokron. Blaidd ci aspetta dove è caduta.",
+      "Le stelle riprendono il moto e il cratere apre Nokron. Iji aveva rinchiuso Blaidd in una galera eterna; liberato, Red è scesa in fondo alla città e ha preso il tesoro.",
     lastSeen: {
-      location: "Dune Gementi, Caelid",
-      note: "Dopo lo scontro, Blaidd riconosce nella stella cadente la via che cercavamo.",
-    },
-    destination: {
-      location: "Cratere della stella caduta, Sepolcride",
-      note: "Blaidd propone di ritrovarci nel punto in cui la stella ha colpito la terra e scendere insieme verso Nokron.",
+      location: "Nokron, Città Eterna",
+      note: "In fondo alla città, dopo la discesa dal cratere aperto dalla stella.",
     },
     steps: [
       {
@@ -415,12 +411,32 @@ export const quests: QuestEntry[] = [
       },
       {
         title: "Una stella apre la strada",
-        text: "Sconfitto Radahn, il suo dominio gravitazionale cede. Una stella precipita sulla Sepolcride e Blaidd capisce che il cammino verso Nokron è finalmente aperto.",
+        text: "Sconfitto Radahn, il suo dominio gravitazionale cede. Una stella precipita nel Tetrobosco, in Limgrave, e Blaidd capisce che il cammino verso Nokron è finalmente aperto.",
+      },
+      {
+        title: "Nokron, città gemella",
+        text: "Iji spiega che Nokstella ha una gemella, Nokron, localizzata sotto il pozzo del Tetrobosco. Nessuna via era stata trovata: Blaidd vi si era arenato.",
+      },
+      {
+        title: "La galera di Blaidd",
+        text: "Iji confessa di aver rinchiuso Blaidd nella galera eterna del Limiere: se Ranni resiste alle Due Dita, la sua ombra impazzisce. Red lo libera e Blaidd corre dalla principessa.",
+      },
+      {
+        title: "La discesa nel cratere",
+        text: "Red scende nel cratere aperto dalla stella caduta, presso il pozzo del Tetrobosco, e raggiunge Nokron.",
+      },
+      {
+        title: "Lacrime e soldati emaciati",
+        text: "Nella città incontriamo lacrime d’argento, soldati pallidi della Compagnia del Falco Caduto e seguaci ancestrali.",
+      },
+      {
+        title: "Il tesoro di Nokron",
+        text: "In fondo alla città troviamo una lama nata da un cadavere, intrisa di sangue: prova dell’alto tradimento della Città Eterna e simbolo della sua caduta.",
       },
     ],
     nextStep: {
-      text: "Raggiungere il punto in cui la stella è caduta e ritrovare Blaidd per scendere verso Nokron.",
-      hypothetical: false,
+      text: "Raggiungere Ranni con il tesoro di Nokron; Trainer ipotizza che la lama serva a colpire le Due Dita.",
+      hypothetical: true,
     },
     portrait: {
       imageUrl: "./concepts/strega-sconosciuta.webp",
@@ -438,8 +454,27 @@ export const quests: QuestEntry[] = [
         imageAlt: "Jerren seduto in abiti eccentrici a Castello Mantorosso",
         caption: "Jerren · araldo del Festival",
       },
+      {
+        imageUrl: "./concepts/citta-eterna.webp",
+        imageAlt: "Nokron sotto il cielo stellato sotterraneo",
+        caption: "Nokron · la Città Eterna sotto il cielo stellato",
+      },
+      {
+        imageUrl: "./concepts/galere-eterne.png",
+        imageAlt: "Il sigillo della Galera Eterna del Limiere",
+        caption: "La Galera Eterna del Limiere · prigione di Blaidd",
+      },
+      {
+        imageUrl: "./concepts/tesoro-di-nokron.png",
+        imageAlt: "La lama del tesoro di Nokron, un feticcio scuro e insanguinato",
+        caption: "Il tesoro di Nokron · lama nata da un cadavere",
+      },
     ],
-    linkedConceptIds: ["ranni-principessa-lunare", "mezzolupo", "radahn", "festival-radahn", "jerren", "citta-eterna"],
+    linkedConceptIds: [
+      "ranni-principessa-lunare", "mezzolupo", "radahn", "festival-radahn", "jerren",
+      "citta-eterna", "iji", "galere-eterne", "tesoro-di-nokron", "lacrime-argento",
+      "compagnia-falco-caduto",
+    ],
   },
   {
     id: "rogier",
@@ -449,10 +484,10 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Ranni ha abbandonato il proprio corpo fisico: il marchio cercato da Rogier deve trovarsi su quella carne. Su suo consiglio siamo entrati al servizio della principessa.",
+      "Ranni ha abbandonato il proprio corpo fisico: il marchio cercato da Rogier deve trovarsi su quella carne. Su suo consiglio siamo entrati al servizio della principessa. Il morbo mortale lo ha ormai quasi del tutto sopraffatto.",
     lastSeen: {
       location: "Tavola Rotonda",
-      note: "È seduto e mostra sul corpo tracce evidenti del morbo mortale.",
+      note: "È accasciato nella sua stanza, quasi del tutto sopraffatto dal morbo mortale.",
     },
     destination: {
       location: "Corpo fisico abbandonato di Ranni",
@@ -507,6 +542,10 @@ export const quests: QuestEntry[] = [
         title: "Entrare al servizio di Ranni",
         text: "Rogier ci consiglia di servire Ranni per avvicinarci ai suoi segreti. Seguiamo il suggerimento e accettiamo l’incarico della principessa.",
       },
+      {
+        title: "L’ultimo avvertimento",
+        text: "Rogier ci confessa di sentirsi sull’orlo di un sonno profondo e senza fondo. Teme che possa crearci problemi e vuole scusarsi in anticipo.",
+      },
     ],
     nextStep: {
       text: "Proseguire al servizio di Ranni e cercare il luogo in cui ha lasciato il corpo fisico con il marchio maledetto.",
@@ -526,11 +565,12 @@ export const quests: QuestEntry[] = [
     npc: "Fia, Compagna di Morte",
     region: "Tavola Rotonda",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Fia conosce la ricerca di Rogier sui Neri Coltelli, ci affida l’indizio del Grafopugnale e ci ringrazia dopo averlo aiutato.",
+      "Fia conosce la ricerca di Rogier sui Neri Coltelli e ci affida un pugnale rovinato da restituire al proprietario. Dopo la morte di D rivendica il gesto e annuncia che il Signore della Morte risorgerà.",
     lastSeen: {
       location: "Tavola Rotonda",
-      note: "Continua a riceverci nella propria stanza.",
+      note: "Accanto al corpo di D, dopo aver rivendicato il gesto.",
     },
     steps: [
       {
@@ -545,13 +585,36 @@ export const quests: QuestEntry[] = [
         title: "Rogier aiutato",
         text: "Dopo che abbiamo consegnato il Grafopugnale a Rogier, Fia ci ringrazia per avergli dato nuova forza e ci dona un Ramoscello sacrificale.",
       },
+      {
+        title: "Il pugnale da restituire",
+        text: "Fia ci chiede di trovare il proprietario di un pugnale rovinato e di restituirglielo. Lo ha ricevuto in dono da una persona a cui tiene molto e lo considera un oggetto prezioso.",
+      },
+      {
+        title: "Il pugnale riconsegnato",
+        text: "Consegniamo il pugnale a D. Dichiara di sapere bene di chi è e si offre di restituirlo lui stesso.",
+      },
+      {
+        title: "La morte di D",
+        text: "Poco dopo troviamo D morto, trafitto dal morbo mortale. Fia è accanto al cadavere e si assume la responsabilità del gesto. Ci chiede di riferire alla Tavola Rotonda di non turbare la morte di Godwyn l’Elevato: Coloro che vivono nella morte attendono il proprio Signore, che risorgerà, signore dei molti e dei miti.",
+      },
     ],
+    nextStep: {
+      text: "Riferire alla Tavola Rotonda il monito di Fia.",
+      hypothetical: false,
+    },
     portrait: {
       imageUrl: "./concepts/fia-tavola-rotonda.png",
       imageAlt: "Fia seduta nella propria stanza alla Tavola Rotonda",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["fia", "rogier", "assassine-neri-coltelli", "notte-neri-coltelli"],
+    gallery: [
+      {
+        imageUrl: "./concepts/pugnale-rovinato.png",
+        imageAlt: "Il Pugnale Rovinato ricevuto da Fia, consunto e segnato da una fenditura nera",
+        caption: "Pugnale Rovinato · da restituire al legittimo proprietario",
+      },
+    ],
+    linkedConceptIds: ["fia", "rogier", "assassine-neri-coltelli", "notte-neri-coltelli", "pugnale-rovinato", "lord-della-morte", "d-cacciatore"],
   },
   {
     id: "roderika",
@@ -592,10 +655,12 @@ export const quests: QuestEntry[] = [
     npc: "D, cacciatore di non morti",
     region: "Tavola Rotonda",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Abbiamo ucciso il marinaio non morto da cui D ci aveva messi in guardia e incontrato Gurranq seguendo la sua indicazione.",
+      "D riconosce il pugnale ricevuto da Fia e si offre di restituirlo al legittimo proprietario. Poco dopo lo troviamo morto, trafitto dal morbo mortale.",
     lastSeen: {
       location: "Tavola Rotonda",
+      note: "Trovato senza vita; Fia era accanto al corpo.",
     },
     steps: [
       {
@@ -610,7 +675,19 @@ export const quests: QuestEntry[] = [
         title: "L’incontro con Gurranq",
         text: "D ci indirizza verso Gurranq, la bestia ecclesiastica. Lo abbiamo raggiunto e incontrato.",
       },
+      {
+        title: "Il pugnale rovinato",
+        text: "D riconosce il pugnale ricevuto da Fia, dice di sapere bene di chi è e si offre di restituirlo lui stesso.",
+      },
+      {
+        title: "La morte di D",
+        text: "Poco dopo lo troviamo morto, trafitto dal morbo mortale. Fia è accanto al cadavere e rivendica il gesto.",
+      },
     ],
+    nextStep: {
+      text: "L’armatura di D parla di un altro D. Non sappiamo ancora dove cercarlo.",
+      hypothetical: true,
+    },
     portrait: {
       imageUrl: "./concepts/d.jpg",
       imageAlt: "D con l’armatura gemella e una seconda testa sulla spalla",
@@ -620,6 +697,10 @@ export const quests: QuestEntry[] = [
       "d-cacciatore",
       "coloro-che-vivono-nella-morte",
       "gurranq",
+      "pugnale-rovinato",
+      "fia",
+      "lord-della-morte",
+      "morbo-mortale",
     ],
   },
   {
@@ -758,7 +839,6 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Seluvis vuole far bere a Nepheli una pozione. Gideon propone di eliminarla di nascosto e mentire allo stregone, che definisce un molestatore di bambole.",
     lastSeen: {
@@ -966,7 +1046,6 @@ export const quests: QuestEntry[] = [
     npc: "Thops",
     region: "Liurnia Lacustre",
     status: "conclusa",
-    updateKind: "aggiornata",
     summary:
       "Consegnata la seconda Chiave di scintipietra, Thops torna a Raya Lucaria e completa una barriera degna di una nuova Epitome. Lo ritroviamo morto alla sua scrivania.",
     lastSeen: {

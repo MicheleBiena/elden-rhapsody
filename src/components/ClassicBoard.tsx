@@ -45,6 +45,11 @@ const boardHeight = 29000
 const latestLiveLayoutConceptIds = new Set([
   'festival-radahn',
   'jerren',
+  'pugnale-rovinato',
+  'lord-della-morte',
+  'lacrime-argento',
+  'compagnia-falco-caduto',
+  'tesoro-di-nokron',
 ])
 const previousLiveLayoutConceptIds = new Set([
   'ragno-mani',
@@ -567,6 +572,11 @@ const boardConceptOrder = [
   'seluvis',
   'festival-radahn',
   'jerren',
+  'pugnale-rovinato',
+  'lord-della-morte',
+  'lacrime-argento',
+  'compagnia-falco-caduto',
+  'tesoro-di-nokron',
 ] as const
 
 const orderedConcepts = boardConceptOrder
