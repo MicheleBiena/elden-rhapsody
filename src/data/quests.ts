@@ -343,8 +343,9 @@ export const quests: QuestEntry[] = [
     npc: "Sellen",
     region: "Sepolcride",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Abbiamo incontrato Sellen e un suo apparente duplicato. Non sappiamo ancora come spiegare il «manichino» o come intervenire.",
+      "Oltre alla Sellen imprigionata, nel nascondiglio segreto di Seluvis abbiamo trovato un fantoccio con il suo aspetto. Il rapporto fra questi corpi resta da chiarire.",
     lastSeen: {
       location: "Sepolcride centrale",
     },
@@ -357,9 +358,13 @@ export const quests: QuestEntry[] = [
         title: "Il manichino",
         text: "Troviamo anche una seconda figura identica a Sellen: per ora il suo legame con la maestra rimane da chiarire.",
       },
+      {
+        title: "Il fantoccio di Seluvis",
+        text: "Nel nascondiglio segreto di Seluvis troviamo un fantoccio con l’aspetto di Sellen. La scoperta lega lo stregone ai suoi molteplici corpi, senza ancora spiegarne il funzionamento.",
+      },
     ],
     nextStep: {
-      text: "Trovare qualcuno che possa spiegarci il clone e che cosa possiamo fare per Sellen. Non abbiamo ancora un nome o un luogo da seguire.",
+      text: "Capire quale rapporto unisca la maestra, la prigioniera e il fantoccio conservato da Seluvis.",
       hypothetical: true,
     },
     portrait: {
@@ -369,7 +374,7 @@ export const quests: QuestEntry[] = [
     },
     trainerAdvice:
       "Un certo festival si è concluso, il movimento delle stelle è ripreso. Parla con l’organizzatore.",
-    linkedConceptIds: ["sellen"],
+    linkedConceptIds: ["sellen", "seluvis", "fantocci-seluvis"],
   },
   {
     id: "blaidd",
@@ -379,10 +384,10 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Le stelle riprendono il moto e il cratere apre Nokron. Iji aveva rinchiuso Blaidd in una galera eterna; liberato, Red è scesa in fondo alla città e ha preso il tesoro.",
+      "Consegnato il tesoro di Nokron, Ranni parte sul sentiero oscuro che solo lei può percorrere. La statuetta ricevuta apre la Torre Divina di Liurnia, dove troviamo il suo corpo e il Marchio della Morte.",
     lastSeen: {
-      location: "Nokron, Città Eterna",
-      note: "In fondo alla città, dopo la discesa dal cratere aperto dalla stella.",
+      location: "Guglia di Ranni, Tre Sorelle",
+      note: "Dopo aver ricevuto il tesoro, Ranni ci congeda e parte per il proprio viaggio.",
     },
     steps: [
       {
@@ -433,11 +438,24 @@ export const quests: QuestEntry[] = [
         title: "Il tesoro di Nokron",
         text: "In fondo alla città troviamo una lama nata da un cadavere, intrisa di sangue: prova dell’alto tradimento della Città Eterna e simbolo della sua caduta.",
       },
+      {
+        title: "Tutti i pezzi al loro posto",
+        text: "Consegniamo la lama a Ranni. La principessa ci ringrazia, dice che tutto è pronto e parte lungo un sentiero oscuro che soltanto lei può percorrere.",
+      },
+      {
+        title: "Il dono capovolto",
+        text: "Prima di congedarci Ranni ci affida una statuetta. Collocata sul globo della Torre di Studio Cariana, ne capovolge la struttura e rivela il passaggio verso la Torre Divina.",
+      },
+      {
+        title: "Il corpo e il Marchio",
+        text: "Sulla Torre Divina di Liurnia, oltre un guardiano mastodontico che usa fiamme nere, troviamo il corpo fisico di Ranni e il Marchio della Morte inciso sulla carne.",
+      },
+      {
+        title: "La torre vuota di Seluvis",
+        text: "Troviamo Seluvis senza vita e scopriamo il suo nascondiglio di fantocci, fra cui uno con l’aspetto di Sellen.",
+      },
     ],
-    nextStep: {
-      text: "Raggiungere Ranni con il tesoro di Nokron; Trainer ipotizza che la lama serva a colpire le Due Dita.",
-      hypothetical: true,
-    },
+    trainerAdvice: "Esplora la torre di Renna.",
     portrait: {
       imageUrl: "./concepts/strega-sconosciuta.webp",
       imageAlt: "Ranni nella sua forma di bambola, sotto un grande cappello",
@@ -473,7 +491,8 @@ export const quests: QuestEntry[] = [
     linkedConceptIds: [
       "ranni-principessa-lunare", "mezzolupo", "radahn", "festival-radahn", "jerren",
       "citta-eterna", "iji", "galere-eterne", "tesoro-di-nokron", "lacrime-argento",
-      "compagnia-falco-caduto",
+      "compagnia-falco-caduto", "torre-studio-cariana", "marchio-centipede", "seluvis",
+      "fantocci-seluvis",
     ],
   },
   {
@@ -481,17 +500,13 @@ export const quests: QuestEntry[] = [
     title: "Beata ignoranza",
     npc: "Stregone Rogier",
     region: "Grantempesta",
-    status: "in-corso",
+    status: "conclusa",
     updateKind: "aggiornata",
     summary:
-      "Ranni ha abbandonato il proprio corpo fisico: il marchio cercato da Rogier deve trovarsi su quella carne. Su suo consiglio siamo entrati al servizio della principessa. Il morbo mortale lo ha ormai quasi del tutto sopraffatto.",
+      "Rogier è morto consumato dal morbo mortale. La sua ultima lettera indica il fratello minore di D, addormentato nell’acquedotto presso Nokron vicino al Principe della Morte.",
     lastSeen: {
       location: "Tavola Rotonda",
-      note: "È accasciato nella sua stanza, quasi del tutto sopraffatto dal morbo mortale.",
-    },
-    destination: {
-      location: "Corpo fisico abbandonato di Ranni",
-      note: "Il marchio maledetto non è sulla bambola: occorre rintracciare la carne lasciata dalla principessa.",
+      note: "Ritrovato senza vita, con una lettera scritta da una mano tremante.",
     },
     steps: [
       {
@@ -546,18 +561,22 @@ export const quests: QuestEntry[] = [
         title: "L’ultimo avvertimento",
         text: "Rogier ci confessa di sentirsi sull’orlo di un sonno profondo e senza fondo. Teme che possa crearci problemi e vuole scusarsi in anticipo.",
       },
+      {
+        title: "La morte di Rogier",
+        text: "Torniamo alla Tavola Rotonda e troviamo Rogier morto, ormai sopraffatto dal morbo mortale.",
+      },
+      {
+        title: "La lettera tremante",
+        text: "Rogier lascia scritto che D ha un fratello minore: dorme nell’acquedotto presso Nokron e si dice abbia sostato davanti al Principe della Morte.",
+      },
     ],
-    nextStep: {
-      text: "Proseguire al servizio di Ranni e cercare il luogo in cui ha lasciato il corpo fisico con il marchio maledetto.",
-      hypothetical: false,
-    },
     portrait: {
       imageUrl: "./concepts/rogier.png",
       imageAlt:
         "Rogier con il cappello da stregone nella chiesa di Grantempesta",
       imagePosition: "50% 20%",
     },
-    linkedConceptIds: ["rogier", "ranni-principessa-lunare", "assassine-neri-coltelli", "morbo-mortale", "marchio-centipede", "notte-neri-coltelli", "runa-della-morte", "coloro-che-vivono-nella-morte", "d-cacciatore"],
+    linkedConceptIds: ["rogier", "ranni-principessa-lunare", "assassine-neri-coltelli", "morbo-mortale", "marchio-centipede", "notte-neri-coltelli", "runa-della-morte", "coloro-che-vivono-nella-morte", "d-cacciatore", "citta-eterna", "lord-della-morte"],
   },
   {
     id: "fia",
@@ -657,10 +676,14 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "D riconosce il pugnale ricevuto da Fia e si offre di restituirlo al legittimo proprietario. Poco dopo lo troviamo morto, trafitto dal morbo mortale.",
+      "D è morto per il morbo. La lettera di Rogier rivela che il fratello minore dorme nell’acquedotto presso Nokron, dove avrebbe sostato davanti al Principe della Morte.",
     lastSeen: {
       location: "Tavola Rotonda",
       note: "Trovato senza vita; Fia era accanto al corpo.",
+    },
+    destination: {
+      location: "Acquedotto presso Nokron",
+      note: "La lettera di Rogier colloca qui il fratello minore di D.",
     },
     steps: [
       {
@@ -683,11 +706,16 @@ export const quests: QuestEntry[] = [
         title: "La morte di D",
         text: "Poco dopo lo troviamo morto, trafitto dal morbo mortale. Fia è accanto al cadavere e rivendica il gesto.",
       },
+      {
+        title: "Il fratello minore",
+        text: "Nella sua ultima lettera Rogier rivela che il fratello minore di D dorme in un acquedotto presso Nokron e che avrebbe sostato davanti al Principe della Morte.",
+      },
     ],
     nextStep: {
-      text: "L’armatura di D parla di un altro D. Non sappiamo ancora dove cercarlo.",
-      hypothetical: true,
+      text: "Raggiungere il fratello minore di D nell’acquedotto presso Nokron.",
+      hypothetical: false,
     },
+    trainerAdvice: "Torna nei campi vicini a Nokron e osserva i dirupi.",
     portrait: {
       imageUrl: "./concepts/d.jpg",
       imageAlt: "D con l’armatura gemella e una seconda testa sulla spalla",
@@ -701,6 +729,8 @@ export const quests: QuestEntry[] = [
       "fia",
       "lord-della-morte",
       "morbo-mortale",
+      "rogier",
+      "citta-eterna",
     ],
   },
   {

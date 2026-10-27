@@ -9,10 +9,10 @@ try {
   page.on('pageerror', error => errors.push(error.message))
   await page.goto(`${baseUrl}#/board`, { waitUntil: 'domcontentloaded' })
   await page.evaluate(() => document.fonts.ready)
-  assert.equal(await page.locator('#dossier-page-title').textContent(), 'Fiumi e civiltà antiche')
-  assert.equal(await page.locator('.dossier-note').count(), 9)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 4)
-  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Fiume Ainsel')
+  assert.equal(await page.locator('#dossier-page-title').textContent(), 'Stregoneria')
+  assert.equal(await page.locator('.dossier-note').count(), 19)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 7)
+  assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Accademia di Raya Lucaria')
   const groupButtons = page.locator('.dossier-rail button')
   assert.equal(await groupButtons.count(), 13)
   await groupButtons.nth(3).click()
@@ -47,7 +47,7 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 117)
+  assert.equal(allIds.size, 119)
 
   await groupButtons.nth(0).click()
   await page.getByRole('button', { name: 'Apri Radahn', exact: true }).click()
@@ -60,6 +60,8 @@ try {
     'Arboscello · nasce dai Semi d’oro dopo lo Shattering',
   ])
   await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
+  await page.getByRole('button', { name: 'Apri Torri Divine', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /Torre Divina di Liurnia.*corpo.*Ranni.*Marchio della Morte/is)
 
   await groupButtons.nth(2).click()
   assert.equal(await page.locator('.dossier-note').count(), 9)
@@ -79,8 +81,8 @@ try {
   await page.screenshot({ path: 'artifacts/dossiers-new-notes.png', fullPage: true })
 
   await groupButtons.nth(3).click()
-  assert.equal(await page.locator('.dossier-note').count(), 18)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
+  assert.equal(await page.locator('.dossier-note').count(), 19)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 7)
   await page.getByRole('button', { name: 'Apri Accademia di Raya Lucaria', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /neutralità.*sigilli.*Chiave di scintipietra/is)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
@@ -106,7 +108,8 @@ try {
   await page.getByRole('button', { name: 'Apri Rennala', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /uovo d’ambra.*reincarnazione.*imperfe/is)
   assert.match(await page.locator('.dossier-detail').textContent(), /Ranni.*spiritica.*pieno.*potenza/is)
-  assert.equal(await page.locator('.dossier-text-section').count(), 3)
+  assert.equal(await page.locator('.dossier-text-section').count(), 4)
+  assert.match(await page.locator('.dossier-detail').textContent(), /giovane astrologa.*luna piena.*regina/is)
   await page.getByRole('button', { name: 'Apri Cavalieri cariani', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /scudo.*goccia.*magia.*sacro/is)
   await page.getByRole('button', { name: 'Apri Soldati Marionetta', exact: true }).click()
@@ -120,16 +123,24 @@ try {
   await page.getByRole('button', { name: 'Apri Azur', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /oltre la sapienza della pietra.*più PA/is)
   await page.getByRole('button', { name: 'Apri Ranni, Principessa Lunare', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /Renna.*corpo fisico.*vecchia strega delle nevi.*Luna Nera/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Renna.*strega delle nevi.*sentiero oscuro.*corpo originario.*capelli rossi.*Marchio della Morte/is)
+  assert.equal(await page.locator('.dossier-gallery').count(), 3)
+  await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri Guardia Reale Loretta', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /spirito.*cavallo.*stregonerie cariane.*arco/is)
   await page.getByRole('button', { name: 'Apri Seluvis', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /Ranni.*pozioni.*bambole/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /maschera.*Radagon.*fantocci.*Sellen.*senza vita/is)
+  await page.getByRole('button', { name: 'Apri Fantocci di Seluvis', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /Therolina.*uomo.*interiora.*vaso guerriero/is)
+  assert.equal(await page.locator('.dossier-gallery').count(), 1)
   await page.screenshot({ path: 'artifacts/dossiers-magic-update.png', fullPage: true })
 
   await groupButtons.nth(4).click()
-  assert.equal(await page.locator('.dossier-note').count(), 10)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 0)
+  assert.equal(await page.locator('.dossier-note').count(), 11)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
+  await page.getByRole('button', { name: 'Apri Torre di Studio Cariana', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /globo celeste.*capovolge.*Torre Divina.*fiamme nere/is)
+  await page.locator('.dossier-detail-scroll img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri “Ragno-Mani”', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /mani mozzate.*dita.*trappole.*anelli/is)
   await page.getByRole('button', { name: 'Apri Hyetta', exact: true }).click()
@@ -181,6 +192,15 @@ try {
   await page.locator('.dossier-note img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.screenshot({ path: 'artifacts/dossiers-siofra.png', fullPage: true })
 
+  await groupButtons.nth(10).click()
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 4)
+  await page.getByRole('button', { name: 'Apri Marchio della Morte', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /due semidei.*Ranni.*carne.*Principe della Morte.*anima/is)
+
+  await groupButtons.nth(11).click()
+  await page.getByRole('button', { name: 'Apri Stregone Rogier', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /morto.*lettera.*fratello minore di D.*acquedotto.*Nokron/is)
+
   await groupButtons.nth(5).click()
   await page.waitForURL(/#\/board\/irina$/)
   for (const [id, position] of [['edgar-castellano', '50% 28%'], ['progenie', '100% 20%']]) {
@@ -225,8 +245,16 @@ try {
 
   const liveNotes = [
     ['radahn', 'Aggiornata'],
+    ['torri-divine', 'Aggiornata'],
     ['mezzolupo', 'Aggiornata'],
+    ['sellen', 'Aggiornata'],
+    ['rennala', 'Aggiornata'],
+    ['ranni-principessa-lunare', 'Aggiornata'],
+    ['seluvis', 'Aggiornata'],
+    ['fantocci-seluvis', 'Nuova'],
     ['iji', 'Aggiornata'],
+    ['radagon', 'Aggiornata'],
+    ['torre-studio-cariana', 'Nuova'],
     ['citta-eterna', 'Aggiornata'],
     ['lacrime-argento', 'Nuova'],
     ['compagnia-falco-caduto', 'Nuova'],
@@ -236,12 +264,18 @@ try {
     ['pugnale-rovinato', 'Nuova'],
     ['coloro-che-vivono-nella-morte', 'Aggiornata'],
     ['morbo-mortale', 'Aggiornata'],
+    ['marchio-centipede', 'Aggiornata'],
     ['lord-della-morte', 'Nuova'],
+    ['rogier', 'Aggiornata'],
     ['serosh', 'Aggiornata'],
   ]
-  await page.getByRole('button', { name: '14 da leggere', exact: true }).click()
-  const currentLiveHighlights = new Set(['radahn', 'mezzolupo', 'iji', 'citta-eterna', 'serosh'])
-  const previousLiveNotes = new Set(['d-cacciatore', 'fia', 'coloro-che-vivono-nella-morte', 'morbo-mortale'])
+  await page.getByRole('button', { name: '24 da leggere', exact: true }).click()
+  const currentLiveHighlights = new Set([
+    'radahn', 'mezzolupo', 'sellen', 'd-cacciatore', 'citta-eterna', 'rogier',
+    'torri-divine', 'serosh', 'morbo-mortale', 'marchio-centipede', 'rennala',
+    'radagon', 'ranni-principessa-lunare', 'iji', 'seluvis',
+  ])
+  const previousLiveNotes = new Set(['fia', 'coloro-che-vivono-nella-morte'])
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
@@ -268,11 +302,11 @@ try {
   assert.equal(await page.locator('#dossier-page-title').textContent(), 'Stregoneria')
   assert.equal(await page.locator('.dossier-gallery figcaption').textContent(), 'Piedi')
   assert.match(await page.locator('.dossier-detail').textContent(), /seconda Sellen/i)
-  assert.equal(await page.locator('.live-update-highlight').count(), 0)
+  assert.ok(await page.locator('.live-update-highlight').count() > 0)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
-  assert.equal(await page.locator('.dossier-note').count(), 1)
+  assert.equal(await page.locator('.dossier-note').count(), 7)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
-  assert.equal(await page.locator('.dossier-note').count(), 18)
+  assert.equal(await page.locator('.dossier-note').count(), 19)
   await page.getByRole('searchbox').fill('nessun-risultato-inesistente')
   assert.equal(await page.locator('.dossier-note').count(), 0)
   await page.getByRole('button', { name: 'Mostra il fascicolo', exact: true }).click()
@@ -316,9 +350,9 @@ try {
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v8'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v7'))
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 117)
+  assert.equal(await page.locator('.concept-card').count(), 119)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
-  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length === 117)
+  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length === 119)
   const v10Positions = '{"elden-ring":{"x":22,"y":4.8},"godrick-innestato":{"x":40,"y":18}}'
   await page.evaluate(value => {
     localStorage.setItem('elden-rhapsody:board-positions-v10', value)
@@ -367,7 +401,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 117 cards, 14 unread, including the Fia, D, Rogier, Radahn and Nokron notes, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 119 cards, 24 unread, including Ranni, the Carian Study Hall, Seluvis puppets and all previous notes, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }

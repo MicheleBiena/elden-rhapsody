@@ -50,6 +50,8 @@ const latestLiveLayoutConceptIds = new Set([
   'lacrime-argento',
   'compagnia-falco-caduto',
   'tesoro-di-nokron',
+  'torre-studio-cariana',
+  'fantocci-seluvis',
 ])
 const previousLiveLayoutConceptIds = new Set([
   'ragno-mani',
@@ -503,6 +505,7 @@ const boardConceptOrder = [
   'roderika',
   'galere-eterne',
   'liurnia-lacustre',
+  'torre-studio-cariana',
   'accademia-raya-lucaria',
   'ritratti-raya-lucaria',
   'maschere-scintipietra',
@@ -570,6 +573,7 @@ const boardConceptOrder = [
   'ragno-mani',
   'loretta',
   'seluvis',
+  'fantocci-seluvis',
   'festival-radahn',
   'jerren',
   'pugnale-rovinato',
