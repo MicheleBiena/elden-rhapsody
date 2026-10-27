@@ -52,7 +52,7 @@ try {
   await groupButtons.nth(0).click()
   await page.getByRole('button', { name: 'Apri Radahn', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Signore d’Alabastro.*destriero.*marcescenza.*stelle/is)
-  assert.ok(await page.locator('.live-update-highlight').count() > 0)
+  assert.equal(await page.locator('.live-update-highlight').count(), 2)
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
   await page.getByRole('button', { name: 'Apri Albero Madre', exact: true }).click()
   assert.deepEqual(await page.locator('.dossier-gallery figcaption').allTextContents(), [
@@ -62,6 +62,7 @@ try {
   await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri Torri Divine', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Torre Divina di Liurnia.*corpo.*Ranni.*Marchio della Morte/is)
+  assert.equal(await page.locator('.live-update-highlight').count(), 1)
 
   await groupButtons.nth(2).click()
   assert.equal(await page.locator('.dossier-note').count(), 9)
@@ -110,6 +111,11 @@ try {
   assert.match(await page.locator('.dossier-detail').textContent(), /Ranni.*spiritica.*pieno.*potenza/is)
   assert.equal(await page.locator('.dossier-text-section').count(), 4)
   assert.match(await page.locator('.dossier-detail').textContent(), /giovane astrologa.*luna piena.*regina/is)
+  assert.equal(await page.locator('.live-update-highlight').count(), 1)
+  assert.equal(await page.locator('.dossier-text-section.is-highlighted').count(), 1)
+  await page.getByRole('button', { name: 'Apri Radagon', exact: true }).click()
+  assert.equal(await page.locator('.live-update-highlight').count(), 1)
+  assert.equal(await page.locator('.dossier-text-section.is-highlighted').count(), 0)
   await page.getByRole('button', { name: 'Apri Cavalieri cariani', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /scudo.*goccia.*magia.*sacro/is)
   await page.getByRole('button', { name: 'Apri Soldati Marionetta', exact: true }).click()
@@ -125,14 +131,18 @@ try {
   await page.getByRole('button', { name: 'Apri Ranni, Principessa Lunare', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Renna.*strega delle nevi.*sentiero oscuro.*corpo originario.*capelli rossi.*Marchio della Morte/is)
   assert.equal(await page.locator('.dossier-gallery').count(), 3)
+  assert.equal(await page.locator('.live-update-highlight').count(), 2)
   await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri Guardia Reale Loretta', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /spirito.*cavallo.*stregonerie cariane.*arco/is)
   await page.getByRole('button', { name: 'Apri Seluvis', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /maschera.*Radagon.*fantocci.*Sellen.*senza vita/is)
+  assert.equal(await page.locator('.live-update-highlight').count(), 2)
   await page.getByRole('button', { name: 'Apri Fantocci di Seluvis', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Therolina.*uomo.*interiora.*vaso guerriero/is)
   assert.equal(await page.locator('.dossier-gallery').count(), 1)
+  assert.equal(await page.locator('.live-update-highlight').count(), 0)
+  assert.equal(await page.locator('.dossier-text-section.is-highlighted').count(), 0)
   await page.screenshot({ path: 'artifacts/dossiers-magic-update.png', fullPage: true })
 
   await groupButtons.nth(4).click()
@@ -140,6 +150,7 @@ try {
   assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
   await page.getByRole('button', { name: 'Apri Torre di Studio Cariana', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /globo celeste.*capovolge.*Torre Divina.*fiamme nere/is)
+  assert.equal(await page.locator('.live-update-highlight').count(), 0)
   await page.locator('.dossier-detail-scroll img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri “Ragno-Mani”', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /mani mozzate.*dita.*trappole.*anelli/is)
@@ -196,6 +207,8 @@ try {
   assert.equal(await page.locator('.dossier-note.is-unread').count(), 4)
   await page.getByRole('button', { name: 'Apri Marchio della Morte', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /due semidei.*Ranni.*carne.*Principe della Morte.*anima/is)
+  assert.equal(await page.locator('.live-update-highlight').count(), 1)
+  await page.locator('.dossier-detail-scroll > .dossier-image-open img.concept-image').evaluate(image => image.decode())
 
   await groupButtons.nth(11).click()
   await page.getByRole('button', { name: 'Apri Stregone Rogier', exact: true }).click()
@@ -270,19 +283,14 @@ try {
     ['serosh', 'Aggiornata'],
   ]
   await page.getByRole('button', { name: '24 da leggere', exact: true }).click()
-  const currentLiveHighlights = new Set([
-    'radahn', 'mezzolupo', 'sellen', 'd-cacciatore', 'citta-eterna', 'rogier',
-    'torri-divine', 'serosh', 'morbo-mortale', 'marchio-centipede', 'rennala',
-    'radagon', 'ranni-principessa-lunare', 'iji', 'seluvis',
-  ])
-  const previousLiveNotes = new Set(['fia', 'coloro-che-vivono-nella-morte'])
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
     await page.waitForFunction(({ expected, total }) => document.querySelector('.dossier-stepper')?.textContent.includes(`Live ${expected} di ${total}`), { expected: index + 1, total: liveNotes.length })
     assert.match(await page.locator('.dossier-detail-meta').textContent(), new RegExp(kind))
-    if (currentLiveHighlights.has(id)) assert.ok(await page.locator('.live-update-highlight').count() > 0, `${id} should highlight the current live additions`)
-    if (previousLiveNotes.has(id)) assert.equal(await page.locator('.live-update-highlight').count(), 0, `${id} should not label the previous live as "Aggiunto ora"`)
+    const addedNowLabels = await page.locator('.live-update-highlight').count() + await page.locator('.dossier-text-section.is-highlighted').count()
+    if (kind === 'Aggiornata') assert.ok(addedNowLabels > 0, `${id} should identify only its latest additions`)
+    else assert.equal(addedNowLabels, 0, `${id} is new: the card badge is sufficient and should not repeat “Aggiunto ora”`)
     if (index < liveNotes.length - 1) await page.getByRole('button', { name: 'Appunto successivo', exact: true }).click()
   }
   await page.getByRole('button', { name: 'Esci dalla lettura live', exact: true }).click()

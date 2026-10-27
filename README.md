@@ -25,6 +25,11 @@ Le note appena introdotte sono marcate come **Nuova**, quelle ampliate come
 è cambiato dall'episodio precedente. La **Lavagna completa** conserva anche la
 vista d'insieme con tutte le schede e tutti i collegamenti.
 
+**«Aggiunto ora» non è uno storico cumulativo.** Quando una scheda già aggiornata
+riceve nuove informazioni, le evidenziazioni precedenti vengono sostituite e
+restano marcati soltanto i passaggi dell’ultimo aggiornamento ancora da leggere.
+Le schede nuove usano il badge **Nuova** e non evidenziano di nuovo ogni paragrafo.
+
 L’archivio contiene 119 schede: 95 già lette e 24 da leggere. Le 14 note del
 blocco precedente restano non lette; si aggiungono la Torre di Studio Cariana e
 i Fantocci di Seluvis, oltre agli aggiornamenti su Ranni, Rogier, il Marchio della
