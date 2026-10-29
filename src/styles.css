@@ -1101,6 +1101,20 @@ main:focus-visible {
   background: #8c3028;
 }
 
+.trainer-insight-badge {
+  display: inline-flex;
+  min-height: 22px;
+  align-items: center;
+  padding: 3px 7px;
+  border: 1px solid rgba(86, 67, 103, 0.48);
+  border-radius: 3px;
+  color: #4c345e;
+  background: #e6dceb;
+  font: 800 0.56rem/1.2 'Roboto', system-ui, sans-serif;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
 .concept-card > .live-read-badge {
   position: absolute;
   z-index: 6;
@@ -1202,10 +1216,12 @@ main:focus-visible {
 .concept-card__meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 8px;
   margin-bottom: 8px;
 }
+
+.concept-card__meta .state-badge { margin-left: auto; }
 
 .concept-card__meta > span:first-child {
   color: #6f624d;

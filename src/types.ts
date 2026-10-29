@@ -15,6 +15,8 @@ export interface LoreConcept {
   state: ConceptState
   liveReadStatus: LiveReadStatus
   liveUpdateKind?: 'nuova' | 'aggiornata'
+  // Approfondimento editoriale di Trainer: separato dai fatti osservati in live.
+  trainerInsight?: boolean
   summary: string
   body: string
   bodyHighlights?: string[]
@@ -114,6 +116,7 @@ export interface QuestEntry {
   nextStep?: { text: string; hypothetical?: boolean }
   // Aiuto esterno facoltativo: resta nascosto finché il lettore non accetta lo spoiler.
   trainerAdvice?: string
+  trainerAdviceImage?: QuestImage
   gallery?: QuestImage[]
   linkedConceptIds?: string[]
   targets?: QuestTarget[]

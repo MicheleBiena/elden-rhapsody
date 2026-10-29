@@ -145,7 +145,12 @@
 .quest-trainer-trigger small { color: var(--journal-muted); font-size: .76rem; line-height: 1.35; }
 .quest-trainer-copy { padding: 16px 18px 18px 51px; border-top: 1px solid #8a75494d; }
 .quest-trainer-copy .quest-small-label { margin: 0 0 7px; color: #7a2c27; }
-.quest-trainer-copy > p:last-child { max-width: 68ch; margin: 0; color: #4d493c; font-size: .95rem; line-height: 1.7; }
+.quest-trainer-copy > p:not(.quest-small-label) { max-width: 68ch; margin: 0; color: #4d493c; font-size: .95rem; line-height: 1.7; }
+.quest-trainer-visual { max-width: 680px; margin: 18px 0 0; }
+.quest-trainer-visual button { position: relative; width: 100%; padding: 5px; border: 1px solid #9c886b; background: #f2e8ce; box-shadow: 2px 3px 0 #6c56381a; }
+.quest-trainer-visual img { display: block; width: 100%; height: auto; }
+.quest-trainer-visual button > svg { position: absolute; right: 10px; bottom: 10px; width: 28px; height: 28px; padding: 5px; color: #f3ead6; background: #24251dcf; }
+.quest-trainer-visual figcaption { margin-top: 8px; color: var(--journal-muted); font: 500 .9rem/1.4 'Newsreader', Georgia, serif; }
 .quest-gallery { margin-bottom: 32px; }
 .quest-gallery > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .quest-gallery figure { margin: 0; }

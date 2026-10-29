@@ -198,6 +198,13 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
               {revealedTrainerAdvice[selected.id] && <div className="quest-trainer-copy" id={`trainer-advice-${selected.id}`} role="region" aria-label="Consiglio di Trainer" aria-live="polite">
                 <p className="quest-small-label">Spoiler facoltativo</p>
                 <p>{selected.trainerAdvice}</p>
+                {selected.trainerAdviceImage && <figure className="quest-trainer-visual">
+                  <button type="button" aria-label={`Ingrandisci: ${selected.trainerAdviceImage.caption || selected.trainerAdviceImage.imageAlt}`} onClick={() => setPhoto(selected.trainerAdviceImage)}>
+                    <JournalImage photo={selected.trainerAdviceImage} />
+                    <Expand aria-hidden="true" />
+                  </button>
+                  {selected.trainerAdviceImage.caption && <figcaption>{selected.trainerAdviceImage.caption}</figcaption>}
+                </figure>}
               </div>}
             </section>}
 

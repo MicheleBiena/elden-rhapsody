@@ -30,10 +30,13 @@ riceve nuove informazioni, le evidenziazioni precedenti vengono sostituite e
 restano marcati soltanto i passaggi dell’ultimo aggiornamento ancora da leggere.
 Le schede nuove usano il badge **Nuova** e non evidenziano di nuovo ogni paragrafo.
 
-L’archivio contiene 119 schede: 95 già lette e 24 da leggere. Le 14 note del
-blocco precedente restano non lette; si aggiungono la Torre di Studio Cariana e
-i Fantocci di Seluvis, oltre agli aggiornamenti su Ranni, Rogier, il Marchio della
-Morte, D e la famiglia cariana. Le note mantengono una separazione netta:
+Gli approfondimenti editoriali esterni alla live sono riconoscibili dal tag
+**Approfondimento di Trainer**. Restano separati dalle osservazioni confermate e
+non anticipano la soluzione del mistero proposto.
+
+L’archivio contiene 120 schede: 93 già lette e 27 da leggere. Le 24 note del
+blocco precedente restano non lette; si aggiunge l’approfondimento sulle Farfalle
+e vengono aggiornati Crogiolo primordiale e Ordine Aureo. Le note mantengono una separazione netta:
 identità, lore e ipotesi sulla lavagna;
 azioni compiute, posizioni e prossimi passi nel Questbook. Quando un fatto è già
 spiegato altrove, il testo rimanda alla scheda dedicata.
@@ -51,7 +54,9 @@ Il diario contiene 22 quest: 18 in corso e quattro concluse. In **Era delle Stel
 Ranni ha ricevuto il tesoro di Nokron ed è partita sul proprio sentiero oscuro;
 la statuetta donata conduce al suo corpo e al Marchio della Morte. **Beata
 ignoranza** si conclude con la morte di Rogier e la sua lettera sul fratello di D.
-Gli otto **Consigli di Trainer** restano nascosti dietro un comando che avverte chiaramente
+Il gemello è stato raggiunto all’acquedotto di Nokron; Alexander è di nuovo
+incastrato vicino a Vasburgo e Hyetta ha scoperto la natura delle Uve di Shabriri.
+I sei **Consigli di Trainer** restano nascosti dietro un comando che avverte chiaramente
 dello spoiler; nell'indice, queste pagine sono riconoscibili dal tag **CONSIGLI**.
 La pagina **The Big Boys** non depenna Radahn automaticamente: lo
 stato cambia soltanto con la scelta esplicita del lettore.

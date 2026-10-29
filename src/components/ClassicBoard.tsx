@@ -52,6 +52,7 @@ const latestLiveLayoutConceptIds = new Set([
   'tesoro-di-nokron',
   'torre-studio-cariana',
   'fantocci-seluvis',
+  'farfalle',
 ])
 const previousLiveLayoutConceptIds = new Set([
   'ragno-mani',
@@ -544,6 +545,7 @@ const boardConceptOrder = [
   'draghi-antichi',
   'statue-chiese-marika',
   'crogiolo-primordiale',
+  'farfalle',
   'citta-eterna',
   'fiume-ainsel',
   'soldato-draconico-nokstella',
@@ -1090,6 +1092,7 @@ export function ClassicBoard({
                         ? 'Punto di partenza'
                         : stateLabels[concept.state]}
                     </span>
+                    {concept.trainerInsight && <span className="trainer-insight-badge">Trainer</span>}
                   </div>
                   <h2>{concept.name}</h2>
                   <p>{concept.summary}</p>
@@ -1230,6 +1233,7 @@ function ConceptDialog({
             <span className={`state-badge state-badge--${concept.state}`}>
               {stateLabels[concept.state]}
             </span>
+            {concept.trainerInsight && <span className="trainer-insight-badge">Approfondimento di Trainer</span>}
           </div>
           <h2 id="concept-dialog-title">{concept.name}</h2>
           <p className="dialog-lede">{concept.summary}</p>

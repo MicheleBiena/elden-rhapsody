@@ -305,11 +305,12 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride e Caelid",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Alexander ha combattuto al Festival di Radahn. Incrinato quasi subito, ora raccoglie i resti dei guerrieri caduti per ricostruirsi più forte.",
+      "Dopo essersi ricostruito con i resti del Festival, Alexander si è incastrato di nuovo vicino a Vasburgo. Stavolta i colpi non bastano: serve qualcosa di scivoloso.",
     lastSeen: {
-      location: "Dune Gementi, Caelid",
-      note: "È rimasto sul campo di battaglia dopo il festival, fra i corpi dei guerrieri.",
+      location: "Sopra Vasburgo, Liurnia",
+      note: "È bloccato in una buca e chiede di essere reso abbastanza scivoloso da poterne uscire.",
     },
     steps: [
       {
@@ -328,8 +329,22 @@ export const quests: QuestEntry[] = [
         title: "Resti di guerrieri",
         text: "Raccoglie nel proprio corpo i resti dei caduti dello Shattering per diventare più forte. Che fra questi ci sia anche Radahn è possibile, ma non confermato.",
       },
+      {
+        title: "Incastrato, ancora",
+        text: "Ritroviamo Alexander vicino a Vasburgo, nuovamente bloccato nel terreno. Questa volta occorre qualcosa di scivoloso per liberarlo.",
+      },
     ],
-    trainerAdvice: "Ritorna sulla sponda est di Liurnia, da dove accedi al villaggio di Vasburgo.",
+    nextStep: {
+      text: "Trovare qualcosa di abbastanza scivoloso da liberare Alexander.",
+      hypothetical: false,
+    },
+    trainerAdvice: "Cerca un mercante al fiume Siofra, sul lato sinistro.",
+    trainerAdviceImage: {
+      imageUrl: "./quests/alexander-siofra-suggestion.png",
+      imageAlt: "Percorso tracciato sulle impalcature del fiume Siofra verso il mercante",
+      caption: "Indizio visivo · segui le impalcature indicate",
+      imagePosition: "50% 50%",
+    },
     portrait: {
       imageUrl: "./concepts/alexander.webp",
       imageAlt: "Alexander, il grande vaso guerriero incastrato nel terreno",
@@ -372,8 +387,6 @@ export const quests: QuestEntry[] = [
       imageAlt: "La strega Sellen con la sua maschera di pietra",
       imagePosition: "50% 20%",
     },
-    trainerAdvice:
-      "Un certo festival si è concluso, il movimento delle stelle è ripreso. Parla con l’organizzatore.",
     linkedConceptIds: ["sellen", "seluvis", "fantocci-seluvis"],
   },
   {
@@ -676,14 +689,10 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "D è morto per il morbo. La lettera di Rogier rivela che il fratello minore dorme nell’acquedotto presso Nokron, dove avrebbe sostato davanti al Principe della Morte.",
+      "Il gemello di D è stato trovato nell’acquedotto di Nokron. Gli abbiamo consegnato l’Armatura gemella e poco dopo ci ha aiutato contro i Gargoyle.",
     lastSeen: {
-      location: "Tavola Rotonda",
-      note: "Trovato senza vita; Fia era accanto al corpo.",
-    },
-    destination: {
       location: "Acquedotto presso Nokron",
-      note: "La lettera di Rogier colloca qui il fratello minore di D.",
+      note: "Il gemello era rannicchiato e disperato; dopo aver ricevuto l’armatura è intervenuto nello scontro poco più avanti.",
     },
     steps: [
       {
@@ -710,12 +719,15 @@ export const quests: QuestEntry[] = [
         title: "Il fratello minore",
         text: "Nella sua ultima lettera Rogier rivela che il fratello minore di D dorme in un acquedotto presso Nokron e che avrebbe sostato davanti al Principe della Morte.",
       },
+      {
+        title: "L’Armatura gemella",
+        text: "Troviamo il gemello rannicchiato nell’acquedotto e gli consegniamo l’armatura appartenuta a D.",
+      },
+      {
+        title: "Contro i Gargoyle",
+        text: "Poco più avanti il gemello risponde alla chiamata e combatte al nostro fianco contro i Gargoyle.",
+      },
     ],
-    nextStep: {
-      text: "Raggiungere il fratello minore di D nell’acquedotto presso Nokron.",
-      hypothetical: false,
-    },
-    trainerAdvice: "Torna nei campi vicini a Nokron e osserva i dirupi.",
     portrait: {
       imageUrl: "./concepts/d.jpg",
       imageAlt: "D con l’armatura gemella e una seconda testa sulla spalla",
@@ -1026,11 +1038,12 @@ export const quests: QuestEntry[] = [
     npc: "Hyetta",
     region: "Liurnia Lacustre",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Hyetta, giovane cieca identica a Irina, ci chiede Uve di Shabriri per seguire una luce lontana. Le uve sono in realtà bulbi oculari deteriorati.",
+      "Al Ponte della Città del Cancello abbiamo dato a Hyetta un’altra Uva di Shabriri e le abbiamo rivelato che si tratta di occhi umani. La scoperta l’ha sconvolta.",
     lastSeen: {
-      location: "Rovine Purificate, Liurnia Lacustre",
-      note: "È comparsa soltanto dopo la morte di Irina.",
+      location: "Ponte della Città del Cancello, Liurnia Lacustre",
+      note: "È rimasta vicino alla grazia dopo aver scoperto la vera natura delle uve.",
     },
     steps: [
       {
@@ -1045,12 +1058,16 @@ export const quests: QuestEntry[] = [
         title: "Rovine Purificate",
         text: "L’ultima volta incontriamo Hyetta presso le Rovine Purificate di Liurnia Lacustre.",
       },
+      {
+        title: "La verità sulle uve",
+        text: "Ritroviamo Hyetta presso il Ponte della Città del Cancello. Dopo un’altra uva le diciamo che sono occhi umani: reagisce con disgusto e malessere.",
+      },
     ],
     nextStep: {
-      text: "Trovare altre Uve di Shabriri per Hyetta.",
+      text: "Esaurire il dialogo con Hyetta nell’ultima posizione.",
       hypothetical: false,
     },
-    trainerAdvice: "La chiesa più alta di Liurnia.",
+    trainerAdvice: "Le manca ancora un dialogo nell’ultima posizione; poi cerca la chiesa più alta di Liurnia.",
     portrait: {
       imageUrl: "./concepts/hyetta.jpg",
       imageAlt: "Primo piano di Hyetta con gli occhi coperti da una benda",

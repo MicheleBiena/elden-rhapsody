@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 119)
+assert.equal(await page.locator('.concept-card').count(), 120)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -126,6 +126,7 @@ assert.deepEqual(
     'Draghi antichi e moderni',
     'Statue nelle chiese',
   'Crogiolo primordiale',
+  'Farfalle',
   'Città Eterna',
   'Fiume Ainsel',
   'Soldato Draconico di Nokstella',
@@ -213,10 +214,10 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '22',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 234)
-assert.equal(await page.locator('.thread-layer line').count(), 468)
-assert.equal(await page.locator('.relation-list button').count(), 234)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 114)
+assert.equal(await page.locator('.thread-layer g').count(), 235)
+assert.equal(await page.locator('.thread-layer line').count(), 470)
+assert.equal(await page.locator('.relation-list button').count(), 235)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 115)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
@@ -250,8 +251,8 @@ assert.deepEqual(
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*4/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*58/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*17/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 95)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 24)
+assert.equal(await page.locator('.concept-card.is-read').count(), 93)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 27)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -300,10 +301,14 @@ assert.match(
 )
 assert.match(
   (await page
-    .locator('.concept-card.is-read')
+    .locator('.concept-card.is-unread')
     .filter({ has: page.getByRole('heading', { name: 'Ordine Aureo', exact: true }) })
     .textContent()) || '',
-  /legato all’autorità delle Due Dita/i,
+  /Goldmask.*male assoluto/i,
+)
+assert.match(
+  (await page.locator('.concept-card.is-unread').filter({ has: page.getByRole('heading', { name: 'Farfalle', exact: true }) }).textContent()) || '',
+  /Trainer.*nascita perpetua.*marcescenza.*fuoco eterno/is,
 )
 assert.match(
   (await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Maschere di scintipietra', exact: true }) }).textContent()) || '',
@@ -321,8 +326,8 @@ assert.match(
   (await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Dracotumulo', exact: true }) }).textContent()) || '',
   /draghi.*marcescenza/is,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /24/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*24/)
+assert.match(await page.locator('.board-live-note').textContent(), /27/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*27/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -607,7 +612,7 @@ assert.equal(
   await migratedBoard.evaluate(() =>
     Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length,
   ),
-  119,
+  120,
 )
 await migratedBoard.close()
 

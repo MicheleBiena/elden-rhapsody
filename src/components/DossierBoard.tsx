@@ -252,7 +252,7 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
                       <button className="dossier-note-open" type="button" aria-label={`Apri ${concept.name}`} aria-pressed={selected} onClick={() => openConcept(concept.id)}>
                         <ConceptImage concept={concept} />
                         {concept.liveReadStatus === 'da-leggere' && <span className="dossier-note-flag">{concept.liveUpdateKind === 'aggiornata' ? 'Aggiornata' : 'Nuova'} · da leggere</span>}
-                        <span className="dossier-note-category">{concept.category}{concept.id === 'elden-ring' ? ' · Punto di partenza' : ''}</span>
+                        <span className="dossier-note-category">{concept.category}{concept.id === 'elden-ring' ? ' · Punto di partenza' : ''}{concept.trainerInsight && <em className="trainer-insight-badge">Trainer</em>}</span>
                         <h2>{concept.name}</h2><p>{concept.summary}</p>
                       </button>
                       {!normalizedQuery && <button className="dossier-drag" type="button" aria-label={`Sposta ${concept.name}. Trascina o usa i tasti freccia.`} onPointerDown={event => startDrag(event, concept.id)} onPointerMove={moveDrag} onPointerUp={stopDrag} onPointerCancel={stopDrag} onLostPointerCapture={stopDrag} onKeyDown={event => moveKey(event, concept.id)}><Grip aria-hidden="true" /></button>}
@@ -295,7 +295,7 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
                 })}
               ><ConceptImage concept={selectedConcept} large /><span className="image-open-button__icon"><Expand aria-hidden="true" /></span></button> : <ConceptImage concept={selectedConcept} large />}
               <div className="dossier-detail">
-                <div className="dossier-detail-meta"><span>{selectedConcept.category}</span><span className={selectedConcept.liveReadStatus === 'da-leggere' ? 'is-unread' : ''}>{selectedConcept.liveReadStatus === 'da-leggere' ? <BookOpen aria-hidden="true" /> : <Check aria-hidden="true" />}{readLabel(selectedConcept)}</span></div>
+                <div className="dossier-detail-meta"><span>{selectedConcept.category}</span>{selectedConcept.trainerInsight && <span className="trainer-insight-badge">Approfondimento di Trainer</span>}<span className={selectedConcept.liveReadStatus === 'da-leggere' ? 'is-unread' : ''}>{selectedConcept.liveReadStatus === 'da-leggere' ? <BookOpen aria-hidden="true" /> : <Check aria-hidden="true" />}{readLabel(selectedConcept)}</span></div>
                 <h2 id="dossier-detail-title" ref={headingRef} tabIndex={-1}>{selectedConcept.name}</h2>
                 <p className="dossier-state">{selectedConcept.id === 'elden-ring' ? 'Punto di partenza del gioco' : stateLabels[selectedConcept.state]}</p>
                 <p className="dossier-summary">{selectedConcept.summary}</p>
