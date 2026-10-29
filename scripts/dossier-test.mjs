@@ -216,7 +216,7 @@ try {
   await page.getByRole('button', { name: 'Apri Farfalle', exact: true }).click()
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Approfondimento di Trainer/)
   assert.match(await page.locator('.dossier-detail').textContent(), /bozzolo.*Dea della Marcescenza.*brucia in eterno/is)
-  assert.equal(await page.locator('.dossier-gallery').count(), 2)
+  assert.equal(await page.locator('.dossier-gallery').count(), 3)
   assert.equal(await page.locator('.dossier-text-section').count(), 3)
   await page.locator('.dossier-detail-scroll img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.locator('.dossier-detail-scroll > .dossier-image-open img.concept-image').evaluate(image => image.decode())

@@ -1521,6 +1521,7 @@ const conceptArchive: LoreConcept[] = [
     imageAlt: 'Farfalla nascente dalle ali pallide e traslucide',
     imagePosition: '50% 50%',
     gallery: [
+      { imageUrl: './concepts/farfalla-nascente.png', imageAlt: 'Farfalla nascente dalle ali pallide e traslucide', caption: 'Farfalla nascente · sembra appena emersa dal bozzolo per tutta la vita' },
       { imageUrl: './concepts/farfalla-aeonia.png', imageAlt: 'Farfalla di Aeonia dalle ali rosse e avvizzite', caption: 'Farfalla di Aeonia · ali attribuite alla Dea della Marcescenza' },
       { imageUrl: './concepts/farfalla-fuoco.png', imageAlt: 'Farfalla di fuoco dalle ali nere avvolte dalle fiamme', caption: 'Farfalla di fuoco · arde in eterno e viene usata come esca' },
     ],
