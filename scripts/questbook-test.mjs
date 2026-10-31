@@ -142,7 +142,7 @@ try {
     { id: 'thops', title: 'Un maestro senza allievo', lastSeen: 'Accademia di Raya Lucaria', destination: 'Non ancora nota', step: /seconda chiave.*lacrime.*Barriera di Thops.*nuova Epitome/is, links: 4, image: true, gallery: 1, status: 'Terminata' },
     { id: 'rya', title: 'Family’s complicated', lastSeen: 'Centro di Liurnia Lacustre', destination: 'Altopiano di Altus', step: /medaglione.*Mercante di gamberi.*Villa Vulcano.*Due vie verso Altus/is, links: 4, image: true, gallery: 1 },
     { id: 'ehi-cuggi', title: 'EHI CUGGI', lastSeen: 'Vasburgo, Liurnia Lacustre', destination: 'Non ancora nota', step: /Potentato.*assoluzione|assoluzione/is, links: 4, image: true },
-    { id: 'valchiria', title: 'Valchiria', lastSeen: 'Chiesa sopra Sellia, Caelid', destination: 'Palude di Aeonia', step: /Gowry.*ago d’oro puro.*Millicent.*uomini-insetto/is, links: 3, image: false },
+    { id: 'valchiria', title: 'Valchiria', lastSeen: 'Chiesa sopra Sellia, Caelid', destination: 'Palude di Aeonia', step: /Gowry.*ago d’oro puro.*Millicent.*uomini-insetto/is, links: 3, image: true, gallery: 1 },
   ]
   const trainerAdviceByQuest = {
     alexander: /mercante.*fiume Siofra.*lato sinistro/i,

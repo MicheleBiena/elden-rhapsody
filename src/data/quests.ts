@@ -1276,6 +1276,19 @@ export const quests: QuestEntry[] = [
       hypothetical: false,
     },
     trainerAdvice: "Al centro della palude, dove il bocciolo è esploso.",
+    portrait: {
+      imageUrl: "./quests/millicent.png",
+      imageAlt: "Millicent accasciata nella chiesa, debilitata dalla marcescenza scarlatta",
+      imagePosition: "50% 34%",
+    },
+    gallery: [
+      {
+        imageUrl: "./quests/gowry.png",
+        imageAlt: "Gowry anziano, incappucciato e vestito di rosso, seduto nella propria capanna",
+        caption: "Gowry nella sua capanna",
+        imagePosition: "50% 30%",
+      },
+    ],
     linkedConceptIds: ["marcescenza", "palude-aeonia", "sellia"],
   },
 ];
