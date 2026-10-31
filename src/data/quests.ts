@@ -305,7 +305,6 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride e Caelid",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Dopo essersi ricostruito con i resti del Festival, Alexander si è incastrato di nuovo vicino a Vasburgo. Stavolta i colpi non bastano: serve qualcosa di scivoloso.",
     lastSeen: {
@@ -358,7 +357,6 @@ export const quests: QuestEntry[] = [
     npc: "Sellen",
     region: "Sepolcride",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Oltre alla Sellen imprigionata, nel nascondiglio segreto di Seluvis abbiamo trovato un fantoccio con il suo aspetto. Il rapporto fra questi corpi resta da chiarire.",
     lastSeen: {
@@ -395,7 +393,6 @@ export const quests: QuestEntry[] = [
     npc: "Ranni e i suoi seguaci",
     region: "Liurnia, Caelid, Limgrave e Nokron",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Consegnato il tesoro di Nokron, Ranni parte sul sentiero oscuro che solo lei può percorrere. La statuetta ricevuta apre la Torre Divina di Liurnia, dove troviamo il suo corpo e il Marchio della Morte.",
     lastSeen: {
@@ -514,7 +511,6 @@ export const quests: QuestEntry[] = [
     npc: "Stregone Rogier",
     region: "Grantempesta",
     status: "conclusa",
-    updateKind: "aggiornata",
     summary:
       "Rogier è morto consumato dal morbo mortale. La sua ultima lettera indica il fratello minore di D, addormentato nell’acquedotto presso Nokron vicino al Principe della Morte.",
     lastSeen: {
@@ -597,7 +593,6 @@ export const quests: QuestEntry[] = [
     npc: "Fia, Compagna di Morte",
     region: "Tavola Rotonda",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Fia conosce la ricerca di Rogier sui Neri Coltelli e ci affida un pugnale rovinato da restituire al proprietario. Dopo la morte di D rivendica il gesto e annuncia che il Signore della Morte risorgerà.",
     lastSeen: {
@@ -687,7 +682,6 @@ export const quests: QuestEntry[] = [
     npc: "D, cacciatore di non morti",
     region: "Tavola Rotonda",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Il gemello di D è stato trovato nell’acquedotto di Nokron. Gli abbiamo consegnato l’Armatura gemella e poco dopo ci ha aiutato contro i Gargoyle.",
     lastSeen: {
@@ -1038,7 +1032,6 @@ export const quests: QuestEntry[] = [
     npc: "Hyetta",
     region: "Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Al Ponte della Città del Cancello abbiamo dato a Hyetta un’altra Uva di Shabriri e le abbiamo rivelato che si tratta di occhi umani. La scoperta l’ha sconvolta.",
     lastSeen: {
@@ -1246,5 +1239,43 @@ export const quests: QuestEntry[] = [
       imagePosition: "30% 46%",
     },
     linkedConceptIds: ["liurnia-lacustre", "chiesa-dei-voti", "miriel", "alexander-vaso-guerriero"],
+  },
+  {
+    id: "valchiria",
+    title: "Valchiria",
+    npc: "Gowry e Millicent",
+    region: "Caelid",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary:
+      "Gowry ci chiede di alleviare la marcescenza che tormenta Millicent recuperando un ago d’oro puro perduto nella Palude di Aeonia.",
+    lastSeen: {
+      location: "Chiesa sopra Sellia, Caelid",
+      note: "Millicent giace malata; gli uomini-insetto nei dintorni sembrano custodire la chiesa invece di attaccarla.",
+    },
+    destination: {
+      location: "Palude di Aeonia",
+      note: "Gowry indica soltanto che l’ago è perduto nelle profondità della palude.",
+    },
+    steps: [
+      {
+        title: "La capanna di Gowry",
+        text: "Incontriamo Gowry, un anziano incappucciato e vestito di rosso, nella sua capanna. Si presenta come un grande saggio e promette di rivelarci il segreto di Sellia se accetteremo di aiutarlo.",
+      },
+      {
+        title: "La richiesta",
+        text: "Gowry ci chiede di curare, o almeno alleviare, le sofferenze di Millicent. Afferma che la marcescenza non ha cura, ma che un ago d’oro puro perduto nella Palude di Aeonia può aiutarla.",
+      },
+      {
+        title: "Millicent",
+        text: "Troviamo Millicent nella chiesa sopra Sellia. La sua carne è tormentata dalla marcescenza scarlatta e lei ci invita ad andarcene, definendola una maledizione con cui gli uomini non dovrebbero interferire. Gli uomini-insetto attorno alla chiesa non sembrano aggredirla: paiono piuttosto proteggerla.",
+      },
+    ],
+    nextStep: {
+      text: "Trovare l’ago d’oro puro nella Palude di Aeonia e riportarlo a Gowry.",
+      hypothetical: false,
+    },
+    trainerAdvice: "Al centro della palude, dove il bocciolo è esploso.",
+    linkedConceptIds: ["marcescenza", "palude-aeonia", "sellia"],
   },
 ];

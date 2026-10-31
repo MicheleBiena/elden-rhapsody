@@ -1277,13 +1277,14 @@ const conceptArchive: LoreConcept[] = [
     category: 'Tema',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Afflizione simile a un veleno, ma molto più rapida e aggressiva, che domina la Palude di Aeonia.',
-    body: 'La marcescenza scarlatta consuma rapidamente chi attraversa le acque di Aeonia. Il fenomeno sembra legato al marcio e alla fioritura delle piante rosso scarlatto che invadono la palude e le rovine circostanti.',
+    summary: 'Afflizione scarlatta rapida e aggressiva: non ha una cura nota, ma un ago d’oro puro potrebbe attenuarne gli effetti.',
+    body: 'La marcescenza scarlatta consuma rapidamente chi attraversa le acque di Aeonia. Gowry la descrive come una malattia senza cura, tanto potente da colpire perfino i semidei quando l’Albero Madre era nel pieno del proprio vigore. Sostiene però che le sofferenze di Millicent possano essere attenuate con un ago d’oro puro perduto nella palude. Il fenomeno sembra legato al marcio e alla fioritura delle piante rosso scarlatto che invadono Aeonia e le rovine circostanti.',
+    bodyHighlights: ['Gowry la descrive come una malattia senza cura, tanto potente da colpire perfino i semidei quando l’Albero Madre era nel pieno del proprio vigore. Sostiene però che le sofferenze di Millicent possano essere attenuate con un ago d’oro puro perduto nella palude.'],
     imageUrl: './concepts/marcescenza.png',
     imageAlt: 'Un composto rosso usato per applicare la marcescenza scarlatta',
-    evidence: ['Agisce più rapidamente e aggressivamente del veleno.', 'Affligge l’intera Palude di Aeonia.', 'È associata a marcio e fiori scarlatti.'],
-    questions: ['La fioritura genera la marcescenza o ne è una conseguenza?', 'La contaminazione può essere fermata?'],
-    tags: ['marcescenza scarlatta', 'veleno', 'fiori', 'Aeonia'],
+    evidence: ['Agisce più rapidamente e aggressivamente del veleno.', 'Affligge l’intera Palude di Aeonia.', 'È associata a marcio e fiori scarlatti.', 'Gowry afferma che non ha cura.', 'Un ago d’oro puro potrebbe attenuare le sofferenze di Millicent.'],
+    questions: ['La fioritura genera la marcescenza o ne è una conseguenza?', 'In che modo l’oro puro può attenuarne gli effetti?', 'Perché gli uomini-insetto sembrano custodire Millicent?'],
+    tags: ['marcescenza scarlatta', 'veleno', 'fiori', 'Aeonia', 'Millicent', 'ago d’oro puro'],
     position: { x: 50, y: 62 },
   },
   {
@@ -1301,6 +1302,24 @@ const conceptArchive: LoreConcept[] = [
     questions: ['Che cosa ha spopolato Sellia?', 'Le apparizioni sono gli antichi abitanti della città?'],
     tags: ['Sellia', 'stregoneria', 'scintipietra', 'marcescenza'],
     position: { x: 70, y: 62 },
+  },
+  {
+    id: 'drago-di-magma',
+    name: 'Drago di Magma',
+    eyebrow: 'Drago o umanoide?',
+    category: 'Tema',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary: 'Creatura simile a una grande lucertola che striscia impugnando una lama enorme con gli arti anteriori.',
+    body: 'Il Drago di Magma ha un aspetto più vicino a una lucertola che ai draghi già incontrati: avanza strisciando, ma usa gli arti anteriori quasi fossero braccia e con essi impugna una gigantesca lama. Questa combinazione ricorda la postura umanoide dei Soldati Draconici, senza dimostrare che appartengano alla stessa natura. Per il confronto con le stirpi già note vedi Draghi antichi e moderni.',
+    imageUrl: './concepts/drago-di-magma.png',
+    imageAlt: 'Un Drago di Magma simile a una grande lucertola impugna una lama ricurva fra le rocce',
+    imagePosition: '50% 42%',
+    externalLinks: [{ label: 'Immagine indicata per il Drago di Magma', url: 'https://eldenring.wiki.gg/images/thumb/ER_Magma_Wyrm.png/1200px-ER_Magma_Wyrm.png?20807d' }],
+    evidence: ['Si muove strisciando come una grande lucertola.', 'Impugna una lama gigantesca con gli arti anteriori.', 'I movimenti degli arti anteriori ricordano più braccia che zampe.'],
+    questions: ['È un drago distinto dalle stirpi già incontrate?', 'Ha una natura umanoide simile ai Soldati Draconici?', 'Perché impugna un’arma costruita?'],
+    tags: ['Drago di Magma', 'draghi', 'lucertola', 'lama', 'Soldati Draconici'],
+    position: { x: 90, y: 99 },
   },
   {
     id: 'tavola-rotonda',
@@ -2488,23 +2507,11 @@ const conceptArchive: LoreConcept[] = [
   },
 ]
 
-// Le note del blocco precedente non sono ancora state lette: conservarle insieme alle nuove.
 const currentEpisodeConceptIds = new Set<string>([
-  'torri-divine', 'sellen', 'rogier', 'marchio-centipede',
-  'rennala', 'radagon', 'ranni-principessa-lunare', 'seluvis',
-  'fia', 'd-cacciatore', 'morbo-mortale', 'coloro-che-vivono-nella-morte',
-  'pugnale-rovinato', 'lord-della-morte',
-  'radahn', 'serosh', 'iji', 'mezzolupo', 'citta-eterna',
-  'lacrime-argento', 'compagnia-falco-caduto', 'tesoro-di-nokron',
-  'torre-studio-cariana', 'fantocci-seluvis',
-  'crogiolo-primordiale', 'ordine-aureo', 'farfalle',
+  'marcescenza', 'drago-di-magma',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
-  'torri-divine', 'sellen', 'rogier', 'marchio-centipede',
-  'rennala', 'radagon', 'ranni-principessa-lunare', 'seluvis',
-  'fia', 'd-cacciatore', 'morbo-mortale', 'coloro-che-vivono-nella-morte',
-  'radahn', 'serosh', 'iji', 'mezzolupo', 'citta-eterna',
-  'crogiolo-primordiale', 'ordine-aureo',
+  'marcescenza',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -2516,6 +2523,14 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'drago-magma-stirpi', from: 'drago-di-magma', to: 'draghi-antichi', label: 'classificazione incerta',
+    note: 'L’aspetto da lucertola e l’uso di una lama distinguono il Drago di Magma dai draghi già incontrati; il rapporto fra le stirpi resta da verificare.', kind: 'ipotesi',
+  },
+  {
+    id: 'drago-magma-soldato-draconico', from: 'drago-di-magma', to: 'soldato-draconico-nokstella', label: 'arti quasi umani',
+    note: 'Entrambi combinano tratti draconici e postura umanoide, ma la somiglianza osservata non prova un’origine comune.', kind: 'ipotesi',
+  },
   {
     id: 'farfalle-aeonia', from: 'farfalle', to: 'palude-aeonia', label: 'ali della marcescenza',
     note: 'Le farfalle di Aeonia vivono nella palude e il mito le descrive come antiche ali della Dea della Marcescenza.', kind: 'traccia',

@@ -53,6 +53,7 @@ const latestLiveLayoutConceptIds = new Set([
   'torre-studio-cariana',
   'fantocci-seluvis',
   'farfalle',
+  'drago-di-magma',
 ])
 const previousLiveLayoutConceptIds = new Set([
   'ragno-mani',
@@ -527,6 +528,7 @@ const boardConceptOrder = [
   'palude-aeonia',
   'marcescenza',
   'sellia',
+  'drago-di-magma',
   'tavola-rotonda',
   'diallos',
   'corhyn',
