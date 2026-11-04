@@ -54,6 +54,11 @@ const latestLiveLayoutConceptIds = new Set([
   'fantocci-seluvis',
   'farfalle',
   'drago-di-magma',
+  'comandante-oneil',
+  'cavalieri-marcescenti',
+  'millicent',
+  'eochaid',
+  'okina',
 ])
 const previousLiveLayoutConceptIds = new Set([
   'ragno-mani',
@@ -529,6 +534,11 @@ const boardConceptOrder = [
   'marcescenza',
   'sellia',
   'drago-di-magma',
+  'comandante-oneil',
+  'cavalieri-marcescenti',
+  'millicent',
+  'eochaid',
+  'okina',
   'tavola-rotonda',
   'diallos',
   'corhyn',

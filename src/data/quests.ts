@@ -1248,14 +1248,14 @@ export const quests: QuestEntry[] = [
     status: "in-corso",
     updateKind: "nuova",
     summary:
-      "Gowry ci chiede di alleviare la marcescenza che tormenta Millicent recuperando un ago d’oro puro perduto nella Palude di Aeonia.",
+      "L’ago d’oro puro ha arrestato la marcescenza di Millicent e risvegliato frammenti della sua memoria. La fanciulla ha lasciato Caelid per affrontare il proprio destino.",
     lastSeen: {
-      location: "Chiesa sopra Sellia, Caelid",
-      note: "Millicent giace malata; gli uomini-insetto nei dintorni sembrano custodire la chiesa invece di attaccarla.",
+      location: "Capanna di Gowry, Caelid",
+      note: "Millicent ha visitato la capanna, che le sembrava familiare, poi è ripartita per il proprio viaggio.",
     },
     destination: {
-      location: "Palude di Aeonia",
-      note: "Gowry indica soltanto che l’ago è perduto nelle profondità della palude.",
+      location: "Non ancora nota",
+      note: "Millicent non ha rivelato la meta del viaggio. L’indizio di Trainer resta separato dalle informazioni scoperte.",
     },
     steps: [
       {
@@ -1270,12 +1270,28 @@ export const quests: QuestEntry[] = [
         title: "Millicent",
         text: "Troviamo Millicent nella chiesa sopra Sellia. La sua carne è tormentata dalla marcescenza scarlatta e lei ci invita ad andarcene, definendola una maledizione con cui gli uomini non dovrebbero interferire. Gli uomini-insetto attorno alla chiesa non sembrano aggredirla: paiono piuttosto proteggerla.",
       },
+      {
+        title: "Il veterano al centro di Aeonia",
+        text: "Sconfiggiamo il Comandante O’Neil, che evoca e rinvigorisce i propri cavalieri sotto uno stendardo rosso. Alla sua caduta recuperiamo l’ago d’oro puro spezzato.",
+      },
+      {
+        title: "L’ago riparato",
+        text: "Consegnato l’ago a Gowry, il saggio mantiene la promessa e ci rivela il segreto di Sellia, poi ripara lo strumento. La descrizione dell’ago rivela che fu creato per ostacolare l’intromissione delle divinità esterne e arrestare il morbo.",
+      },
+      {
+        title: "La marcescenza si quieta",
+        text: "Millicent accetta di conficcare l’ago nel proprio corpo. Al risveglio la marcescenza ha smesso di contorcersi, gli incubi sono cessati e lei può muoversi liberamente. Ci dona il Cimelio della portatrice di protesi e decide di partire, guidata da ricordi ancora indistinti del proprio destino.",
+      },
+      {
+        title: "Un addio senza memoria",
+        text: "Millicent visita la capanna di Gowry perché il luogo le sembra familiare, ma la trova vuota e non ricorda chi sperasse di incontrare. Gowry racconta di averla trovata neonata ad Aeonia, la chiama una delle proprie figlie e ci chiede di proteggerla durante il viaggio.",
+      },
     ],
     nextStep: {
-      text: "Trovare l’ago d’oro puro nella Palude di Aeonia e riportarlo a Gowry.",
+      text: "Ritrovare Millicent durante il suo viaggio. La destinazione non è ancora stata scoperta.",
       hypothetical: false,
     },
-    trainerAdvice: "Al centro della palude, dove il bocciolo è esploso.",
+    trainerAdvice: "Altopiano di Altus",
     portrait: {
       imageUrl: "./quests/millicent.png",
       imageAlt: "Millicent accasciata nella chiesa, debilitata dalla marcescenza scarlatta",
@@ -1288,7 +1304,13 @@ export const quests: QuestEntry[] = [
         caption: "Gowry nella sua capanna",
         imagePosition: "50% 30%",
       },
+      {
+        imageUrl: "./concepts/cimelio-portatrice-protesi.png",
+        imageAlt: "Il Cimelio della portatrice di protesi donato da Millicent",
+        caption: "Cimelio della portatrice di protesi · il dono di Millicent",
+        imagePosition: "50% 50%",
+      },
     ],
-    linkedConceptIds: ["marcescenza", "palude-aeonia", "sellia"],
+    linkedConceptIds: ["millicent", "marcescenza", "palude-aeonia", "sellia", "comandante-oneil", "cavalieri-marcescenti"],
   },
 ];

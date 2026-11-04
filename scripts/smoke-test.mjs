@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 121)
+assert.equal(await page.locator('.concept-card').count(), 126)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -109,6 +109,11 @@ assert.deepEqual(
     'Marcescenza',
     'Sellia, città della stregoneria',
     'Drago di Magma',
+    'Comandante O’Neil',
+    'Cavalieri Marcescenti',
+    'Millicent',
+    'Eochaid',
+    'Okina',
     'Tavola Rotonda',
     'Diallos Hoslow',
     'Fratello Corhyn',
@@ -215,10 +220,10 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '22',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 237)
-assert.equal(await page.locator('.thread-layer line').count(), 474)
-assert.equal(await page.locator('.relation-list button').count(), 237)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 116)
+assert.equal(await page.locator('.thread-layer g').count(), 242)
+assert.equal(await page.locator('.thread-layer line').count(), 484)
+assert.equal(await page.locator('.relation-list button').count(), 242)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 121)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
@@ -250,10 +255,10 @@ assert.deepEqual(
   [],
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*4/)
-assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*58/)
-assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*17/)
+assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*61/)
+assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*18/)
 assert.equal(await page.locator('.concept-card.is-read').count(), 119)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 2)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 7)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -336,7 +341,7 @@ assert.match(
   /lucertola.*lama/is,
 )
 assert.match(await page.locator('.board-live-note').textContent(), /2/)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*2/)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*7/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
@@ -621,7 +626,7 @@ assert.equal(
   await migratedBoard.evaluate(() =>
     Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length,
   ),
-  121,
+  126,
 )
 await migratedBoard.close()
 

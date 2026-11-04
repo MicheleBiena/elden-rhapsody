@@ -142,7 +142,7 @@ try {
     { id: 'thops', title: 'Un maestro senza allievo', lastSeen: 'Accademia di Raya Lucaria', destination: 'Non ancora nota', step: /seconda chiave.*lacrime.*Barriera di Thops.*nuova Epitome/is, links: 4, image: true, gallery: 1, status: 'Terminata' },
     { id: 'rya', title: 'Family’s complicated', lastSeen: 'Centro di Liurnia Lacustre', destination: 'Altopiano di Altus', step: /medaglione.*Mercante di gamberi.*Villa Vulcano.*Due vie verso Altus/is, links: 4, image: true, gallery: 1 },
     { id: 'ehi-cuggi', title: 'EHI CUGGI', lastSeen: 'Vasburgo, Liurnia Lacustre', destination: 'Non ancora nota', step: /Potentato.*assoluzione|assoluzione/is, links: 4, image: true },
-    { id: 'valchiria', title: 'Valchiria', lastSeen: 'Chiesa sopra Sellia, Caelid', destination: 'Palude di Aeonia', step: /Gowry.*ago d’oro puro.*Millicent.*uomini-insetto/is, links: 3, image: true, gallery: 1 },
+    { id: 'valchiria', title: 'Valchiria', lastSeen: 'Capanna di Gowry, Caelid', destination: 'Non ancora nota', step: /Gowry.*uomini-insetto.*O’Neil.*ago d’oro puro.*divinità esterne.*Cimelio.*neonata/is, links: 6, image: true, gallery: 2 },
   ]
   const trainerAdviceByQuest = {
     alexander: /mercante.*fiume Siofra.*lato sinistro/i,
@@ -151,7 +151,7 @@ try {
     diallos: /Sui ponti crollati del lago/i,
     yura: /Cancelli dell'accademia/i,
     hyetta: /dialogo.*ultima posizione.*chiesa più alta di Liurnia/i,
-    valchiria: /centro della palude.*bocciolo.*esploso/i,
+    valchiria: /Altopiano di Altus/i,
   }
   for (const quest of newQuests) {
     await page.locator(`[data-quest-id="${quest.id}"]`).click()
@@ -198,7 +198,7 @@ try {
     if (quest.id === 'hyetta') assert.match(await page.locator('.quest-next-step').textContent(), /dialogo.*ultima posizione/i)
     if (quest.id === 'rya') assert.match(await page.locator('.quest-next-step').textContent(), /tunnel.*Medaglione di Dectus.*Villa Vulcano/i)
     if (quest.id === 'ehi-cuggi') assert.match(await page.locator('.quest-next-step').textContent(), /mani.*Potentato|Potentato/i)
-    if (quest.id === 'valchiria') assert.match(await page.locator('.quest-next-step').textContent(), /ago d’oro puro.*Palude di Aeonia.*Gowry/i)
+    if (quest.id === 'valchiria') assert.match(await page.locator('.quest-next-step').textContent(), /Ritrovare Millicent.*viaggio.*destinazione.*non è ancora/is)
     if (quest.id === 'edgar-irina') {
       assert.match(await page.locator('.quest-summary').textContent(), /Edgar perde il senno.*uccidiamo/is)
       assert.match(await page.locator('.quest-history').textContent(), /capanna.*corpi.*Uva di Shabriri/is)
@@ -266,7 +266,7 @@ try {
   await page.locator('a.nav-tab[href="#/build"]').click()
   await page.locator('.build-lab').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '2 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '7 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
