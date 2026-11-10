@@ -453,27 +453,74 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'frenesia',
     name: 'Frenesia',
-    eyebrow: 'Afflizione dagli occhi',
+    eyebrow: 'Fiamma gialla delle Tre Dita',
     category: 'Tema',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Afflizione legata a fiamme gialle che erompono dagli occhi e provocano follia nei Senzaluce.',
-    body: 'La fiamma gialla è il simbolo della Frenesia. Erompe dagli occhi, accumula follia anche nell’incantatore ed è efficace soltanto contro i Senzaluce. Nelle terre afflitte cresce l’Occhio di Yelough: allevia il dolore, ma è un pericoloso intossicante.',
+      'Fiamma gialla delle Tre Dita: erompe dagli occhi, consuma chi tenta di controllarla e promette di cancellare ogni distinzione nel caos.',
+    body: 'La Frenesia è una fiamma gialla legata alle Tre Dita. Erompe dagli occhi, accumula follia anche nell’incantatore ed è efficace soltanto contro i Senzaluce. Tutti coloro che provarono a controllarla finirono per soccombere dopo una lotta interiore disperata; lo Scoppio frenetico rappresenta soltanto una misera vittoria temporanea. Una nota del Villaggio della Frenesia colloca il “Lord della Fiamma Frenetica” e le Tre Dita nelle profondità sotto Leyndell. Un fantasma invoca un vero Lord capace di incenerire tutto ciò che divide e distingue, affinché il caos prenda il mondo. Per l’origine del morbo vedi Shabriri; per il cavaliere marchiato dalla fiamma vedi Vyke.',
+    bodyHighlights: [
+      'Tutti coloro che provarono a controllarla finirono per soccombere dopo una lotta interiore disperata; lo Scoppio frenetico rappresenta soltanto una misera vittoria temporanea.',
+      'Una nota del Villaggio della Frenesia colloca il “Lord della Fiamma Frenetica” e le Tre Dita nelle profondità sotto Leyndell. Un fantasma invoca un vero Lord capace di incenerire tutto ciò che divide e distingue, affinché il caos prenda il mondo.',
+    ],
     imageUrl: './concepts/frenesia.png',
     imageAlt: 'Un abitante afflitto dalla Frenesia con fiamme gialle che erompono dagli occhi',
+    gallery: [
+      { imageUrl: './concepts/ululato-shabriri.png', imageAlt: 'L’icona dell’Ululato di Shabriri avvolta dalla fiamma gialla', caption: 'Ululato di Shabriri · follia anche per chi lo lancia' },
+      { imageUrl: './concepts/scoppio-frenetico.png', imageAlt: 'L’icona dello Scoppio frenetico emesso dagli occhi', caption: 'Scoppio frenetico · una vittoria soltanto temporanea' },
+    ],
     evidence: [
       'La fiamma gialla è il simbolo dell’afflizione.',
       'La Fiamma della Frenesia erompe dagli occhi e accumula follia anche in chi la lancia.',
       'L’effetto di follia è efficace soltanto contro i Senzaluce.',
       'L’Occhio di Yelough cresce nelle terre afflitte, allevia il dolore ed è un pericoloso intossicante.',
+      'Le Tre Dita sono indicate come origine dell’Ululato di Shabriri.',
+      'Una nota colloca le Tre Dita e il loro Lord nelle profondità sotto Leyndell.',
+      'Chi tenta di controllare la fiamma finisce per soccombere alla follia.',
     ],
     questions: [
       'Perché il suo effetto di follia agisce soltanto sui Senzaluce?',
-      'Che cosa sono le Tre Dita da cui avrebbe origine l’incantamento?',
+      'Che cosa sono davvero le Tre Dita?',
+      'Chi può diventare il vero Lord della Fiamma Frenetica?',
+      'Perché la Frenesia vuole cancellare tutto ciò che divide e distingue?',
     ],
-    tags: ['Frenesia', 'fiamma gialla', 'follia', 'Senzaluce', 'Tre Dita', 'Yelough'],
+    tags: ['Frenesia', 'fiamma gialla', 'follia', 'Senzaluce', 'Tre Dita', 'Yelough', 'Leyndell', 'caos'],
     position: { x: 63, y: 27.9 },
+  },
+  {
+    id: 'shabriri',
+    name: 'Shabriri',
+    eyebrow: 'L’uomo più odiato della storia',
+    category: 'Personaggio',
+    state: 'osservato',
+    liveReadStatus: 'da-leggere',
+    summary: 'Uomo punito per calunnia con l’asportazione degli occhi; nelle orbite vuote attecchì la piaga della Fiamma della Frenesia.',
+    body: 'Shabriri è ricordato come l’uomo più odiato della storia e come origine del morbo della Fiamma della Frenesia. Per il crimine di calunnia gli furono cavati gli occhi; col tempo la piaga si stabilì nelle orbite vuote. Il Dolore di Shabriri ne riproduce il volto con occhi strappati e bocca quasi civettuola, attirando senza sosta l’aggressività dei nemici. L’Ululato che porta il suo nome scatena follia anche in chi lo pronuncia.',
+    imageUrl: './concepts/dolore-shabriri.png',
+    imageAlt: 'Il Dolore di Shabriri, volto metallico con le orbite vuote e la bocca sorridente',
+    gallery: [{ imageUrl: './concepts/ululato-shabriri.png', imageAlt: 'L’Ululato di Shabriri avvolto dalla fiamma gialla', caption: 'Ululato di Shabriri · origine della piaga' }],
+    evidence: ['Fu punito per calunnia con l’asportazione degli occhi.', 'La piaga della Frenesia si stabilì nelle orbite vuote.', 'È indicato come origine del morbo della Fiamma della Frenesia.', 'Il suo amuleto attira costantemente l’aggressività dei nemici.'],
+    questions: ['Quale calunnia commise Shabriri?', 'Come passò dalla punizione all’origine della Frenesia?', 'Che rapporto ebbe con le Tre Dita?'],
+    tags: ['Shabriri', 'Frenesia', 'calunnia', 'occhi', 'Ululato di Shabriri', 'Tre Dita'],
+    position: { x: 10, y: 86 },
+  },
+  {
+    id: 'vyke',
+    name: 'Vyke',
+    eyebrow: 'Cavaliere marchiato dalle Dita',
+    category: 'Personaggio',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary: 'Cavaliere della Tavola Rotonda, bruciato dalle impronte delle Dita e tormentato dall’interno dalla fiamma gialla della Frenesia.',
+    body: 'Vyke era un cavaliere della Tavola Rotonda. La sua lancia da guerra è bruciata e coperta di vesciche: come il suo possessore, fu tormentata dall’interno dalla fiamma gialla. Il suo occhio, trasformato in Uva marchiata, conserva una ripugnante impronta simile alle ustioni che segnavano tutto il corpo. Un fantasma lo chiama “Lord Vyke”, ma conclude che non fu davvero un Lord e continua a cercare il vero Signore della Fiamma Frenetica. Il suo fallimento come possibile Lord resta un’interpretazione da verificare.',
+    imageUrl: './concepts/lancia-vyke.png',
+    imageAlt: 'La lancia da guerra di Vyke, annerita e deformata dalla Fiamma della Frenesia',
+    gallery: [{ imageUrl: './concepts/uva-marchiata.png', imageAlt: 'L’occhio infiammato di Vyke segnato da una grande impronta digitale', caption: 'Uva marchiata · l’occhio di Vyke' }],
+    evidence: ['Era un cavaliere della Tavola Rotonda.', 'La fiamma gialla tormentò lui e la sua lancia dall’interno.', 'Il suo corpo era coperto da ustioni a forma di impronta.', 'Il suo occhio può guidare una fanciulla cieca verso la luce lontana.', 'Un fantasma lo chiama Lord Vyke, ma afferma che non fu un vero Lord.'],
+    questions: ['Vyke tentò di diventare il Lord della Fiamma Frenetica?', 'Quali Dita lo marchiarono?', 'Perché il suo occhio può condurre una Vergine delle Dita verso la luce?'],
+    tags: ['Vyke', 'Tavola Rotonda', 'Frenesia', 'Uva marchiata', 'impronte', 'Lord della Fiamma Frenetica'],
+    position: { x: 50, y: 86 },
   },
   {
     id: 'grazia',
@@ -530,8 +577,9 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary:
-      'Figura spettrale, custode di Torrente e sostituta di una Vergine delle Dita, diretta all’Albero Madre.',
-    body: 'Melina appare e scompare come uno spettro. Portava con sé il destriero Torrente e ce lo affida; inoltre si offre di trasformare le rune in forza come farebbe una Vergine delle Dita, a patto che la accompagniamo alla base dell’Albero Madre.',
+      'Figura spettrale diretta all’Albero Madre; lungo il viaggio trasmette le parole di Marika sul dominio dell’Ordine e sulla scelta di restarne fuori.',
+    body: 'Melina appare e scompare come uno spettro. Portava con sé il destriero Torrente e ce lo affida; inoltre si offre di trasformare le rune in forza come farebbe una Vergine delle Dita, a patto che la accompagniamo alla base dell’Albero Madre. Al Grande Montacarichi di Dectus riferisce un’eco di Marika: l’Albero Madre controlla ogni cosa e impone una scelta, unirsi all’Ordine oppure restarne fuori, senza potere e relegati ai margini.',
+    bodyHighlights: ['Al Grande Montacarichi di Dectus riferisce un’eco di Marika: l’Albero Madre controlla ogni cosa e impone una scelta, unirsi all’Ordine oppure restarne fuori, senza potere e relegati ai margini.'],
     imageUrl: './concepts/melina.png',
     imageAlt: 'Melina con un occhio chiuso e un simbolo scuro sul volto',
     evidence: [
@@ -539,9 +587,11 @@ const conceptArchive: LoreConcept[] = [
       'Ci affida il destriero Torrente.',
       'Si offre di tramutare le rune in forza.',
       'Vuole raggiungere la base dell’Albero Madre.',
+      'Al Grande Montacarichi di Dectus trasmette parole pronunciate da Marika.',
+      'Secondo Marika, l’Albero Madre controlla ogni cosa e chi resta fuori dall’Ordine è privo di potere e relegato ai margini.',
     ],
-    questions: ['Perché deve raggiungere l’Albero Madre?', 'Che natura ha il suo corpo spettrale?'],
-    tags: ['Melina', 'Torrente', 'Vergine', 'Albero Madre'],
+    questions: ['Perché deve raggiungere l’Albero Madre?', 'Che natura ha il suo corpo spettrale?', 'L’alternativa posta da Marika è una scelta reale o un ultimatum?'],
+    tags: ['Melina', 'Torrente', 'Vergine', 'Albero Madre', 'Marika', 'Ordine', 'Dectus'],
     position: { x: 87, y: 48 },
   },
   {
@@ -1111,12 +1161,9 @@ const conceptArchive: LoreConcept[] = [
     category: 'Tema',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Corone che distinguono le Epitomi: Lazuli studia la luna cariana, i Bisavi eccellono in stregonerie di ogni genere.',
-    body: 'Le corone di pietra distinguono le Epitomi dell’Accademia. Karolos discende da Azur e studia le comete; Olivinus discende da Lusat e le meteore. Lazuli segue invece le stregonerie cariane e considera la luna pari alle stelle: una posizione eterodossa. I Bisavi erano l’élite, autorizzata a eccellere in stregonerie di ogni genere. Per il confronto fra corone e dipinti vedi Ritratti di Raya Lucaria.',
-    bodyHighlights: [
-      'Lazuli segue invece le stregonerie cariane e considera la luna pari alle stelle: una posizione eterodossa.',
-      'I Bisavi erano l’élite, autorizzata a eccellere in stregonerie di ogni genere.',
-    ],
+    summary: 'Corone e dottrine distinguono le Epitomi dell’Accademia; Haima affida agli arbitri la forza necessaria a sedare i conflitti.',
+    body: 'Le corone di pietra distinguono le Epitomi dell’Accademia. Karolos discende da Azur e studia le comete; Olivinus discende da Lusat e le meteore. Lazuli segue le stregonerie cariane e considera la luna pari alle stelle; i Bisavi erano l’élite aperta a ogni stregoneria. L’Epitome di Haima forma invece gli arbitri dell’Accademia: Cannone e Martelletto impiegano la forza come mezzo per placare i conflitti. Per il confronto fra corone e dipinti vedi Ritratti di Raya Lucaria.',
+    bodyHighlights: ['L’Epitome di Haima forma invece gli arbitri dell’Accademia: Cannone e Martelletto impiegano la forza come mezzo per placare i conflitti.'],
     imageUrl: './concepts/sellen.png',
     imageAlt: 'La maschera di scintipietra indossata dalla Strega Sellen',
     gallery: [
@@ -1126,26 +1173,32 @@ const conceptArchive: LoreConcept[] = [
       { imageUrl: './concepts/maschera-karolos.webp', imageAlt: 'Corona di pietra dell’Epitome di Karolos con scintipietra azzurra', caption: 'Karolos · stirpe di Azur, studio delle comete' },
       { imageUrl: './concepts/maschera-lazuli.png', imageAlt: 'Maschera di scintipietra di Lazuli con volto barbuto e cristalli azzurri', caption: 'Lazuli · la luna considerata pari alle stelle' },
       { imageUrl: './concepts/maschera-bisavio.png', imageAlt: 'Maschera di scintipietra del Bisavio formata da due volti uniti', caption: 'Bisavi · élite aperta a ogni stregoneria' },
+      { imageUrl: './concepts/maschera-haima.png', imageAlt: 'La corona di scintipietra a cappuccio dell’Epitome di Haima', caption: 'Haima · arbitri dell’Accademia' },
+      { imageUrl: './concepts/cannone-haima.png', imageAlt: 'Il Cannone di Haima scaglia un grande proiettile magico esplosivo', caption: 'Cannone di Haima · forza per sedare il conflitto' },
+      { imageUrl: './concepts/martelletto-haima.png', imageAlt: 'Il Martelletto di Haima evoca un grande martello magico', caption: 'Martelletto di Haima · giudizio in forma di forza' },
     ],
     textSections: [
       {
         title: 'Epitome dei Bisavi',
         text: 'Gli studiosi dei Bisavi erano l’élite dell’Accademia e potevano approfondire stregonerie di ogni genere. Cometa di scintipietra e Scoppio cristalliano ne mostrano la versatilità.',
-        highlighted: true,
       },
       {
         title: 'Epitome di Lazuli',
         text: 'Studia le stregonerie cariane e pone la luna sullo stesso piano delle stelle: un indirizzo considerato eterodosso.',
-        highlighted: true,
       },
       {
         title: 'Karolos e Olivinus',
         text: 'Karolos discende da Azur e culmina nella Cometa; Olivinus discende da Lusat e si concentra sulle meteore. La Pergamena dell’Epitome tramanda Scheggia di cometa e Pioggia di stelle.',
       },
+      {
+        title: 'Epitome di Haima',
+        text: 'Forma gli arbitri dell’Accademia. Cannone di Haima lancia un proiettile esplosivo ad arco; Martelletto di Haima crea un grande martello magico e permette un secondo colpo. Entrambi usano la potenza per sedare i conflitti.',
+        highlighted: true,
+      },
     ],
-    evidence: ['Le corone identificano studiosi meritevoli e differenti Epitomi.', 'Lazuli studia la magia cariana e pone la luna alla pari delle stelle.', 'I Bisavi erano studiosi d’élite aperti a ogni stregoneria.', 'Karolos discende da Azur; Olivinus da Lusat.'],
-    questions: ['Quale scuola rappresenta la maschera di Sellen?', 'Quante Epitomi esistono?', 'Chi erano i Bisavi celebrati dalla maschera?'],
-    tags: ['maschere di scintipietra', 'Sellen', 'Epitome dei Bisavi', 'Epitome di Lazuli', 'Epitome di Karolos', 'Epitome di Olivinus', 'Lusat', 'Azur', 'Caria', 'luna', 'stelle'],
+    evidence: ['Le corone identificano studiosi meritevoli e differenti Epitomi.', 'Lazuli studia la magia cariana e pone la luna alla pari delle stelle.', 'I Bisavi erano studiosi d’élite aperti a ogni stregoneria.', 'Karolos discende da Azur; Olivinus da Lusat.', 'Haima è l’Epitome degli arbitri dell’Accademia.', 'Le stregonerie di Haima usano la forza per sedare i conflitti.'],
+    questions: ['Quale scuola rappresenta la maschera di Sellen?', 'Quante Epitomi esistono?', 'Chi erano i Bisavi celebrati dalla maschera?', 'Quali conflitti erano chiamati a giudicare gli arbitri di Haima?'],
+    tags: ['maschere di scintipietra', 'Sellen', 'Epitome dei Bisavi', 'Epitome di Lazuli', 'Epitome di Karolos', 'Epitome di Olivinus', 'Epitome di Haima', 'Lusat', 'Azur', 'Caria', 'luna', 'stelle', 'arbitri'],
     position: { x: 30, y: 96 },
   },
   {
@@ -1279,16 +1332,32 @@ const conceptArchive: LoreConcept[] = [
     liveReadStatus: 'da-leggere',
     summary: 'Afflizione scarlatta senza cura nota: un ago d’oro puro può arrestarne i sintomi e sembra opporsi all’intromissione delle divinità esterne.',
     body: 'La marcescenza scarlatta consuma rapidamente chi attraversa le acque di Aeonia. Gowry la descrive come una malattia senza cura, tanto potente da colpire perfino i semidei quando l’Albero Madre era nel pieno del proprio vigore. Un ago d’oro puro, strumento rituale creato per respingere l’intromissione delle divinità esterne, ha però fermato la marcescenza nel corpo di Millicent e placato i suoi incubi. Il fenomeno resta legato al marcio e alla fioritura scarlatta di Aeonia; non sappiamo ancora se una divinità esterna ne sia la causa diretta.',
-    bodyHighlights: [
-      'Gowry la descrive come una malattia senza cura, tanto potente da colpire perfino i semidei quando l’Albero Madre era nel pieno del proprio vigore.',
-      'Un ago d’oro puro, strumento rituale creato per respingere l’intromissione delle divinità esterne, ha però fermato la marcescenza nel corpo di Millicent e placato i suoi incubi.',
-    ],
     imageUrl: './concepts/marcescenza.png',
     imageAlt: 'Un composto rosso usato per applicare la marcescenza scarlatta',
     evidence: ['Agisce più rapidamente e aggressivamente del veleno.', 'Affligge l’intera Palude di Aeonia.', 'È associata a marcio e fiori scarlatti.', 'Gowry afferma che non ha cura.', 'L’ago d’oro puro è costruito per ostacolare l’intromissione delle divinità esterne.', 'Inserito nel corpo di Millicent, l’ago ha fermato il tormento della marcescenza e gli incubi.'],
     questions: ['La fioritura genera la marcescenza o ne è una conseguenza?', 'Una divinità esterna causa la malattia intromettendosi nei corpi e nella natura?', 'Qual è la differenza fra dio, semidio e divinità esterna?', 'Perché gli uomini-insetto venerano la marcescenza di Millicent come una divinità?'],
     tags: ['marcescenza scarlatta', 'veleno', 'fiori', 'Aeonia', 'Millicent', 'ago d’oro puro', 'divinità esterne'],
     position: { x: 50, y: 62 },
+  },
+  {
+    id: 'divinita-esterne',
+    name: 'Divinità esterne',
+    eyebrow: 'Poteri oltre l’Ordine',
+    category: 'Tema',
+    state: 'da-verificare',
+    liveReadStatus: 'da-leggere',
+    summary: 'Categoria ancora oscura di poteri divini: conosciamo la Dea della Marcescenza e un antico Dio Serpente venerato sul Monte Gelmir.',
+    body: 'L’ago d’oro puro è stato creato per respingere l’intromissione delle divinità esterne, ma non sappiamo ancora che cosa distingua queste entità dagli dèi e dai semidei. La Dea della Marcescenza è legata al morbo scarlatto senza che ne conosciamo l’identità. La Spada curva del Dio Serpente rivela invece un’antica divinità serpentina e una religione ormai dimenticata praticata sul Monte Gelmir: la lama serviva a offrire sacrifici e restituisce vitalità quando uccide.',
+    imageUrl: './concepts/spada-dio-serpente.png',
+    imageAlt: 'La Spada curva del Dio Serpente, foggiata come un antico serpente',
+    textSections: [
+      { title: 'Dea della Marcescenza', text: 'Entità collegata alla marcescenza scarlatta. Identità e forma d’intervento nei corpi e nella natura restano ignote.' },
+      { title: 'Dio Serpente', text: 'Antica divinità venerata sul Monte Gelmir da una religione dimenticata. La sua spada rituale era usata per i sacrifici e assorbe vitalità dalle vittime.' },
+    ],
+    evidence: ['L’ago d’oro puro contrasta l’intromissione delle divinità esterne.', 'Una Dea della Marcescenza è associata al morbo scarlatto.', 'Sul Monte Gelmir si praticava una religione dedicata a un antico Dio Serpente.', 'La spada rituale del culto serviva a offrire sacrifici e ripristina vitalità dopo un’uccisione.'],
+    questions: ['Che cosa distingue una divinità esterna da un dio o un semidio?', 'La Dea della Marcescenza causa direttamente il morbo?', 'Perché il culto del Dio Serpente scomparve?', 'Il Dio Serpente è ancora attivo sul Monte Gelmir?'],
+    tags: ['divinità esterne', 'Dea della Marcescenza', 'Dio Serpente', 'Monte Gelmir', 'sacrifici', 'religione dimenticata'],
+    position: { x: 90, y: 86 },
   },
   {
     id: 'sellia',
@@ -1309,19 +1378,21 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'drago-di-magma',
     name: 'Drago di Magma',
-    eyebrow: 'Drago o umanoide?',
+    eyebrow: 'Eroi umani maledetti',
     category: 'Tema',
-    state: 'da-verificare',
+    state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Creatura simile a una grande lucertola che striscia impugnando una lama enorme con gli arti anteriori.',
-    body: 'Il Drago di Magma ha un aspetto più vicino a una lucertola che ai draghi già incontrati: avanza strisciando, ma usa gli arti anteriori quasi fossero braccia e con essi impugna una gigantesca lama. Questa combinazione ricorda la postura umanoide dei Soldati Draconici, senza dimostrare che appartengano alla stessa natura. Per il confronto con le stirpi già note vedi Draghi antichi e moderni.',
+    summary: 'Draghi terrestri un tempo umani: eroi maledetti per aver praticato la comunione draconica, condannati a strisciare sul ventre.',
+    body: 'Il Drago di Magma ha un aspetto più vicino a una lucertola che ai draghi già incontrati: avanza strisciando, ma usa gli arti anteriori quasi fossero braccia e con essi impugna una gigantesca lama. La Scaglialama conferma l’origine umana: questi draghi terrestri erano eroi che praticarono la comunione draconica, grave trasgressione per la quale furono maledetti a strisciare sul ventre come ombre di ciò che erano. La forma umanoide non li collega quindi ai Soldati Draconici. Per il confronto con le stirpi già note vedi Draghi antichi e moderni.',
+    bodyHighlights: ['La Scaglialama conferma l’origine umana: questi draghi terrestri erano eroi che praticarono la comunione draconica, grave trasgressione per la quale furono maledetti a strisciare sul ventre come ombre di ciò che erano.'],
     imageUrl: './concepts/drago-di-magma.png',
     imageAlt: 'Un Drago di Magma simile a una grande lucertola impugna una lama ricurva fra le rocce',
     imagePosition: '50% 42%',
+    gallery: [{ imageUrl: './concepts/scaglialama-drago-magma.png', imageAlt: 'La Scaglialama del Drago di Magma, grande spada curva ricoperta di scaglie dure', caption: 'Scaglialama · prova dell’origine umana' }],
     externalLinks: [{ label: 'Immagine indicata per il Drago di Magma', url: 'https://eldenring.wiki.gg/images/thumb/ER_Magma_Wyrm.png/1200px-ER_Magma_Wyrm.png?20807d' }],
-    evidence: ['Si muove strisciando come una grande lucertola.', 'Impugna una lama gigantesca con gli arti anteriori.', 'I movimenti degli arti anteriori ricordano più braccia che zampe.'],
-    questions: ['È un drago distinto dalle stirpi già incontrate?', 'Ha una natura umanoide simile ai Soldati Draconici?', 'Perché impugna un’arma costruita?'],
-    tags: ['Drago di Magma', 'draghi', 'lucertola', 'lama', 'Soldati Draconici'],
+    evidence: ['Si muove strisciando come una grande lucertola.', 'Impugna una lama gigantesca con gli arti anteriori.', 'I movimenti degli arti anteriori ricordano più braccia che zampe.', 'I Draghi di Magma erano eroi umani che praticarono la comunione draconica.', 'Furono maledetti per la trasgressione e condannati a strisciare sulla terra.'],
+    questions: ['Chi impose la maledizione?', 'Perché la comunione draconica è considerata una grave trasgressione?', 'La trasformazione avviene per ogni praticante della comunione?'],
+    tags: ['Drago di Magma', 'draghi', 'lucertola', 'Scaglialama', 'comunione draconica', 'maledizione', 'eroi umani'],
     position: { x: 90, y: 99 },
   },
   {
@@ -1377,7 +1448,6 @@ const conceptArchive: LoreConcept[] = [
     textSections: [{
       title: 'Cimelio della portatrice di protesi',
       text: 'La giovane dell’eroico racconto nacque nella marcescenza maledetta. Dopo l’incontro con un mentore e la sua lama fluente ottenne ali di forza incomparabile. Red suppone che il racconto riguardi Millicent, ma l’identità non è ancora confermata.',
-      highlighted: true,
     }],
     evidence: ['Gowry la trovò neonata nella Palude di Aeonia.', 'Gowry la definisce una delle proprie figlie.', 'La marcescenza ne erodeva memoria, corpo e sogni.', 'L’ago d’oro ne ha arrestato i sintomi.', 'Ha un solo braccio.', 'Come sua madre, potrebbe diventare una grande guerriera.'],
     questions: ['Chi è la madre di Millicent?', 'Come nacque nella marcescenza?', 'Perché fu trovata neonata nella palude?', 'Chi sono le altre figlie di Gowry?', 'Il cimelio racconta davvero la sua storia?'],
@@ -2603,10 +2673,10 @@ const conceptArchive: LoreConcept[] = [
 ]
 
 const currentEpisodeConceptIds = new Set<string>([
-  'marcescenza', 'drago-di-magma', 'comandante-oneil', 'cavalieri-marcescenti', 'millicent', 'eochaid', 'okina',
+  'divinita-esterne', 'drago-di-magma', 'melina', 'frenesia', 'shabriri', 'vyke', 'maschere-scintipietra',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
-  'marcescenza',
+  'drago-di-magma', 'melina', 'frenesia', 'maschere-scintipietra',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -2618,6 +2688,30 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'divinita-marcescenza', from: 'divinita-esterne', to: 'marcescenza', label: 'Dea della Marcescenza',
+    note: 'La marcescenza è associata a una divinità esterna di identità ancora ignota; l’ago d’oro ne contrasta l’intromissione.', kind: 'traccia',
+  },
+  {
+    id: 'shabriri-frenesia', from: 'shabriri', to: 'frenesia', label: 'origine del morbo',
+    note: 'La piaga della Fiamma della Frenesia attecchì nelle orbite vuote di Shabriri, indicato come origine del morbo.', kind: 'traccia',
+  },
+  {
+    id: 'vyke-frenesia', from: 'vyke', to: 'frenesia', label: 'fiamma dall’interno',
+    note: 'La fiamma gialla tormentò Vyke e la sua lancia dall’interno e lasciò impronte bruciate su tutto il corpo.', kind: 'traccia',
+  },
+  {
+    id: 'vyke-tavola', from: 'vyke', to: 'tavola-rotonda', label: 'cavaliere della Tavola',
+    note: 'La Lancia da guerra identifica Vyke come Cavaliere della Tavola Rotonda.', kind: 'traccia',
+  },
+  {
+    id: 'frenesia-leyndell', from: 'frenesia', to: 'leyndell', label: 'nelle profondità',
+    note: 'Una nota del Villaggio della Frenesia colloca le Tre Dita e il loro Lord nel punto più profondo sotto Leyndell.', kind: 'traccia',
+  },
+  {
+    id: 'melina-marika', from: 'melina', to: 'regina-marika', label: 'echi di Marika',
+    note: 'Melina riferisce le parole di Marika sul dominio dell’Albero Madre e sulla scelta fra Ordine ed esclusione.', kind: 'traccia',
+  },
   {
     id: 'oneil-aeonia', from: 'comandante-oneil', to: 'palude-aeonia', label: 'ultimo veterano',
     note: 'O’Neil è rimasto nel campo divorato dalla marcescenza e conserva con orgoglio il ricordo della battaglia.', kind: 'traccia',
@@ -2639,12 +2733,8 @@ export const connections: LoreConnection[] = [
     note: 'Gowry paragona Millicent alla madre, una grande guerriera; il possibile rapporto con Malenia resta un’ipotesi aperta, non una scoperta.', kind: 'ipotesi',
   },
   {
-    id: 'drago-magma-stirpi', from: 'drago-di-magma', to: 'draghi-antichi', label: 'classificazione incerta',
-    note: 'L’aspetto da lucertola e l’uso di una lama distinguono il Drago di Magma dai draghi già incontrati; il rapporto fra le stirpi resta da verificare.', kind: 'ipotesi',
-  },
-  {
-    id: 'drago-magma-soldato-draconico', from: 'drago-di-magma', to: 'soldato-draconico-nokstella', label: 'arti quasi umani',
-    note: 'Entrambi combinano tratti draconici e postura umanoide, ma la somiglianza osservata non prova un’origine comune.', kind: 'ipotesi',
+    id: 'drago-magma-stirpi', from: 'drago-di-magma', to: 'draghi-antichi', label: 'comunione draconica',
+    note: 'I Draghi di Magma non sono una stirpe naturale: erano eroi umani trasformati e maledetti dopo la comunione draconica.', kind: 'traccia',
   },
   {
     id: 'farfalle-aeonia', from: 'farfalle', to: 'palude-aeonia', label: 'ali della marcescenza',

@@ -59,6 +59,9 @@ const latestLiveLayoutConceptIds = new Set([
   'millicent',
   'eochaid',
   'okina',
+  'shabriri',
+  'vyke',
+  'divinita-esterne',
 ])
 const previousLiveLayoutConceptIds = new Set([
   'ragno-mani',
@@ -490,6 +493,8 @@ const boardConceptOrder = [
   'dracotumulo',
   'senzaluce',
   'frenesia',
+  'shabriri',
+  'vyke',
   'grazia',
   'vergini-delle-dita',
   'melina',
@@ -499,6 +504,7 @@ const boardConceptOrder = [
   'varre',
   'due-dita',
   'volonta-superiore',
+  'divinita-esterne',
   'profezia-leggidita',
   'morbo-mortale',
   'marchio-centipede',

@@ -7,14 +7,20 @@ export const quests: QuestEntry[] = [
     id: "melina",
     title: "I offer you an accord",
     npc: "Melina",
-    region: "Sepolcride",
+    region: "Sepolcride, Liurnia e Altopiano di Altus",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Acquisire abbastanza Rune Maggiori per entrare nella capitale, dove Melina ci aspetta, e accompagnarla ai piedi dell’Albero Madre.",
+      "Melina ci ha incontrati al Grande Montacarichi di Dectus e ha trasmesso nuove parole di Marika. La strada verso Leyndell passa ora dal completamento del medaglione.",
+
+    lastSeen: {
+      location: "Grande Montacarichi di Dectus",
+      note: "Melina è apparsa al montacarichi e ha riferito un’eco delle parole di Marika sull’Ordine.",
+    },
 
     destination: {
       location: "Leyndell, ai piedi dell’Albero Madre",
-      note: "Melina ci aspetta nella capitale; l’accesso richiede abbastanza Rune Maggiori.",
+      note: "Dobbiamo raggiungere la capitale e accompagnare Melina ai piedi dell’Albero Madre.",
     },
 
     steps: [
@@ -42,12 +48,17 @@ export const quests: QuestEntry[] = [
         title: "La via per la capitale",
         text: "Scopriamo che per accedere a Leyndell dobbiamo prima acquisire abbastanza Rune Maggiori. Melina ci aspetta nella capitale.",
       },
+      {
+        title: "L’eco al Grande Montacarichi",
+        text: "Melina ci incontra al Grande Montacarichi di Dectus e riferisce le parole di Marika: l’Albero Madre controlla ogni cosa e impone di scegliere fra l’Ordine e una vita senza potere ai suoi margini.",
+      },
     ],
 
     nextStep: {
-      text: "Acquisire abbastanza Rune Maggiori per entrare a Leyndell e raggiungere Melina.",
+      text: "Recuperare a Forte Faroth, nel Dracotumulo, la metà mancante del Medaglione di Dectus; quindi attivare il montacarichi e proseguire verso Leyndell.",
       hypothetical: false,
     },
+    trainerAdvice: "Forte Faroth è vicino al più grande dei draghi di Dracotumulo.",
 
     portrait: {
       imageUrl: "./concepts/melina.png",
@@ -77,6 +88,9 @@ export const quests: QuestEntry[] = [
       "margit",
       "godrick-innestato",
       "progenie-innestata",
+      "regina-marika",
+      "medaglione-dectus",
+      "dracotumulo",
     ],
   },
   {
@@ -1060,7 +1074,7 @@ export const quests: QuestEntry[] = [
       text: "Esaurire il dialogo con Hyetta nell’ultima posizione.",
       hypothetical: false,
     },
-    trainerAdvice: "Le manca ancora un dialogo nell’ultima posizione; poi cerca la chiesa più alta di Liurnia.",
+    trainerAdvice: "Consegnale l’occhio di Vyke.",
     portrait: {
       imageUrl: "./concepts/hyetta.jpg",
       imageAlt: "Primo piano di Hyetta con gli occhi coperti da una benda",
@@ -1078,7 +1092,7 @@ export const quests: QuestEntry[] = [
         caption: "Uva di Shabriri",
       },
     ],
-    linkedConceptIds: ["hyetta", "irina", "liurnia-lacustre"],
+    linkedConceptIds: ["hyetta", "irina", "liurnia-lacustre", "vyke", "frenesia"],
   },
   {
     id: "thops",
@@ -1244,18 +1258,18 @@ export const quests: QuestEntry[] = [
     id: "valchiria",
     title: "Valchiria",
     npc: "Gowry e Millicent",
-    region: "Caelid",
+    region: "Caelid e Altopiano di Altus",
     status: "in-corso",
-    updateKind: "nuova",
+    updateKind: "aggiornata",
     summary:
-      "L’ago d’oro puro ha arrestato la marcescenza di Millicent e risvegliato frammenti della sua memoria. La fanciulla ha lasciato Caelid per affrontare il proprio destino.",
+      "Millicent è ricomparsa al confine con l’Altopiano di Altus e ha combattuto al nostro fianco come evocazione. La pista prosegue probabilmente sull’altopiano.",
     lastSeen: {
-      location: "Capanna di Gowry, Caelid",
-      note: "Millicent ha visitato la capanna, che le sembrava familiare, poi è ripartita per il proprio viaggio.",
+      location: "Confine con l’Altopiano di Altus",
+      note: "Abbiamo evocato Millicent durante uno scontro con un boss al confine dell’altopiano.",
     },
     destination: {
-      location: "Non ancora nota",
-      note: "Millicent non ha rivelato la meta del viaggio. L’indizio di Trainer resta separato dalle informazioni scoperte.",
+      location: "Altopiano di Altus",
+      note: "La sua apparizione al confine rende l’altopiano la pista più probabile, ma non conosciamo ancora una posizione precisa.",
     },
     steps: [
       {
@@ -1286,12 +1300,15 @@ export const quests: QuestEntry[] = [
         title: "Un addio senza memoria",
         text: "Millicent visita la capanna di Gowry perché il luogo le sembra familiare, ma la trova vuota e non ricorda chi sperasse di incontrare. Gowry racconta di averla trovata neonata ad Aeonia, la chiama una delle proprie figlie e ci chiede di proteggerla durante il viaggio.",
       },
+      {
+        title: "Millicent al confine di Altus",
+        text: "Durante uno scontro con un boss al confine dell’Altopiano di Altus evochiamo Millicent, che combatte al nostro fianco. La sua presenza conferma che il viaggio l’ha portata verso questa regione.",
+      },
     ],
     nextStep: {
-      text: "Ritrovare Millicent durante il suo viaggio. La destinazione non è ancora stata scoperta.",
-      hypothetical: false,
+      text: "Cercare Millicent sull’Altopiano di Altus. La regione è probabile, ma la posizione esatta resta sconosciuta.",
+      hypothetical: true,
     },
-    trainerAdvice: "Altopiano di Altus",
     portrait: {
       imageUrl: "./quests/millicent.png",
       imageAlt: "Millicent accasciata nella chiesa, debilitata dalla marcescenza scarlatta",

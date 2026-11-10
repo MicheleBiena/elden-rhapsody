@@ -2,7 +2,7 @@ import { concepts } from './project'
 
 export const boardGroups = [
   { id: 'ordine-spezzato', label: 'Ordine spezzato', conceptIds: ['elden-ring', 'regina-marika', 'notte-neri-coltelli', 'assassine-neri-coltelli', 'runa-della-morte', 'maliketh-lama-nera', 'albero-madre', 'godfrey', 'guerra-shattering', 'semidei', 'albero-genealogico-aureo', 'miquella', 'malenia-la-recisa', 'radahn', 'godrick-innestato', 'torri-divine'] },
-  { id: 'senzaluce', label: 'Senzaluce', conceptIds: ['senzaluce', 'frenesia', 'grazia', 'vergini-delle-dita', 'melina', 'hoarah-loux', 'goldmask', 'mangiasterco', 'varre'] },
+  { id: 'senzaluce', label: 'Senzaluce', conceptIds: ['senzaluce', 'frenesia', 'shabriri', 'vyke', 'grazia', 'vergini-delle-dita', 'melina', 'hoarah-loux', 'goldmask', 'mangiasterco', 'varre'] },
   { id: 'primi-incontri', label: 'Sepolcride', conceptIds: ['mercante-kale', 'patches', 'yura', 'kenneth-haight', 'medaglione-dectus', 'mezzolupo', 'boc', 'roderika', 'galere-eterne'] },
   { id: 'stregoneria', label: 'Stregoneria', conceptIds: ['accademia-raya-lucaria', 'ritratti-raya-lucaria', 'maschere-scintipietra', 'corrente-primeva', 'cristalliani', 'azur', 'soldati-marionetta', 'scintipietra', 'sellen', 'rennala', 'ranni-principessa-lunare', 'loretta', 'seluvis', 'fantocci-seluvis', 'iji', 'radagon', 'principesse-cariane', 'cavalieri-cariani', 'guerra-civile-liurnia'] },
   { id: 'liurnia-lacustre', label: 'Liurnia e Maniero Cariano', conceptIds: ['liurnia-lacustre', 'torre-studio-cariana', 'ragno-mani', 'chiesa-dei-voti', 'miriel', 'cacciatore-globi-cinerei', 'hyetta', 'thops', 'rya', 'mercante-gamberi', 'incubi-di-red'] },
@@ -12,7 +12,7 @@ export const boardGroups = [
   { id: 'terre-lontane', label: 'Terre lontane', conceptIds: ['eochaid', 'okina'] },
   { id: 'siofra-civilta-antiche', label: 'Fiumi e civiltà antiche', conceptIds: ['fiume-ainsel', 'soldato-draconico-nokstella', 'bestia-meteoritica', 'citta-eterna', 'seguaci-ancestrali', 'crogiolo-primordiale', 'lacrime-argento', 'compagnia-falco-caduto', 'tesoro-di-nokron'] },
   { id: 'tavola-rotonda', label: 'Tavola Rotonda', conceptIds: ['tavola-rotonda', 'diallos', 'corhyn', 'd-cacciatore', 'fia', 'gideon-ofnir', 'hewg', 'pugnale-rovinato'] },
-  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'radici-mortali', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'farfalle', 'lord-del-sangue', 'gurranq', 'lord-della-morte'] },
+  { id: 'fede-morte-sonno', label: 'Fede, morte e sonno', conceptIds: ['due-dita', 'volonta-superiore', 'divinita-esterne', 'ordine-aureo', 'spiriti', 'fiamma-della-rovina', 'profezia-leggidita', 'coloro-che-vivono-nella-morte', 'radici-mortali', 'morbo-mortale', 'marchio-centipede', 'santa-trina', 'farfalle', 'lord-del-sangue', 'gurranq', 'lord-della-morte'] },
   { id: 'grantempesta', label: 'Grantempesta', conceptIds: ['margit', 'rogier', 'antica-grantempesta', 'progenie-innestata', 'nepheli-loux', 'serosh'] },
   { id: 'farum-azula', label: 'Farum Azula', conceptIds: ['farum-azula-in-frantumi'] },
 ]
