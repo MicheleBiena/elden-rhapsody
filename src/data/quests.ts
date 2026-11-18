@@ -966,24 +966,30 @@ export const quests: QuestEntry[] = [
     id: "diallos",
     title: "Vocazione",
     npc: "Diallos Hoslow",
-    region: "Tavola Rotonda",
+    region: "Tavola Rotonda e Liurnia Lacustre",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Diallos cerca la sua serva Lanya. Non sappiamo ancora dove si trovi.",
+      "Ritroviamo Diallos accanto a Lanya nella Città del Cancello. Accusa i ribelli che danno la caccia ai Senzaluce e giura vendetta.",
     lastSeen: {
-      location: "Tavola Rotonda",
+      location: "Città del Cancello dell’Accademia, Liurnia",
+      note: "Diallos chiama Lanya senza ottenere risposta.",
     },
     steps: [
       {
         title: "La ricerca di Lanya",
         text: "Incontriamo Diallos alla Tavola Rotonda. Ci chiede aiuto per trovare la sua serva Lanya.",
       },
+      {
+        title: "Il giuramento degli Hoslow",
+        text: "Nel centro di Liurnia Diallos chiama Lanya invano. Ci chiede dove si nascondano i ribelli che danno la caccia ai propri simili e che ritiene responsabili di ciò che è accaduto alla sua serva. Giura di vendicarla appellandosi al motto della sua casata.",
+      },
     ],
     nextStep: {
-      text: "Trovare Lanya, la serva di Diallos.",
+      text: "Scoprire dove si trova la dimora nascosta dei ribelli che cacciano i Senzaluce.",
       hypothetical: false,
     },
-    trainerAdvice: "Sui ponti crollati del lago.",
+    trainerAdvice: "Procedi a Villa Vulcano. Usa l’invito di Rya per velocizzare questa parte.",
     portrait: {
       imageUrl: "./concepts/diallos.png",
       imageAlt: "Diallos con l’armatura decorata della casata Hoslow",

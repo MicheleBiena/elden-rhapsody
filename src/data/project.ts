@@ -1509,16 +1509,17 @@ const conceptArchive: LoreConcept[] = [
   {
     id: 'diallos',
     name: 'Diallos Hoslow',
-    eyebrow: 'Cavaliere in cerca di Lanya',
+    eyebrow: 'Il giuramento degli Hoslow',
     category: 'Personaggio',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Cavaliere della casata Hoslow, riconoscibile dall’armatura appariscente, in cerca della serva Lanya.',
-    body: 'Diallos è uno dei visitatori della Tavola Rotonda. Appartiene alla casata degli Hoslow e chiede aiuto per ritrovare la propria serva Lanya, dalla quale è stato separato.',
+    summary: 'Cavaliere della casata Hoslow. Dopo aver ritrovato Lanya, giura vendetta contro i ribelli che cacciano i Senzaluce.',
+    body: 'Diallos è un cavaliere degli Hoslow e uno dei visitatori della Tavola Rotonda. Accusa i ribelli che danno la caccia ad altri Senzaluce di aver aggredito la sua serva Lanya. Nel giurare vendetta invoca il motto della sua casata: la storia degli Hoslow è scritta col sangue.',
+    bodyHighlights: ['Accusa i ribelli che danno la caccia ad altri Senzaluce di aver aggredito la sua serva Lanya. Nel giurare vendetta invoca il motto della sua casata: la storia degli Hoslow è scritta col sangue.'],
     imageUrl: './concepts/diallos.png',
     imageAlt: 'Diallos Hoslow con l’armatura decorata della sua casata',
-    evidence: ['Appartiene alla casata Hoslow.', 'Sta cercando la sua serva Lanya.'],
-    questions: ['Dove si trova Lanya?', 'Perché i due si sono separati?'],
+    evidence: ['Appartiene alla casata Hoslow.', 'Attribuisce ai ribelli l’aggressione a Lanya.'],
+    questions: ['Chi sono i ribelli accusati da Diallos?'],
     tags: ['Diallos', 'Hoslow', 'Lanya', 'Tavola Rotonda'],
     position: { x: 30, y: 76 },
   },
@@ -2702,11 +2703,13 @@ const conceptArchive: LoreConcept[] = [
 const currentEpisodeConceptIds = new Set<string>([
   'divinita-esterne', 'drago-di-magma', 'melina', 'frenesia', 'shabriri', 'vyke', 'maschere-scintipietra',
   'albinauri', 'cristalliani', 'alexander-vaso-guerriero', 'nepheli-loux', 'gideon-ofnir', 'profezia-leggidita',
+  'diallos',
   'crogiolo-primordiale', 'millicent', 'malenia-la-recisa', 'yura', 'ranni-principessa-lunare', 'citta-eterna',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
   'drago-di-magma', 'melina', 'frenesia', 'maschere-scintipietra',
   'cristalliani', 'alexander-vaso-guerriero', 'nepheli-loux', 'gideon-ofnir', 'profezia-leggidita',
+  'diallos',
   'crogiolo-primordiale', 'millicent', 'malenia-la-recisa', 'yura', 'ranni-principessa-lunare', 'citta-eterna',
 ])
 
@@ -3608,7 +3611,7 @@ export const connections: LoreConnection[] = [
     from: 'tavola-rotonda',
     to: 'diallos',
     label: 'visitatore',
-    note: 'Diallos cerca Lanya mentre soggiorna alla Tavola Rotonda.',
+    note: 'Alla Tavola Rotonda Diallos chiede per la prima volta aiuto per ritrovare Lanya.',
     kind: 'traccia',
   },
   {

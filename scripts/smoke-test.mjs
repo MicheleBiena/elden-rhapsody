@@ -262,8 +262,8 @@ assert.match(await page.locator('.board-legend').textContent(), /Evento\s*4/)
 assert.match(await page.locator('.board-legend').textContent(), /Tema\s*32/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*63/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*18/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 111)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 19)
+assert.equal(await page.locator('.concept-card.is-read').count(), 110)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 20)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -342,8 +342,8 @@ assert.match(
   (await page.locator('.concept-card.is-unread').filter({ has: page.getByRole('heading', { name: 'Drago di Magma', exact: true }) }).textContent()) || '',
   /eroi.*comunione draconica/is,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /19 novità.*130 appunti.*249 fili/is)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*19/)
+assert.match(await page.locator('.board-live-note').textContent(), /20 novità.*130 appunti.*249 fili/is)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*20/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()

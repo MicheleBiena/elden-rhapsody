@@ -18,9 +18,9 @@ try {
     'melina', 'big-boys', 'varre', 'boc', 'alexander', 'sellen', 'blaidd', 'rogier', 'fia', 'roderika',
     'd', 'kenneth', 'gurranq', 'edgar-irina', 'nepheli', 'diallos', 'patches', 'yura', 'hyetta', 'thops', 'rya', 'ehi-cuggi', 'valchiria', 'terra-promessa',
   ])
-  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['melina', 'alexander', 'blaidd', 'nepheli', 'yura', 'valchiria'])
+  assert.deepEqual(await page.locator('.quest-index-link.is-aggiornata').evaluateAll(links => links.map(link => link.dataset.questId)), ['melina', 'alexander', 'blaidd', 'nepheli', 'diallos', 'yura', 'valchiria'])
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 1)
-  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 6)
+  assert.equal(await page.locator('.quest-index-update--aggiornata').count(), 7)
   assert.equal(await page.locator('.quest-index-update--nuova').count(), 1)
   assert.deepEqual(await page.locator('.quest-index-update--advice').evaluateAll(badges => badges.map(badge => ({
     id: badge.closest('.quest-index-link')?.dataset.questId,
@@ -139,7 +139,7 @@ try {
     { id: 'gurranq', title: 'Consumare la morte', lastSeen: 'Santuario Ferino, Dracotumulo', destination: 'Santuario Ferino', step: /occhio per trovare le radici mortali.*Sigillo artiglio.*piaga delle radici/is, links: 5, image: true },
     { id: 'edgar-irina', title: 'Insurrezione', lastSeen: 'Capanna del Vendicatore, Liurnia', destination: 'Non ancora nota', step: /Irina morta.*Edgar il Vendicatore.*Uva di Shabriri/is, links: 5, image: true, gallery: 2, status: 'Terminata' },
     { id: 'nepheli', title: 'Via col vento', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Gideon.*padre adottivo.*pozione.*Seluvis.*massacro.*Re Falco/is, links: 7, image: true, gallery: 1 },
-    { id: 'diallos', title: 'Vocazione', lastSeen: 'Tavola Rotonda', destination: 'Non ancora nota', step: /Lanya/, links: 1, image: true },
+    { id: 'diallos', title: 'Vocazione', lastSeen: 'Città del Cancello dell’Accademia, Liurnia', destination: 'Non ancora nota', step: /Lanya.*giuramento degli Hoslow.*ribelli.*vendicarla/is, links: 1, image: true },
     { id: 'patches', title: 'Con amici come questi', lastSeen: 'Grotta di Acquafosca', destination: 'Non ancora nota', step: /trappola di trasferimento/i, links: 1, image: true },
     { id: 'yura', title: 'Il cacciatore solitario', lastSeen: 'Ingresso dell’Accademia di Raya Lucaria', destination: 'Non ancora nota', step: /Nerijus.*Montecorvo.*Eleonora/is, links: 1, image: true },
     { id: 'hyetta', title: 'Grant Us Eyes', lastSeen: 'Ponte della Città del Cancello, Liurnia Lacustre', destination: 'Non ancora nota', step: /bulbi oculari.*Rovine Purificate.*occhi umani.*disgusto/is, links: 5, image: true, gallery: 2 },
@@ -151,7 +151,7 @@ try {
   ]
   const trainerAdviceByQuest = {
     nepheli: /dopo la capitale/i,
-    diallos: /Sui ponti crollati del lago/i,
+    diallos: /Villa Vulcano.*invito di Rya/i,
     yura: /Seconda Chiesa di Marika.*Altus/i,
     hyetta: /Consegnale l’occhio di Vyke/i,
     'terra-promessa': /dopo la capitale/i,
@@ -190,7 +190,7 @@ try {
     if (quest.id === 'd') assert.equal(await page.locator('.quest-next-step').count(), 0, 'Nessun prossimo passo inventato per D')
     if (quest.id === 'fia') assert.match(await page.locator('.quest-next-step').textContent(), /Riferire alla Tavola Rotonda/i)
     if (quest.id === 'gurranq') assert.match(await page.locator('.quest-next-step').textContent(), /radici mortali/)
-    if (quest.id === 'diallos') assert.match(await page.locator('.quest-next-step').textContent(), /Trovare Lanya/)
+    if (quest.id === 'diallos') assert.match(await page.locator('.quest-next-step').textContent(), /dimora nascosta dei ribelli/)
     if (quest.id === 'hyetta') assert.match(await page.locator('.quest-next-step').textContent(), /dialogo.*ultima posizione/i)
     if (quest.id === 'rya') assert.match(await page.locator('.quest-next-step').textContent(), /tunnel.*Medaglione di Dectus.*Villa Vulcano/i)
     if (quest.id === 'ehi-cuggi') assert.match(await page.locator('.quest-next-step').textContent(), /mani.*Potentato|Potentato/i)
@@ -236,7 +236,7 @@ try {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto(`${baseUrl}#/questbook`, { waitUntil: 'networkidle' })
   await page.locator('.quest-index').waitFor()
-  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 6)
+  assert.equal(await page.locator('.quest-index-link.is-aggiornata').count(), 7)
   assert.equal(await page.locator('.quest-index-link.is-nuova').count(), 1)
   assert.equal(await page.locator('.quest-index-update--advice').count(), 6)
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth))
@@ -262,7 +262,7 @@ try {
   await page.locator('a.nav-tab[href="#/build"]').click()
   await page.locator('.build-lab').waitFor()
   await page.locator('a.nav-tab[href="#/board"]').click()
-  assert.equal(await page.getByRole('button', { name: '19 da leggere', exact: true }).isDisabled(), false)
+  assert.equal(await page.getByRole('button', { name: '20 da leggere', exact: true }).isDisabled(), false)
   assert.deepEqual(errors, [])
   await page.close()
 
@@ -357,7 +357,7 @@ try {
   await fixturePage.goto('http://127.0.0.1:4187/#/questbook/non-esiste')
   await fixturePage.getByRole('heading', { name: 'Quest non trovata' }).waitFor()
   assert.deepEqual(errors, [])
-  console.log('Questbook passed: twenty active quests, four complete, six updated entries, one new quest, six Trainer hints, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
+  console.log('Questbook passed: twenty active quests, four complete, seven updated entries, one new quest, six Trainer hints, persistent Big Boys tracker, responsive navigation, filters, deep links, photos, mobile and large text.')
 } finally {
   await browser.close()
   await fixtureServer?.close()

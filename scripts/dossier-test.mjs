@@ -310,12 +310,13 @@ try {
     ['alexander-vaso-guerriero', 'Aggiornata'],
     ['citta-eterna', 'Aggiornata'],
     ['crogiolo-primordiale', 'Aggiornata'],
+    ['diallos', 'Aggiornata'],
     ['gideon-ofnir', 'Aggiornata'],
     ['divinita-esterne', 'Nuova'],
     ['profezia-leggidita', 'Aggiornata'],
     ['nepheli-loux', 'Aggiornata'],
   ]
-  await page.getByRole('button', { name: '19 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '20 da leggere', exact: true }).click()
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
@@ -443,7 +444,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 130 cards, 19 unread, including the Serpent God, Magma Wyrm, Melina, Frenzy, Shabriri, Vyke and Haima notes, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 130 cards, 20 unread, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }
