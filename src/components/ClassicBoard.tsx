@@ -43,6 +43,7 @@ const currentBoardCanvasHeight = 25000
 const previousLiveBoardCanvasHeight = 27000
 const boardHeight = 29000
 const latestLiveLayoutConceptIds = new Set([
+  'albinauri',
   'festival-radahn',
   'jerren',
   'pugnale-rovinato',
@@ -518,6 +519,7 @@ const boardConceptOrder = [
   'roderika',
   'galere-eterne',
   'liurnia-lacustre',
+  'albinauri',
   'torre-studio-cariana',
   'accademia-raya-lucaria',
   'ritratti-raya-lucaria',

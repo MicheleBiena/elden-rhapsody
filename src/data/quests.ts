@@ -317,14 +317,16 @@ export const quests: QuestEntry[] = [
     id: "alexander",
     title: "Amico Vaso",
     npc: "Alexander Iron Fist",
-    region: "Sepolcride e Caelid",
+    region: "Sepolcride, Caelid e Liurnia",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Dopo essersi ricostruito con i resti del Festival, Alexander si è incastrato di nuovo vicino a Vasburgo. Stavolta i colpi non bastano: serve qualcosa di scivoloso.",
+      "Liberato con i vasi d’olio sopra Vasburgo, Alexander parte verso il monte infuocato a nord per riforgiare il proprio corpo.",
     lastSeen: {
       location: "Sopra Vasburgo, Liurnia",
-      note: "È bloccato in una buca e chiede di essere reso abbastanza scivoloso da poterne uscire.",
+      note: "Si congeda dopo essere stato liberato con l’olio.",
     },
+    destination: { location: "Monte infuocato a nord" },
     steps: [
       {
         title: "Verso Castello Mantorosso",
@@ -343,20 +345,13 @@ export const quests: QuestEntry[] = [
         text: "Raccoglie nel proprio corpo i resti dei caduti dello Shattering per diventare più forte. Che fra questi ci sia anche Radahn è possibile, ma non confermato.",
       },
       {
-        title: "Incastrato, ancora",
-        text: "Ritroviamo Alexander vicino a Vasburgo, nuovamente bloccato nel terreno. Questa volta occorre qualcosa di scivoloso per liberarlo.",
+        title: "L’olio e il monte infuocato",
+        text: "Lo liberiamo con i vasi d’olio. Si era incastrato mentre si avvicinava al ciglio per guardare la sua casa, dove ha giurato di non tornare. Ringrazia Red e parte per rafforzare il vaso nel fuoco.",
       },
     ],
     nextStep: {
-      text: "Trovare qualcosa di abbastanza scivoloso da liberare Alexander.",
+      text: "Cercare Alexander al monte infuocato a nord.",
       hypothetical: false,
-    },
-    trainerAdvice: "Cerca un mercante al fiume Siofra, sul lato sinistro.",
-    trainerAdviceImage: {
-      imageUrl: "./quests/alexander-siofra-suggestion.png",
-      imageAlt: "Percorso tracciato sulle impalcature del fiume Siofra verso il mercante",
-      caption: "Indizio visivo · segui le impalcature indicate",
-      imagePosition: "50% 50%",
     },
     portrait: {
       imageUrl: "./concepts/alexander.webp",
@@ -405,13 +400,14 @@ export const quests: QuestEntry[] = [
     id: "blaidd",
     title: "Era delle Stelle",
     npc: "Ranni e i suoi seguaci",
-    region: "Liurnia, Caelid, Limgrave e Nokron",
+    region: "Liurnia, Caelid, Nokron e Nokstella",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Consegnato il tesoro di Nokron, Ranni parte sul sentiero oscuro che solo lei può percorrere. La statuetta ricevuta apre la Torre Divina di Liurnia, dove troviamo il suo corpo e il Marchio della Morte.",
+      "Il portale della torre di Renna conduce all’Ainsel. Ranni ci parla attraverso una bambola e ci incarica di eliminare le Ombre funeste.",
     lastSeen: {
-      location: "Guglia di Ranni, Tre Sorelle",
-      note: "Dopo aver ricevuto il tesoro, Ranni ci congeda e parte per il proprio viaggio.",
+      location: "Nokstella, Città Eterna",
+      note: "Qui la bambola racconta il passato di Ranni e il conflitto con le Due Dita.",
     },
     steps: [
       {
@@ -419,8 +415,8 @@ export const quests: QuestEntry[] = [
         text: "Dopo aver sconfitto Darriwil insieme a Blaidd, incontriamo Iji, fabbro dei reali cariani e suo alleato.",
       },
       {
-        title: "La vera identità di Renna",
-        text: "Nel Maniero Cariano incontriamo Ranni: è la strega che si era presentata come Renna. Accettiamo di servirla e di cercare il tesoro custodito a Nokron, la Città Eterna.",
+        title: "L’accordo con Ranni",
+        text: "Nel Maniero Cariano ritroviamo la strega che si era presentata come Renna. Accettiamo di servire Ranni e di cercare il tesoro di Nokron.",
       },
       {
         title: "I tre seguaci",
@@ -478,14 +474,24 @@ export const quests: QuestEntry[] = [
         title: "La torre vuota di Seluvis",
         text: "Troviamo Seluvis senza vita e scopriamo il suo nascondiglio di fantocci, fra cui uno con l’aspetto di Sellen.",
       },
+      {
+        title: "Dalla torre di Renna all’Ainsel",
+        text: "Nella torre troviamo il set della strega delle nevi. Attraversiamo il portale, raccogliamo una bambola fredda al tatto e le parliamo tre volte alla Grazia prima che Ranni risponda e ci affidi la caccia alle Ombre funeste.",
+      },
+      {
+        title: "Nokstella",
+        text: "Raggiungiamo Nokstella, dove Ranni racconta perché si è ribellata alle Due Dita e rivela che le Ombre funeste sono i loro assassini. Troviamo anche il talismano Luna di Nokstella.",
+      },
     ],
-    trainerAdvice: "Esplora la torre di Renna.",
+    nextStep: { text: "Eliminare le Ombre funeste che Ranni dice aggirarsi in queste terre.", hypothetical: false },
     portrait: {
       imageUrl: "./concepts/strega-sconosciuta.webp",
       imageAlt: "Ranni nella sua forma di bambola, sotto un grande cappello",
       imagePosition: "50% 20%",
     },
     gallery: [
+      { imageUrl: "./concepts/ranni-miniatura.png", imageAlt: "La piccola bambola di Ranni", caption: "Ranni in miniatura, raccolta all’Ainsel" },
+      { imageUrl: "./concepts/nokstella.jpg", imageAlt: "Veduta della Città Eterna di Nokstella", caption: "Nokstella, Città Eterna" },
       {
         imageUrl: "./concepts/festival-radahn.webp",
         imageAlt: "Radahn circondato dai campioni del festival nelle Dune Gementi",
@@ -887,10 +893,11 @@ export const quests: QuestEntry[] = [
     id: "nepheli",
     title: "Via col vento",
     npc: "Nepheli Loux",
-    region: "Grantempesta",
+    region: "Grantempesta, Liurnia e Tavola Rotonda",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Seluvis vuole far bere a Nepheli una pozione. Gideon propone di eliminarla di nascosto e mentire allo stregone, che definisce un molestatore di bambole.",
+      "Dopo il massacro degli Albinauri, Gideon ripudia Nepheli. Alla Tavola Rotonda le consegniamo le ceneri del Re Falco.",
     lastSeen: {
       location: "Tavola Rotonda",
     },
@@ -919,17 +926,32 @@ export const quests: QuestEntry[] = [
         title: "La pozione di Seluvis",
         text: "Seluvis ci affida una pozione destinata a Nepheli. Gideon suggerisce di consegnargliela perché possa eliminarla di nascosto, poi riferire a Seluvis che il piano è riuscito. Non sappiamo ancora se voglia soltanto proteggere la figlia adottiva o perseguire un altro scopo.",
       },
+      {
+        title: "Il villaggio degli Albinauri",
+        text: "Troviamo Nepheli sconvolta dal massacro. La violenza le ricorda ciò che vide da bambina. Oggi può combattere per chi ha subito il sopruso. Sconfiggiamo l’Ammazzapresagi.",
+      },
+      {
+        title: "Il ripudio",
+        text: "Alla Tavola Rotonda, Gideon tratta Nepheli come una pedina ormai inutile. Lei dice di aver ucciso i suoi uomini e di essere stata ripudiata. Sapere chi ordinò il massacro la porta a dubitare della sua promessa di difendere i più deboli.",
+      },
+      {
+        title: "Le ceneri del Re Falco",
+        text: "Consegniamo a Nepheli le ceneri. Pur dicendo di non percepire gli spiriti come Roderika, riconosce l’odore dell’antica tempesta e ricorda il suo primo falco.",
+      },
     ],
     nextStep: {
-      text: "Decidere se affidare la pozione a Gideon per proteggere Nepheli e ingannare Seluvis.",
+      text: "Resta da capire come proseguirà la storia di Nepheli dopo la consegna delle ceneri.",
       hypothetical: true,
     },
-    trainerAdvice: "Fra le acque di Liurnia, in un cupo anfratto cosparso di impiccagioni.",
+    trainerAdvice: "Se ne parla dopo la capitale.",
     portrait: {
       imageUrl: "./concepts/nepheli.png",
       imageAlt: "Nepheli Loux con abiti da guerriera e una grande ascia",
       imagePosition: "50% 22%",
     },
+    gallery: [
+      { imageUrl: "./concepts/ammazzapresagi.png", imageAlt: "L’Ammazzapresagi armato di due lame", caption: "L’Ammazzapresagi del villaggio degli Albinauri" },
+    ],
     linkedConceptIds: [
       "nepheli-loux",
       "godrick-innestato",
@@ -1010,13 +1032,14 @@ export const quests: QuestEntry[] = [
     id: "yura",
     title: "Il cacciatore solitario",
     npc: "Yura, cacciatore di Dita Sanguinanti",
-    region: "Sepolcride",
+    region: "Sepolcride e Liurnia",
     status: "in-corso",
+    updateKind: "aggiornata",
     summary:
-      "Yura è intervenuto contro il Dito Sanguinante Nerijus. Dopo la vittoria si è presentato come cacciatore dei Senzaluce corrotti dal sangue che perseguitano i propri simili.",
+      "Aiutiamo Yura contro l’Assassino di Montecorvo. Il cacciatore è sulle tracce di Eleonora, il Dito Sanguinante Viola.",
     lastSeen: {
-      location: "Costa di Acquafosca",
-      note: "Lo abbiamo incontrato subito dopo l’invasione di Nerijus.",
+      location: "Ingresso dell’Accademia di Raya Lucaria",
+      note: "Parliamo con Yura dopo aver risposto al suo segno di evocazione.",
     },
     steps: [
       {
@@ -1031,8 +1054,13 @@ export const quests: QuestEntry[] = [
         title: "Il cacciatore di Dita Sanguinanti",
         text: "Dopo lo scontro Yura loda la nostra sopravvivenza e si presenta. Descrive le Dita Sanguinanti come Senzaluce soggiogati da un sangue corrotto: fanatici che cacciano i propri simili e con cui, secondo lui, non è più possibile ragionare.",
       },
+      {
+        title: "Il segno ai cancelli di Raya Lucaria",
+        text: "Rispondiamo al segno di Yura e lo aiutiamo a sconfiggere il Dito Sanguinante Assassino di Montecorvo. Yura ci ringrazia e ci mette in guardia da Eleonora: la considera la più letale delle Dita Sanguinanti, ma ancora una fiera cavaliera. Se la incontriamo, ci consiglia di fuggire.",
+      },
     ],
-    trainerAdvice: "Cancelli dell'accademia.",
+    nextStep: { text: "Seguire la pista di Yura ed Eleonora.", hypothetical: true },
+    trainerAdvice: "Seconda Chiesa di Marika (Altus).",
     portrait: {
       imageUrl: "./concepts/yura.jpg",
       imageAlt: "Yura con il grande cappello di ferro dopo lo scontro con Nerijus",
@@ -1329,5 +1357,37 @@ export const quests: QuestEntry[] = [
       },
     ],
     linkedConceptIds: ["millicent", "marcescenza", "palude-aeonia", "sellia", "comandante-oneil", "cavalieri-marcescenti"],
+  },
+  {
+    id: "terra-promessa",
+    title: "Terra Promessa",
+    npc: "Albus e Latenna",
+    region: "Liurnia e Vette dei Giganti",
+    status: "in-corso",
+    updateKind: "nuova",
+    summary: "Albus affida a Red metà del medaglione segreto. Latenna chiede di essere accompagnata alla terra dell’Albero Sacro di Miquella.",
+    lastSeen: { location: "Grotta a ovest delle Rovine di Laskyar", note: "Latenna ha salutato Lobo e ora viaggia con Red come spirito." },
+    destination: { location: "Albero Sacro di Miquella", note: "Le due metà del medaglione aprono un percorso nascosto al Grande Montacarichi di Rold." },
+    steps: [
+      {
+        title: "Il vaso di Albus",
+        text: "Nel villaggio devastato troviamo il vecchio Albus nascosto sotto le sembianze di un vaso. Prima di morire ci affida la metà destra del Medaglione segreto dell’Albero Sacro, da tenere lontana dagli aggressori e mostrare a Latenna.",
+      },
+      {
+        title: "L’attacco di Ensha",
+        text: "Ensha ci assale alla Tavola Rotonda e viene sconfitto. Gideon sostiene che il suo servitore abbia agito d’impulso e, per scusarsi, ci indirizza da una donna albinaura nascosta a ovest delle Rovine di Laskyar.",
+      },
+      {
+        title: "Latenna e Lobo",
+        text: "Latenna ci scambia per un altro Senzaluce mandato a cercare il medaglione. Vedendo la metà di Albus si fida di Red, le chiede di accompagnarla all’Albero Sacro e indica Castel Sol come luogo in cui cercare l’altra metà. Si congeda dal suo lupo Lobo e sceglie di unirsi a noi come spirito evocabile.",
+      },
+    ],
+    nextStep: { text: "Cercare l’altra metà a Castel Sol, sulle Vette dei Giganti. Latenna indica il Grande Montacarichi di Rold per raggiungere la regione.", hypothetical: false },
+    trainerAdvice: "Se ne parla dopo la capitale.",
+    portrait: { imageUrl: "./concepts/latenna.png", imageAlt: "Le ceneri di Latenna l’Albinaura" },
+    gallery: [
+      { imageUrl: "./concepts/medaglione-albero-sacro.png", imageAlt: "Metà destra del medaglione segreto dell’Albero Sacro", caption: "La metà destra affidata da Albus" },
+    ],
+    linkedConceptIds: ["albinauri", "profezia-leggidita", "gideon-ofnir", "miquella"],
   },
 ];

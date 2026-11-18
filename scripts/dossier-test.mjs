@@ -47,7 +47,7 @@ try {
       assert.equal(cards[a].x < cards[b].right && cards[a].right > cards[b].x && cards[a].y < cards[b].bottom && cards[a].bottom > cards[b].y, false, `Cards overlap: ${cards[a].id}, ${cards[b].id}`)
     }
   }
-  assert.equal(allIds.size, 129)
+  assert.equal(allIds.size, 130)
 
   await groupButtons.nth(0).click()
   await page.getByRole('button', { name: 'Apri Radahn', exact: true }).click()
@@ -66,7 +66,7 @@ try {
 
   await groupButtons.nth(2).click()
   assert.equal(await page.locator('.dossier-note').count(), 9)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 0)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
   await page.getByRole('button', { name: 'Apri Patches', exact: true }).click()
   assert.doesNotMatch(await page.locator('.dossier-detail-meta').textContent(), /Nuova|Aggiornata/)
   assert.match(await page.locator('.dossier-detail').textContent(), /mercante.*ingann/is)
@@ -83,7 +83,7 @@ try {
 
   await groupButtons.nth(3).click()
   assert.equal(await page.locator('.dossier-note').count(), 19)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 3)
   await page.getByRole('button', { name: 'Apri Accademia di Raya Lucaria', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /neutralità.*sigilli.*Chiave di scintipietra/is)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
@@ -132,9 +132,9 @@ try {
   await page.getByRole('button', { name: 'Apri Azur', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /oltre la sapienza della pietra.*più PA/is)
   await page.getByRole('button', { name: 'Apri Ranni, Principessa Lunare', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /Renna.*strega delle nevi.*sentiero oscuro.*corpo originario.*capelli rossi.*Marchio della Morte/is)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Renna.*strega delle nevi.*Marchio della Morte.*Empireo.*succedere a Marika.*Ombre funeste/is)
   assert.equal(await page.locator('.dossier-gallery').count(), 3)
-  assert.equal(await page.locator('.live-update-highlight').count(), 0)
+  assert.equal(await page.locator('.live-update-highlight').count(), 1)
   await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri Guardia Reale Loretta', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /spirito.*cavallo.*stregonerie cariane.*arco/is)
@@ -149,8 +149,8 @@ try {
   await page.screenshot({ path: 'artifacts/dossiers-magic-update.png', fullPage: true })
 
   await groupButtons.nth(4).click()
-  assert.equal(await page.locator('.dossier-note').count(), 11)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 0)
+  assert.equal(await page.locator('.dossier-note').count(), 12)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
   await page.getByRole('button', { name: 'Apri Torre di Studio Cariana', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /globo celeste.*capovolge.*Torre Divina.*fiamme nere/is)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
@@ -172,7 +172,7 @@ try {
 
   await groupButtons.nth(7).click()
   assert.equal(await page.locator('.dossier-note').count(), 12)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 3)
   await page.getByRole('button', { name: 'Apri Festival di Radahn', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Jerren.*nove campioni.*Dune Gementi.*Nokron/is)
   assert.equal(await page.locator('.dossier-gallery').count(), 1)
@@ -194,7 +194,7 @@ try {
   assert.match(await page.locator('.dossier-detail').textContent(), /Glory, brave knights.*signore.*ago d’oro puro/is)
   await page.getByRole('button', { name: 'Apri Millicent', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /neonata.*memoria.*un solo braccio.*madre/is)
-  assert.equal(await page.locator('.dossier-gallery').count(), 2)
+  assert.equal(await page.locator('.dossier-gallery').count(), 3)
 
   await groupButtons.nth(8).click()
   assert.equal(await page.locator('.dossier-note').count(), 2)
@@ -206,7 +206,7 @@ try {
 
   await groupButtons.nth(9).click()
   assert.equal(await page.locator('.dossier-note').count(), 9)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 0)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
   await page.getByRole('button', { name: 'Apri Città Eterna', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Nokstella.*gemella.*Nokron.*cratere.*tesoro.*Tesoro di Nokron/is)
   await page.getByRole('button', { name: 'Apri Lacrime d’argento', exact: true }).click()
@@ -224,14 +224,14 @@ try {
   await page.getByRole('button', { name: 'Apri Culto ancestrale', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /scrittura.*metallurgia.*rinascita.*Spirito Ancestrale.*pire/is)
   await page.getByRole('button', { name: 'Apri Crogiolo primordiale', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /Coda.*Corno.*forme di vita.*mescolate.*antica divinità/is)
-  assert.equal(await page.locator('.live-update-highlight').count(), 0)
+  assert.match(await page.locator('.dossier-detail').textContent(), /Coda.*Corno.*forme di vita.*mescolate.*antica divinità.*Nodulo.*impurità/is)
+  assert.equal(await page.locator('.live-update-highlight').count(), 1)
   await page.locator('.dossier-note img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.screenshot({ path: 'artifacts/dossiers-siofra.png', fullPage: true })
 
   await groupButtons.nth(11).click()
   assert.equal(await page.locator('.dossier-note').count(), 16)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 2)
   await page.getByRole('button', { name: 'Apri Divinità esterne', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Dea della Marcescenza.*Dio Serpente.*Monte Gelmir.*sacrifici/is)
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Nuova/)
@@ -295,15 +295,27 @@ try {
   assert.equal(await page.locator('#dossier-detail-title').textContent(), 'Progenie')
 
   const liveNotes = [
+    ['malenia-la-recisa', 'Aggiornata'],
     ['frenesia', 'Aggiornata'],
     ['shabriri', 'Nuova'],
     ['vyke', 'Nuova'],
     ['melina', 'Aggiornata'],
+    ['yura', 'Aggiornata'],
     ['maschere-scintipietra', 'Aggiornata'],
+    ['cristalliani', 'Aggiornata'],
+    ['ranni-principessa-lunare', 'Aggiornata'],
+    ['albinauri', 'Nuova'],
     ['drago-di-magma', 'Aggiornata'],
+    ['millicent', 'Aggiornata'],
+    ['alexander-vaso-guerriero', 'Aggiornata'],
+    ['citta-eterna', 'Aggiornata'],
+    ['crogiolo-primordiale', 'Aggiornata'],
+    ['gideon-ofnir', 'Aggiornata'],
     ['divinita-esterne', 'Nuova'],
+    ['profezia-leggidita', 'Aggiornata'],
+    ['nepheli-loux', 'Aggiornata'],
   ]
-  await page.getByRole('button', { name: '7 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '19 da leggere', exact: true }).click()
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
@@ -333,8 +345,8 @@ try {
   assert.match(await page.locator('.dossier-detail').textContent(), /seconda Sellen/i)
   assert.equal(await page.locator('.live-update-highlight').count(), 0)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
-  assert.equal(await page.locator('.dossier-note').count(), 1)
-  assert.match(await page.locator('.dossier-note').textContent(), /Maschere di scintipietra/)
+  assert.equal(await page.locator('.dossier-note').count(), 3)
+  assert.match((await page.locator('.dossier-note').allTextContents()).join(' '), /Maschere di scintipietra/)
   await page.getByRole('button', { name: 'Solo da leggere', exact: true }).click()
   assert.equal(await page.locator('.dossier-note').count(), 19)
   await page.getByRole('searchbox').fill('nessun-risultato-inesistente')
@@ -380,9 +392,9 @@ try {
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v8'))
   await page.evaluate(() => localStorage.removeItem('elden-rhapsody:board-positions-v7'))
   await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click()
-  assert.equal(await page.locator('.concept-card').count(), 129)
+  assert.equal(await page.locator('.concept-card').count(), 130)
   assert.equal(await page.evaluate(() => localStorage.getItem('elden-rhapsody:board-positions-v6')), oldPositions)
-  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length === 129)
+  await page.waitForFunction(() => Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length === 130)
   const v10Positions = '{"elden-ring":{"x":22,"y":4.8},"godrick-innestato":{"x":40,"y":18}}'
   await page.evaluate(value => {
     localStorage.setItem('elden-rhapsody:board-positions-v10', value)
@@ -431,7 +443,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 129 cards, 7 unread, including the Serpent God, Magma Wyrm, Melina, Frenzy, Shabriri, Vyke and Haima notes, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 130 cards, 19 unread, including the Serpent God, Magma Wyrm, Melina, Frenzy, Shabriri, Vyke and Haima notes, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }

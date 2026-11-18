@@ -40,7 +40,7 @@ await page.getByRole('button', { name: 'Lavagna completa', exact: true }).click(
 
 assert.equal(new URL(page.url()).hash, '#/board')
 assert.equal(await page.locator('h1').textContent(), 'Lavagna completa')
-assert.equal(await page.locator('.concept-card').count(), 129)
+assert.equal(await page.locator('.concept-card').count(), 130)
 assert.deepEqual(
   await page.locator('.concept-card h2').allTextContents(),
   [
@@ -90,6 +90,7 @@ assert.deepEqual(
     'Roderika',
     'Galere Eterne',
     'Liurnia Lacustre',
+    'Albinauri',
     'Torre di Studio Cariana',
     'Accademia di Raya Lucaria',
     'Ritratti di Raya Lucaria',
@@ -223,10 +224,10 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '22',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 247)
-assert.equal(await page.locator('.thread-layer line').count(), 494)
-assert.equal(await page.locator('.relation-list button').count(), 247)
-assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 124)
+assert.equal(await page.locator('.thread-layer g').count(), 249)
+assert.equal(await page.locator('.thread-layer line').count(), 498)
+assert.equal(await page.locator('.relation-list button').count(), 249)
+assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 125)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
   await page.locator('.concept-card:has(.concept-image--placeholder) h2').allTextContents(),
@@ -258,11 +259,11 @@ assert.deepEqual(
   [],
 )
 assert.match(await page.locator('.board-legend').textContent(), /Evento\s*4/)
-assert.match(await page.locator('.board-legend').textContent(), /Tema\s*31/)
+assert.match(await page.locator('.board-legend').textContent(), /Tema\s*32/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*63/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*18/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 122)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 7)
+assert.equal(await page.locator('.concept-card.is-read').count(), 111)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 19)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -325,7 +326,7 @@ assert.match(
   /Haima.*conflitti/i,
 )
 assert.match(
-  (await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Cristalliani', exact: true }) }).textContent()) || '',
+  (await page.locator('.concept-card.is-unread').filter({ has: page.getByRole('heading', { name: 'Cristalliani', exact: true }) }).textContent()) || '',
   /inorganici.*viventi/is,
 )
 assert.match(
@@ -341,12 +342,12 @@ assert.match(
   (await page.locator('.concept-card.is-unread').filter({ has: page.getByRole('heading', { name: 'Drago di Magma', exact: true }) }).textContent()) || '',
   /eroi.*comunione draconica/is,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /7 novità.*129 appunti.*247 fili/is)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*7/)
+assert.match(await page.locator('.board-live-note').textContent(), /19 novità.*130 appunti.*249 fili/is)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*19/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Frenesia')
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Malenia la Recisa')
 assert.ok(await page.locator('.live-update-highlight').count() > 0)
 assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 0)
 await page.locator('.dialog-close').click()
@@ -627,7 +628,7 @@ assert.equal(
   await migratedBoard.evaluate(() =>
     Object.keys(JSON.parse(localStorage.getItem('elden-rhapsody:board-positions-v21') || '{}')).length,
   ),
-  129,
+  130,
 )
 await migratedBoard.close()
 
