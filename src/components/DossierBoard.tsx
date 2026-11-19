@@ -4,11 +4,13 @@ import { boardGroups, defaultBoardGroup, groupForConcept } from '../data/boardGr
 import { concepts, connections } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
+import { conceptExcerpt, normalizeKeyword } from '../lib/keywordSearch'
 import type { BoardPosition, LoreConcept, QuestImage } from '../types'
 import type { ConceptBoardProps } from './ConceptBoard'
 import { ConceptImage } from './ConceptImage'
 import { HighlightedText } from './HighlightedText'
 import { ImageLightbox } from './ImageLightbox'
+import { KeywordText } from './KeywordText'
 
 const sceneWidth = 880
 const cardHeight = 262
@@ -19,7 +21,6 @@ const previousPositionStorageKey = 'elden-rhapsody:dossier-positions-v1'
 const orderedConcepts = boardGroups.flatMap(group => group.conceptIds.map(id => concepts.find(item => item.id === id)!))
 const unreadConcepts = orderedConcepts.filter(item => item.liveReadStatus === 'da-leggere')
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
-const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('it')
 
 function readLabel(concept: LoreConcept) {
   if (concept.liveReadStatus !== 'da-leggere') return 'Già letta in live'
@@ -66,10 +67,9 @@ function migrateDossierPositions() {
   }
 }
 
-export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }: ConceptBoardProps) {
+export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept, query, setQuery }: ConceptBoardProps) {
   const [groupId, setGroupId] = usePersistentState('elden-rhapsody:dossier-group', defaultBoardGroup.id)
   const [positions, setPositions] = usePersistentState<Record<string, BoardPosition>>(positionStorageKey, migrateDossierPositions)
-  const [query, setQuery] = useState('')
   const [onlyUnread, setOnlyUnread] = useState(false)
   const [focusedWires, setFocusedWires] = useState(true)
   const [liveMode, setLiveMode] = useState(false)
@@ -88,11 +88,18 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
   const groupConcepts = group.conceptIds.map(id => concepts.find(item => item.id === id)!)
   const selectedConcept = concepts.find(item => item.id === activeConceptId) || groupConcepts[0]
   const invalidRoute = Boolean(activeConceptId && !concepts.some(item => item.id === activeConceptId))
-  const normalizedQuery = normalize(query.trim())
+  const normalizedQuery = normalizeKeyword(query.trim())
+  const excerpts = new Map<string, string>()
+  if (normalizedQuery) {
+    for (const concept of orderedConcepts) {
+      const excerpt = conceptExcerpt(concept, normalizedQuery)
+      if (excerpt) excerpts.set(concept.id, excerpt)
+    }
+  }
   const candidates = normalizedQuery ? orderedConcepts : groupConcepts
   const visibleConcepts = candidates.filter(concept =>
     (!onlyUnread || concept.liveReadStatus === 'da-leggere') &&
-    (!normalizedQuery || normalize(`${concept.name} ${concept.summary} ${concept.tags.join(' ')}`).includes(normalizedQuery)),
+    (!normalizedQuery || excerpts.has(concept.id)),
   )
   const layout = sceneLayout(group.conceptIds)
   const pointFor = (id: string) => {
@@ -148,7 +155,7 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
 
   const openConcept = (id: string, reading = false) => {
     setLiveMode(reading)
-    setQuery('')
+    if (reading) setQuery('')
     setOnlyUnread(false)
     onOpenConcept(id)
     window.requestAnimationFrame(revealInspector)
@@ -223,7 +230,8 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
 
         <section className="dossier-board" aria-label={`Appunti: ${group.label}`}>
           <div className="dossier-tools">
-            <label className="dossier-search"><Search aria-hidden="true" /><span className="sr-only">Cerca nell’archivio</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Cerca nell’archivio" /></label>
+            <label className="dossier-search"><Search aria-hidden="true" /><span className="sr-only">Cerca nell’archivio</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Cerca una parola chiave" /></label>
+            {normalizedQuery && <a className="keyword-switch" href="#/questbook">Cerca nel Questbook <ArrowRight aria-hidden="true" /></a>}
             <button type="button" className="dossier-control" aria-pressed={onlyUnread} onClick={() => setOnlyUnread(value => !value)}>Solo da leggere</button>
             <button type="button" className="dossier-control dossier-wire-toggle" aria-pressed={focusedWires} disabled={Boolean(normalizedQuery)} onClick={() => setFocusedWires(value => !value)}>{focusedWires ? 'Fili della selezione' : 'Tutti i fili'}</button>
           </div>
@@ -253,7 +261,8 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
                         <ConceptImage concept={concept} />
                         {concept.liveReadStatus === 'da-leggere' && <span className="dossier-note-flag">{concept.liveUpdateKind === 'aggiornata' ? 'Aggiornata' : 'Nuova'} · da leggere</span>}
                         <span className="dossier-note-category">{concept.category}{concept.id === 'elden-ring' ? ' · Punto di partenza' : ''}{concept.trainerInsight && <em className="trainer-insight-badge">Trainer</em>}</span>
-                        <h2>{concept.name}</h2><p>{concept.summary}</p>
+                        <h2><KeywordText text={concept.name} keyword={normalizedQuery} /></h2>
+                        <p className={normalizedQuery ? 'keyword-excerpt' : undefined}><KeywordText text={excerpts.get(concept.id) || concept.summary} keyword={normalizedQuery} /></p>
                       </button>
                       {!normalizedQuery && <button className="dossier-drag" type="button" aria-label={`Sposta ${concept.name}. Trascina o usa i tasti freccia.`} onPointerDown={event => startDrag(event, concept.id)} onPointerMove={moveDrag} onPointerUp={stopDrag} onPointerCancel={stopDrag} onLostPointerCapture={stopDrag} onKeyDown={event => moveKey(event, concept.id)}><Grip aria-hidden="true" /></button>}
                     </article>
@@ -296,18 +305,18 @@ export function DossierBoard({ activeConceptId, onOpenConcept, onCloseConcept }:
               ><ConceptImage concept={selectedConcept} large /><span className="image-open-button__icon"><Expand aria-hidden="true" /></span></button> : <ConceptImage concept={selectedConcept} large />}
               <div className="dossier-detail">
                 <div className="dossier-detail-meta"><span>{selectedConcept.category}</span>{selectedConcept.trainerInsight && <span className="trainer-insight-badge">Approfondimento di Trainer</span>}<span className={selectedConcept.liveReadStatus === 'da-leggere' ? 'is-unread' : ''}>{selectedConcept.liveReadStatus === 'da-leggere' ? <BookOpen aria-hidden="true" /> : <Check aria-hidden="true" />}{readLabel(selectedConcept)}</span></div>
-                <h2 id="dossier-detail-title" ref={headingRef} tabIndex={-1}>{selectedConcept.name}</h2>
+                <h2 id="dossier-detail-title" ref={headingRef} tabIndex={-1}><KeywordText text={selectedConcept.name} keyword={normalizedQuery} /></h2>
                 <p className="dossier-state">{selectedConcept.id === 'elden-ring' ? 'Punto di partenza del gioco' : stateLabels[selectedConcept.state]}</p>
-                <p className="dossier-summary">{selectedConcept.summary}</p>
-                <p><HighlightedText text={selectedConcept.body} highlights={selectedConcept.liveUpdateKind === 'aggiornata' ? selectedConcept.bodyHighlights : undefined} /></p>
-                {selectedConcept.gallery?.filter(item => isSafeContentUrl(item.imageUrl)).map(item => <figure className="dossier-gallery" key={item.imageUrl}><button type="button" className="image-open-button dossier-gallery-open" aria-label={`Ingrandisci: ${item.caption || item.imageAlt}`} onClick={() => setPhoto(item)}><img src={item.imageUrl} alt={item.imageAlt} loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span className="image-open-button__icon"><Expand aria-hidden="true" /></span></button><figcaption>{item.caption}</figcaption></figure>)}
+                <p className="dossier-summary"><KeywordText text={selectedConcept.summary} keyword={normalizedQuery} /></p>
+                <p><HighlightedText text={selectedConcept.body} keyword={normalizedQuery} highlights={selectedConcept.liveUpdateKind === 'aggiornata' ? selectedConcept.bodyHighlights : undefined} /></p>
+                {selectedConcept.gallery?.filter(item => isSafeContentUrl(item.imageUrl)).map(item => <figure className="dossier-gallery" key={item.imageUrl}><button type="button" className="image-open-button dossier-gallery-open" aria-label={`Ingrandisci: ${item.caption || item.imageAlt}`} onClick={() => setPhoto(item)}><img src={item.imageUrl} alt={item.imageAlt} loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span className="image-open-button__icon"><Expand aria-hidden="true" /></span></button><figcaption><KeywordText text={item.caption} keyword={normalizedQuery} /></figcaption></figure>)}
                 {selectedConcept.textSections?.map(section => {
                   const isCurrentUpdate = selectedConcept.liveUpdateKind === 'aggiornata' && section.highlighted
-                  return <section className={`dossier-text-section${isCurrentUpdate ? ' is-highlighted' : ''}`} key={section.title}>{isCurrentUpdate && <span className="live-update-section-label">Aggiunto ora</span>}<h3>{section.title}</h3><p lang={section.language}>{section.text}</p></section>
+                  return <section className={`dossier-text-section${isCurrentUpdate ? ' is-highlighted' : ''}`} key={section.title}>{isCurrentUpdate && <span className="live-update-section-label">Aggiunto ora</span>}<h3><KeywordText text={section.title} keyword={normalizedQuery} /></h3><p lang={section.language}><KeywordText text={section.text} keyword={normalizedQuery} /></p></section>
                 })}
-                {selectedConcept.externalLinks?.some(link => isSafeContentUrl(link.url)) && <section className="dossier-external-links" aria-label="Risorse esterne"><h3>Risorse</h3>{selectedConcept.externalLinks.filter(link => isSafeContentUrl(link.url)).map(link => <a href={link.url} key={link.url} target="_blank" rel="noreferrer">{link.label}<ExternalLink aria-hidden="true" /></a>)}</section>}
-                {selectedConcept.evidence.length > 0 && <details key={`evidence-${selectedConcept.id}`} className="dossier-evidence"><summary>Elementi raccolti · {selectedConcept.evidence.length}</summary><ul>{selectedConcept.evidence.map(item => <li key={item}>{item}</li>)}</ul></details>}
-                {selectedConcept.questions.length > 0 && <section><h3>Domande aperte</h3><ul>{selectedConcept.questions.map(item => <li key={item}>{item}</li>)}</ul></section>}
+                {selectedConcept.externalLinks?.some(link => isSafeContentUrl(link.url)) && <section className="dossier-external-links" aria-label="Risorse esterne"><h3>Risorse</h3>{selectedConcept.externalLinks.filter(link => isSafeContentUrl(link.url)).map(link => <a href={link.url} key={link.url} target="_blank" rel="noreferrer"><KeywordText text={link.label} keyword={normalizedQuery} /><ExternalLink aria-hidden="true" /></a>)}</section>}
+                {selectedConcept.evidence.length > 0 && <details key={`evidence-${selectedConcept.id}`} className="dossier-evidence"><summary>Elementi raccolti · {selectedConcept.evidence.length}</summary><ul>{selectedConcept.evidence.map(item => <li key={item}><KeywordText text={item} keyword={normalizedQuery} /></li>)}</ul></details>}
+                {selectedConcept.questions.length > 0 && <section><h3>Domande aperte</h3><ul>{selectedConcept.questions.map(item => <li key={item}><KeywordText text={item} keyword={normalizedQuery} /></li>)}</ul></section>}
                 <section className="dossier-relations" aria-label="Collegamenti della scheda"><h3>Collegamenti</h3>{connections.filter(item => item.from === selectedConcept.id || item.to === selectedConcept.id).map(connection => {
                   const otherId = connection.from === selectedConcept.id ? connection.to : connection.from
                   const other = concepts.find(item => item.id === otherId)!

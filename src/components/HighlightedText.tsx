@@ -1,6 +1,9 @@
+import { KeywordText } from './KeywordText'
+
 interface HighlightedTextProps {
   text: string
   highlights?: string[]
+  keyword?: string
 }
 
 interface TextSegment {
@@ -34,13 +37,13 @@ function splitText(text: string, highlights: string[]): TextSegment[] {
   return segments
 }
 
-export function HighlightedText({ text, highlights = [] }: HighlightedTextProps) {
-  if (highlights.length === 0) return text
+export function HighlightedText({ text, highlights = [], keyword = '' }: HighlightedTextProps) {
+  if (highlights.length === 0) return <KeywordText text={text} keyword={keyword} />
 
   return splitText(text, highlights).map((segment, index) => segment.highlighted ? (
     <mark className="live-update-highlight" key={`${index}-${segment.text}`}>
       <span className="live-update-highlight__label">Aggiunto ora</span>
-      {segment.text}
+      <KeywordText text={segment.text} keyword={keyword} />
     </mark>
-  ) : segment.text)
+  ) : <KeywordText key={index} text={segment.text} keyword={keyword} />)
 }

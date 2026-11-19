@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { quests } from '../data/quests'
 import { concepts } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
+import { normalizeKeyword, questExcerpt, type KeywordSearchProps } from '../lib/keywordSearch'
+import { KeywordText } from './KeywordText'
 import { isSafeContentUrl } from '../lib/urls'
 import type { QuestImage, QuestStatus } from '../types'
 import { ImageLightbox } from './ImageLightbox'
@@ -18,7 +20,6 @@ const filters = [
   { id: 'chiuse', label: 'Chiuse', icon: CheckCheck },
 ] as const
 type QuestFilter = typeof filters[number]['id']
-const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('it')
 
 function JournalImage({ photo, eager = false }: { photo: QuestImage; eager?: boolean }) {
   const [failed, setFailed] = useState(false)
@@ -28,9 +29,8 @@ function JournalImage({ photo, eager = false }: { photo: QuestImage; eager?: boo
     : <span className="quest-image-fallback" role="img" aria-label="Immagine non disponibile"><Feather aria-hidden="true" /><span>Immagine non disponibile</span></span>
 }
 
-export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
+export function Questbook({ activeQuestId, query, setQuery }: KeywordSearchProps & { activeQuestId?: string }) {
   const [filter, setFilter] = useState<QuestFilter>('tutte')
-  const [query, setQuery] = useState('')
   const [lastQuestId, setLastQuestId] = usePersistentState('elden-rhapsody:questbook-page', '')
   const [defeatedTargets, setDefeatedTargets] = usePersistentState<Record<string, boolean>>(
     'elden-rhapsody:questbook-big-boys-targets-v1',
@@ -43,10 +43,18 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
   const previousId = useRef(activeQuestId)
   const selected = quests.find(quest => quest.id === (activeQuestId || lastQuestId)) || quests[0]
   const invalidRoute = Boolean(activeQuestId && !quests.some(quest => quest.id === activeQuestId))
-  const search = normalize(query.trim())
+  const search = normalizeKeyword(query.trim())
+  const excerpts = new Map<string, string>()
+  if (search) {
+    for (const quest of quests) {
+      const excerpt = questExcerpt(quest, search)
+      if (excerpt) excerpts.set(quest.id, excerpt)
+    }
+  }
+  const keywordText = (text: string) => <KeywordText text={text} keyword={search} />
   const visibleQuests = quests.filter(quest => (filter === 'tutte' ||
     (filter === 'chiuse' ? quest.status === 'conclusa' || quest.status === 'fallita' : quest.status === filter)) &&
-    (!search || normalize([quest.title, quest.npc, quest.region, quest.summary, quest.lastSeen?.location, quest.destination?.location].join(' ')).includes(search)))
+    (!search || excerpts.has(quest.id)))
   const selectedIndex = visibleQuests.findIndex(quest => quest.id === selected?.id)
   const linkedConcepts = concepts.filter(concept => selected?.linkedConceptIds?.includes(concept.id))
   const activeCount = quests.filter(quest => quest.status === 'in-corso').length
@@ -106,11 +114,12 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
       <div className="quest-book">
         <aside className="quest-index" ref={indexRef} tabIndex={-1} aria-label="Indice delle quest">
           <div className="quest-index-heading"><Feather aria-hidden="true" /><h2>Indice</h2><span>{String(quests.length).padStart(2, '0')}</span></div>
-          <label className="quest-search"><Search aria-hidden="true" /><span className="sr-only">Cerca una quest</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Cerca nome o luogo" disabled={!quests.length} /></label>
+          <label className="quest-search"><Search aria-hidden="true" /><span className="sr-only">Cerca una quest</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Cerca una parola chiave" disabled={!quests.length} /></label>
+          {search && <a className="keyword-switch quest-keyword-switch" href="#/board">Cerca nella Lavagna <ArrowRight aria-hidden="true" /></a>}
           <div className="quest-index-scroll">
             {visibleQuests.length ? <nav aria-label="Quest annotate"><ol>{visibleQuests.map(quest => <li key={quest.id}>
               <a className={`quest-index-link${selected?.id === quest.id && !invalidRoute ? ' is-selected' : ''}${quest.updateKind ? ` is-${quest.updateKind}` : ''}`} href={`#/questbook/${quest.id}`} data-quest-id={quest.id} aria-current={selected?.id === quest.id && !invalidRoute ? 'page' : undefined}>
-                <Bookmark aria-hidden="true" /><span><strong>{quest.title}</strong><span className="quest-index-meta"><small>{quest.region} · {statusLabels[quest.status]}</small>{quest.updateKind && <span className={`quest-index-update quest-index-update--${quest.updateKind}`}>{quest.updateKind}</span>}{quest.trainerAdvice && <span className="quest-index-update quest-index-update--advice">CONSIGLI</span>}</span></span><ArrowRight className="quest-index-arrow" aria-hidden="true" />
+                <Bookmark aria-hidden="true" /><span><strong>{keywordText(quest.title)}</strong><span className="quest-index-meta"><small>{quest.region} · {statusLabels[quest.status]}</small>{quest.updateKind && <span className={`quest-index-update quest-index-update--${quest.updateKind}`}>{quest.updateKind}</span>}{quest.trainerAdvice && <span className="quest-index-update quest-index-update--advice">CONSIGLI</span>}</span>{excerpts.has(quest.id) && <small className="keyword-excerpt">{keywordText(excerpts.get(quest.id)!)}</small>}</span><ArrowRight className="quest-index-arrow" aria-hidden="true" />
               </a>
             </li>)}</ol></nav> : <div className="quest-index-empty">
               <p>{quests.length ? 'Nessuna quest trovata.' : 'Nessuna voce, per ora.'}</p>
@@ -133,15 +142,15 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
               <span><CheckCheck aria-hidden="true" />Tappe percorse e immagini</span>
             </div>
           </div> : <>
-            <div className="quest-page-top"><span className="quest-small-label">{selected.region}</span><span className={`quest-status quest-status--${selected.status}`}>{selected.status === 'conclusa' ? <CheckCheck aria-hidden="true" /> : selected.status === 'fallita' ? <Skull aria-hidden="true" /> : selected.status === 'pista' ? <Compass aria-hidden="true" /> : <Bookmark aria-hidden="true" />}{statusLabels[selected.status]}</span></div>
+            <div className="quest-page-top"><span className="quest-small-label">{keywordText(selected.region)}</span><span className={`quest-status quest-status--${selected.status}`}>{selected.status === 'conclusa' ? <CheckCheck aria-hidden="true" /> : selected.status === 'fallita' ? <Skull aria-hidden="true" /> : selected.status === 'pista' ? <Compass aria-hidden="true" /> : <Bookmark aria-hidden="true" />}{statusLabels[selected.status]}</span></div>
             <header className={`quest-entry-heading${selected.portrait ? ' has-portrait' : ''}`}>
-              <div><h2 id="quest-page-title" ref={headingRef} tabIndex={-1}>{selected.title}</h2><p className="quest-npc">{selected.npc}</p><p className="quest-summary">{selected.summary}</p></div>
+              <div><h2 id="quest-page-title" ref={headingRef} tabIndex={-1}>{keywordText(selected.title)}</h2><p className="quest-npc">{keywordText(selected.npc)}</p><p className="quest-summary">{keywordText(selected.summary)}</p></div>
               {selected.portrait && <button className="quest-portrait" type="button" aria-label={`Ingrandisci: ${selected.portrait.imageAlt}`} onClick={() => setPhoto(selected.portrait)}><JournalImage photo={selected.portrait} /><Expand aria-hidden="true" /></button>}
             </header>
 
             <dl className="quest-whereabouts">
-              <div><dt><MapPin aria-hidden="true" />Ultima posizione nota</dt><dd><strong>{selected.lastSeen?.location || 'Non ancora annotata'}</strong>{selected.lastSeen?.note && <p>{selected.lastSeen.note}</p>}</dd></div>
-              <div><dt><Signpost aria-hidden="true" />Destinazione indicata</dt><dd><strong>{selected.destination?.location || 'Non ancora nota'}</strong>{selected.destination?.note && <p>{selected.destination.note}</p>}</dd></div>
+              <div><dt><MapPin aria-hidden="true" />Ultima posizione nota</dt><dd><strong>{keywordText(selected.lastSeen?.location || 'Non ancora annotata')}</strong>{selected.lastSeen?.note && <p>{keywordText(selected.lastSeen.note)}</p>}</dd></div>
+              <div><dt><Signpost aria-hidden="true" />Destinazione indicata</dt><dd><strong>{keywordText(selected.destination?.location || 'Non ancora nota')}</strong>{selected.destination?.note && <p>{keywordText(selected.destination.note)}</p>}</dd></div>
             </dl>
 
             {selected.targets && selected.targets.length > 0 && <section className="quest-targets" aria-labelledby="quest-targets-title">
@@ -160,10 +169,10 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
                     </button>}
                     <div className="quest-target-copy">
                       <p className="quest-target-status"><span aria-hidden="true">{defeated ? '×' : '○'}</span>{defeated ? 'Eliminato' : 'Da affrontare'}</p>
-                      <h4>{target.name}</h4>
-                      <p className="quest-target-epithet">{target.epithet}</p>
-                      <p className="quest-target-location"><MapPin aria-hidden="true" />{target.location}</p>
-                      <p className="quest-target-description">{target.description}</p>
+                      <h4>{keywordText(target.name)}</h4>
+                      <p className="quest-target-epithet">{keywordText(target.epithet)}</p>
+                      <p className="quest-target-location"><MapPin aria-hidden="true" />{keywordText(target.location)}</p>
+                      <p className="quest-target-description">{keywordText(target.description)}</p>
                       <button
                         type="button"
                         className={`quest-target-toggle${defeated ? ' is-restore' : ''}`}
@@ -180,9 +189,9 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
               </div>
             </section>}
 
-            <section className="quest-history" aria-labelledby="quest-history-title"><h3 id="quest-history-title">Tappe percorse</h3>{selected.steps.length ? <ol>{selected.steps.map((step, index) => <li key={`${selected.id}-${index}`}><span className="quest-step-mark"><Check aria-hidden="true" /><span className="sr-only">Tappa annotata {index + 1}</span></span><div><h4>{step.title}</h4><p>{step.text}</p></div></li>)}</ol> : <p>Nessuna tappa ancora annotata.</p>}</section>
+            <section className="quest-history" aria-labelledby="quest-history-title"><h3 id="quest-history-title">Tappe percorse</h3>{selected.steps.length ? <ol>{selected.steps.map((step, index) => <li key={`${selected.id}-${index}`}><span className="quest-step-mark"><Check aria-hidden="true" /><span className="sr-only">Tappa annotata {index + 1}</span></span><div><h4>{keywordText(step.title)}</h4><p>{keywordText(step.text)}</p></div></li>)}</ol> : <p>Nessuna tappa ancora annotata.</p>}</section>
 
-            {selected.nextStep && <section className="quest-next-step"><Compass aria-hidden="true" /><div><h3>{selected.nextStep.hypothetical ? 'Pista da verificare' : 'Prossimo passo'}</h3><p>{selected.nextStep.text}</p></div></section>}
+            {selected.nextStep && <section className="quest-next-step"><Compass aria-hidden="true" /><div><h3>{selected.nextStep.hypothetical ? 'Pista da verificare' : 'Prossimo passo'}</h3><p>{keywordText(selected.nextStep.text)}</p></div></section>}
 
             {selected.trainerAdvice && <section className={`quest-trainer-advice${revealedTrainerAdvice[selected.id] ? ' is-revealed' : ''}`}>
               <button
@@ -208,7 +217,7 @@ export function Questbook({ activeQuestId }: { activeQuestId?: string }) {
               </div>}
             </section>}
 
-            {selected.gallery && selected.gallery.length > 0 && <section className="quest-gallery" aria-labelledby="quest-gallery-title"><h3 id="quest-gallery-title">Immagini e incontri</h3><div>{selected.gallery.map((item, index) => <figure key={`${selected.id}-${index}`}><button type="button" aria-label={`Ingrandisci: ${item.caption || item.imageAlt}`} onClick={() => setPhoto(item)}><JournalImage photo={item} /><Expand aria-hidden="true" /></button>{item.caption && <figcaption>{item.caption}</figcaption>}</figure>)}</div></section>}
+            {selected.gallery && selected.gallery.length > 0 && <section className="quest-gallery" aria-labelledby="quest-gallery-title"><h3 id="quest-gallery-title">Immagini e incontri</h3><div>{selected.gallery.map((item, index) => <figure key={`${selected.id}-${index}`}><button type="button" aria-label={`Ingrandisci: ${item.caption || item.imageAlt}`} onClick={() => setPhoto(item)}><JournalImage photo={item} /><Expand aria-hidden="true" /></button>{item.caption && <figcaption>{keywordText(item.caption)}</figcaption>}</figure>)}</div></section>}
 
             {linkedConcepts.length > 0 && <section className="quest-lore-links" aria-label="Appunti collegati"><h3>Sulla lavagna</h3>{linkedConcepts.map(concept => <a key={concept.id} href={`#/board/${concept.id}`}>{concept.name}<ArrowRight aria-hidden="true" /></a>)}</section>}
           </>}

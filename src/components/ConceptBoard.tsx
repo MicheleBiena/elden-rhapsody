@@ -1,9 +1,10 @@
 import { usePersistentState } from '../hooks/usePersistentState'
 import { ClassicBoard } from './ClassicBoard'
 import { DossierBoard } from './DossierBoard'
+import type { KeywordSearchProps } from '../lib/keywordSearch'
 import '../dossier-board.css'
 
-export interface ConceptBoardProps {
+export interface ConceptBoardProps extends KeywordSearchProps {
   activeConceptId?: string
   onOpenConcept: (conceptId: string) => void
   onCloseConcept: () => void

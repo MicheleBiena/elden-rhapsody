@@ -77,6 +77,7 @@ function readRoute(): RouteState {
 
 export default function App() {
   const [route, setRoute] = useState<RouteState>(() => readRoute());
+  const [query, setQuery] = useState("");
   const mainRef = useRef<HTMLElement>(null);
   const previousTab = useRef(route.tab);
 
@@ -185,10 +186,12 @@ export default function App() {
             activeConceptId={route.detail}
             onOpenConcept={openConcept}
             onCloseConcept={closeConcept}
+            query={query}
+            setQuery={setQuery}
           />
         )}
         {route.tab === "questbook" && (
-          <Questbook activeQuestId={route.detail} />
+          <Questbook activeQuestId={route.detail} query={query} setQuery={setQuery} />
         )}
         {route.tab === "build" && (
           <Suspense fallback={<p className="page">Apro l’officina…</p>}>

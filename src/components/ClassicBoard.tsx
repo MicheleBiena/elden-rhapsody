@@ -8,6 +8,7 @@ import {
   Minus,
   Plus,
   RotateCcw,
+  Search,
   X,
 } from 'lucide-react'
 import {
@@ -20,10 +21,13 @@ import {
 import { concepts, connections } from '../data/project'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { isSafeContentUrl } from '../lib/urls'
+import { conceptExcerpt, normalizeKeyword } from '../lib/keywordSearch'
+import type { ConceptBoardProps } from './ConceptBoard'
 import type { BoardPosition, ConceptCategory, LoreConcept, QuestImage } from '../types'
 import { ConceptImage } from './ConceptImage'
 import { HighlightedText } from './HighlightedText'
 import { ImageLightbox } from './ImageLightbox'
+import { KeywordText } from './KeywordText'
 
 const legacyBoardHeight = 3600
 const previousBoardHeight = 4400
@@ -704,12 +708,6 @@ const boardZones = [
   { id: 'festival-radahn', label: 'Festival di Radahn', note: '', top: previousLiveBoardCanvasHeight / boardHeight * 100, height: (boardHeight - previousLiveBoardCanvasHeight) / boardHeight * 100 },
 ]
 
-interface ConceptBoardProps {
-  activeConceptId?: string
-  onOpenConcept: (conceptId: string) => void
-  onCloseConcept: () => void
-}
-
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
@@ -718,6 +716,8 @@ export function ClassicBoard({
   activeConceptId,
   onOpenConcept,
   onCloseConcept,
+  query,
+  setQuery,
 }: ConceptBoardProps) {
   const [zoom, setZoom] = useState(1)
   const [initialPositions] = useState(getInitialBoardPositions)
@@ -731,6 +731,14 @@ export function ClassicBoard({
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   const activeConcept = concepts.find((concept) => concept.id === activeConceptId)
+  const keyword = normalizeKeyword(query.trim())
+  const excerpts = new Map<string, string>()
+  if (keyword) {
+    for (const concept of concepts) {
+      const excerpt = conceptExcerpt(concept, keyword)
+      if (excerpt) excerpts.set(concept.id, excerpt)
+    }
+  }
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -933,6 +941,19 @@ export function ClassicBoard({
         </button>
       </div>
 
+      <div className="classic-keyword-search">
+        <label className="dossier-search"><Search aria-hidden="true" /><span className="sr-only">Cerca nell’archivio</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Cerca una parola chiave" /></label>
+        {keyword && <>
+          <p role="status">{excerpts.size ? `${excerpts.size} ${excerpts.size === 1 ? 'appunto trovato' : 'appunti trovati'}` : 'Nessun appunto trovato. Prova un’altra parola.'}</p>
+          <a className="keyword-switch" href="#/questbook">Cerca nel Questbook <ArrowRight aria-hidden="true" /></a>
+          {excerpts.size > 0 && <ul className="classic-keyword-results" aria-label="Appunti trovati">{concepts.filter(concept => excerpts.has(concept.id)).map(concept => (
+            <li key={concept.id}><button type="button" onClick={() => onOpenConcept(concept.id)}>
+              <strong>{concept.name}</strong><span><KeywordText text={excerpts.get(concept.id)!} keyword={keyword} /></span>
+            </button></li>
+          ))}</ul>}
+        </>}
+      </div>
+
       <section className="board-legend" aria-labelledby="board-legend-title">
         <div>
           <p className="overline">Chiave di lettura</p>
@@ -1072,7 +1093,7 @@ export function ClassicBoard({
                   isDimmed ? ' is-dimmed' : ''
                 }${draggingId === concept.id ? ' is-being-dragged' : ''}${
                   concept.liveReadStatus === 'da-leggere' ? ' is-unread' : ' is-read'
-                }`}
+                }${excerpts.has(concept.id) ? ' is-keyword-result' : ''}`}
                 style={{ left: `${position.x}%`, top: `${position.y}%` }}
               >
                 <span className="push-pin" aria-hidden="true" />
@@ -1178,6 +1199,7 @@ export function ClassicBoard({
         concept={activeConcept}
         onClose={onCloseConcept}
         onOpenConcept={onOpenConcept}
+        keyword={keyword}
       />
     </section>
   )
@@ -1188,6 +1210,7 @@ interface ConceptDialogProps {
   concept?: LoreConcept
   onClose: () => void
   onOpenConcept: (conceptId: string) => void
+  keyword: string
 }
 
 function ConceptDialog({
@@ -1195,6 +1218,7 @@ function ConceptDialog({
   concept,
   onClose,
   onOpenConcept,
+  keyword,
 }: ConceptDialogProps) {
   const [photo, setPhoto] = useState<QuestImage>()
 
@@ -1255,17 +1279,17 @@ function ConceptDialog({
             </span>
             {concept.trainerInsight && <span className="trainer-insight-badge">Approfondimento di Trainer</span>}
           </div>
-          <h2 id="concept-dialog-title">{concept.name}</h2>
-          <p className="dialog-lede">{concept.summary}</p>
-          <p><HighlightedText text={concept.body} highlights={concept.liveUpdateKind === 'aggiornata' ? concept.bodyHighlights : undefined} /></p>
+          <h2 id="concept-dialog-title"><KeywordText text={concept.name} keyword={keyword} /></h2>
+          <p className="dialog-lede"><KeywordText text={concept.summary} keyword={keyword} /></p>
+          <p><HighlightedText text={concept.body} keyword={keyword} highlights={concept.liveUpdateKind === 'aggiornata' ? concept.bodyHighlights : undefined} /></p>
 
           {concept.textSections?.map((section) => {
             const isCurrentUpdate = concept.liveUpdateKind === 'aggiornata' && section.highlighted
             return (
             <section className={`concept-text-section${isCurrentUpdate ? ' is-highlighted' : ''}`} key={section.title}>
               {isCurrentUpdate && <span className="live-update-section-label">Aggiunto ora</span>}
-              <h3>{section.title}</h3>
-              <p lang={section.language}>{section.text}</p>
+              <h3><KeywordText text={section.title} keyword={keyword} /></h3>
+              <p lang={section.language}><KeywordText text={section.text} keyword={keyword} /></p>
             </section>
             )
           })}
@@ -1302,7 +1326,7 @@ function ConceptDialog({
                       />
                       <span className="image-open-button__icon"><Expand aria-hidden="true" /></span>
                     </button>
-                    <figcaption>{item.caption}</figcaption>
+                    <figcaption><KeywordText text={item.caption} keyword={keyword} /></figcaption>
                   </figure>
                 ))}
             </section>
@@ -1314,7 +1338,7 @@ function ConceptDialog({
                 <h3>Elementi raccolti</h3>
                 <ul>
                   {concept.evidence.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item}><KeywordText text={item} keyword={keyword} /></li>
                   ))}
                 </ul>
               </section>
@@ -1322,7 +1346,7 @@ function ConceptDialog({
                 <h3>Domande aperte</h3>
                 <ul>
                   {concept.questions.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item}><KeywordText text={item} keyword={keyword} /></li>
                   ))}
                 </ul>
               </section>
