@@ -262,8 +262,8 @@ assert.match(await page.locator('.board-legend').textContent(), /Evento\s*4/)
 assert.match(await page.locator('.board-legend').textContent(), /Tema\s*32/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*63/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*18/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 110)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 20)
+assert.equal(await page.locator('.concept-card.is-read').count(), 128)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 2)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -322,11 +322,11 @@ assert.match(
   /Trainer.*nascita perpetua.*marcescenza.*fuoco eterno/is,
 )
 assert.match(
-  (await page.locator('.concept-card.is-unread').filter({ has: page.getByRole('heading', { name: 'Maschere di scintipietra', exact: true }) }).textContent()) || '',
+  (await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Maschere di scintipietra', exact: true }) }).textContent()) || '',
   /Haima.*conflitti/i,
 )
 assert.match(
-  (await page.locator('.concept-card.is-unread').filter({ has: page.getByRole('heading', { name: 'Cristalliani', exact: true }) }).textContent()) || '',
+  (await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Cristalliani', exact: true }) }).textContent()) || '',
   /inorganici.*viventi/is,
 )
 assert.match(
@@ -339,15 +339,15 @@ assert.match(
 )
 assert.equal(await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Marcescenza', exact: true }) }).count(), 1)
 assert.match(
-  (await page.locator('.concept-card.is-unread').filter({ has: page.getByRole('heading', { name: 'Drago di Magma', exact: true }) }).textContent()) || '',
+  (await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Drago di Magma', exact: true }) }).textContent()) || '',
   /eroi.*comunione draconica/is,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /20 novità.*130 appunti.*249 fili/is)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*20/)
+assert.match(await page.locator('.board-live-note').textContent(), /2 novità.*130 appunti.*249 fili/is)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*2/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()
-assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Malenia la Recisa')
+assert.equal(await page.locator('#concept-dialog-title').textContent(), 'Blaidd il Mezzolupo')
 assert.ok(await page.locator('.live-update-highlight').count() > 0)
 assert.equal(await page.locator('.concept-text-section.is-highlighted').count(), 0)
 await page.locator('.dialog-close').click()

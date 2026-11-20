@@ -9,7 +9,6 @@ export const quests: QuestEntry[] = [
     npc: "Melina",
     region: "Sepolcride, Liurnia e Altopiano di Altus",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Melina ci ha incontrati al Grande Montacarichi di Dectus e ha trasmesso nuove parole di Marika. La strada verso Leyndell passa ora dal completamento del medaglione.",
 
@@ -319,7 +318,6 @@ export const quests: QuestEntry[] = [
     npc: "Alexander Iron Fist",
     region: "Sepolcride, Caelid e Liurnia",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Liberato con i vasi d’olio sopra Vasburgo, Alexander parte verso il monte infuocato a nord per riforgiare il proprio corpo.",
     lastSeen: {
@@ -400,14 +398,14 @@ export const quests: QuestEntry[] = [
     id: "blaidd",
     title: "Era delle Stelle",
     npc: "Ranni e i suoi seguaci",
-    region: "Liurnia, Caelid, Nokron e Nokstella",
+    region: "Liurnia, Caelid, Nokron, Nokstella e Lago marcescente",
     status: "in-corso",
     updateKind: "aggiornata",
     summary:
-      "Il portale della torre di Renna conduce all’Ainsel. Ranni ci parla attraverso una bambola e ci incarica di eliminare le Ombre funeste.",
+      "Sconfitta l’ultima Ombra funesta, Ranni parte per uccidere le Due Dita. La chiave che ci lascia apre lo scrigno con l’Anello della Luna Nera. Il percorso oltre il Lago marcescente ci porta ad Astel.",
     lastSeen: {
-      location: "Nokstella, Città Eterna",
-      note: "Qui la bambola racconta il passato di Ranni e il conflitto con le Due Dita.",
+      location: "Oltre la cascata di Nokstella",
+      note: "La bambola di Ranni si congeda dopo lo scontro con l’ultima Ombra funesta.",
     },
     steps: [
       {
@@ -482,14 +480,32 @@ export const quests: QuestEntry[] = [
         title: "Nokstella",
         text: "Raggiungiamo Nokstella, dove Ranni racconta perché si è ribellata alle Due Dita e rivela che le Ombre funeste sono i loro assassini. Troviamo anche il talismano Luna di Nokstella.",
       },
+      {
+        title: "L’ultima Ombra funesta",
+        text: "Alla cascata di Nokstella, Ranni ci confida quanto Blaidd e Iji le siano rimasti devoti. Poco oltre sconfiggiamo un’Ombra funesta con le sembianze di Blaidd. Ranni parte per uccidere le Due Dita e ci lascia la Chiave del palazzo scartata. Prima di congedarsi ci chiede di dire a Blaidd e Iji che li ama.",
+      },
+      {
+        title: "Lo scrigno di Raya Lucaria",
+        text: "Con la chiave apriamo lo scrigno delle principesse cariane nella Grande Biblioteca, accanto a Rennala. Dentro troviamo l’Anello della Luna Nera.",
+      },
+      {
+        title: "Dal Lago marcescente alla caverna di Astel",
+        text: "Oltre l’Ombra troviamo il Lago marcescente. Lo attraversiamo e una bara nel fiume ci conduce in una caverna profonda, dove affrontiamo Astel.",
+      },
     ],
-    nextStep: { text: "Eliminare le Ombre funeste che Ranni dice aggirarsi in queste terre.", hypothetical: false },
+    nextStep: { text: "Proseguire per la via sotterranea e scoprire dove è andata Ranni.", hypothetical: false },
+    trainerAdvice: "Sconfiggi Astel.",
     portrait: {
       imageUrl: "./concepts/strega-sconosciuta.webp",
       imageAlt: "Ranni nella sua forma di bambola, sotto un grande cappello",
       imagePosition: "50% 20%",
     },
     gallery: [
+      { imageUrl: "./concepts/ombra-funesta.png", imageAlt: "L’Ombra funesta con le sembianze di Blaidd", caption: "L’ultima Ombra funesta" },
+      { imageUrl: "./concepts/chiave-palazzo-ranni.png", imageAlt: "La chiave lasciata da Ranni", caption: "Chiave del palazzo scartata" },
+      { imageUrl: "./concepts/anello-luna-nera.png", imageAlt: "Un anello con una luna piena di colore plumbeo", caption: "Anello della Luna Nera, trovato nello scrigno" },
+      { imageUrl: "./concepts/lago-marcescente.jpg", imageAlt: "La distesa rossa del Lago marcescente", caption: "Lago marcescente, oltre Nokstella" },
+      { imageUrl: "./concepts/astel.png", imageAlt: "Astel nella caverna profonda", caption: "Astel, nella caverna raggiunta con la bara" },
       { imageUrl: "./concepts/ranni-miniatura.png", imageAlt: "La piccola bambola di Ranni", caption: "Ranni in miniatura, raccolta all’Ainsel" },
       { imageUrl: "./concepts/nokstella.jpg", imageAlt: "Veduta della Città Eterna di Nokstella", caption: "Nokstella, Città Eterna" },
       {
@@ -522,7 +538,7 @@ export const quests: QuestEntry[] = [
       "ranni-principessa-lunare", "mezzolupo", "radahn", "festival-radahn", "jerren",
       "citta-eterna", "iji", "galere-eterne", "tesoro-di-nokron", "lacrime-argento",
       "compagnia-falco-caduto", "torre-studio-cariana", "marchio-centipede", "seluvis",
-      "fantocci-seluvis",
+      "fantocci-seluvis", "due-dita", "rennala",
     ],
   },
   {
@@ -895,7 +911,6 @@ export const quests: QuestEntry[] = [
     npc: "Nepheli Loux",
     region: "Grantempesta, Liurnia e Tavola Rotonda",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Dopo il massacro degli Albinauri, Gideon ripudia Nepheli. Alla Tavola Rotonda le consegniamo le ceneri del Re Falco.",
     lastSeen: {
@@ -968,7 +983,6 @@ export const quests: QuestEntry[] = [
     npc: "Diallos Hoslow",
     region: "Tavola Rotonda e Liurnia Lacustre",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Ritroviamo Diallos accanto a Lanya nella Città del Cancello. Accusa i ribelli che danno la caccia ai Senzaluce e giura vendetta.",
     lastSeen: {
@@ -1040,7 +1054,6 @@ export const quests: QuestEntry[] = [
     npc: "Yura, cacciatore di Dita Sanguinanti",
     region: "Sepolcride e Liurnia",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Aiutiamo Yura contro l’Assassino di Montecorvo. Il cacciatore è sulle tracce di Eleonora, il Dito Sanguinante Viola.",
     lastSeen: {
@@ -1294,7 +1307,6 @@ export const quests: QuestEntry[] = [
     npc: "Gowry e Millicent",
     region: "Caelid e Altopiano di Altus",
     status: "in-corso",
-    updateKind: "aggiornata",
     summary:
       "Millicent è ricomparsa al confine con l’Altopiano di Altus e ha combattuto al nostro fianco come evocazione. La pista prosegue probabilmente sull’altopiano.",
     lastSeen: {
@@ -1370,7 +1382,6 @@ export const quests: QuestEntry[] = [
     npc: "Albus e Latenna",
     region: "Liurnia e Vette dei Giganti",
     status: "in-corso",
-    updateKind: "nuova",
     summary: "Albus affida a Red metà del medaglione segreto. Latenna chiede di essere accompagnata alla terra dell’Albero Sacro di Miquella.",
     lastSeen: { location: "Grotta a ovest delle Rovine di Laskyar", note: "Latenna ha salutato Lobo e ora viaggia con Red come spirito." },
     destination: { location: "Albero Sacro di Miquella", note: "Le due metà del medaglione aprono un percorso nascosto al Grande Montacarichi di Rold." },

@@ -840,8 +840,8 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary: 'Mezzolupo e ombra fedele di Ranni; Iji lo ha rinchiuso in una galera eterna e Red lo ha liberato.',
-    body: 'Blaidd è l’ombra fedele di Ranni e serve la principessa insieme a Iji e Seluvis. La Maschera del lupo nero apparteneva però a un assassino che ne imitò l’aspetto: la somiglianza è sorprendente, ma identità e scopo del sosia restano ignoti. Il ritrovamento della maschera su un cadavere presso la torre di Seluvis rende il rapporto ancora più sospetto. Iji lo ha rinchiuso nella galera eterna del Limiere, temendo che nuocesse a Ranni; liberato, Blaidd corre dalla principessa. Le Due Dita glielo diedero come ombra incapace di tradire, ma se Ranni resiste al loro volere l’ombra impazzisce e diventa una maledizione.',
-    bodyHighlights: ['Iji lo ha rinchiuso nella galera eterna del Limiere, temendo che nuocesse a Ranni; liberato, Blaidd corre dalla principessa. Le Due Dita glielo diedero come ombra incapace di tradire, ma se Ranni resiste al loro volere l’ombra impazzisce e diventa una maledizione.'],
+    body: 'Blaidd è l’ombra fedele di Ranni e serve la principessa insieme a Iji e Seluvis. La Maschera del lupo nero apparteneva però a un assassino che ne imitò l’aspetto: la somiglianza è sorprendente, ma identità e scopo del sosia restano ignoti. Il ritrovamento della maschera su un cadavere presso la torre di Seluvis rende il rapporto ancora più sospetto. Iji lo ha rinchiuso nella galera eterna del Limiere, temendo che nuocesse a Ranni; liberato, Blaidd corre dalla principessa. Le Due Dita glielo diedero come ombra incapace di tradire, ma se Ranni resiste al loro volere l’ombra impazzisce e diventa una maledizione. Ranni dice che Blaidd le rimase fedele anche dopo la sua ribellione. Lo considera per questo un fallimento delle Due Dita, che lo avevano creato come vassallo di un’Empirea. L’ultima Ombra funesta aveva le sue sembianze. Ranni, congedandosi, parla ancora di Blaidd come di un alleato amato.',
+    bodyHighlights: ['Ranni dice che Blaidd le rimase fedele anche dopo la sua ribellione. Lo considera per questo un fallimento delle Due Dita, che lo avevano creato come vassallo di un’Empirea. L’ultima Ombra funesta aveva le sue sembianze. Ranni, congedandosi, parla ancora di Blaidd come di un alleato amato.'],
     imageUrl: './concepts/mezzolupo.jpg',
     imageAlt: 'Il Mezzolupo in armatura, con una grande spada sulle spalle',
     imagePosition: '50% 20%',
@@ -852,7 +852,9 @@ const conceptArchive: LoreConcept[] = [
       'Un assassino ne imitò l’aspetto con la Maschera del lupo nero.',
       'Iji lo ha rinchiuso nella galera eterna del Limiere.',
       'Le Due Dita glielo diedero come ombra di Ranni.',
-      'Se Ranni si oppone alle Due Dita, l’ombra impazzirà.',
+      'Secondo Iji, l’ombra è destinata a impazzire se Ranni si oppone alle Due Dita.',
+      'Secondo Ranni, Blaidd le è rimasto fedele anche dopo la ribellione.',
+      'L’ultima Ombra funesta ne riprendeva l’aspetto.',
     ],
     questions: ['Chi ha imitato Blaidd?', 'Perché la maschera si trovava presso la torre di Seluvis?', 'Che cosa significa essere l’ombra di Ranni?'],
     tags: ['Blaidd', 'Mezzolupo', 'Ranni', 'ombra', 'Maschera del lupo nero', 'Seluvis', 'galera eterna', 'Due Dita'],
@@ -2348,8 +2350,8 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary: 'Principessa cariana ed Empirea ribelle. Vive in una bambola modellata sulla sua mentore, la strega delle nevi.',
-    body: 'Ranni, figlia di Rennala e Radagon e sorella di Radahn e Rykard, usò il nome Renna quando si presentò a Red. La strega delle nevi le insegnò la magia del freddo e a temere la Luna Nera. Il corpo originario, dai capelli rossi, giace sulla Torre Divina di Liurnia con il Marchio della Morte. Renna è il nome della mentore segreta di Ranni, la strega delle nevi sulle cui sembianze fu modellata la bambola. Nel racconto di Ranni, un Empireo è un candidato scelto dalle proprie Due Dita per succedere a Marika come dio della nuova era. Fra i semidei, solo lei, Miquella e Malenia avevano questo titolo. Blaidd le fu assegnato come vassallo. Per sottrarsi al controllo delle Due Dita rubò la Runa della Morte e uccise la propria carne empirea. Chiama le Ombre funeste assassini delle Due Dita.',
-    bodyHighlights: ['Renna è il nome della mentore segreta di Ranni, la strega delle nevi sulle cui sembianze fu modellata la bambola. Nel racconto di Ranni, un Empireo è un candidato scelto dalle proprie Due Dita per succedere a Marika come dio della nuova era. Fra i semidei, solo lei, Miquella e Malenia avevano questo titolo. Blaidd le fu assegnato come vassallo. Per sottrarsi al controllo delle Due Dita rubò la Runa della Morte e uccise la propria carne empirea. Chiama le Ombre funeste assassini delle Due Dita.'],
+    body: 'Ranni, figlia di Rennala e Radagon e sorella di Radahn e Rykard, usò il nome Renna quando si presentò a Red. La strega delle nevi le insegnò la magia del freddo e a temere la Luna Nera. Il corpo originario, dai capelli rossi, giace sulla Torre Divina di Liurnia con il Marchio della Morte. Renna è il nome della mentore segreta di Ranni, la strega delle nevi sulle cui sembianze fu modellata la bambola. Nel racconto di Ranni, un Empireo è un candidato scelto dalle proprie Due Dita per succedere a Marika come dio della nuova era. Fra i semidei, solo lei, Miquella e Malenia avevano questo titolo. Blaidd le fu assegnato come vassallo. Per sottrarsi al controllo delle Due Dita rubò la Runa della Morte e uccise la propria carne empirea. Chiama le Ombre funeste assassini delle Due Dita. Ranni vuole uccidere le Due Dita, tradire ciò che la lega al passato e liberarsi dell’ordine precedente. La Chiave del palazzo scartata, abbandonata insieme alla sua carne, apre lo scrigno delle principesse cariane accanto a Rennala. L’Anello della Luna Nera suggella un giuramento gelido: chi lo riceve da Ranni come consorte ha diritto al titolo di lord. L’iscrizione chiede di lasciare l’anello dov’è: Ranni vuole affrontare da sola la solitudine oltre la notte.',
+    bodyHighlights: ['Ranni vuole uccidere le Due Dita, tradire ciò che la lega al passato e liberarsi dell’ordine precedente. La Chiave del palazzo scartata, abbandonata insieme alla sua carne, apre lo scrigno delle principesse cariane accanto a Rennala. L’Anello della Luna Nera suggella un giuramento gelido: chi lo riceve da Ranni come consorte ha diritto al titolo di lord. L’iscrizione chiede di lasciare l’anello dov’è: Ranni vuole affrontare da sola la solitudine oltre la notte.'],
     evidence: ['Ranni si era presentata con il nome della sua mentore, Renna.', 'Ha abbandonato il proprio corpo fisico e vive in una bambola.', 'La strega delle nevi le insegnò il freddo e il timore della Luna Nera.', 'Ha ricevuto la lama di Nokron ed è partita sul proprio sentiero oscuro.', 'Il corpo sulla Torre Divina ha capelli rossi e porta il Marchio della Morte.'],
     questions: ['Dove conduce il sentiero oscuro di Ranni?', 'Quali altri aspetti definiscono un Empireo?', 'Perché la strega delle nevi le insegnò a temere la Luna Nera?', 'Qual era il suo movente nella congiura?'],
     imageUrl: './concepts/strega-sconosciuta.webp',
@@ -2701,16 +2703,10 @@ const conceptArchive: LoreConcept[] = [
 ]
 
 const currentEpisodeConceptIds = new Set<string>([
-  'divinita-esterne', 'drago-di-magma', 'melina', 'frenesia', 'shabriri', 'vyke', 'maschere-scintipietra',
-  'albinauri', 'cristalliani', 'alexander-vaso-guerriero', 'nepheli-loux', 'gideon-ofnir', 'profezia-leggidita',
-  'diallos',
-  'crogiolo-primordiale', 'millicent', 'malenia-la-recisa', 'yura', 'ranni-principessa-lunare', 'citta-eterna',
+  'mezzolupo', 'ranni-principessa-lunare',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
-  'drago-di-magma', 'melina', 'frenesia', 'maschere-scintipietra',
-  'cristalliani', 'alexander-vaso-guerriero', 'nepheli-loux', 'gideon-ofnir', 'profezia-leggidita',
-  'diallos',
-  'crogiolo-primordiale', 'millicent', 'malenia-la-recisa', 'yura', 'ranni-principessa-lunare', 'citta-eterna',
+  'mezzolupo', 'ranni-principessa-lunare',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -2852,7 +2848,7 @@ export const connections: LoreConnection[] = [
   },
   {
     id: 'ranni-blaidd', from: 'ranni-principessa-lunare', to: 'mezzolupo', label: 'principessa e ombra',
-    note: 'Blaidd si presenta come l’ombra fedele di Ranni.', kind: 'traccia',
+    note: 'Ranni riconosce la fedeltà di Blaidd anche dopo la sua ribellione alle Due Dita. L’ultima Ombra funesta assunse le sembianze del Mezzolupo.', kind: 'traccia',
   },
   {
     id: 'ranni-seluvis', from: 'ranni-principessa-lunare', to: 'seluvis', label: 'stregone al servizio',
