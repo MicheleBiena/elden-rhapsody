@@ -399,13 +399,13 @@ export const quests: QuestEntry[] = [
     title: "Era delle Stelle",
     npc: "Ranni e i suoi seguaci",
     region: "Liurnia, Caelid, Nokron, Nokstella e Lago marcescente",
-    status: "in-corso",
+    status: "conclusa",
     updateKind: "aggiornata",
     summary:
-      "Sconfitta l’ultima Ombra funesta, Ranni parte per uccidere le Due Dita. La chiave che ci lascia apre lo scrigno con l’Anello della Luna Nera. Il percorso oltre il Lago marcescente ci porta ad Astel.",
+      "Ranni riconosce Red come suo lord e parte verso il cielo notturno. La quest è conclusa e il finale Era delle Stelle sarà disponibile dopo il boss finale.",
     lastSeen: {
-      location: "Oltre la cascata di Nokstella",
-      note: "La bambola di Ranni si congeda dopo lo scontro con l’ultima Ombra funesta.",
+      location: "Altare della Luna, Liurnia",
+      note: "Ritroviamo Ranni sull’altopiano raggiunto con l’ascensore oltre Astel.",
     },
     steps: [
       {
@@ -492,9 +492,19 @@ export const quests: QuestEntry[] = [
         title: "Dal Lago marcescente alla caverna di Astel",
         text: "Oltre l’Ombra troviamo il Lago marcescente. Lo attraversiamo e una bara nel fiume ci conduce in una caverna profonda, dove affrontiamo Astel.",
       },
+      {
+        title: "Astel sconfitto",
+        text: "Sconfiggiamo Astel e otteniamo il suo Ricordo. L’ascensore oltre la caverna ci porta all’Altare della Luna, sull’altopiano sopra Liurnia.",
+      },
+      {
+        title: "Il giuramento della Luna Nera",
+        text: "Mettiamo l’Anello della Luna Nera al dito di Ranni. Ci riconosce come suo lord, annuncia che cercherà il proprio ordine nel cielo notturno e ci dà appuntamento quando avremo portato a termine il cammino. La quest si conclude qui: il finale Era delle Stelle è ora ottenibile dopo aver sconfitto il boss finale.",
+      },
+      {
+        title: "L’ultimo scontro con Blaidd",
+        text: "Alla guglia di Ranni troviamo Blaidd fuori di sé, circondato dai corpi delle Assassine dei Neri Coltelli che hanno tentato di fermarlo. Continua a ripetere che non potrebbe mai tradirla, poi ci attacca. Lo sconfiggiamo e raccogliamo lo Spadone reale, l’armatura e i guanti di Blaidd.",
+      },
     ],
-    nextStep: { text: "Proseguire per la via sotterranea e scoprire dove è andata Ranni.", hypothetical: false },
-    trainerAdvice: "Sconfiggi Astel.",
     portrait: {
       imageUrl: "./concepts/strega-sconosciuta.webp",
       imageAlt: "Ranni nella sua forma di bambola, sotto un grande cappello",
@@ -506,6 +516,7 @@ export const quests: QuestEntry[] = [
       { imageUrl: "./concepts/anello-luna-nera.png", imageAlt: "Un anello con una luna piena di colore plumbeo", caption: "Anello della Luna Nera, trovato nello scrigno" },
       { imageUrl: "./concepts/lago-marcescente.jpg", imageAlt: "La distesa rossa del Lago marcescente", caption: "Lago marcescente, oltre Nokstella" },
       { imageUrl: "./concepts/astel.png", imageAlt: "Astel nella caverna profonda", caption: "Astel, nella caverna raggiunta con la bara" },
+      { imageUrl: "./concepts/ricordo-astel.png", imageAlt: "Il Ricordo di Astel", caption: "Ricordo ottenuto dopo la vittoria su Astel" },
       { imageUrl: "./concepts/ranni-miniatura.png", imageAlt: "La piccola bambola di Ranni", caption: "Ranni in miniatura, raccolta all’Ainsel" },
       { imageUrl: "./concepts/nokstella.jpg", imageAlt: "Veduta della Città Eterna di Nokstella", caption: "Nokstella, Città Eterna" },
       {
@@ -538,7 +549,7 @@ export const quests: QuestEntry[] = [
       "ranni-principessa-lunare", "mezzolupo", "radahn", "festival-radahn", "jerren",
       "citta-eterna", "iji", "galere-eterne", "tesoro-di-nokron", "lacrime-argento",
       "compagnia-falco-caduto", "torre-studio-cariana", "marchio-centipede", "seluvis",
-      "fantocci-seluvis", "due-dita", "rennala",
+      "fantocci-seluvis", "due-dita", "rennala", "bestia-meteoritica", "assassine-neri-coltelli",
     ],
   },
   {

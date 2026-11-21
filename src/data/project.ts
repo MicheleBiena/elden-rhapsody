@@ -839,13 +839,13 @@ const conceptArchive: LoreConcept[] = [
     category: 'Personaggio',
     state: 'osservato',
     liveReadStatus: 'da-leggere',
-    summary: 'Mezzolupo e ombra fedele di Ranni; Iji lo ha rinchiuso in una galera eterna e Red lo ha liberato.',
-    body: 'Blaidd è l’ombra fedele di Ranni e serve la principessa insieme a Iji e Seluvis. La Maschera del lupo nero apparteneva però a un assassino che ne imitò l’aspetto: la somiglianza è sorprendente, ma identità e scopo del sosia restano ignoti. Il ritrovamento della maschera su un cadavere presso la torre di Seluvis rende il rapporto ancora più sospetto. Iji lo ha rinchiuso nella galera eterna del Limiere, temendo che nuocesse a Ranni; liberato, Blaidd corre dalla principessa. Le Due Dita glielo diedero come ombra incapace di tradire, ma se Ranni resiste al loro volere l’ombra impazzisce e diventa una maledizione. Ranni dice che Blaidd le rimase fedele anche dopo la sua ribellione. Lo considera per questo un fallimento delle Due Dita, che lo avevano creato come vassallo di un’Empirea. L’ultima Ombra funesta aveva le sue sembianze. Ranni, congedandosi, parla ancora di Blaidd come di un alleato amato.',
-    bodyHighlights: ['Ranni dice che Blaidd le rimase fedele anche dopo la sua ribellione. Lo considera per questo un fallimento delle Due Dita, che lo avevano creato come vassallo di un’Empirea. L’ultima Ombra funesta aveva le sue sembianze. Ranni, congedandosi, parla ancora di Blaidd come di un alleato amato.'],
+    summary: 'Mezzolupo e ombra fedele di Ranni; Iji lo ha rinchiuso in una galera eterna e Red lo ha liberato. La sua storia si chiude con lo scontro alla guglia di Ranni.',
+    body: 'Blaidd è l’ombra fedele di Ranni e serve la principessa insieme a Iji e Seluvis. La Maschera del lupo nero apparteneva però a un assassino che ne imitò l’aspetto: la somiglianza è sorprendente, ma identità e scopo del sosia restano ignoti. Il ritrovamento della maschera su un cadavere presso la torre di Seluvis rende il rapporto ancora più sospetto. Iji lo ha rinchiuso nella galera eterna del Limiere, temendo che nuocesse a Ranni; dopo essere stato liberato, Blaidd corre dalla principessa. Le Due Dita glielo diedero come ombra incapace di tradire, ma se Ranni resiste al loro volere l’ombra impazzisce e diventa una maledizione. Ranni dice che Blaidd le rimase fedele anche dopo la sua ribellione. Lo considera per questo un fallimento delle Due Dita, che lo avevano creato come vassallo di un’Empirea. L’ultima Ombra funesta aveva le sue sembianze. Ranni, congedandosi, parla ancora di Blaidd come di un alleato amato. Fuori dalla guglia di Ranni, Blaidd è circondato dai corpi delle Assassine dei Neri Coltelli. Ha perso il senno e attacca Red pur continuando a dire che non tradirebbe mai Ranni. Il suo crollo richiama il conflitto temuto da Iji fra il vincolo imposto dalle Due Dita e la sua fedeltà alla principessa. Lo Spadone reale fu infuso di magia del freddo quando giurò di servire soltanto Ranni. Il mantello di pelliccia lo riparava dal freddo, che infastidiva anche lui. I guanti ricordano che avrebbe sfidato il destino pur di restarle fedele.',
+    bodyHighlights: ['Ranni dice che Blaidd le rimase fedele anche dopo la sua ribellione. Lo considera per questo un fallimento delle Due Dita, che lo avevano creato come vassallo di un’Empirea. L’ultima Ombra funesta aveva le sue sembianze. Ranni, congedandosi, parla ancora di Blaidd come di un alleato amato.', 'Fuori dalla guglia di Ranni, Blaidd è circondato dai corpi delle Assassine dei Neri Coltelli. Ha perso il senno e attacca Red pur continuando a dire che non tradirebbe mai Ranni. Il suo crollo richiama il conflitto temuto da Iji fra il vincolo imposto dalle Due Dita e la sua fedeltà alla principessa. Lo Spadone reale fu infuso di magia del freddo quando giurò di servire soltanto Ranni. Il mantello di pelliccia lo riparava dal freddo, che infastidiva anche lui. I guanti ricordano che avrebbe sfidato il destino pur di restarle fedele.'],
     imageUrl: './concepts/mezzolupo.jpg',
     imageAlt: 'Il Mezzolupo in armatura, con una grande spada sulle spalle',
     imagePosition: '50% 20%',
-    gallery: [{ imageUrl: './concepts/maschera-lupo-nero.png', imageAlt: 'Maschera nera che riproduce la testa di Blaidd', caption: 'Maschera del lupo nero · reliquia di un imitatore' }],
+    gallery: [{ imageUrl: './concepts/spadone-reale-blaidd.png', imageAlt: 'Spadone cariano di Blaidd', caption: 'Spadone reale · il giuramento a Ranni' }, { imageUrl: './concepts/armatura-blaidd.png', imageAlt: 'Armatura nera con mantello di pelliccia', caption: 'Armatura di Blaidd' }, { imageUrl: './concepts/guanti-blaidd.png', imageAlt: 'Guanti neri usurati di Blaidd', caption: 'Guanti di Blaidd · fedeltà contro il destino' }, { imageUrl: './concepts/maschera-lupo-nero.png', imageAlt: 'Maschera nera che riproduce la testa di Blaidd', caption: 'Maschera del lupo nero · reliquia di un imitatore' }],
     evidence: [
       'È l’ombra fedele di Ranni.',
       'Serve Ranni insieme a Iji e Seluvis.',
@@ -1791,19 +1791,21 @@ const conceptArchive: LoreConcept[] = [
   },
   {
     id: 'bestia-meteoritica',
-    name: 'Bestia meteoritica non identificata',
+    name: 'Astel e la bestia meteoritica',
     eyebrow: 'Insetto dal cranio umano',
     category: 'Personaggio',
-    state: 'da-verificare',
+    state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary: 'Creatura dall’aspetto di un insetto gigante, con cranio umano, mandibole e un occhio stellato al centro della fronte.',
-    body: 'Una strana bestia meteoritica non ancora identificata ricorda un insetto gigantesco. Ha un cranio umano incorniciato da mandibole da insetto e, al centro del cranio, un occhio dai colori di un cielo stellato. Per ora ne conosciamo soltanto l’aspetto.',
-    imageUrl: './concepts/bestia-meteoritica.png',
+    body: 'Una strana bestia meteoritica non ancora identificata ricorda un insetto gigantesco. Ha un cranio umano incorniciato da mandibole da insetto e, al centro del cranio, un occhio dai colori di un cielo stellato. La sua somiglianza con Astel è notevole. Il Ricordo identifica Astel come una stella deforme nata in un vuoto lontano, una stella cadente di cattivo presagio. Distrusse una Città Eterna e le sottrasse il cielo. Il testo lascia aperta l’identità della città. La Leggidita può liberare il potere custodito nel Ricordo, che può anche essere consumato per ottenere rune.',
+    bodyHighlights: ['Il Ricordo identifica Astel come una stella deforme nata in un vuoto lontano, una stella cadente di cattivo presagio. Distrusse una Città Eterna e le sottrasse il cielo. Il testo lascia aperta l’identità della città. La Leggidita può liberare il potere custodito nel Ricordo, che può anche essere consumato per ottenere rune.'],
+    imageUrl: './concepts/astel.png',
     imageAlt: 'Creatura meteoritica con corpo da insetto, cranio umano e un occhio luminoso stellato',
     imagePosition: '50% 30%',
+    gallery: [{ imageUrl: './concepts/bestia-meteoritica.png', imageAlt: 'La creatura dal cranio umano già annotata', caption: 'La bestia meteoritica annotata in precedenza' }, { imageUrl: './concepts/ricordo-astel.png', imageAlt: 'Ricordo di Astel inciso nell’Albero Madre', caption: 'Ricordo di Astel · la stella che sottrasse il cielo' }],
     evidence: ['Ha proporzioni e mandibole da insetto gigante.', 'Il volto ricorda un cranio umano.', 'Un occhio dai colori stellati occupa il centro del cranio.'],
-    questions: ['Che cos’è questa creatura?', 'Da dove proviene?', 'Il suo occhio è legato al cielo stellato sotterraneo?'],
-    tags: ['bestia meteoritica', 'insetto', 'cranio umano', 'occhio stellato', 'Ainsel'],
+    questions: ['Quale Città Eterna distrusse Astel?', 'Che rapporto c’è fra Astel e la creatura annotata in precedenza?', 'Il suo occhio è legato al cielo stellato sotterraneo?'],
+    tags: ['Astel', 'Naturalborn of the Void', 'Città Eterna', 'bestia meteoritica', 'insetto', 'cranio umano', 'occhio stellato', 'Ainsel'],
     position: { x: 80, y: 97 },
   },
   {
@@ -2350,8 +2352,8 @@ const conceptArchive: LoreConcept[] = [
     state: 'osservato',
     liveReadStatus: 'da-leggere',
     summary: 'Principessa cariana ed Empirea ribelle. Vive in una bambola modellata sulla sua mentore, la strega delle nevi.',
-    body: 'Ranni, figlia di Rennala e Radagon e sorella di Radahn e Rykard, usò il nome Renna quando si presentò a Red. La strega delle nevi le insegnò la magia del freddo e a temere la Luna Nera. Il corpo originario, dai capelli rossi, giace sulla Torre Divina di Liurnia con il Marchio della Morte. Renna è il nome della mentore segreta di Ranni, la strega delle nevi sulle cui sembianze fu modellata la bambola. Nel racconto di Ranni, un Empireo è un candidato scelto dalle proprie Due Dita per succedere a Marika come dio della nuova era. Fra i semidei, solo lei, Miquella e Malenia avevano questo titolo. Blaidd le fu assegnato come vassallo. Per sottrarsi al controllo delle Due Dita rubò la Runa della Morte e uccise la propria carne empirea. Chiama le Ombre funeste assassini delle Due Dita. Ranni vuole uccidere le Due Dita, tradire ciò che la lega al passato e liberarsi dell’ordine precedente. La Chiave del palazzo scartata, abbandonata insieme alla sua carne, apre lo scrigno delle principesse cariane accanto a Rennala. L’Anello della Luna Nera suggella un giuramento gelido: chi lo riceve da Ranni come consorte ha diritto al titolo di lord. L’iscrizione chiede di lasciare l’anello dov’è: Ranni vuole affrontare da sola la solitudine oltre la notte.',
-    bodyHighlights: ['Ranni vuole uccidere le Due Dita, tradire ciò che la lega al passato e liberarsi dell’ordine precedente. La Chiave del palazzo scartata, abbandonata insieme alla sua carne, apre lo scrigno delle principesse cariane accanto a Rennala. L’Anello della Luna Nera suggella un giuramento gelido: chi lo riceve da Ranni come consorte ha diritto al titolo di lord. L’iscrizione chiede di lasciare l’anello dov’è: Ranni vuole affrontare da sola la solitudine oltre la notte.'],
+    body: 'Ranni, figlia di Rennala e Radagon e sorella di Radahn e Rykard, usò il nome Renna quando si presentò a Red. La strega delle nevi le insegnò la magia del freddo e a temere la Luna Nera. Il corpo originario, dai capelli rossi, giace sulla Torre Divina di Liurnia con il Marchio della Morte. Renna è il nome della mentore segreta di Ranni, la strega delle nevi sulle cui sembianze fu modellata la bambola. Nel racconto di Ranni, un Empireo è un candidato scelto dalle proprie Due Dita per succedere a Marika come dio della nuova era. Fra i semidei, solo lei, Miquella e Malenia avevano questo titolo. Blaidd le fu assegnato come vassallo. Per sottrarsi al controllo delle Due Dita rubò la Runa della Morte e uccise la propria carne empirea. Chiama le Ombre funeste assassini delle Due Dita. Ranni vuole uccidere le Due Dita, tradire ciò che la lega al passato e liberarsi dell’ordine precedente. La Chiave del palazzo scartata, abbandonata insieme alla sua carne, apre lo scrigno delle principesse cariane accanto a Rennala. L’Anello della Luna Nera suggella un giuramento gelido: chi lo riceve da Ranni come consorte ha diritto al titolo di lord. L’iscrizione chiede di lasciare l’anello dov’è: Ranni vuole affrontare da sola la solitudine oltre la notte. All’Altare della Luna, Ranni accetta Red come suo lord. Parte verso il cielo notturno per cercare il proprio ordine e chiede a Red di percorrere il cammino del lord fino al momento in cui si rivedranno.',
+    bodyHighlights: ['Ranni vuole uccidere le Due Dita, tradire ciò che la lega al passato e liberarsi dell’ordine precedente. La Chiave del palazzo scartata, abbandonata insieme alla sua carne, apre lo scrigno delle principesse cariane accanto a Rennala. L’Anello della Luna Nera suggella un giuramento gelido: chi lo riceve da Ranni come consorte ha diritto al titolo di lord. L’iscrizione chiede di lasciare l’anello dov’è: Ranni vuole affrontare da sola la solitudine oltre la notte.', 'All’Altare della Luna, Ranni accetta Red come suo lord. Parte verso il cielo notturno per cercare il proprio ordine e chiede a Red di percorrere il cammino del lord fino al momento in cui si rivedranno.'],
     evidence: ['Ranni si era presentata con il nome della sua mentore, Renna.', 'Ha abbandonato il proprio corpo fisico e vive in una bambola.', 'La strega delle nevi le insegnò il freddo e il timore della Luna Nera.', 'Ha ricevuto la lama di Nokron ed è partita sul proprio sentiero oscuro.', 'Il corpo sulla Torre Divina ha capelli rossi e porta il Marchio della Morte.'],
     questions: ['Dove conduce il sentiero oscuro di Ranni?', 'Quali altri aspetti definiscono un Empireo?', 'Perché la strega delle nevi le insegnò a temere la Luna Nera?', 'Qual era il suo movente nella congiura?'],
     imageUrl: './concepts/strega-sconosciuta.webp',
@@ -2703,10 +2705,10 @@ const conceptArchive: LoreConcept[] = [
 ]
 
 const currentEpisodeConceptIds = new Set<string>([
-  'mezzolupo', 'ranni-principessa-lunare',
+  'mezzolupo', 'ranni-principessa-lunare', 'bestia-meteoritica',
 ])
 const currentEpisodeUpdatedConceptIds = new Set<string>([
-  'mezzolupo', 'ranni-principessa-lunare',
+  'mezzolupo', 'ranni-principessa-lunare', 'bestia-meteoritica',
 ])
 
 export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
@@ -2718,6 +2720,10 @@ export const concepts: LoreConcept[] = conceptArchive.map((concept) => ({
 }))
 
 export const connections: LoreConnection[] = [
+  {
+    id: 'astel-citta-eterna', from: 'bestia-meteoritica', to: 'citta-eterna', label: 'il cielo sottratto',
+    note: 'Il Ricordo di Astel gli attribuisce la distruzione di una Città Eterna e la perdita del suo cielo. La città non è nominata.', kind: 'traccia',
+  },
   {
     id: 'divinita-marcescenza', from: 'divinita-esterne', to: 'marcescenza', label: 'Dea della Marcescenza',
     note: 'La marcescenza è associata a una divinità esterna di identità ancora ignota; l’ago d’oro ne contrasta l’intromissione.', kind: 'traccia',

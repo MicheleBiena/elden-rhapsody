@@ -140,7 +140,7 @@ assert.deepEqual(
   'Città Eterna',
   'Fiume Ainsel',
   'Soldato Draconico di Nokstella',
-  'Bestia meteoritica non identificata',
+  'Astel e la bestia meteoritica',
   'Culto ancestrale',
     'Alexander, Vaso Guerriero',
     'Gurranq, bestia ecclesiastica',
@@ -224,9 +224,9 @@ assert.deepEqual(await page.locator('.board-zone__heading small').allTextContent
   '22',
 ])
 await assertBoardZonesSpanCanvas(page)
-assert.equal(await page.locator('.thread-layer g').count(), 249)
-assert.equal(await page.locator('.thread-layer line').count(), 498)
-assert.equal(await page.locator('.relation-list button').count(), 249)
+assert.equal(await page.locator('.thread-layer g').count(), 250)
+assert.equal(await page.locator('.thread-layer line').count(), 500)
+assert.equal(await page.locator('.relation-list button').count(), 250)
 assert.equal(await page.locator('.concept-image:not(.concept-image--placeholder)').count(), 125)
 assert.equal(await page.locator('.concept-image--placeholder').count(), 5)
 assert.deepEqual(
@@ -262,8 +262,8 @@ assert.match(await page.locator('.board-legend').textContent(), /Evento\s*4/)
 assert.match(await page.locator('.board-legend').textContent(), /Tema\s*32/)
 assert.match(await page.locator('.board-legend').textContent(), /Personaggio\s*63/)
 assert.match(await page.locator('.board-legend').textContent(), /Luogo\s*18/)
-assert.equal(await page.locator('.concept-card.is-read').count(), 128)
-assert.equal(await page.locator('.concept-card.is-unread').count(), 2)
+assert.equal(await page.locator('.concept-card.is-read').count(), 127)
+assert.equal(await page.locator('.concept-card.is-unread').count(), 3)
 assert.equal(
   await page
     .locator('.concept-card.is-read')
@@ -305,8 +305,8 @@ assert.match(
 )
 assert.match(
   (await page
-    .locator('.concept-card.is-read')
-    .filter({ has: page.getByRole('heading', { name: 'Bestia meteoritica non identificata', exact: true }) })
+    .locator('.concept-card.is-unread')
+    .filter({ has: page.getByRole('heading', { name: 'Astel e la bestia meteoritica', exact: true }) })
     .textContent()) || '',
   /cranio umano/i,
 )
@@ -342,8 +342,8 @@ assert.match(
   (await page.locator('.concept-card.is-read').filter({ has: page.getByRole('heading', { name: 'Drago di Magma', exact: true }) }).textContent()) || '',
   /eroi.*comunione draconica/is,
 )
-assert.match(await page.locator('.board-live-note').textContent(), /2 novità.*130 appunti.*249 fili/is)
-assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*2/)
+assert.match(await page.locator('.board-live-note').textContent(), /3 novità.*130 appunti.*250 fili/is)
+assert.match(await page.locator('.board-legend').textContent(), /Da leggere\s*3/)
 
 await page.getByRole('button', { name: 'Apri la prima novità' }).click()
 await page.locator('.concept-dialog[open]').waitFor()

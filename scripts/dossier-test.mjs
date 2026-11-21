@@ -77,7 +77,7 @@ try {
   assert.equal(await page.locator('.dossier-detail-scroll > .dossier-image-open img.concept-image').evaluate(image => getComputedStyle(image).objectPosition), '50% 16%')
   await page.getByRole('button', { name: 'Apri Blaidd il Mezzolupo', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /ombra fedele di Ranni.*Maschera del Lupo Nero/is)
-  assert.match(await page.locator('.live-update-highlight').textContent(), /rimase fedele.*Ombra funesta.*sembianze/is)
+  assert.match((await page.locator('.live-update-highlight').allTextContents()).join(' '), /rimase fedele.*Ombra funesta.*sembianze.*Neri Coltelli.*Spadone reale/is)
   assert.match(await page.locator('.dossier-detail-meta').textContent(), /Aggiornata/)
   await page.screenshot({ path: 'artifacts/dossiers-new-notes.png', fullPage: true })
 
@@ -134,7 +134,7 @@ try {
   await page.getByRole('button', { name: 'Apri Ranni, Principessa Lunare', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Renna.*strega delle nevi.*Marchio della Morte.*Empireo.*succedere a Marika.*Ombre funeste/is)
   assert.equal(await page.locator('.dossier-gallery').count(), 3)
-  assert.match(await page.locator('.live-update-highlight').textContent(), /Due Dita.*Chiave del palazzo.*Anello della Luna Nera.*consorte.*solitudine/is)
+  assert.match((await page.locator('.live-update-highlight').allTextContents()).join(' '), /Due Dita.*Chiave del palazzo.*Anello della Luna Nera.*consorte.*solitudine.*Altare della Luna.*cielo notturno/is)
   await page.locator('.dossier-gallery img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
   await page.getByRole('button', { name: 'Apri Guardia Reale Loretta', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /spirito.*cavallo.*stregonerie cariane.*arco/is)
@@ -206,7 +206,7 @@ try {
 
   await groupButtons.nth(9).click()
   assert.equal(await page.locator('.dossier-note').count(), 9)
-  assert.equal(await page.locator('.dossier-note.is-unread').count(), 0)
+  assert.equal(await page.locator('.dossier-note.is-unread').count(), 1)
   await page.getByRole('button', { name: 'Apri Città Eterna', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /Nokstella.*gemella.*Nokron.*cratere.*tesoro.*Tesoro di Nokron/is)
   await page.getByRole('button', { name: 'Apri Lacrime d’argento', exact: true }).click()
@@ -219,8 +219,8 @@ try {
   await page.getByRole('button', { name: 'Apri Soldato Draconico di Nokstella', exact: true }).click()
   assert.equal(await page.locator('.dossier-text-section').count(), 2)
   assert.match(await page.locator('.dossier-detail').textContent(), /quattro ali.*fulmini.*congelare/is)
-  await page.getByRole('button', { name: 'Apri Bestia meteoritica non identificata', exact: true }).click()
-  assert.match(await page.locator('.dossier-detail').textContent(), /cranio umano.*occhio.*cielo stellato/is)
+  await page.getByRole('button', { name: 'Apri Astel e la bestia meteoritica', exact: true }).click()
+  assert.match(await page.locator('.dossier-detail').textContent(), /cranio umano.*occhio.*cielo stellato.*distrusse una Città Eterna.*sottrasse il cielo/is)
   await page.getByRole('button', { name: 'Apri Culto ancestrale', exact: true }).click()
   assert.match(await page.locator('.dossier-detail').textContent(), /scrittura.*metallurgia.*rinascita.*Spirito Ancestrale.*pire/is)
   await page.getByRole('button', { name: 'Apri Crogiolo primordiale', exact: true }).click()
@@ -297,8 +297,9 @@ try {
   const liveNotes = [
     ['mezzolupo', 'Aggiornata'],
     ['ranni-principessa-lunare', 'Aggiornata'],
+    ['bestia-meteoritica', 'Aggiornata'],
   ]
-  await page.getByRole('button', { name: '2 da leggere', exact: true }).click()
+  await page.getByRole('button', { name: '3 da leggere', exact: true }).click()
   for (let index = 0; index < liveNotes.length; index++) {
     const [id, kind] = liveNotes[index]
     await page.waitForURL(new RegExp(`#/board/${id}$`))
@@ -451,7 +452,7 @@ try {
   await page.getByRole('button', { name: 'Torna al fascicolo', exact: true }).click()
   await page.waitForURL(/#\/board$/)
   assert.deepEqual(errors, [])
-  console.log('Dossiers passed: 130 cards, 2 unread, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
+  console.log('Dossiers passed: 130 cards, 3 unread, overlap repair, dragging, keyboard, zoom, links, history, search, mobile and legacy migration.')
 } finally {
   await browser.close()
 }
